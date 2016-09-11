@@ -1,0 +1,11 @@
+# IDE
+.idea/
+
+# dependencies
+node_modules
+
+# production
+src/client/bundle.js
+
+# misc
+npm-debug.log

@@ -1,0 +1,29 @@
+{
+  "name": "geekplanet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack src/client/app.js src/client/bundle.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "6.14.0",
+    "babel-loader": "6.2.5",
+    "babel-plugin-transform-react-jsx": "6.8.0",
+    "babel-plugin-transform-runtime": "6.15.0",
+    "babel-preset-es2015": "6.14.0",
+    "css-loader": "0.25.0",
+    "eslint": "3.5.0",
+    "eslint-config-airbnb": "11.0.0",
+    "eslint-plugin-import": "^1.14.0",
+    "eslint-plugin-jsx-a11y": "^2.2.1",
+    "eslint-plugin-react": "^6.2.0",
+    "less": "2.7.1",
+    "less-loader": "2.2.3",
+    "style-loader": "0.13.1",
+    "webpack": "1.13.2"
+  }
+}

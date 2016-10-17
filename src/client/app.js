@@ -1,5 +1,5 @@
 import './app.less';
 
-const write = text => document.write(text);
+const write = text => console.log(text);
 
 write('it works.');

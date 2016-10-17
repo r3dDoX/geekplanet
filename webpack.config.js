@@ -1,6 +1,11 @@
 /* eslint-disable */
 
 module.exports = {
+    entry: {
+        app: [
+            './src/client/app.js'
+        ]
+    },
     module: {
         loaders: [
             {
@@ -16,6 +21,7 @@ module.exports = {
                         'es2015'
                     ],
                     plugins: [
+                        'transform-flow-strip-types',
                         'transform-runtime',
                         'transform-react-jsx'
                     ]

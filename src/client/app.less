@@ -1,4 +1,151 @@
+@background: #ECF0F1;
+@grey-dark: #999;
+@grey-light: #BBB;
+@red: #E74C3C;
+@blue-darker: #2C3E50;
+@blue-dark: #005B8E;
+@blue-light: #27AAE1;
+
 body, html {
   height: 100%;
-  background-color: #ECF0F1;
+  overflow: auto;
+  background-color: @background;
+  padding: 0;
+  margin: 0;
+}
+
+a:not([href]) {
+  cursor: pointer;
+}
+
+.intro-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 844px;
+  overflow: hidden;
+
+  &__image {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.intro-title {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #FFF;
+  flex-grow: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h1 {
+    font-size: 48pt;
+  }
+
+  p {
+    margin: 0;
+    font-size: 18pt;
+  }
+}
+
+.navbar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: @background;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.navbar {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  &__logo {
+    height: 60px;
+    padding: 5px;
+  }
+
+  &__items {
+    display: flex;
+  }
+
+  &__item {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    padding: 20px;
+    color: @blue-dark;
+
+    &:hover {
+      color: @blue-light;
+    }
+
+    &:not(:first-child):not(:last-child) {
+      border-left: 1px solid @blue-darker;
+    }
+
+    &--user {
+      background-color: @blue-dark;
+      color: #FFF;
+      border-left-width: 0;
+
+      &:hover {
+        background-color: @blue-light;
+        color: #FFF;
+      }
+    }
+  }
+}
+
+main {
+  overflow: hidden;
+  background-color: @background;
+  max-width: 1200px;
+  display: flex;
+  margin: 0 auto;
+  padding: 20px 10px;
+}
+
+.product-tile {
+  flex: 25%;
+  max-width: 25%;
+  position: relative;
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 10px;
+
+  &__availability {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    fill: @blue-light;
+  }
+
+  &__image {
+    width: 100%;
+  }
+
+  &__title {
+    text-align: center;
+  }
+
+  &__description {
+    text-align: justify;
+    margin-bottom: 0;
+  }
 }

@@ -1,11 +1,16 @@
 /* eslint-disable */
 
+var webpack = require("webpack");
+
 module.exports = {
+  devtool: 'source-map',
+
   entry: {
     app: [
       './src/client/app.jsx'
     ]
   },
+
   module: {
     loaders: [
       {
@@ -29,5 +34,10 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true
+    })
+  ]
 };

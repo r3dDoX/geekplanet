@@ -1,6 +1,7 @@
 /* eslint-disable */
 
-var webpack = require("webpack");
+var webpack = require("webpack"),
+    HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
@@ -38,6 +39,9 @@ module.exports = {
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/client/index.html'
     })
   ]
 };

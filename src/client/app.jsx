@@ -1,12 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory } from 'react-router';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Router from 'react-router/lib/Router';
+import Route from 'react-router/lib/Route';
+import browserHistory from 'react-router/lib/browserHistory';
 import Home from './home/home.jsx';
+import Products from './products/products.jsx';
 
 import './app.less';
 
 ReactDOM.render((
-  <Router history={browserHistory}>
-    <Route path="/" component={Home} />
-  </Router>
-), document.getElementsByTagName('main')[0]);
+  <MuiThemeProvider>
+    <Router history={browserHistory}>
+      <Route path="/" component={Home} />
+      <Route path="/products" component={Products} />
+    </Router>
+  </MuiThemeProvider>
+), document.body);

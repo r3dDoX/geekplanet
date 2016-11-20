@@ -11,7 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "html-webpack-plugin": "2.24.1",
     "material-ui": "0.16.4",
     "react": "15.4.0",
     "react-dom": "15.4.0",
@@ -33,6 +32,7 @@
     "eslint-plugin-jsx-a11y": "3.0.1",
     "eslint-plugin-react": "6.7.1",
     "flow-bin": "0.35.0",
+    "html-webpack-plugin": "2.24.1",
     "less": "2.7.1",
     "less-loader": "2.2.3",
     "style-loader": "0.13.1",

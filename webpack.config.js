@@ -1,15 +1,18 @@
 /* eslint-disable */
 
-var webpack = require("webpack"),
-    HtmlWebpackPlugin = require('html-webpack-plugin');
+var path = require('path'),
+    webpack = require("webpack"),
+    HtmlWebpackPlugin = require('html-webpack-plugin'),
+    CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
 
-  entry: {
-    app: [
-      './src/client/app.jsx'
-    ]
+  entry: './src/client/app.jsx',
+
+  output: {
+    path: path.join(__dirname, 'dist/'),
+    filename: "bundle.client.js"
   },
 
   module: {
@@ -42,6 +45,12 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: 'src/client/index.html'
-    })
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: 'src/client/assets/',
+        to: 'assets/'
+      }
+    ])
   ]
 };

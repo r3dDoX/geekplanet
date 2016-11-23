@@ -12,7 +12,8 @@ module.exports = {
 
   output: {
     path: path.join(__dirname, 'dist/'),
-    filename: "bundle.client.js"
+    filename: "bundle.client.js",
+    publicPath: "http://localhost:3000"
   },
 
   module: {
@@ -39,6 +40,7 @@ module.exports = {
       }
     ]
   },
+
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true

@@ -7,7 +7,7 @@
     "test": "flow; test $? -eq 0 -o $? -eq 2",
     "prestart": "webpack",
     "start": "node src/server/app.js",
-    "dev": "webpack-dev-server --content-base src/client/ --inline"
+    "dev": "webpack-dev-server --content-base dist/ --inline & nodemon src/server/app.js"
   },
   "author": "",
   "license": "ISC",
@@ -37,6 +37,7 @@
     "html-webpack-plugin": "2.24.1",
     "less": "2.7.1",
     "less-loader": "2.2.3",
+    "nodemon": "1.11.0",
     "style-loader": "0.13.1",
     "webpack": "1.13.3",
     "webpack-dev-server": "1.16.2"

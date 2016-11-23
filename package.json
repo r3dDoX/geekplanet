@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "flow; test $? -eq 0 -o $? -eq 2",
-    "prestart": "webpack",
+    "build": "webpack",
     "start": "node src/server/app.js",
     "dev": "webpack-dev-server --content-base dist/ --inline & nodemon src/server/app.js"
   },

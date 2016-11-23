@@ -8,3 +8,4 @@ const server = app.listen(process.env.PORT || 3000, () => {
   console.log(`Database URI is: ${process.env.MONGODB_URI}`);
 });
 
+require('./database/db');

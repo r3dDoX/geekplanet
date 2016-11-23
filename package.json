@@ -2,7 +2,9 @@
   "name": "geekplanet",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "engines": {
+    "node": "7.0.x"
+  },
   "scripts": {
     "test": "flow; test $? -eq 0 -o $? -eq 2",
     "build": "webpack",

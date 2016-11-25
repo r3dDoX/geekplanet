@@ -12,8 +12,7 @@ module.exports = {
 
   output: {
     path: path.join(__dirname, 'dist/'),
-    filename: "bundle.client.js",
-    publicPath: "http://localhost:3000"
+    filename: "bundle.client.js"
   },
 
   module: {
@@ -54,5 +53,21 @@ module.exports = {
         to: 'assets/'
       }
     ])
-  ]
+  ],
+
+  devServer: {
+    inline: true,
+    host: '0.0.0.0',
+    port: 3001,
+    contentBase: 'dist/',
+    proxy: {
+      '/api/**': {
+        target: {
+          host: 'localhost',
+          protocol: 'http:',
+          port: 3000
+        }
+      }
+    }
+  }
 };

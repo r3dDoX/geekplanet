@@ -9,7 +9,7 @@
     "test": "flow; test $? -eq 0 -o $? -eq 2",
     "build": "webpack -p --output-public-path /",
     "start": "node src/server/app.js",
-    "dev": "webpack-dev-server --content-base dist/ --inline & nodemon src/server/app.js"
+    "dev": "webpack-dev-server & nodemon src/server/app.js"
   },
   "author": "",
   "license": "ISC",

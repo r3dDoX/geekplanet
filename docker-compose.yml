@@ -15,7 +15,7 @@ services:
     networks:
       - all
     environment:
-      MONGODB_URI: "mongodb://mongo:27017/geekplanet"
+      MONGODB_URI: "mongodb://mongo:27017"
 
   mongo:
     image: mongo

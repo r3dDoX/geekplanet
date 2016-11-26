@@ -1,12 +1,13 @@
 /* @flow */
 
 const env = process.env;
-const mongoURI = env.MONGODB_URI || env.VCAP_SERVICES && env.VCAP_SERVICES.mongodb && env.VCAP_SERVICES.mongodb[0].credentials.uri;
+const vcap_services = env.VCAP_SERVICES && JSON.parse(env.VCAP_SERVICES);
+const mongoURI = env.MONGODB_URI || vcap_services.mongodb && vcap_services.mongodb[0].credentials.database_uri;
 const MongoClient = require('mongodb').MongoClient;
 
 let db;
 
-MongoClient.connect(`${mongoURI}/geekplanet`, (err, dbObject) => {
+MongoClient.connect(mongoURI, (err, dbObject) => {
   if (err) {
     console.dir(err);
   }

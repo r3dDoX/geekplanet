@@ -8,7 +8,11 @@ var path = require('path'),
 module.exports = {
   devtool: 'source-map',
 
-  entry: './src/client/app.jsx',
+  entry: [
+    'webpack-dev-server/client?http://0.0.0.0:3001',
+    'webpack/hot/only-dev-server',
+    './src/client/app.jsx'
+  ],
 
   output: {
     path: path.join(__dirname, 'dist/'),
@@ -33,7 +37,8 @@ module.exports = {
           plugins: [
             'transform-flow-strip-types',
             'transform-runtime',
-            'transform-react-jsx'
+            'transform-react-jsx',
+            'react-hot-loader/babel'
           ]
         }
       }
@@ -52,7 +57,8 @@ module.exports = {
         from: 'src/client/assets/',
         to: 'assets/'
       }
-    ])
+    ]),
+    new webpack.HotModuleReplacementPlugin()
   ],
 
   devServer: {
@@ -60,6 +66,7 @@ module.exports = {
     host: '0.0.0.0',
     port: 3001,
     contentBase: 'dist/',
+    hot: true,
     proxy: {
       '/api/**': {
         target: {

@@ -20,16 +20,16 @@ const config = {
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.less$/,
-        loader: "style!css!less"
+        loader: "style-loader!css-loader!less-loader"
       },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel',
-        query: {
+        loader: 'babel-loader',
+        options: {
           presets: [
             'es2015',
             'react'
@@ -60,10 +60,10 @@ const config = {
 
   devServer: {
     inline: true,
+    historyApiFallback: true,
     host: '0.0.0.0',
     port: 3001,
-    contentBase: 'dist/',
-    hot: true,
+    contentBase: path.join(__dirname, "dist"),
     proxy: {
       '/api/**': {
         target: {
@@ -79,6 +79,7 @@ const config = {
 if (process.env.NODE_ENV === 'production') {
   config.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
       sourceMap: true
     })
   )

@@ -4,8 +4,8 @@ import AppBar from 'material-ui/AppBar';
 export default (props) => (
   <div>
     <AppBar title="Geekplanet" />
-    <main>
+    <div className="content">
       {props.children}
-    </main>
+    </div>
   </div>
 );

@@ -20,8 +20,20 @@ a:not([href]) {
 
 main {
   background-color: @background;
+}
+
+.content {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   padding: 20px 10px;
+}
+
+.form-card {
+  flex: 49%;
+  max-width: 49%;
+  min-width: 400px;
+  margin-bottom: 10px;
 }
 
 .product-tile {

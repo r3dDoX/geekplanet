@@ -23,5 +23,10 @@ MongoClient.connect(mongoURI, (err, dbObject) => {
 });
 
 module.exports = {
-
+  insertOrUpdate(collection, element) {
+    return db.collection(collection).update({_id: element._id}, element, {upsert: true});
+  },
+  getDocumentsInCollection(collection) {
+    return db.collection(collection).find();
+  }
 };

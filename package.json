@@ -7,13 +7,14 @@
   },
   "scripts": {
     "test": "flow; test $? -eq 0 -o $? -eq 2",
-    "build": "webpack -p",
+    "build": "NODE_ENV='production' webpack -p",
     "start": "node src/server/app.js",
     "dev": "webpack-dev-server & nodemon src/server/app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "1.15.2",
     "express": "4.14.0",
     "mongodb": "2.2.11"
   },

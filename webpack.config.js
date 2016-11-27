@@ -1,11 +1,11 @@
 /* eslint-disable */
 
-var path = require('path'),
-    webpack = require("webpack"),
-    HtmlWebpackPlugin = require('html-webpack-plugin'),
-    CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path'),
+      webpack = require("webpack"),
+      HtmlWebpackPlugin = require('html-webpack-plugin'),
+      CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = {
+const config = {
   devtool: 'source-map',
 
   entry: [
@@ -27,7 +27,7 @@ module.exports = {
       },
       {
         test: /\.(js|jsx)$/,
-        exclude: /(node_modules)/,
+        exclude: /node_modules/,
         loader: 'babel',
         query: {
           presets: [
@@ -46,9 +46,6 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true
-    }),
     new HtmlWebpackPlugin({
       template: 'src/client/index.html'
     }),
@@ -78,3 +75,13 @@ module.exports = {
     }
   }
 };
+
+if (process.env.NODE_ENV === 'production') {
+  config.plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true
+    })
+  )
+}
+
+module.exports = config;

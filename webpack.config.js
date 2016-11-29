@@ -1,32 +1,35 @@
 /* eslint-disable */
 
-var path = require('path'),
-    webpack = require("webpack"),
-    HtmlWebpackPlugin = require('html-webpack-plugin'),
-    CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path'),
+      webpack = require("webpack"),
+      HtmlWebpackPlugin = require('html-webpack-plugin'),
+      CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = {
+const config = {
   devtool: 'source-map',
 
-  entry: './src/client/app.jsx',
+  entry: [
+    'webpack-dev-server/client?http://0.0.0.0:3001',
+    'webpack/hot/only-dev-server',
+    './src/client/app.jsx'
+  ],
 
   output: {
     path: path.join(__dirname, 'dist/'),
-    filename: "bundle.client.js",
-    publicPath: "http://localhost:3000"
+    filename: "bundle.client.js"
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.less$/,
-        loader: "style!css!less"
+        loader: "style-loader!css-loader!less-loader"
       },
       {
         test: /\.(js|jsx)$/,
-        exclude: /(node_modules)/,
-        loader: 'babel',
-        query: {
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        options: {
           presets: [
             'es2015',
             'react'
@@ -34,7 +37,8 @@ module.exports = {
           plugins: [
             'transform-flow-strip-types',
             'transform-runtime',
-            'transform-react-jsx'
+            'transform-react-jsx',
+            'react-hot-loader/babel'
           ]
         }
       }
@@ -42,9 +46,6 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true
-    }),
     new HtmlWebpackPlugin({
       template: 'src/client/index.html'
     }),
@@ -53,6 +54,35 @@ module.exports = {
         from: 'src/client/assets/',
         to: 'assets/'
       }
-    ])
-  ]
+    ]),
+    new webpack.HotModuleReplacementPlugin()
+  ],
+
+  devServer: {
+    inline: true,
+    historyApiFallback: true,
+    host: '0.0.0.0',
+    port: 3001,
+    contentBase: path.join(__dirname, "dist"),
+    proxy: {
+      '/api/**': {
+        target: {
+          host: 'localhost',
+          protocol: 'http:',
+          port: 3000
+        }
+      }
+    }
+  }
 };
+
+if (process.env.NODE_ENV === 'production') {
+  config.plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      sourceMap: true
+    })
+  )
+}
+
+module.exports = config;

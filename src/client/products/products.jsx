@@ -47,6 +47,11 @@ export default () => (
           <TextField floatingLabelText="Name" name="name" type="text" fullWidth={true}></TextField>
           <TextField floatingLabelText="Contact" name="contact" type="text" fullWidth={true}></TextField>
           <TextField floatingLabelText="Payment Terms" name="paymentTerms" type="text" multiLine={true} rows={3} fullWidth={true}></TextField>
+          <h3>Address</h3>
+          <TextField floatingLabelText="Street Name" name="streetName" type="text" fullWidth={true}></TextField>
+          <TextField floatingLabelText="House Number" name="houseNumber" type="text" fullWidth={true}></TextField>
+          <TextField floatingLabelText="ZIP" name="zip" type="number" fullWidth={true}></TextField>
+          <TextField floatingLabelText="City" name="city" type="city" fullWidth={true}></TextField>
           <RaisedButton label="Save" primary={true} type="submit"/>
         </form>
       </CardText>

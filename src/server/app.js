@@ -1,13 +1,12 @@
 /* @flow */
 
-const env = process.env;
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cloudFoundryConfig = require('./cloudfoundry.config');
 
-const vcap_services = env.VCAP_SERVICES && JSON.parse(env.VCAP_SERVICES);
-const mongoURI = env.MONGODB_URI || vcap_services.mongodb && vcap_services.mongodb[0].credentials.database_uri;
+const mongoURI = process.env.MONGODB_URI || cloudFoundryConfig.getMongoDbUri();
 mongoose.connect(mongoURI);
 
 const AddressSchema = mongoose.Schema({

@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const cloudFoundryConfig = require('./cloudfoundry.config');
 
 const mongoURI = process.env.MONGODB_URI || cloudFoundryConfig.getMongoDbUri();
+mongoose.Promise = Promise;
 mongoose.connect(mongoURI);
 
 const AddressSchema = mongoose.Schema({
@@ -16,7 +17,7 @@ const AddressSchema = mongoose.Schema({
   city: String
 });
 
-const Product = mongoose.model('Prodcut', {
+const Product = mongoose.model('Product', {
   name: String,
   price: Number,
   stock: Number
@@ -40,6 +41,10 @@ const server = app.listen(process.env.PORT || 3000, () => {
 
 app.use(bodyParser.json());
 app.use('/', express.static('dist/'));
+
+app.get('/*', (req, res) => {
+  res.sendfile('dist/index.html');
+});
 
 app.get('/api/test', (req, res) => {
   res.send('Hello World');

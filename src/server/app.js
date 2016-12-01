@@ -41,10 +41,7 @@ const server = app.listen(process.env.PORT || 3000, () => {
 
 app.use(bodyParser.json());
 app.use('/', express.static('dist/'));
-
-app.get('/*', (req, res) => {
-  res.sendfile('dist/index.html');
-});
+app.get('/*', (req, res) => res.sendfile('dist/index.html'));
 
 app.get('/api/test', (req, res) => {
   res.send('Hello World');

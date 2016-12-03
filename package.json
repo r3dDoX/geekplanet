@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "engines": {
-    "node": "7.0.x"
+    "node": ">=7.2.0"
   },
   "scripts": {
+    "predist": "npm run build",
+    "dist": "bestzip geekplanet.zip dist/ src/ package.json webpack.config.js",
     "flow:install": "flow-typed install",
     "test": "flow; test $? -eq 0 -o $? -eq 2",
     "build": "NODE_ENV='production' webpack -p",
@@ -17,7 +19,6 @@
   "dependencies": {
     "body-parser": "1.15.2",
     "express": "4.14.0",
-    "mongodb": "2.2.12",
     "mongoose": "4.7.0"
   },
   "devDependencies": {
@@ -28,6 +29,7 @@
     "babel-plugin-transform-runtime": "6.15.0",
     "babel-preset-es2015": "6.18.0",
     "babel-preset-react": "6.16.0",
+    "bestzip": "1.1.3",
     "copy-webpack-plugin": "4.0.1",
     "css-loader": "0.26.0",
     "eslint": "3.11.1",

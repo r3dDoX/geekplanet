@@ -6,6 +6,7 @@ node_modules
 
 # production
 dist/
+geekplanet.zip
 
 # misc
 npm-debug.log

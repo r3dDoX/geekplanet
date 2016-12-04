@@ -1,6 +1,6 @@
 /* @flow */
 
-const bodyParser = require('body-parser');
+const multer = require('multer')();
 const mongoose = require('mongoose');
 const cloudFoundryConfig = require('./cloudfoundry.config');
 const mongoURI = process.env.MONGODB_URI || cloudFoundryConfig.getMongoDbUri();
@@ -41,15 +41,13 @@ const parseAddress = ({streetName, houseNumber, zip, city}) => ({
 
 module.exports = {
   registerEndpoints(app) {
-    app.use(bodyParser.json());
-
-    app.post('/api/products', (req, res) => {
+    app.post('/api/products', multer.any(), (req, res) => {
       new Product(req.body).save()
         .then(() => res.sendStatus(200))
         .catch((error) => res.send(error));
     });
 
-    app.post('/api/suppliers', (req, res) => {
+    app.post('/api/suppliers', multer.none(), (req, res) => {
       const supplier = req.body;
       supplier.address = parseAddress(supplier);
 
@@ -58,7 +56,7 @@ module.exports = {
         .catch((error) => res.send(error));
     });
 
-    app.post('/api/producers', (req, res) => {
+    app.post('/api/producers', multer.none(), (req, res) => {
       const producer = req.body;
       producer.address = parseAddress(producer);
 

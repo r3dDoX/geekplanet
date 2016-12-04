@@ -4,24 +4,25 @@ import {Card, CardHeader, CardText} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const submitForm = (endpoint, event) => {
-  const inputs = Array.from(event.target.elements);
-  const formData = inputs.reduce((entity, input) => {
-    if (input.name && !input.disabled) {
-      if (input.type === 'number') {
-        entity[input.name] = Number(input.value);
-      } else {
-        entity[input.name] = input.value;
-      }
-    }
+const styles = {
+  fileUploadInput: {
+    cursor: 'pointer',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    width: '100%',
+    opacity: 0,
+  },
+};
 
-    return entity;
-  }, {});
+const submitForm = (endpoint, event) => {
+  const formData = new FormData(event.target);
 
   const request = new XMLHttpRequest();
   request.open('POST', `/api/${endpoint}`);
-  request.setRequestHeader('Content-Type', 'application/json');
-  request.send(JSON.stringify(formData));
+  request.send(formData);
 
   event.preventDefault();
 };
@@ -35,6 +36,14 @@ export default () => (
           <TextField floatingLabelText="Name" name="name" type="text" fullWidth={true}></TextField>
           <TextField floatingLabelText="Price" name="price" type="number" fullWidth={true}></TextField>
           <TextField floatingLabelText="Stock" name="stock" defaultValue="0" type="number" fullWidth={true}></TextField>
+          <RaisedButton
+            label="Choose images"
+            labelPosition="before"
+            containerElement="label"
+          >
+            <input name="productPictures[]" type="file" multiple style={styles.fileUploadInput} />
+          </RaisedButton>
+          <br /><br />
           <RaisedButton label="Save" primary={true} type="submit"/>
         </form>
       </CardText>

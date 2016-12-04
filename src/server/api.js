@@ -42,6 +42,7 @@ const parseAddress = ({streetName, houseNumber, zip, city}) => ({
 module.exports = {
   registerEndpoints(app) {
     app.post('/api/products', multer.any(), (req, res) => {
+      // TODO: parse req.files array and upload to GridFS
       new Product(req.body).save()
         .then(() => res.sendStatus(200))
         .catch((error) => res.send(error));

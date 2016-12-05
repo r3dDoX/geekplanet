@@ -57,10 +57,6 @@ module.exports = {
     app.get('/api/products/pictures/:id', (req, res) => {
       const pictureStream = ProductPictures.readById(req.params.id);
       pictureStream.pipe(res);
-
-      pictureStream.on('data', (chunks) => res.write(chunks));
-
-      pictureStream.on('close', () => res.end());
     });
 
     app.post('/api/products', multer.any(), (req, res) => {
@@ -80,12 +76,7 @@ module.exports = {
             });
         });
       }))
-        .then((files) => {
-          const product = req.body;
-          product.files = files;
-
-          return new Product(product).save().then(() => res.sendStatus(200));
-        })
+        .then((files) => new Product(Object.assign(req.body, {files})).save().then(() => res.sendStatus(200)))
         .catch(err => {
           console.error(err);
           res.status(500).send('Failed to save product and/or pictures!');

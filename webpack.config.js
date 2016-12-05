@@ -9,8 +9,6 @@ const config = {
   devtool: 'source-map',
 
   entry: [
-    'webpack-dev-server/client?http://0.0.0.0:3001',
-    'webpack/hot/only-dev-server',
     './src/client/app.jsx'
   ],
 
@@ -83,6 +81,11 @@ if (process.env.NODE_ENV === 'production') {
       sourceMap: true
     })
   )
+} else {
+  config.entry.unshift(
+    'webpack-dev-server/client?http://0.0.0.0:3001',
+    'webpack/hot/only-dev-server'
+  );
 }
 
 module.exports = config;

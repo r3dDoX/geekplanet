@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "engines": {
-    "node": "7.0.x"
+    "node": ">=7.2.0"
   },
   "scripts": {
+    "predist": "npm run build",
+    "dist": "bestzip geekplanet.zip dist/ src/ package.json webpack.config.js",
+    "flow:install": "flow-typed install",
     "test": "flow; test $? -eq 0 -o $? -eq 2",
     "build": "NODE_ENV='production' webpack -p",
     "start": "node src/server/app.js",
@@ -14,10 +17,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "1.15.2",
     "express": "4.14.0",
-    "mongodb": "2.2.12",
-    "mongoose": "4.7.1"
+    "express-mongo-sanitize": "1.3.0",
+    "mongoose": "4.7.1",
+    "mongoose-gridfs": "0.1.0",
+    "multer": "1.2.0",
+    "shortid": "2.2.6",
+    "streamifier": "0.1.1"
   },
   "devDependencies": {
     "babel-core": "6.18.2",
@@ -27,6 +33,7 @@
     "babel-plugin-transform-runtime": "6.15.0",
     "babel-preset-es2015": "6.18.0",
     "babel-preset-react": "6.16.0",
+    "bestzip": "1.1.3",
     "copy-webpack-plugin": "4.0.1",
     "css-loader": "0.26.0",
     "eslint": "3.11.1",
@@ -35,6 +42,7 @@
     "eslint-plugin-jsx-a11y": "3.0.1",
     "eslint-plugin-react": "6.7.1",
     "flow-bin": "0.36.0",
+    "flow-typed": "2.0.0",
     "html-webpack-plugin": "2.24.1",
     "less": "2.7.1",
     "less-loader": "2.2.3",

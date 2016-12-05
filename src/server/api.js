@@ -86,7 +86,10 @@ module.exports = {
 
           return new Product(product).save().then(() => res.sendStatus(200));
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+          console.error(err);
+          res.status(500).send('Failed to save product and/or pictures!');
+        });
     });
 
     app.post('/api/suppliers', multer.none(), (req, res) => {

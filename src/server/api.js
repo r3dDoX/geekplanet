@@ -54,10 +54,7 @@ module.exports = {
   registerEndpoints(app) {
     app.use(mongoSanitize());
 
-    app.get('/api/products/pictures/:id', (req, res) => {
-      const pictureStream = ProductPictures.readById(req.params.id);
-      pictureStream.pipe(res);
-    });
+    app.get('/api/products/pictures/:id', (req, res) => ProductPictures.readById(req.params.id).pipe(res));
 
     app.post('/api/products', multer.any(), (req, res) => {
       Promise.all(req.files.map(file => {

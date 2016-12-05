@@ -3,6 +3,7 @@
 const shortId = require('shortid');
 const multer = require('multer')();
 const streamifier = require('streamifier');
+const mongoSanitize = require('express-mongo-sanitize');
 const mongoose = require('mongoose');
 const cloudFoundryConfig = require('./cloudfoundry.config');
 const mongoURI = process.env.MONGODB_URI || cloudFoundryConfig.getMongoDbUri();
@@ -51,35 +52,41 @@ const parseAddress = ({streetName, houseNumber, zip, city}) => ({
 
 module.exports = {
   registerEndpoints(app) {
+    app.use(mongoSanitize());
+
     app.get('/api/products/pictures/:id', (req, res) => {
       const pictureStream = ProductPictures.readById(req.params.id);
-      // TODO: stream picture to client
-      res.sendStatus(200);
+      pictureStream.pipe(res);
+
+      pictureStream.on('data', (chunks) => res.write(chunks));
+
+      pictureStream.on('close', () => res.end());
     });
 
     app.post('/api/products', multer.any(), (req, res) => {
-      const product = req.body;
-      product.files = [];
+      Promise.all(req.files.map(file => {
+        return new Promise((resolve, reject) => {
+          ProductPictures.write({
+              filename: `${shortId.generate()}.${file.originalname.split(/[. ]+/).pop()}`,
+              contentType: file.mimetype
+            },
+            streamifier.createReadStream(file.buffer),
+            (error, file) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(file._id);
+              }
+            });
+        });
+      }))
+        .then((files) => {
+          const product = req.body;
+          product.files = files;
 
-      req.files.forEach((file) => {
-        const id = shortId.generate();
-        const filename = `${id}.${file.originalname.split(/[. ]+/).pop()}`;
-        product.files.push(id);
-
-        ProductPictures.write({
-            _id: id,
-            filename,
-            contentType: file.mimetype
-          },
-          streamifier.createReadStream(file.buffer),
-          error => {
-            if (error) console.error(error);
-          });
-      });
-
-      new Product(product).save()
-       .then(() => res.sendStatus(200))
-       .catch((error) => res.send(error));
+          return new Product(product).save().then(() => res.sendStatus(200));
+        })
+        .catch(err => console.error(err));
     });
 
     app.post('/api/suppliers', multer.none(), (req, res) => {

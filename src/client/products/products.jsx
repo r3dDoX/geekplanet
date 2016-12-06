@@ -27,6 +27,24 @@ const submitForm = (endpoint, event) => {
   event.preventDefault();
 };
 
+const createPreviewPictures = event => {
+  const previewContainer = document.getElementById('productImagesPreview');
+  previewContainer.innerHTML = '';
+
+  Array.from(event.target.files).forEach(file => {
+    const reader = new FileReader();
+
+    reader.onload = readerEvent => {
+      const previewPicture = document.createElement('img');
+      previewPicture.style = 'height: 100px';
+      previewPicture.src = readerEvent.target.result;
+      previewContainer.appendChild(previewPicture);
+    };
+
+    reader.readAsDataURL(file);
+  });
+};
+
 export default () => (
   <Layout>
     <Card className="form-card">
@@ -41,8 +59,9 @@ export default () => (
             labelPosition="before"
             containerElement="label"
           >
-            <input name="productPictures[]" type="file" multiple style={styles.fileUploadInput} />
+            <input name="productPictures[]" type="file" multiple style={styles.fileUploadInput} onChange={createPreviewPictures} />
           </RaisedButton>
+          <div id="productImagesPreview"></div>
           <br /><br />
           <RaisedButton label="Save" primary={true} type="submit"/>
         </form>

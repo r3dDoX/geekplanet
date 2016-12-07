@@ -69,7 +69,8 @@ export default () => (
               name="productPictures[]"
               type="file"
               accept="image/jpeg,image/png"
-              multiple style={styles.fileUploadInput}
+              multiple
+              style={styles.fileUploadInput}
               onChange={createPreviewPictures}
             />
           </RaisedButton>

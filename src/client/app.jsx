@@ -4,13 +4,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Router from 'react-router/lib/Router';
 import Route from 'react-router/lib/Route';
 import browserHistory from 'react-router/lib/browserHistory';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import Home from './home/home.jsx';
 import Products from './products/products.jsx';
+import './app.less';
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-import './app.less';
 
 ReactDOM.render((
   <MuiThemeProvider>

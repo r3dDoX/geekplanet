@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Layout from '../layout.jsx';
+import UploadImagePreview from './uploadImagePreview.jsx';
 
 const styles = {
   fileUploadInput: {
@@ -27,25 +28,7 @@ const submitForm = (endpoint, event) => {
   event.preventDefault();
 };
 
-const createPreviewPictures = (event) => {
-  const previewContainer = document.getElementById('productImagesPreview');
-  previewContainer.innerHTML = '';
-
-  Array.from(event.target.files).forEach((file) => {
-    const reader = new FileReader();
-
-    reader.onload = (readerEvent) => {
-      const previewPicture = document.createElement('img');
-      previewPicture.style = 'height: 100px';
-      previewPicture.src = readerEvent.target.result;
-      previewContainer.appendChild(previewPicture);
-    };
-
-    reader.readAsDataURL(file);
-  });
-};
-
-export default () => (
+const ProductForm = ({ selectedFiles, onSelectFile }) => (
   <Layout>
     <Card className="form-card">
       <CardHeader title="Products" />
@@ -71,10 +54,10 @@ export default () => (
               accept="image/jpeg,image/png"
               multiple
               style={styles.fileUploadInput}
-              onChange={createPreviewPictures}
+              onChange={event => onSelectFile(event.target.files)}
             />
           </RaisedButton>
-          <div id="productImagesPreview" />
+          <UploadImagePreview files={selectedFiles} />
           <br /><br />
           <RaisedButton label="Save" type="submit" primary />
         </form>
@@ -127,3 +110,13 @@ export default () => (
     </Card>
   </Layout>
 );
+
+ProductForm.propTypes = {
+  state: PropTypes.shape({
+    selectedFiles: PropTypes.instanceOf(FileList),
+    onSelectFile: PropTypes.function,
+  }),
+};
+
+
+export default ProductForm;

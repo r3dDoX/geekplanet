@@ -4,19 +4,45 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Router from 'react-router/lib/Router';
 import Route from 'react-router/lib/Route';
 import browserHistory from 'react-router/lib/browserHistory';
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Home from './home/home.jsx';
-import Products from './products/products.jsx';
+import ProductContainer from './products/productContainer.jsx';
+import { SELECT_UPLOAD_FILES } from './actionTypes';
+
 import './app.less';
 
 injectTapEventPlugin();
 
+const initialState = {
+  selectedFiles: undefined,
+};
+
+const store = createStore(combineReducers({
+  products(state = initialState, { type, data }) {
+    switch (type) {
+      case SELECT_UPLOAD_FILES:
+        return Object.assign({}, state, {
+          selectedFiles: data,
+        });
+      default:
+        return state;
+    }
+  },
+  routing: routerReducer,
+}));
+
+const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render((
-  <MuiThemeProvider>
-    <Router history={browserHistory}>
-      <Route path="/" component={Home} />
-      <Route path="/products" component={Products} />
-    </Router>
-  </MuiThemeProvider>
+  <Provider store={store}>
+    <MuiThemeProvider>
+      <Router history={history}>
+        <Route path="/" component={Home} />
+        <Route path="/products" component={ProductContainer} />
+      </Router>
+    </MuiThemeProvider>
+  </Provider>
 ), document.getElementsByTagName('main')[0]);

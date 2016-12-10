@@ -1,1 +1,3 @@
-export const SELECT_UPLOAD_FILES = 'SELECT_UPLOAD_FILES';
+export default {
+  SELECT_UPLOAD_FILES: 'SELECT_UPLOAD_FILES',
+};

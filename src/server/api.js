@@ -6,13 +6,14 @@ const streamifier = require('streamifier');
 const mongoSanitize = require('express-mongo-sanitize');
 const mongoose = require('mongoose');
 const cloudFoundryConfig = require('./cloudfoundry.config');
+
 const mongoURI = process.env.MONGODB_URI || cloudFoundryConfig.getMongoDbUri();
 mongoose.Promise = Promise;
 mongoose.connect(mongoURI);
 
 const gridfs = require('mongoose-gridfs')({
   collection: 'productpictures',
-  model: 'ProductPictures'
+  model: 'ProductPictures',
 });
 
 const ProductPictures = gridfs.model;
@@ -21,33 +22,33 @@ const AddressSchema = mongoose.Schema({
   streetName: String,
   streetNumber: String,
   zip: Number,
-  city: String
+  city: String,
 });
 
 const Product = mongoose.model('Product', {
   name: String,
   price: Number,
   stock: Number,
-  files: [String]
+  files: [String],
 });
 
 const Producer = mongoose.model('Producer', {
   name: String,
-  address: AddressSchema
+  address: AddressSchema,
 });
 
 const Supplier = mongoose.model('Supplier', {
   name: String,
   contact: String,
   paymentTerms: String,
-  address: AddressSchema
+  address: AddressSchema,
 });
 
-const parseAddress = ({streetName, houseNumber, zip, city}) => ({
+const parseAddress = ({ streetName, houseNumber, zip, city }) => ({
   streetName,
   houseNumber,
   zip,
-  city
+  city,
 });
 
 module.exports = {
@@ -57,24 +58,23 @@ module.exports = {
     app.get('/api/products/pictures/:id', (req, res) => ProductPictures.readById(req.params.id).pipe(res));
 
     app.post('/api/products', multer.any(), (req, res) => {
-      Promise.all(req.files.map(file => {
-        return new Promise((resolve, reject) => {
-          ProductPictures.write({
+      Promise.all(req.files.map(file =>
+        new Promise((resolve, reject) =>
+          ProductPictures.write(
+            {
               filename: `${shortId.generate()}.${file.originalname.split(/[. ]+/).pop()}`,
-              contentType: file.mimetype
+              contentType: file.mimetype,
             },
             streamifier.createReadStream(file.buffer),
-            (error, file) => {
-              if (error) {
-                reject(error);
-              } else {
-                resolve(file._id);
-              }
-            });
-        });
-      }))
-        .then((files) => new Product(Object.assign(req.body, {files})).save().then(() => res.sendStatus(200)))
-        .catch(err => {
+            (error, createdFile) => (error ? reject(error) : resolve(createdFile._id))
+          )
+        )
+      ))
+        .then((files) => {
+          const productWithFiles = Object.assign(req.body, { files });
+          return new Product(productWithFiles).save().then(() => res.sendStatus(200));
+        })
+        .catch((err) => {
           console.error(err);
           res.status(500).send('Failed to save product and/or pictures!');
         });
@@ -86,7 +86,7 @@ module.exports = {
 
       new Supplier(supplier).save()
         .then(() => res.sendStatus(200))
-        .catch((error) => res.send(error));
+        .catch(error => res.send(error));
     });
 
     app.post('/api/producers', multer.none(), (req, res) => {
@@ -95,7 +95,7 @@ module.exports = {
 
       new Producer(producer).save()
         .then(() => res.sendStatus(200))
-        .catch((error) => res.send(error));
+        .catch(error => res.send(error));
     });
-  }
+  },
 };

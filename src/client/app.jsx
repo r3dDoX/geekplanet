@@ -10,8 +10,7 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Home from './home/home.jsx';
 import ProductContainer from './products/productContainer.jsx';
-import { SELECT_UPLOAD_FILES } from './actionTypes';
-
+import ActionTypes from './actionTypes';
 import './app.less';
 
 injectTapEventPlugin();
@@ -23,7 +22,7 @@ const initialState = {
 const store = createStore(combineReducers({
   products(state = initialState, { type, data }) {
     switch (type) {
-      case SELECT_UPLOAD_FILES:
+      case ActionTypes.SELECT_UPLOAD_FILES:
         return Object.assign({}, state, {
           selectedFiles: data,
         });

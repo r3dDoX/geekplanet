@@ -9,7 +9,7 @@
     "predist": "npm run build",
     "dist": "bestzip geekplanet.zip dist/ src/ package.json webpack.config.js",
     "flow:install": "flow-typed install",
-    "test": "flow; test $? -eq 0 -o $? -eq 2",
+    "test": "eslint src/**",
     "build": "NODE_ENV='production' webpack -p",
     "start": "node src/server/app.js",
     "dev": "webpack-dev-server & nodemon src/server/app.js"

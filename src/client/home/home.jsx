@@ -26,6 +26,6 @@ export default () => (
         accusam et justo duo dolores
       </p>
     </div>
-    <Link to="/products">Products</Link>
+    <Link to="/forms">Forms</Link>
   </div>
 );

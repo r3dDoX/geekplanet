@@ -11,7 +11,7 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Home from './home/home.jsx';
 import Layout from './layout.jsx';
-import ProductContainer from './products/productContainer';
+import FormsContainer from './forms/formsContainer';
 import ActionTypes from './actionTypes';
 import './app.less';
 
@@ -43,7 +43,7 @@ ReactDOM.render((
       <Router history={history}>
         <Route path="/" component={Layout}>
           <IndexRoute component={Home} />
-          <Route path="products" component={ProductContainer} />
+          <Route path="forms" component={FormsContainer} />
         </Route>
       </Router>
     </MuiThemeProvider>

@@ -25,20 +25,21 @@ main {
 .content {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 20px 10px;
 }
 
 .form-card {
-  flex: 49%;
-  max-width: 49%;
-  min-width: 400px;
-  margin-bottom: 10px;
+  flex: 1;
+  max-width: 600px;
+  min-width: 200px;
+  margin: 10px;
 }
 
 .product-tile {
-  flex: 25%;
-  max-width: 25%;
+  flex-grow: 1;
+  max-width: 300px;
+  min-width: 150px;
   position: relative;
   box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
   border-radius: 5px;

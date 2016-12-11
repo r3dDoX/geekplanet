@@ -4,12 +4,9 @@ import AppBar from 'material-ui/AppBar';
 const Layout = props => (
   <div>
     <AppBar title="Geekplanet" />
-    <div className="content">
-      {props.children}
-    </div>
+    {props.children}
   </div>
 );
-
 
 Layout.propTypes = {
   children: PropTypes.element.isRequired,

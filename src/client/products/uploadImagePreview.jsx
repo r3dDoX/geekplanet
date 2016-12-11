@@ -1,14 +1,24 @@
 import React, { PropTypes } from 'react';
 import { GridList, GridTile } from 'material-ui/GridList';
 
-const containerStyle = {
-  marginTop: '20px',
+const styles = {
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    marginTop: '20px',
+  },
+  gridList: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    overflowX: 'auto',
+  },
 };
 
 const UploadImagePreview = props => (
-  <div style={containerStyle}>
+  <div style={styles.root}>
     { props.files ? (
-      <GridList cols={3}>
+      <GridList cols={2.2} style={styles.gridList}>
         {Array.from(props.files).map((file, index) => (
           <GridTile
             key={index}

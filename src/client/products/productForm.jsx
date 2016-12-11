@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import Layout from '../layout.jsx';
 import UploadImagePreview from './uploadImagePreview.jsx';
 
 const styles = {
@@ -29,7 +28,7 @@ const submitForm = (endpoint, event) => {
 };
 
 const ProductForm = ({ selectedFiles, onSelectFile }) => (
-  <Layout>
+  <div className="content">
     <Card className="form-card">
       <CardHeader title="Products" />
       <CardText>
@@ -116,12 +115,12 @@ const ProductForm = ({ selectedFiles, onSelectFile }) => (
         </form>
       </CardText>
     </Card>
-  </Layout>
+  </div>
 );
 
 ProductForm.propTypes = {
   selectedFiles: PropTypes.instanceOf(FileList),
-  onSelectFile: PropTypes.function,
+  onSelectFile: PropTypes.func,
 };
 
 

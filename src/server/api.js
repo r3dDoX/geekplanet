@@ -57,6 +57,14 @@ module.exports = {
 
     app.get('/api/products/pictures/:id', (req, res) => ProductPictures.readById(req.params.id).pipe(res));
 
+    app.get('/api/products', (req, res) => Product.find({})
+      .then(products => res.send(products))
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Fetching products failed!');
+      })
+    );
+
     app.post('/api/products', multer.any(), (req, res) => {
       Promise.all(req.files.map(file =>
         new Promise((resolve, reject) =>

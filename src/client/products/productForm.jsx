@@ -35,6 +35,14 @@ const ProductForm = ({ selectedFiles, onSelectFile }) => (
       <CardText>
         <form name="products" onSubmit={event => submitForm('products', event)}>
           <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
+          <TextField
+            floatingLabelText="Description"
+            name="description"
+            type="text"
+            multiLine
+            rows={3}
+            fullWidth
+          />
           <TextField floatingLabelText="Price" name="price" type="number" fullWidth />
           <TextField
             floatingLabelText="Stock"
@@ -112,10 +120,8 @@ const ProductForm = ({ selectedFiles, onSelectFile }) => (
 );
 
 ProductForm.propTypes = {
-  state: PropTypes.shape({
-    selectedFiles: PropTypes.instanceOf(FileList),
-    onSelectFile: PropTypes.function,
-  }),
+  selectedFiles: PropTypes.instanceOf(FileList),
+  onSelectFile: PropTypes.function,
 };
 
 

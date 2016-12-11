@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import AppBar from 'material-ui/AppBar';
 
-export default (props) => (
+const Layout = props => (
   <div>
     <AppBar title="Geekplanet" />
     <div className="content">
@@ -9,3 +9,10 @@ export default (props) => (
     </div>
   </div>
 );
+
+
+Layout.propTypes = {
+  children: PropTypes.element.isRequired,
+};
+
+export default Layout;

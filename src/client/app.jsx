@@ -19,6 +19,7 @@ injectTapEventPlugin();
 
 const initialState = {
   selectedFiles: undefined,
+  products: [],
 };
 
 const store = createStore(combineReducers({
@@ -27,6 +28,10 @@ const store = createStore(combineReducers({
       case ActionTypes.SELECT_UPLOAD_FILES:
         return Object.assign({}, state, {
           selectedFiles: data,
+        });
+      case ActionTypes.PRODUCTS_LOADED:
+        return Object.assign({}, state, {
+          products: data,
         });
       default:
         return state;

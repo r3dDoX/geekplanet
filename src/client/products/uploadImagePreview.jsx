@@ -6,7 +6,7 @@ const containerStyle = {
 };
 
 const UploadImagePreview = props => (
-  <div style={ containerStyle }>
+  <div style={containerStyle}>
     { props.files ? (
       <GridList cols={3}>
         {Array.from(props.files).map((file, index) => (
@@ -14,7 +14,7 @@ const UploadImagePreview = props => (
             key={index}
             title={file.name}
           >
-            <img alt={file.name} src={URL.createObjectURL(file)}/>
+            <img alt={file.name} src={URL.createObjectURL(file)} />
           </GridTile>
         ))}
       </GridList>

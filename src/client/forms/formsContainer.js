@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import ProductForm from './productForm.jsx';
+import ProductForm from './forms.jsx';
 import ActionTypes from '../actionTypes';
 
 const ProductContainer = connect(

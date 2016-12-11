@@ -8,6 +8,7 @@ const styles = {
     flexGrow: 1,
     maxWidth: '300px',
     minWidth: '150px',
+    margin: '0 10px 10px',
   },
 };
 
@@ -27,7 +28,7 @@ export default () => (
       </CardText>
       <CardActions>
         <RaisedButton label="Order" primary />
-        <RaisedButton label="Favourite" />
+        <RaisedButton label="Save" />
       </CardActions>
     </Card>
 

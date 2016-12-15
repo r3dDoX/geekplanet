@@ -26,9 +26,11 @@ class HomeComponent extends React.Component {
       <div className="content">
         {this.props.products.map(product => (
           <Card key={product._id} style={styles.productTile}>
-            <CardMedia>
-              <img alt="Product" src={`/api/products/pictures/${product.files[0]}`} />
-            </CardMedia>
+            {(product.files.length) ? (
+              <CardMedia>
+                <img alt="Product" src={`/api/products/pictures/${product.files[0]}`} />
+              </CardMedia>
+            ) : null}
             <CardTitle>
               {product.name}
             </CardTitle>

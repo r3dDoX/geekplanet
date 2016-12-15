@@ -43,8 +43,6 @@ class HomeComponent extends React.Component {
             </CardActions>
           </Card>
         ))}
-
-        <Link to="/forms">Forms</Link>
       </div>
     );
   }

@@ -14,7 +14,7 @@ const styles = {
   },
   productTileBody: {
     textAlign: 'justify',
-  }
+  },
 };
 
 

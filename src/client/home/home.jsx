@@ -8,10 +8,13 @@ import ActionTypes from '../actionTypes';
 const styles = {
   productTile: {
     flexGrow: 1,
-    maxWidth: '500px',
+    maxWidth: '450px',
     minWidth: '150px',
     margin: '0 10px 10px',
   },
+  productTileBody: {
+    textAlign: 'justify',
+  }
 };
 
 
@@ -34,7 +37,7 @@ class HomeComponent extends React.Component {
             <CardTitle>
               {product.name}
             </CardTitle>
-            <CardText>
+            <CardText style={styles.productTileBody}>
               {product.description}
             </CardText>
             <CardActions>

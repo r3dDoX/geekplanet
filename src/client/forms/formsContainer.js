@@ -2,6 +2,8 @@ import { connect } from 'react-redux';
 import Forms from './forms.jsx';
 import ActionTypes from '../actionTypes';
 import ProductService from '../products/productService';
+import ProducerService from '../producers/producerService';
+import SupplierService from '../suppliers/supplierService';
 
 const FormsContainer = connect(
   state => state.forms,
@@ -18,10 +20,34 @@ const FormsContainer = connect(
         data: categories,
       }));
     },
+    loadProducers() {
+      ProducerService.loadProducers().then(categories => dispatch({
+        type: ActionTypes.PRODUCERS_LOADED,
+        data: categories,
+      }));
+    },
+    loadSuppliers() {
+      SupplierService.loadSuppliers().then(categories => dispatch({
+        type: ActionTypes.SUPPLIERS_LOADED,
+        data: categories,
+      }));
+    },
     selectProductCategory(category) {
       dispatch({
         type: ActionTypes.PRODUCT_CATEGORY_SELECTED,
         data: category,
+      });
+    },
+    selectProducer(producerId) {
+      dispatch({
+        type: ActionTypes.PRODUCER_SELECTED,
+        data: producerId,
+      });
+    },
+    selectSupplier(supplierId) {
+      dispatch({
+        type: ActionTypes.SUPPLIER_SELECTED,
+        data: supplierId,
       });
     },
   }),

@@ -5,6 +5,9 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import UploadImagePreview from './uploadImagePreview.jsx';
+import ProductService from '../products/productService';
+import SupplierService from '../suppliers/supplierService';
+import ProducerService from '../producers/producerService';
 
 const styles = {
   fileUploadInput: {
@@ -19,35 +22,19 @@ const styles = {
   },
 };
 
-const postData = (endpoint, data) => new Promise((resolve, reject) => {
-  const request = new XMLHttpRequest();
-
-  request.addEventListener('load', () => {
-    if (request.status === 200) {
-      resolve();
-    } else {
-      reject();
-    }
-  });
-
-  request.addEventListener('error', () => {
-    reject();
-  });
-
-  request.open('POST', `/api/${endpoint}`);
-  request.send(data);
-});
-
-const submitForm = (endpoint, event) => {
+const submitForm = (submitFunction, event) => {
   event.preventDefault();
   const form = event.target;
-  return postData(endpoint, new FormData(form)).then(() => form.reset());
+  return submitFunction(new FormData(form))
+    .then(() => form.reset());
 };
 
 class Forms extends React.Component {
 
   componentDidMount() {
     this.props.loadProductCategories();
+    this.props.loadProducers();
+    this.props.loadSuppliers();
   }
 
   render() {
@@ -55,9 +42,17 @@ class Forms extends React.Component {
       selectedFiles,
       selectedProductCategory,
       productCategories,
+      selectedProducer,
+      producers,
+      selectedSupplier,
+      suppliers,
       onSelectFile,
       loadProductCategories,
+      loadProducers,
+      loadSuppliers,
       selectProductCategory,
+      selectProducer,
+      selectSupplier,
     } = this.props;
 
     return (
@@ -65,7 +60,7 @@ class Forms extends React.Component {
         <Card className="form-card">
           <CardHeader title="Products" />
           <CardText>
-            <form name="products" onSubmit={event => submitForm('products', event)}>
+            <form name="products" onSubmit={event => submitForm(ProductService.saveProduct, event)}>
               <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
               <SelectField
                 floatingLabelText="Category"
@@ -78,11 +73,19 @@ class Forms extends React.Component {
                 ))}
               </SelectField>
               <TextField
+                floatingLabelText="Short Description"
+                name="shortDescription"
+                type="text"
+                multiLine
+                rows={3}
+                fullWidth
+              />
+              <TextField
                 floatingLabelText="Description"
                 name="description"
                 type="text"
                 multiLine
-                rows={3}
+                rows={5}
                 fullWidth
               />
               <TextField floatingLabelText="Price" name="price" type="number" fullWidth />
@@ -93,6 +96,29 @@ class Forms extends React.Component {
                 type="number"
                 fullWidth
               />
+
+              <SelectField
+                floatingLabelText="Supplier"
+                value={suppliers.find(supplier => supplier._id === selectedSupplier)}
+                onChange={(event, index, value) => selectSupplier(value)}
+                autoWidth
+              >
+                {suppliers.map(supplier => (
+                  <MenuItem value={supplier._id} key={supplier._id} primaryText={supplier.name} />
+                ))}
+              </SelectField>
+
+              <SelectField
+                floatingLabelText="Producer"
+                value={producers.find(producer => producer._id === selectedProducer)}
+                onChange={(event, index, value) => selectProducer(value)}
+                autoWidth
+              >
+                {producers.map(producer => (
+                  <MenuItem value={producer._id} key={producer._id} primaryText={producer.name} />
+                ))}
+              </SelectField>
+
               <RaisedButton
                 label="Choose images"
                 labelPosition="before"
@@ -119,7 +145,10 @@ class Forms extends React.Component {
           <CardText>
             <form
               name="productcategories"
-              onSubmit={event => submitForm('productcategories', event).then(loadProductCategories)}
+              onSubmit={
+                event => submitForm(ProductService.saveProductCategory, event)
+                  .then(loadProductCategories)
+              }
             >
               <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
 
@@ -131,7 +160,13 @@ class Forms extends React.Component {
         <Card className="form-card">
           <CardHeader title="Suppliers" />
           <CardText>
-            <form name="suppliers" onSubmit={event => submitForm('suppliers', event)}>
+            <form
+              name="suppliers"
+              onSubmit={
+                event => submitForm(SupplierService.saveSupplier, event)
+                  .then(loadSuppliers)
+              }
+            >
               <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
               <TextField floatingLabelText="Contact" name="contact" type="text" fullWidth />
               <TextField
@@ -160,7 +195,13 @@ class Forms extends React.Component {
         <Card className="form-card">
           <CardHeader title="Producers" />
           <CardText>
-            <form name="producers" onSubmit={event => submitForm('producers', event)}>
+            <form
+              name="producers"
+              onSubmit={
+                event => submitForm(ProducerService.saveProducer, event)
+                  .then(loadProducers)
+              }
+            >
               <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
               <h3>Address</h3>
               <TextField floatingLabelText="Street Name" name="streetName" type="text" fullWidth />
@@ -186,9 +227,23 @@ Forms.propTypes = {
   selectedFiles: PropTypes.instanceOf(FileList),
   selectedProductCategory: PropTypes.string,
   productCategories: PropTypes.arrayOf(PropTypes.string),
+  selectedProducer: PropTypes.string,
+  producers: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+  })),
+  selectedSupplier: PropTypes.string,
+  suppliers: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+  })),
   onSelectFile: PropTypes.func,
   loadProductCategories: PropTypes.func,
+  loadProducers: PropTypes.func,
+  loadSuppliers: PropTypes.func,
   selectProductCategory: PropTypes.func,
+  selectProducer: PropTypes.func,
+  selectSupplier: PropTypes.func,
 };
 
 

@@ -7,6 +7,7 @@ const styles = {
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     marginTop: '20px',
+    marginBottom: '20px',
   },
   gridList: {
     display: 'flex',

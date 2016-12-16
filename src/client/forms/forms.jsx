@@ -20,6 +20,9 @@ const styles = {
     width: '100%',
     opacity: 0,
   },
+  uploadButton: {
+    marginTop: '10px',
+  },
 };
 
 const submitForm = (submitFunction, event) => {
@@ -62,6 +65,7 @@ class Forms extends React.Component {
           <CardText>
             <form name="products" onSubmit={event => submitForm(ProductService.saveProduct, event)}>
               <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
+
               <SelectField
                 floatingLabelText="Category"
                 value={selectedProductCategory}
@@ -72,6 +76,7 @@ class Forms extends React.Component {
                   <MenuItem value={category} key={category} primaryText={category} />
                 ))}
               </SelectField>
+
               <TextField
                 floatingLabelText="Short Description"
                 name="shortDescription"
@@ -80,6 +85,7 @@ class Forms extends React.Component {
                 rows={3}
                 fullWidth
               />
+
               <TextField
                 floatingLabelText="Description"
                 name="description"
@@ -88,10 +94,32 @@ class Forms extends React.Component {
                 rows={5}
                 fullWidth
               />
+
               <TextField floatingLabelText="Price" name="price" type="number" fullWidth />
+              <TextField
+                floatingLabelText="Purchase Price"
+                name="purchasePrice"
+                type="number"
+                fullWidth
+              />
+              <TextField
+                floatingLabelText="Purchase Package Size"
+                name="purchasePackageSize"
+                type="number"
+                fullWidth
+              />
+
               <TextField
                 floatingLabelText="Stock"
                 name="stock"
+                defaultValue="0"
+                type="number"
+                fullWidth
+              />
+
+              <TextField
+                floatingLabelText="Stock Minimum"
+                name="minStock"
                 defaultValue="0"
                 type="number"
                 fullWidth
@@ -108,6 +136,13 @@ class Forms extends React.Component {
                 ))}
               </SelectField>
 
+              <TextField
+                floatingLabelText="Supplier Product Code"
+                name="supplierProductCode"
+                type="text"
+                fullWidth
+              />
+
               <SelectField
                 floatingLabelText="Producer"
                 value={producers.find(producer => producer._id === selectedProducer)}
@@ -119,10 +154,20 @@ class Forms extends React.Component {
                 ))}
               </SelectField>
 
+              <TextField
+                floatingLabelText="Remarks"
+                name="remarks"
+                type="text"
+                multiLine
+                fullWidth
+              />
+
               <RaisedButton
                 label="Choose images"
                 labelPosition="before"
                 containerElement="label"
+                fullWidth
+                style={styles.uploadButton}
               >
                 <input
                   name="productPictures[]"
@@ -134,7 +179,6 @@ class Forms extends React.Component {
                 />
               </RaisedButton>
               <UploadImagePreview files={selectedFiles} />
-              <br /><br />
               <RaisedButton label="Save" type="submit" primary />
             </form>
           </CardText>

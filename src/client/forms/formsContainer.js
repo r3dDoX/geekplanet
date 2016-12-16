@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
-import ProductForm from './forms.jsx';
+import Forms from './forms.jsx';
 import ActionTypes from '../actionTypes';
+import ProductService from '../products/productService';
 
-const ProductContainer = connect(
-  state => state.products,
+const FormsContainer = connect(
+  state => state.forms,
   dispatch => ({
     onSelectFile(selectedFiles) {
       dispatch({
@@ -11,7 +12,19 @@ const ProductContainer = connect(
         data: selectedFiles,
       });
     },
+    loadProductCategories() {
+      ProductService.loadProductCategories().then(categories => dispatch({
+        type: ActionTypes.PRODUCT_CATEGORIES_LOADED,
+        data: categories,
+      }));
+    },
+    selectProductCategory(category) {
+      dispatch({
+        type: ActionTypes.PRODUCT_CATEGORY_SELECTED,
+        data: category,
+      });
+    },
   }),
-)(ProductForm);
+)(Forms);
 
-export default ProductContainer;
+export default FormsContainer;

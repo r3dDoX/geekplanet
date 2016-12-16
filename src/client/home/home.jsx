@@ -65,7 +65,7 @@ export default connect(
   state => state.products,
   dispatch => ({
     loadProducts() {
-      ProductService.loadAllProducts().then(data => dispatch({
+      ProductService.loadProducts().then(data => dispatch({
         type: ActionTypes.PRODUCTS_LOADED,
         data,
       }));

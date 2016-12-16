@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import UploadImagePreview from './uploadImagePreview.jsx';
 
@@ -22,106 +24,163 @@ const submitForm = (endpoint, event) => {
 
   const request = new XMLHttpRequest();
   request.open('POST', `/api/${endpoint}`);
+  const promise = new Promise((resolve, reject) => {
+    request.onload = () => resolve();
+    request.onerror = () => reject();
+  });
   request.send(formData);
 
   event.preventDefault();
+
+  return promise;
 };
 
-const ProductForm = ({ selectedFiles, onSelectFile }) => (
-  <div className="content">
-    <Card className="form-card">
-      <CardHeader title="Products" />
-      <CardText>
-        <form name="products" onSubmit={event => submitForm('products', event)}>
-          <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
-          <TextField
-            floatingLabelText="Description"
-            name="description"
-            type="text"
-            multiLine
-            rows={3}
-            fullWidth
-          />
-          <TextField floatingLabelText="Price" name="price" type="number" fullWidth />
-          <TextField
-            floatingLabelText="Stock"
-            name="stock"
-            defaultValue="0"
-            type="number"
-            fullWidth
-          />
-          <RaisedButton
-            label="Choose images"
-            labelPosition="before"
-            containerElement="label"
-          >
-            <input
-              name="productPictures[]"
-              type="file"
-              accept="image/jpeg,image/png"
-              multiple
-              style={styles.fileUploadInput}
-              onChange={event => onSelectFile(event.target.files)}
-            />
-          </RaisedButton>
-          <UploadImagePreview files={selectedFiles} />
-          <br /><br />
-          <RaisedButton label="Save" type="submit" primary />
-        </form>
-      </CardText>
-    </Card>
+class Forms extends React.Component {
 
-    <Card className="form-card">
-      <CardHeader title="Suppliers" />
-      <CardText>
-        <form name="suppliers" onSubmit={event => submitForm('suppliers', event)}>
-          <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
-          <TextField floatingLabelText="Contact" name="contact" type="text" fullWidth />
-          <TextField
-            floatingLabelText="Payment Terms"
-            name="paymentTerms"
-            type="text"
-            multiLine
-            rows={3}
-            fullWidth
-          />
-          <h3>Address</h3>
-          <TextField floatingLabelText="Street Name" name="streetName" type="text" fullWidth />
-          <TextField
-            floatingLabelText="House Number"
-            name="houseNumber"
-            type="text"
-            fullWidth
-          />
-          <TextField floatingLabelText="ZIP" name="zip" type="number" fullWidth />
-          <TextField floatingLabelText="City" name="city" type="city" fullWidth />
-          <RaisedButton label="Save" primary type="submit" />
-        </form>
-      </CardText>
-    </Card>
+  componentDidMount() {
+    this.props.loadProductCategories();
+  }
 
-    <Card className="form-card">
-      <CardHeader title="Producers" />
-      <CardText>
-        <form name="producers" onSubmit={event => submitForm('producers', event)}>
-          <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
-          <h3>Address</h3>
-          <TextField floatingLabelText="Street Name" name="streetName" type="text" fullWidth />
-          <TextField floatingLabelText="House Number" name="houseNumber" type="text" fullWidth />
-          <TextField floatingLabelText="ZIP" name="zip" type="number" fullWidth />
-          <TextField floatingLabelText="City" name="city" type="city" fullWidth />
+  render() {
+    const {
+      selectedFiles,
+      selectedProductCategory,
+      productCategories,
+      onSelectFile,
+      loadProductCategories,
+      selectProductCategory
+    } = this.props;
 
-          <RaisedButton label="Save" primary type="submit" />
-        </form>
-      </CardText>
-    </Card>
-  </div>
-);
+    return (
+      <div className="content">
+        <Card className="form-card">
+          <CardHeader title="Products" />
+          <CardText>
+            <form name="products" onSubmit={event => submitForm('products', event)}>
+              <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
+              <SelectField
+                floatingLabelText="Category"
+                value={selectedProductCategory}
+                onChange={(event, index, value) => selectProductCategory(value)}
+                autoWidth
+              >
+                {productCategories.map(category => (
+                  <MenuItem value={category} key={category} primaryText={category} />
+                ))}
+              </SelectField>
+              <TextField
+                floatingLabelText="Description"
+                name="description"
+                type="text"
+                multiLine
+                rows={3}
+                fullWidth
+              />
+              <TextField floatingLabelText="Price" name="price" type="number" fullWidth />
+              <TextField
+                floatingLabelText="Stock"
+                name="stock"
+                defaultValue="0"
+                type="number"
+                fullWidth
+              />
+              <RaisedButton
+                label="Choose images"
+                labelPosition="before"
+                containerElement="label"
+              >
+                <input
+                  name="productPictures[]"
+                  type="file"
+                  accept="image/jpeg,image/png"
+                  multiple
+                  style={styles.fileUploadInput}
+                  onChange={event => onSelectFile(event.target.files)}
+                />
+              </RaisedButton>
+              <UploadImagePreview files={selectedFiles} />
+              <br /><br />
+              <RaisedButton label="Save" type="submit" primary />
+            </form>
+          </CardText>
+        </Card>
 
-ProductForm.propTypes = {
+        <Card className="form-card">
+          <CardHeader title="Product Categories" />
+          <CardText>
+            <form
+              name="productcategories"
+              onSubmit={event => submitForm('productcategories', event).then(loadProductCategories)}
+            >
+              <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
+
+              <RaisedButton label="Save" primary type="submit" />
+            </form>
+          </CardText>
+        </Card>
+
+        <Card className="form-card">
+          <CardHeader title="Suppliers" />
+          <CardText>
+            <form name="suppliers" onSubmit={event => submitForm('suppliers', event)}>
+              <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
+              <TextField floatingLabelText="Contact" name="contact" type="text" fullWidth />
+              <TextField
+                floatingLabelText="Payment Terms"
+                name="paymentTerms"
+                type="text"
+                multiLine
+                rows={3}
+                fullWidth
+              />
+              <h3>Address</h3>
+              <TextField floatingLabelText="Street Name" name="streetName" type="text" fullWidth />
+              <TextField
+                floatingLabelText="House Number"
+                name="houseNumber"
+                type="text"
+                fullWidth
+              />
+              <TextField floatingLabelText="ZIP" name="zip" type="number" fullWidth />
+              <TextField floatingLabelText="City" name="city" type="city" fullWidth />
+              <RaisedButton label="Save" primary type="submit" />
+            </form>
+          </CardText>
+        </Card>
+
+        <Card className="form-card">
+          <CardHeader title="Producers" />
+          <CardText>
+            <form name="producers" onSubmit={event => submitForm('producers', event)}>
+              <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
+              <h3>Address</h3>
+              <TextField floatingLabelText="Street Name" name="streetName" type="text" fullWidth />
+              <TextField
+                floatingLabelText="House Number"
+                name="houseNumber"
+                type="text"
+                fullWidth
+              />
+              <TextField floatingLabelText="ZIP" name="zip" type="number" fullWidth />
+              <TextField floatingLabelText="City" name="city" type="city" fullWidth />
+
+              <RaisedButton label="Save" primary type="submit" />
+            </form>
+          </CardText>
+        </Card>
+      </div>
+    );
+  }
+}
+
+Forms.propTypes = {
   selectedFiles: PropTypes.instanceOf(FileList),
+  selectedProductCategory: PropTypes.string,
+  productCategories: PropTypes.arrayOf(PropTypes.string),
   onSelectFile: PropTypes.func,
+  loadProductCategories: PropTypes.func,
+  selectProductCategory: PropTypes.func,
 };
 
 
-export default ProductForm;
+export default Forms;

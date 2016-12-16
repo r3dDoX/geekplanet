@@ -25,8 +25,14 @@ const AddressSchema = mongoose.Schema({
   city: String,
 });
 
+const ProductCategory = mongoose.model('ProductCategory', {
+  name: String,
+});
+
 const Product = mongoose.model('Product', {
   name: String,
+  category: String,
+  shortDescription: String,
   description: String,
   price: Number,
   stock: Number,
@@ -57,6 +63,20 @@ module.exports = {
     app.use(mongoSanitize());
 
     app.get('/api/products/pictures/:id', (req, res) => ProductPictures.readById(req.params.id).pipe(res));
+
+    app.get('/api/productcategories', (req, res) => ProductCategory.find({})
+      .then(categories => res.send(categories.map(category => category.name)))
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Fetching products failed!');
+      })
+    );
+
+    app.post('/api/productcategories', multer.none(), (req, res) => {
+      new ProductCategory(req.body).save()
+        .then(() => res.sendStatus(200))
+        .catch(error => res.send(error));
+    });
 
     app.get('/api/products', (req, res) => Product.find({})
       .then(products => res.send(products))

@@ -19,20 +19,29 @@ const styles = {
   },
 };
 
-const submitForm = (endpoint, event) => {
-  const formData = new FormData(event.target);
-
+const postData = (endpoint, data) => new Promise((resolve, reject) => {
   const request = new XMLHttpRequest();
-  request.open('POST', `/api/${endpoint}`);
-  const promise = new Promise((resolve, reject) => {
-    request.onload = () => resolve();
-    request.onerror = () => reject();
+
+  request.addEventListener('load', () => {
+    if (request.status === 200) {
+      resolve();
+    } else {
+      reject();
+    }
   });
-  request.send(formData);
 
+  request.addEventListener('error', () => {
+    reject();
+  });
+
+  request.open('POST', `/api/${endpoint}`);
+  request.send(data);
+});
+
+const submitForm = (endpoint, event) => {
   event.preventDefault();
-
-  return promise;
+  const form = event.target;
+  return postData(endpoint, new FormData(form)).then(() => form.reset());
 };
 
 class Forms extends React.Component {
@@ -48,7 +57,7 @@ class Forms extends React.Component {
       productCategories,
       onSelectFile,
       loadProductCategories,
-      selectProductCategory
+      selectProductCategory,
     } = this.props;
 
     return (

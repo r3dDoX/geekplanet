@@ -1,7 +1,7 @@
 import ActionTypes from '../actionTypes';
 
 const initialState = {
-  productCategories: [],
+  products: [],
 };
 
 export default function products(state = initialState, { type, data }) {

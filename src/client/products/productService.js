@@ -9,7 +9,10 @@ function get(path) {
 }
 
 export default {
-  loadAllProducts() {
+  loadProducts() {
     return get('/api/products');
+  },
+  loadProductCategories() {
+    return get('/api/productcategories');
   },
 };

@@ -1,18 +1,16 @@
-function get(path) {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', path);
-    xhr.onload = () => resolve(JSON.parse(xhr.response));
-    xhr.onerror = () => reject(xhr.response);
-    xhr.send();
-  });
-}
+import Xhr from '../xhr';
 
 export default {
   loadProducts() {
-    return get('/api/products');
+    return Xhr.get('/api/products');
   },
   loadProductCategories() {
-    return get('/api/productcategories');
+    return Xhr.get('/api/productcategories');
+  },
+  saveProduct(data) {
+    return Xhr.post('/api/products', data);
+  },
+  saveProductCategory(data) {
+    return Xhr.post('/api/productcategories', data);
   },
 };

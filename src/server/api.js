@@ -35,7 +35,14 @@ const Product = mongoose.model('Product', {
   shortDescription: String,
   description: String,
   price: Number,
+  purchasePrice: Number,
+  purchasePackageSize: Number,
   stock: Number,
+  minStock: Number,
+  supplier: mongoose.Schema.Types.ObjectId,
+  supplierProductCode: String,
+  producer: mongoose.Schema.Types.ObjectId,
+  remarks: String,
   files: [String],
 });
 
@@ -68,7 +75,7 @@ module.exports = {
       .then(categories => res.send(categories.map(category => category.name)))
       .catch((err) => {
         console.error(err);
-        res.status(500).send('Fetching products failed!');
+        res.status(500).send('Fetching product categories failed!');
       })
     );
 
@@ -109,6 +116,14 @@ module.exports = {
         });
     });
 
+    app.get('/api/suppliers', (req, res) => Supplier.find({})
+      .then(suppliers => res.send(suppliers))
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Fetching suppliers failed!');
+      })
+    );
+
     app.post('/api/suppliers', multer.none(), (req, res) => {
       const supplier = req.body;
       supplier.address = parseAddress(supplier);
@@ -117,6 +132,14 @@ module.exports = {
         .then(() => res.sendStatus(200))
         .catch(error => res.send(error));
     });
+
+    app.get('/api/producers', (req, res) => Producer.find({})
+      .then(producers => res.send(producers))
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Fetching producers failed!');
+      })
+    );
 
     app.post('/api/producers', multer.none(), (req, res) => {
       const producer = req.body;

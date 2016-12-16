@@ -5,40 +5,19 @@ import Router from 'react-router/lib/Router';
 import Route from 'react-router/lib/Route';
 import IndexRoute from 'react-router/lib/IndexRoute';
 import browserHistory from 'react-router/lib/browserHistory';
-import { createStore, combineReducers } from 'redux';
+import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
+import { syncHistoryWithStore } from 'react-router-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Home from './home/home.jsx';
 import Layout from './layout.jsx';
 import FormsContainer from './forms/formsContainer';
-import ActionTypes from './actionTypes';
+import reducers from './reducers';
 import './app.less';
 
 injectTapEventPlugin();
 
-const initialState = {
-  selectedFiles: undefined,
-  products: [],
-};
-
-const store = createStore(combineReducers({
-  products(state = initialState, { type, data }) {
-    switch (type) {
-      case ActionTypes.SELECT_UPLOAD_FILES:
-        return Object.assign({}, state, {
-          selectedFiles: data,
-        });
-      case ActionTypes.PRODUCTS_LOADED:
-        return Object.assign({}, state, {
-          products: data,
-        });
-      default:
-        return state;
-    }
-  },
-  routing: routerReducer,
-}));
+const store = createStore(reducers);
 
 const history = syncHistoryWithStore(browserHistory, store);
 

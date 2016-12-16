@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Link from 'react-router/lib/Link';
 import { Card, CardTitle, CardMedia, CardText, CardActions } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionTypes from '../actionTypes';
+import ProductService from '../products/productService';
 
 const styles = {
   productTile: {
@@ -65,13 +65,10 @@ export default connect(
   state => state.products,
   dispatch => ({
     loadProducts() {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', '/api/products');
-      xhr.onload = () => dispatch({
+      ProductService.loadAllProducts().then(data => dispatch({
         type: ActionTypes.PRODUCTS_LOADED,
-        data: JSON.parse(xhr.response),
-      });
-      xhr.send();
+        data,
+      }));
     },
   })
 )(HomeComponent);

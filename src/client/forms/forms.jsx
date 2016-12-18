@@ -212,15 +212,6 @@ class Forms extends React.Component {
               }
             >
               <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
-              <TextField floatingLabelText="Contact" name="contact" type="text" fullWidth />
-              <TextField
-                floatingLabelText="Payment Terms"
-                name="paymentTerms"
-                type="text"
-                multiLine
-                rows={3}
-                fullWidth
-              />
               <h3>Address</h3>
               <TextField floatingLabelText="Street Name" name="streetName" type="text" fullWidth />
               <TextField
@@ -231,6 +222,37 @@ class Forms extends React.Component {
               />
               <TextField floatingLabelText="ZIP" name="zip" type="number" fullWidth />
               <TextField floatingLabelText="City" name="city" type="city" fullWidth />
+              <TextField
+                floatingLabelText="Contact Name"
+                name="contactName"
+                type="text"
+                fullWidth
+              />
+              <TextField
+                floatingLabelText="Contact Email"
+                name="contactEmail"
+                type="email"
+                fullWidth
+              />
+              <TextField
+                floatingLabelText="Contact Phone"
+                name="contactPhone"
+                type="tel"
+                fullWidth
+              />
+              <TextField
+                floatingLabelText="Customer Number"
+                name="customerNumber"
+                type="number"
+                fullWidth
+              />
+              <TextField
+                floatingLabelText="Remarks"
+                name="remarks"
+                type="text"
+                multiLine
+                fullWidth
+              />
               <RaisedButton label="Save" primary type="submit" />
             </form>
           </CardText>

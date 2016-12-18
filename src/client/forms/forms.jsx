@@ -127,7 +127,7 @@ class Forms extends React.Component {
 
               <SelectField
                 floatingLabelText="Supplier"
-                value={suppliers.find(supplier => supplier._id === selectedSupplier)}
+                value={(suppliers.find(supplier => supplier._id === selectedSupplier) || {})._id}
                 onChange={(event, index, value) => selectSupplier(value)}
                 autoWidth
               >
@@ -145,7 +145,7 @@ class Forms extends React.Component {
 
               <SelectField
                 floatingLabelText="Producer"
-                value={producers.find(producer => producer._id === selectedProducer)}
+                value={(producers.find(producer => producer._id === selectedProducer) || {})._id}
                 onChange={(event, index, value) => selectProducer(value)}
                 autoWidth
               >

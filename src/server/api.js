@@ -48,11 +48,17 @@ const Product = mongoose.model('Product', {
 
 const Producer = mongoose.model('Producer', {
   name: String,
+  vatNumber: String,
   address: AddressSchema,
+  contactName: String,
+  contactEmail: String,
+  contactPhone: String,
+  remarks: String,
 });
 
 const Supplier = mongoose.model('Supplier', {
   name: String,
+  vatNumber: String,
   address: AddressSchema,
   contactName: String,
   contactEmail: String,

@@ -48,14 +48,23 @@ const Product = mongoose.model('Product', {
 
 const Producer = mongoose.model('Producer', {
   name: String,
+  vatNumber: String,
   address: AddressSchema,
+  contactName: String,
+  contactEmail: String,
+  contactPhone: String,
+  remarks: String,
 });
 
 const Supplier = mongoose.model('Supplier', {
   name: String,
-  contact: String,
-  paymentTerms: String,
+  vatNumber: String,
   address: AddressSchema,
+  contactName: String,
+  contactEmail: String,
+  contactPhone: String,
+  customerNumber: String,
+  remarks: String,
 });
 
 const parseAddress = ({ streetName, houseNumber, zip, city }) => ({

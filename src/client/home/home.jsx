@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Card, CardTitle, CardMedia, CardText, CardActions } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import SvgIcon from 'material-ui/SvgIcon';
+import { green300, grey700 } from 'material-ui/styles/colors';
 import ActionTypes from '../actionTypes';
 import ProductService from '../products/productService';
 
@@ -15,8 +17,41 @@ const styles = {
   productTileBody: {
     textAlign: 'justify',
   },
+  productTitle: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  stockIcon: {
+    flex: 'none',
+  },
 };
 
+/* eslint-disable max-len */
+const inStockIcon = (
+  <SvgIcon style={Object.assign({ fill: green300 }, styles.stockIcon)} width="24" height="24" viewBox="0 0 24 24">
+    <path d="M0 0h24v24H0z" fill="none" />
+    <path
+      d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+    />
+  </SvgIcon>
+);
+
+const outOfStockIcon = (
+  <SvgIcon style={Object.assign({ fill: grey700 }, styles.stockIcon)} width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+      <path id="a" d="M0 0h24v24H0z" />
+    </defs>
+    <clipPath id="b">
+      <use xlinkHref="#a" overflow="visible" />
+    </clipPath>
+    <path
+      clipPath="url(#b)"
+      d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z"
+    />
+  </SvgIcon>
+);
+/* eslint-enable max-len */
 
 class HomeComponent extends React.Component {
 
@@ -35,10 +70,13 @@ class HomeComponent extends React.Component {
               </CardMedia>
             ) : null}
             <CardTitle>
-              {product.name}
+              <span style={styles.productTitle}>
+                {product.name}
+                {(product.stock > 0) ? inStockIcon : outOfStockIcon}
+              </span>
             </CardTitle>
             <CardText style={styles.productTileBody}>
-              {product.description}
+              {product.shortDescription}
             </CardText>
             <CardActions>
               <RaisedButton label="Order" primary />

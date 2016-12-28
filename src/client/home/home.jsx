@@ -1,12 +1,8 @@
-import React, {PropTypes} from 'react';
-import {connect} from 'react-redux';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import ActionTypes from '../actionTypes';
 import ProductService from '../products/productService';
 import ProductList from '../products/productList.jsx';
-
-const styles = {
-
-};
 
 class HomeComponent extends React.Component {
 

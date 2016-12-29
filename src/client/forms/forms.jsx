@@ -10,6 +10,11 @@ import SupplierService from '../suppliers/supplierService';
 import ProducerService from '../producers/producerService';
 
 const styles = {
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    padding: '20px 10px',
+  },
   fileUploadInput: {
     cursor: 'pointer',
     position: 'absolute',
@@ -59,7 +64,7 @@ class Forms extends React.Component {
     } = this.props;
 
     return (
-      <div className="content">
+      <div style={styles.container}>
         <Card className="form-card">
           <CardHeader title="Products" />
           <CardText>

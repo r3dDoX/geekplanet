@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { green300, grey700 } from 'material-ui/styles/colors';
+import { green500, grey700 } from 'material-ui/styles/colors';
 import { Card, CardTitle, CardMedia, CardText, CardActions } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import SvgIcon from 'material-ui/SvgIcon';
@@ -30,7 +30,7 @@ const styles = {
 
 /* eslint-disable max-len */
 const inStockIcon = (
-  <SvgIcon style={Object.assign({ fill: green300 }, styles.stockIcon)} width="24" height="24" viewBox="0 0 24 24">
+  <SvgIcon style={Object.assign({ fill: green500 }, styles.stockIcon)} width="24" height="24" viewBox="0 0 24 24">
     <path d="M0 0h24v24H0z" fill="none" />
     <path
       d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"

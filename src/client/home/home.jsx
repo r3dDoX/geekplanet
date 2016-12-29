@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import ActionTypes from '../actionTypes';
 import ProductService from '../products/productService';
 import ProductList from '../products/productList.jsx';
@@ -7,6 +8,7 @@ import ProductList from '../products/productList.jsx';
 const styles = {
   container: {
     display: 'flex',
+    flexDirection: 'column',
     flexWrap: 'wrap',
     padding: '20px 10px',
   },
@@ -21,6 +23,11 @@ class HomeComponent extends React.Component {
   render() {
     return (
       <div style={styles.container}>
+        <div>
+          <h1>
+            <FormattedMessage id="greeting" values={{ name: 'Patrick' }} />
+          </h1>
+        </div>
         <ProductList products={this.props.products} />
       </div>
     );

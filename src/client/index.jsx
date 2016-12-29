@@ -12,7 +12,6 @@ import it from 'react-intl/locale-data/it';
 import App from './app.jsx';
 import reducers from './reducers';
 import geekplanetTheme from './theme';
-import './app.less';
 
 addLocaleData([...de, ...en, ...fr, ...it]);
 const language = (navigator.languages && navigator.languages[0])

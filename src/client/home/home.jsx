@@ -4,6 +4,14 @@ import ActionTypes from '../actionTypes';
 import ProductService from '../products/productService';
 import ProductList from '../products/productList.jsx';
 
+const styles = {
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    padding: '20px 10px',
+  },
+};
+
 class HomeComponent extends React.Component {
 
   componentDidMount() {
@@ -12,7 +20,7 @@ class HomeComponent extends React.Component {
 
   render() {
     return (
-      <div className="content">
+      <div style={styles.container}>
         <ProductList products={this.props.products} />
       </div>
     );

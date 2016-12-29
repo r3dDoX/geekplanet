@@ -20,10 +20,6 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.less$/,
-        loader: 'style-loader!css-loader!less-loader',
-      },
-      {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader',

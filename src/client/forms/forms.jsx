@@ -15,6 +15,12 @@ const styles = {
     flexWrap: 'wrap',
     padding: '20px 10px',
   },
+  card: {
+    flex: '1',
+    maxWidth: '600px',
+    minWidth: '300px',
+    margin: '0 10px 10px',
+  },
   fileUploadInput: {
     cursor: 'pointer',
     position: 'absolute',
@@ -65,7 +71,7 @@ class Forms extends React.Component {
 
     return (
       <div style={styles.container}>
-        <Card className="form-card">
+        <Card style={styles.card}>
           <CardHeader title="Products" />
           <CardText>
             <form name="products" onSubmit={event => submitForm(ProductService.saveProduct, event)}>
@@ -189,7 +195,7 @@ class Forms extends React.Component {
           </CardText>
         </Card>
 
-        <Card className="form-card">
+        <Card style={styles.card}>
           <CardHeader title="Product Categories" />
           <CardText>
             <form
@@ -206,7 +212,7 @@ class Forms extends React.Component {
           </CardText>
         </Card>
 
-        <Card className="form-card">
+        <Card style={styles.card}>
           <CardHeader title="Suppliers" />
           <CardText>
             <form
@@ -269,7 +275,7 @@ class Forms extends React.Component {
           </CardText>
         </Card>
 
-        <Card className="form-card">
+        <Card style={styles.card}>
           <CardHeader title="Producers" />
           <CardText>
             <form

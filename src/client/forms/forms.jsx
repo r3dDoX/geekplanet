@@ -18,7 +18,6 @@ const styles = {
   card: {
     flex: '1 1 300px',
     maxWidth: '600px',
-    minWidth: '300px',
     margin: '0 10px 10px',
   },
   fileUploadInput: {

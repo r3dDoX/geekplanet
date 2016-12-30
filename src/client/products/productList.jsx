@@ -8,11 +8,11 @@ import Badge from 'material-ui/Badge';
 const styles = {
   container: {
     display: 'flex',
+    flexWrap: 'wrap',
   },
   productTile: {
-    flexGrow: 1,
+    flex: '1 1 300px',
     maxWidth: '450px',
-    minWidth: '150px',
     margin: '0 10px 10px',
   },
   productTileBody: {

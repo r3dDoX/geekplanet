@@ -4,6 +4,13 @@ import FlatButton from 'material-ui/FlatButton';
 import Link from 'react-router/lib/Link';
 
 const styles = {
+  container: {
+    paddingTop: '60px',
+  },
+  appBar: {
+    position: 'fixed',
+    top: 0,
+  },
   title: {
     textDecoration: 'none',
     color: 'inherit',
@@ -11,12 +18,13 @@ const styles = {
 };
 
 const Layout = props => (
-  <div>
+  <div style={styles.container}>
     <AppBar
       title={<Link to="/" style={styles.title}>Geekplanet</Link>}
       iconElementRight={
-        <FlatButton label="Forms" containerElement={<Link to="/forms" />} />
+        <FlatButton label="Forms" containerElement={<Link to="/forms">Forms</Link>} />
       }
+      style={styles.appBar}
       zDepth="0"
     />
     {props.children}

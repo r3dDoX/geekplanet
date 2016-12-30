@@ -17,6 +17,7 @@ const Layout = props => (
       iconElementRight={
         <FlatButton label="Forms" containerElement={<Link to="/forms" />} />
       }
+      zDepth="0"
     />
     {props.children}
   </div>

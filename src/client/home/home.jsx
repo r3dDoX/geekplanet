@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import { grey50 } from 'material-ui/styles/colors';
 import ActionTypes from '../actionTypes';
 import ProductService from '../products/productService';
 import ProductList from '../products/productList.jsx';
@@ -10,7 +11,26 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'wrap',
-    padding: '20px 10px',
+  },
+  header: {
+    padding: '50px',
+    textAlign: 'center',
+    backgroundColor: '#131E31',
+    marginBottom: '20px',
+  },
+  company: {
+    fontSize: '56pt',
+    fontWeight: 300,
+  },
+  companyFirst: {
+    color: '#005B8E',
+  },
+  companySecond: {
+    color: '#27AAE1',
+  },
+  headerSubtitle: {
+    color: grey50,
+    fontSize: '18pt',
   },
 };
 
@@ -23,9 +43,13 @@ class HomeComponent extends React.Component {
   render() {
     return (
       <div style={styles.container}>
-        <div>
-          <h1>
-            <FormattedMessage id="greeting" values={{ name: 'Patrick' }} />
+        <div style={styles.header}>
+          <h1 style={styles.company}>
+            <span style={styles.companyFirst}>geek</span>
+            <span style={styles.companySecond}>planet</span><br />
+            <small style={styles.headerSubtitle}>
+              <FormattedMessage id="greeting" values={{ name: 'Patrick' }} />
+            </small>
           </h1>
         </div>
         <ProductList products={this.props.products} />

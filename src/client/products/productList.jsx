@@ -9,6 +9,7 @@ const styles = {
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+    padding: '20px 10px',
   },
   productTile: {
     flex: '1 1 300px',

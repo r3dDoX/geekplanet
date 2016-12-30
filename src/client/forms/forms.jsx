@@ -259,7 +259,7 @@ class Forms extends React.Component {
               <TextField
                 floatingLabelText="Customer Number"
                 name="customerNumber"
-                type="number"
+                type="text"
                 fullWidth
               />
               <TextField

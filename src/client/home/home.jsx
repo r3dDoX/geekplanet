@@ -19,7 +19,7 @@ const styles = {
     marginBottom: '20px',
   },
   company: {
-    fontSize: '56pt',
+    fontSize: '56px',
     fontWeight: 300,
   },
   companyFirst: {
@@ -30,7 +30,7 @@ const styles = {
   },
   headerSubtitle: {
     color: grey50,
-    fontSize: '18pt',
+    fontSize: '18px',
   },
 };
 

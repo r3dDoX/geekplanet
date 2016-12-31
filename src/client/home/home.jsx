@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { grey50 } from 'material-ui/styles/colors';
+import { backgroundColor, brandPrimary, brandSecondary } from '../theme';
 import ActionTypes from '../actionTypes';
 import ProductService from '../products/productService';
 import ProductList from '../products/productList.jsx';
@@ -15,18 +16,17 @@ const styles = {
   header: {
     padding: '50px',
     textAlign: 'center',
-    backgroundColor: '#131E31',
-    marginBottom: '20px',
+    backgroundColor,
   },
   company: {
     fontSize: '56px',
     fontWeight: 300,
   },
   companyFirst: {
-    color: '#005B8E',
+    color: brandPrimary,
   },
   companySecond: {
-    color: '#27AAE1',
+    color: brandSecondary,
   },
   headerSubtitle: {
     color: grey50,

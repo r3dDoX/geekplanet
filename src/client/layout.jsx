@@ -21,11 +21,12 @@ const Layout = props => (
   <div style={styles.container}>
     <AppBar
       title={<Link to="/" style={styles.title}>Geekplanet</Link>}
+      showMenuIconButton={false}
       iconElementRight={
         <FlatButton label="Forms" containerElement={<Link to="/forms">Forms</Link>} />
       }
       style={styles.appBar}
-      zDepth="0"
+      zDepth={0}
     />
     {props.children}
   </div>

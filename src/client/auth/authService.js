@@ -30,7 +30,7 @@ export default {
 
     obj.lock = new Auth0Lock(clientId, domain, {
       auth: {
-        redirectUrl: 'http://localhost:3001/login',
+        redirectUrl: 'http://localhost:3001/', // TODO this url has to be configurable
         responseType: 'token',
       },
     });

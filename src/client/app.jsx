@@ -14,6 +14,7 @@ import Layout from './layout.jsx';
 import FormsContainer from './forms/formsContainer';
 import translationService from './i18n/translationService';
 import ActionTypes from './actionTypes';
+import AuthService from './auth/authService';
 
 addLocaleData([...de, ...en, ...fr, ...it]);
 const language = (navigator.languages && navigator.languages[0])
@@ -23,6 +24,13 @@ let locale = language.toLowerCase().split(/[_-]+/)[0];
 if (['de', 'en', 'fr', 'it'].indexOf(locale) === -1) {
   locale = 'de';
 }
+
+const auth = AuthService.create('XqZ2GTewejUuMTBPaiHJUuyOYlNwcaXV', 'geekplanet.eu.auth0.com');
+const requireAuth = (nextState, replace) => {
+  if (!auth.loggedIn()) {
+    replace({ pathname: '/' });
+  }
+};
 
 class App extends React.Component {
 
@@ -37,9 +45,9 @@ class App extends React.Component {
       return (
         <IntlProvider locale={language} messages={translations}>
           <Router history={browserHistory}>
-            <Route path="/" component={Layout}>
+            <Route path="/" component={props => (<Layout auth={auth}>{props.children}</Layout>)}>
               <IndexRoute component={Home} />
-              <Route path="forms" component={FormsContainer} />
+              <Route path="forms" component={FormsContainer} onEnter={requireAuth} />
             </Route>
           </Router>
         </IntlProvider>

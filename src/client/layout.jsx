@@ -38,7 +38,10 @@ const Layout = ({ auth, children }) => {
 
 Layout.propTypes = {
   children: PropTypes.element.isRequired,
-  auth: PropTypes.shape(AuthService.Prototype),
+  auth: PropTypes.shape({
+    loggedIn: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired,
+  }),
 };
 
 export default Layout;

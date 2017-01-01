@@ -33,6 +33,7 @@ const Layout = ({ auth, children }) => (
           targetOrigin={{ horizontal: 'right', vertical: 'top' }}
         >
           <MenuItem primaryText="Forms" containerElement={<Link to="/forms">Forms</Link>} />
+          <MenuItem primaryText="Logout" onClick={() => auth.logout()} />
         </IconMenu>
         :
         <FlatButton label="Login" primary onClick={() => auth.login()} />

@@ -1,8 +1,11 @@
 import React, { PropTypes } from 'react';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import MenuItem from 'material-ui/MenuItem';
 import Link from 'react-router/lib/Link';
-import * as AuthService from './auth/authService';
 
 const styles = {
   container: {
@@ -18,23 +21,28 @@ const styles = {
   },
 };
 
-const Layout = ({ auth, children }) => {
-  return (
-    <div style={styles.container}>
-      <AppBar
-        title={<Link to="/" style={styles.title}>Geekplanet</Link>}
-        showMenuIconButton={false}
-        iconElementRight={auth.loggedIn() ?
-          <FlatButton label="Forms" containerElement={<Link to="/forms">Forms</Link>} /> :
-          <FlatButton label="Login" primary onClick={() => auth.login()} />
-        }
-        style={styles.appBar}
-        zDepth={0}
-      />
-      {children}
-    </div>
-  );
-};
+const Layout = ({ auth, children }) => (
+  <div style={styles.container}>
+    <AppBar
+      title={<Link to="/" style={styles.title}>Geekplanet</Link>}
+      showMenuIconButton={false}
+      iconElementRight={auth.loggedIn() ?
+        <IconMenu
+          iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+          anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+          targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+        >
+          <MenuItem primaryText="Forms" containerElement={<Link to="/forms">Forms</Link>} />
+        </IconMenu>
+        :
+        <FlatButton label="Login" primary onClick={() => auth.login()} />
+      }
+      style={styles.appBar}
+      zDepth={0}
+    />
+    {children}
+  </div>
+);
 
 Layout.propTypes = {
   children: PropTypes.element.isRequired,

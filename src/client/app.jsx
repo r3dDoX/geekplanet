@@ -25,7 +25,7 @@ if (['de', 'en', 'fr', 'it'].indexOf(locale) === -1) {
   locale = 'de';
 }
 
-const auth = AuthService.create('XqZ2GTewejUuMTBPaiHJUuyOYlNwcaXV', 'geekplanet.eu.auth0.com');
+const auth = AuthService.create(AUTH.CLIENT_ID, 'geekplanet.eu.auth0.com');
 const requireAuth = (nextState, replace) => {
   if (!auth.loggedIn()) {
     replace({ pathname: '/' });

@@ -25,17 +25,22 @@ if (['de', 'en', 'fr', 'it'].indexOf(locale) === -1) {
   locale = 'de';
 }
 
-const auth = AuthService.create(AUTH.CLIENT_ID, 'geekplanet.eu.auth0.com');
-const requireAuth = (nextState, replace) => {
-  if (!auth.loggedIn()) {
-    replace({ pathname: '/' });
-  }
-};
-
 class App extends React.Component {
 
   componentWillMount() {
     this.props.loadTranslations(locale);
+
+    const authService = AuthService.create(AUTH.CLIENT_ID, 'geekplanet.eu.auth0.com', locale, this.props.loggedIn);
+    this.requireAuth = (nextState, replace) => {
+      if (!authService.loggedIn()) {
+        replace({ pathname: '/' });
+      }
+    };
+
+    this.props.authServiceCreated(authService);
+    if (authService.loggedIn()) {
+      this.props.loggedIn();
+    }
   }
 
   render() {
@@ -45,9 +50,9 @@ class App extends React.Component {
       return (
         <IntlProvider locale={language} messages={translations}>
           <Router history={browserHistory}>
-            <Route path="/" component={props => (<Layout auth={auth}>{props.children}</Layout>)}>
+            <Route path="/" component={Layout}>
               <IndexRoute component={Home} />
-              <Route path="forms" component={FormsContainer} onEnter={requireAuth} />
+              <Route path="forms" component={FormsContainer} onEnter={this.requireAuth} />
             </Route>
           </Router>
         </IntlProvider>
@@ -62,6 +67,8 @@ class App extends React.Component {
 App.propTypes = {
   translations: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   loadTranslations: PropTypes.func,
+  authServiceCreated: PropTypes.func,
+  loggedIn: PropTypes.func,
 };
 
 export default connect(
@@ -72,6 +79,17 @@ export default connect(
         type: ActionTypes.TRANSLATIONS_LOADED,
         data: translations,
       }));
+    },
+    authServiceCreated(auth) {
+      dispatch({
+        type: ActionTypes.AUTH_SERVICE_CREATED,
+        data: auth,
+      });
+    },
+    loggedIn() {
+      dispatch({
+        type: ActionTypes.LOGGED_IN,
+      });
     },
   })
 )(App);

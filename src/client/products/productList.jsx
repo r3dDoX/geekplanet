@@ -4,6 +4,7 @@ import { Card, CardTitle, CardMedia, CardText, CardActions } from 'material-ui/C
 import RaisedButton from 'material-ui/RaisedButton';
 import SvgIcon from 'material-ui/SvgIcon';
 import Badge from 'material-ui/Badge';
+import { FormattedMessage } from 'react-intl';
 
 const styles = {
   container: {
@@ -85,8 +86,8 @@ const ProductList = ({ products }) => (
           {product.shortDescription}
         </CardText>
         <CardActions>
-          <RaisedButton label="Order" primary />
-          <RaisedButton label="Save" />
+          <RaisedButton label={<FormattedMessage id="COMMON.ORDER" />} primary />
+          <RaisedButton label={<FormattedMessage id="COMMON.SAVE" />} />
         </CardActions>
       </Card>
     ))}

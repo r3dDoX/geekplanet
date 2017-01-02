@@ -13,6 +13,7 @@ const styles = {
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+    alignItems: 'flex-start',
     padding: '20px 10px',
   },
   card: {

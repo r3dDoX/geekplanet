@@ -10,6 +10,17 @@ import SupplierService from '../suppliers/supplierService';
 import ProducerService from '../producers/producerService';
 
 const styles = {
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    padding: '20px 10px',
+  },
+  card: {
+    flex: '1 1 300px',
+    maxWidth: '600px',
+    margin: '0 10px 10px',
+  },
   fileUploadInput: {
     cursor: 'pointer',
     position: 'absolute',
@@ -59,8 +70,8 @@ class Forms extends React.Component {
     } = this.props;
 
     return (
-      <div className="content">
-        <Card className="form-card">
+      <div style={styles.container}>
+        <Card style={styles.card}>
           <CardHeader title="Products" />
           <CardText>
             <form name="products" onSubmit={event => submitForm(ProductService.saveProduct, event)}>
@@ -184,7 +195,7 @@ class Forms extends React.Component {
           </CardText>
         </Card>
 
-        <Card className="form-card">
+        <Card style={styles.card}>
           <CardHeader title="Product Categories" />
           <CardText>
             <form
@@ -201,7 +212,7 @@ class Forms extends React.Component {
           </CardText>
         </Card>
 
-        <Card className="form-card">
+        <Card style={styles.card}>
           <CardHeader title="Suppliers" />
           <CardText>
             <form
@@ -249,7 +260,7 @@ class Forms extends React.Component {
               <TextField
                 floatingLabelText="Customer Number"
                 name="customerNumber"
-                type="number"
+                type="text"
                 fullWidth
               />
               <TextField
@@ -264,7 +275,7 @@ class Forms extends React.Component {
           </CardText>
         </Card>
 
-        <Card className="form-card">
+        <Card style={styles.card}>
           <CardHeader title="Producers" />
           <CardText>
             <form

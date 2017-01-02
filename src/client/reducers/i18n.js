@@ -1,14 +1,14 @@
 import ActionTypes from '../actionTypes';
 
 const initialState = {
-  products: [],
+  translations: undefined,
 };
 
-export default function products(state = initialState, { type, data }) {
+export default function i18n(state = initialState, { type, data }) {
   switch (type) {
-    case ActionTypes.PRODUCTS_LOADED:
+    case ActionTypes.TRANSLATIONS_LOADED:
       return Object.assign({}, state, {
-        products: data,
+        translations: data,
       });
     default:
       return state;

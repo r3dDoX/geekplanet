@@ -1,0 +1,9 @@
+{
+  "HEADER": {
+    "GREETING": "Welcome to our shop, {name}!"
+  },
+  "COMMON": {
+    "SAVE": "Save",
+    "ORDER": "Order"
+  }
+}

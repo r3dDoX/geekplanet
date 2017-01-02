@@ -3,24 +3,26 @@ import { browserHistory } from 'react-router';
 
 export const Prototype = {
   login() {
-    // Call the show method to display the widget.
     this.lock.show();
   },
   loggedIn() {
-    // Checks if there is a saved token and it's still valid
     return !!this.getToken();
   },
   logout() {
-    // Clear user token and profile data from local storage
     localStorage.removeItem('id_token');
+    localStorage.removeItem('profile');
   },
   setToken(idToken) {
-    // Saves user token to local storage
     localStorage.setItem('id_token', idToken);
   },
   getToken() {
-    // Retrieves the user token from local storage
     return localStorage.getItem('id_token');
+  },
+  setProfile(profile) {
+    localStorage.setItem('profile', JSON.stringify(profile));
+  },
+  getProfile() {
+    return JSON.parse(localStorage.getItem('profile'));
   },
 };
 
@@ -40,6 +42,8 @@ export default {
     obj.lock.on('authenticated', (authResult) => {
       obj.setToken(authResult.idToken);
       onLoggedIn();
+
+      obj.lock.getUserInfo(authResult.accessToken, (error, profile) => obj.setProfile(profile));
 
       // navigate to the home route
       browserHistory.replace('/');

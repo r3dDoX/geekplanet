@@ -48,7 +48,7 @@ class HomeComponent extends React.Component {
             <span style={styles.companyFirst}>geek</span>
             <span style={styles.companySecond}>planet</span><br />
             <small style={styles.headerSubtitle}>
-              <FormattedMessage id="greeting" values={{ name: 'Patrick' }} />
+              <FormattedMessage id="HEADER.GREETING" values={{ name: 'Patrick' }} />
             </small>
           </h1>
         </div>

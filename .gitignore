@@ -8,5 +8,8 @@ node_modules
 dist/
 geekplanet.zip
 
+# certificates
+certificates/
+
 # misc
 npm-debug.log

@@ -4,11 +4,13 @@ import { Card, CardTitle, CardMedia, CardText, CardActions } from 'material-ui/C
 import RaisedButton from 'material-ui/RaisedButton';
 import SvgIcon from 'material-ui/SvgIcon';
 import Badge from 'material-ui/Badge';
+import { FormattedMessage } from 'react-intl';
 
 const styles = {
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+    alignItems: 'flex-start',
     padding: '20px 10px',
   },
   productTile: {
@@ -21,11 +23,14 @@ const styles = {
   },
   productTitle: {
     display: 'flex',
-    alignItems: 'baseline',
+    alignItems: 'flex-end',
     justifyContent: 'space-between',
   },
   stockIcon: {
     flex: 'none',
+  },
+  stockBadge: {
+    paddingBottom: 0,
   },
 };
 
@@ -60,6 +65,7 @@ const getStockIcon = stockCount => (
     badgeContent={stockCount}
     primary={stockCount > 0}
     secondary={stockCount <= 0}
+    style={styles.stockBadge}
   >
     {stockCount ? inStockIcon : outOfStockIcon}
   </Badge>
@@ -84,8 +90,8 @@ const ProductList = ({ products }) => (
           {product.shortDescription}
         </CardText>
         <CardActions>
-          <RaisedButton label="Order" primary />
-          <RaisedButton label="Save" />
+          <RaisedButton label={<FormattedMessage id="COMMON.ORDER" />} primary />
+          <RaisedButton label={<FormattedMessage id="COMMON.SAVE" />} />
         </CardActions>
       </Card>
     ))}

@@ -1,3 +1,9 @@
 {
-  "greeting": "Willkommen in unserem Shop, {name}!"
+  "HEADER": {
+    "GREETING": "Willkommen in unserem Shop, {name}!"
+  },
+  "COMMON": {
+    "SAVE": "Merken",
+    "ORDER": "Bestellen"
+  }
 }

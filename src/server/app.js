@@ -3,8 +3,10 @@
 const path = require('path');
 
 const express = require('express');
+const compression = require('compression');
 
 const app = express();
+app.use(compression());
 const api = require('./api');
 
 const server = app.listen(process.env.PORT || 3000, () => {

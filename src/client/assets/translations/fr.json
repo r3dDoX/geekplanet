@@ -1,3 +1,5 @@
 {
-  "greeting": "Bienvenue sur notre shop, {name}!"
+  "HEADER": {
+    "GREETING": "Bienvenue sur notre shop, {name}!"
+  }
 }

@@ -3,7 +3,9 @@
 const path = require('path'),
   webpack = require("webpack"),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
-  CopyWebpackPlugin = require('copy-webpack-plugin');
+  CopyWebpackPlugin = require('copy-webpack-plugin'),
+  localConfig = require('./src/client/config/local.config.json'),
+  prodConfig = require('./src/client/config/prod.config.json');
 
 const config = {
   devtool: 'source-map',
@@ -82,13 +84,18 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.optimize.UglifyJsPlugin({
       minimize: true,
       sourceMap: true,
-    })
+    }),
+    new webpack.DefinePlugin(prodConfig)
   )
 } else {
   config.entry.unshift(
     'webpack-dev-server/client?http://0.0.0.0:3001',
     'webpack/hot/only-dev-server'
   );
+  console.log(localConfig);
+  config.plugins.push(
+    new webpack.DefinePlugin(localConfig)
+  )
 }
 
 module.exports = config;

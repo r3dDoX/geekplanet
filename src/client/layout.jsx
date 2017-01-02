@@ -1,7 +1,13 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import MenuItem from 'material-ui/MenuItem';
 import Link from 'react-router/lib/Link';
+import ActionTypes from './actionTypes';
 
 const styles = {
   container: {
@@ -17,22 +23,55 @@ const styles = {
   },
 };
 
-const Layout = props => (
-  <div style={styles.container}>
-    <AppBar
-      title={<Link to="/" style={styles.title}>Geekplanet</Link>}
-      iconElementRight={
-        <FlatButton label="Forms" containerElement={<Link to="/forms">Forms</Link>} />
-      }
-      style={styles.appBar}
-      zDepth="0"
-    />
-    {props.children}
-  </div>
-);
+const Layout = ({ authService, loggedIn, logout, children }) => {
+  const executeLogout = () => {
+    authService.logout();
+    logout();
+  };
+
+  return (
+    <div style={styles.container}>
+      <AppBar
+        title={<Link to="/" style={styles.title}>Geekplanet</Link>}
+        showMenuIconButton={false}
+        iconElementRight={loggedIn ?
+          <IconMenu
+            iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+            anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+          >
+            <MenuItem primaryText="Forms" containerElement={<Link to="/forms">Forms</Link>} />
+            <MenuItem primaryText="Logout" onClick={executeLogout} />
+          </IconMenu>
+          :
+          <FlatButton label="Login" primary onClick={() => authService.login()} />
+        }
+        style={styles.appBar}
+        zDepth={0}
+      />
+      {children}
+    </div>
+  );
+};
 
 Layout.propTypes = {
+  logout: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  authService: PropTypes.shape({
+    login: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
+  }),
   children: PropTypes.element.isRequired,
 };
 
-export default Layout;
+export default connect(
+  state => state.auth,
+  dispatch => ({
+    logout() {
+      dispatch({
+        type: ActionTypes.LOGGED_OUT,
+      });
+    },
+  })
+)(Layout);
+

@@ -1,7 +1,7 @@
 import Auth0Lock from 'auth0-lock';
 import { browserHistory } from 'react-router';
 
-export const Prototype = {
+const Prototype = {
   login() {
     this.lock.show();
   },

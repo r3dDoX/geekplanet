@@ -25,7 +25,7 @@ export const Prototype = {
 };
 
 export default {
-  create(clientId, domain) {
+  create(clientId, domain, language, onLoggedIn) {
     const obj = Object.create(Prototype);
 
     obj.lock = new Auth0Lock(clientId, domain, {
@@ -33,11 +33,13 @@ export default {
         redirectUrl: AUTH.REDIRECT_URL,
         responseType: 'token',
       },
+      language,
     });
 
     // Add callback for lock `authenticated` event
     obj.lock.on('authenticated', (authResult) => {
       obj.setToken(authResult.idToken);
+      onLoggedIn();
 
       // navigate to the home route
       browserHistory.replace('/');

@@ -23,11 +23,14 @@ const styles = {
   },
   productTitle: {
     display: 'flex',
-    alignItems: 'baseline',
+    alignItems: 'flex-end',
     justifyContent: 'space-between',
   },
   stockIcon: {
     flex: 'none',
+  },
+  stockBadge: {
+    paddingBottom: 0,
   },
 };
 
@@ -62,6 +65,7 @@ const getStockIcon = stockCount => (
     badgeContent={stockCount}
     primary={stockCount > 0}
     secondary={stockCount <= 0}
+    style={styles.stockBadge}
   >
     {stockCount ? inStockIcon : outOfStockIcon}
   </Badge>

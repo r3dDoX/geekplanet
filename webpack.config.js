@@ -5,7 +5,8 @@ const path = require('path'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   CopyWebpackPlugin = require('copy-webpack-plugin'),
   localConfig = require('./src/client/config/local.config.json'),
-  prodConfig = require('./src/client/config/prod.config.json');
+  scCloudConfig = require('./src/client/config/sccloud.config.json'),
+  herokuConfig = require('./src/client/config/heroku.config.json');
 
 const config = {
   devtool: 'source-map',
@@ -80,12 +81,20 @@ const config = {
 };
 
 if (process.env.NODE_ENV === 'production') {
+  let definePlugin;
+
+  if (process.env.NODE && ~process.env.NODE.indexOf("heroku")) {
+    definePlugin = new webpack.DefinePlugin(herokuConfig)
+  } else {
+    definePlugin = new webpack.DefinePlugin(scCloudConfig);
+  }
+
   config.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
       minimize: true,
       sourceMap: true,
     }),
-    new webpack.DefinePlugin(prodConfig)
+    definePlugin
   )
 } else {
   config.entry.unshift(

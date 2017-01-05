@@ -1,11 +1,13 @@
 /* @flow */
 
+const jwt = require('express-jwt');
 const shortId = require('shortid');
 const multer = require('multer')();
 const streamifier = require('streamifier');
 const mongoSanitize = require('express-mongo-sanitize');
 const mongoose = require('mongoose');
-const cloudFoundryConfig = require('./cloudfoundry.config');
+const cloudFoundryConfig = require('./cloudfoundry.config.js');
+const secretConfig = require('../config/secret.config.json');
 
 const mongoURI = process.env.MONGODB_URI || cloudFoundryConfig.getMongoDbUri();
 mongoose.Promise = Promise;
@@ -74,21 +76,35 @@ const parseAddress = ({ streetName, houseNumber, zip, city }) => ({
   city,
 });
 
+const authorization = jwt({
+  secret: process.env.SECRET || secretConfig.SECRET,
+  audience: process.env.AUDIENCE || secretConfig.AUDIENCE,
+});
+
+const isAdmin = (req, res, next) => {
+  if (!req.user || req.user.app_metadata.roles.indexOf('admin') === -1) {
+    res.sendStatus(403);
+    return;
+  }
+  next();
+};
+
 module.exports = {
   registerEndpoints(app) {
     app.use(mongoSanitize());
 
     app.get('/api/products/pictures/:id', (req, res) => ProductPictures.readById(req.params.id).pipe(res));
 
-    app.get('/api/productcategories', (req, res) => ProductCategory.find({})
-      .then(categories => res.send(categories.map(category => category.name)))
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send('Fetching product categories failed!');
-      })
-    );
+    app.get('/api/productcategories', (req, res) => {
+      return ProductCategory.find({})
+        .then(categories => res.send(categories.map(category => category.name)))
+        .catch((err) => {
+          console.error(err);
+          res.status(500).send('Fetching product categories failed!');
+        })
+    });
 
-    app.post('/api/productcategories', multer.none(), (req, res) => {
+    app.post('/api/productcategories', multer.none(), authorization, isAdmin, (req, res) => {
       new ProductCategory(req.body).save()
         .then(() => res.sendStatus(200))
         .catch(error => res.send(error));
@@ -102,7 +118,7 @@ module.exports = {
       })
     );
 
-    app.post('/api/products', multer.any(), (req, res) => {
+    app.post('/api/products', multer.any(), authorization, isAdmin, (req, res) => {
       Promise.all(req.files.map(file =>
         new Promise((resolve, reject) =>
           ProductPictures.write(
@@ -133,7 +149,7 @@ module.exports = {
       })
     );
 
-    app.post('/api/suppliers', multer.none(), (req, res) => {
+    app.post('/api/suppliers', multer.none(), authorization, isAdmin, (req, res) => {
       const supplier = req.body;
       supplier.address = parseAddress(supplier);
 
@@ -150,7 +166,7 @@ module.exports = {
       })
     );
 
-    app.post('/api/producers', multer.none(), (req, res) => {
+    app.post('/api/producers', multer.none(), authorization, isAdmin, (req, res) => {
       const producer = req.body;
       producer.address = parseAddress(producer);
 

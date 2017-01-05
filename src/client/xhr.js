@@ -1,3 +1,10 @@
+const setAuthHeader = (req) => {
+  const jwtToken = localStorage.getItem('id_token');
+  if (jwtToken) {
+    req.setRequestHeader('Authorization', `Bearer ${jwtToken}`);
+  }
+};
+
 export default {
   get(path) {
     return new Promise((resolve, reject) => {
@@ -12,6 +19,7 @@ export default {
       });
 
       request.open('GET', path);
+      setAuthHeader(request);
       request.send();
     });
   },
@@ -33,6 +41,7 @@ export default {
       });
 
       request.open('POST', path);
+      setAuthHeader(request);
       request.send(data);
     });
   },

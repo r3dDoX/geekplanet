@@ -30,7 +30,7 @@ class App extends React.Component {
   componentWillMount() {
     this.props.loadTranslations(locale);
 
-    const authService = AuthService.create(AUTH.CLIENT_ID, 'geekplanet.eu.auth0.com', locale, this.props.loggedIn);
+    const authService = AuthService.create(locale, this.props.loggedIn);
     this.requireAuth = (nextState, replace) => {
       if (!authService.loggedIn()) {
         replace({ pathname: '/' });
@@ -86,10 +86,11 @@ export default connect(
         data: auth,
       });
     },
-    loggedIn() {
+    loggedIn(profile) {
       dispatch({
         type: ActionTypes.LOGGED_IN,
       });
+      console.log(profile);
     },
   })
 )(App);

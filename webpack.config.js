@@ -4,9 +4,9 @@ const path = require('path'),
   webpack = require("webpack"),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   CopyWebpackPlugin = require('copy-webpack-plugin'),
-  localConfig = require('./src/client/config/local.config.json'),
-  scCloudConfig = require('./src/client/config/sccloud.config.json'),
-  herokuConfig = require('./src/client/config/heroku.config.json');
+  localConfig = require('./src/config/local.config.json'),
+  scCloudConfig = require('./src/config/sccloud.config.json'),
+  herokuConfig = require('./src/config/heroku.config.json');
 
 const config = {
   devtool: 'source-map',

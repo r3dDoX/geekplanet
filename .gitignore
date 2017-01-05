@@ -8,8 +8,9 @@ node_modules
 dist/
 geekplanet.zip
 
-# certificates
+# secrets
 certificates/
+secret.config.json
 
 # misc
 npm-debug.log

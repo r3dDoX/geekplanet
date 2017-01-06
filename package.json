@@ -12,7 +12,7 @@
     "test": "eslint \"src/**/*.{js,jsx}\"",
     "build": "NODE_ENV='production' webpack --progress -p",
     "heroku-postbuild": "npm run build",
-    "start": "node src/server/app.js",
+    "start": "NODE_ENV='production' node src/server/app.js",
     "dev": "webpack-dev-server & nodemon src/server/app.js"
   },
   "author": "",

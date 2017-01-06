@@ -95,7 +95,9 @@ if (process.env.NODE_ENV === 'production') {
       sourceMap: true,
     }),
     definePlugin
-  )
+  );
+
+  config.devtool = 'cheap-module-source-map';
 } else {
   config.entry.unshift(
     'webpack-dev-server/client?http://0.0.0.0:3001',

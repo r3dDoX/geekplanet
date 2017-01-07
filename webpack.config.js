@@ -38,7 +38,7 @@ const config = {
         loader: 'babel-loader',
         options: {
           presets: [
-            'es2015',
+            ['es2015', { 'modules': false }],
             'react'
           ],
           plugins: [
@@ -105,8 +105,6 @@ if (process.env.NODE_ENV === 'production') {
   config.plugins.push(
     definePlugin
   );
-
-  config.devtool = 'cheap-module-source-map';
 } else {
   config.devtool = 'source-map';
   config.entry.main.push(

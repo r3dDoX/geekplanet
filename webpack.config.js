@@ -1,23 +1,33 @@
 /* eslint-disable */
 
 const path = require('path'),
-  webpack = require("webpack"),
+  webpack = require('webpack'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
-  CopyWebpackPlugin = require('copy-webpack-plugin'),
-  localConfig = require('./src/config/local.config.json'),
-  scCloudConfig = require('./src/config/sccloud.config.json'),
-  herokuConfig = require('./src/config/heroku.config.json');
+  CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const config = {
-  devtool: 'source-map',
-
-  entry: [
-    './src/client/index.jsx',
-  ],
+  entry: {
+    main: [
+      './src/client/index.jsx',
+    ],
+    vendor: [
+      'auth0-lock',
+      'jwt-decode',
+      'material-ui',
+      'react',
+      'react-dom',
+      'react-hot-loader',
+      'react-intl',
+      'react-redux',
+      'react-router',
+      'react-tap-event-plugin',
+      'redux',
+    ]
+  },
 
   output: {
     path: path.join(__dirname, 'dist/'),
-    filename: 'bundle.client.js',
+    filename: '[hash].[name].js',
   },
 
   module: {
@@ -35,12 +45,11 @@ const config = {
             'transform-flow-strip-types',
             'transform-runtime',
             'transform-react-jsx',
-            'react-hot-loader/babel',
             [
-              "react-intl",
+              'react-intl',
               {
-                "messagesDir": "./dist/messages",
-                "enforceDescriptions": false
+                'messagesDir': './dist/messages',
+                'enforceDescriptions': false
               }
             ]
           ],
@@ -59,7 +68,10 @@ const config = {
         to: 'assets/',
       }
     ]),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+    }),
   ],
 
   devServer: {
@@ -68,6 +80,7 @@ const config = {
     host: '0.0.0.0',
     port: 3001,
     contentBase: path.join(__dirname, 'dist'),
+    hot: true,
     proxy: {
       '/api/**': {
         target: {
@@ -83,29 +96,31 @@ const config = {
 if (process.env.NODE_ENV === 'production') {
   let definePlugin;
 
-  if (process.env.NODE && ~process.env.NODE.indexOf("heroku")) {
-    definePlugin = new webpack.DefinePlugin(herokuConfig)
+  if (process.env.NODE && ~process.env.NODE.indexOf('heroku')) {
+    definePlugin = new webpack.DefinePlugin(require('./src/config/heroku.config.json'));
   } else {
-    definePlugin = new webpack.DefinePlugin(scCloudConfig);
+    definePlugin = new webpack.DefinePlugin(require('./src/config/sccloud.config.json'));
   }
 
   config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      sourceMap: true,
-    }),
     definePlugin
   );
 
   config.devtool = 'cheap-module-source-map';
 } else {
-  config.entry.unshift(
-    'webpack-dev-server/client?http://0.0.0.0:3001',
+  config.devtool = 'source-map';
+  config.entry.main.push(
+    'react-hot-loader/patch',
     'webpack/hot/only-dev-server'
   );
-  console.log(localConfig);
+  config.entry.vendor.push(
+    'react-hot-loader/patch',
+    'webpack/hot/only-dev-server'
+  );
+  config.entry.devServerClient = 'webpack-dev-server/client?http://0.0.0.0:3001';
+  config.module.rules[0].options.plugins.push('react-hot-loader/babel');
   config.plugins.push(
-    new webpack.DefinePlugin(localConfig)
+    new webpack.DefinePlugin(require('./src/config/local.config.json')),
   )
 }
 

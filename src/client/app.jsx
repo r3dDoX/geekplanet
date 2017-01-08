@@ -39,7 +39,7 @@ class App extends React.Component {
 
     this.props.authServiceCreated(authService);
     if (authService.loggedIn()) {
-      this.props.loggedIn();
+      this.props.loggedIn(authService);
     }
   }
 
@@ -86,10 +86,11 @@ export default connect(
         data: auth,
       });
     },
-    loggedIn() {
-      dispatch({
+    loggedIn(authService) {
+      authService.getUserInfo().then(profile => dispatch({
         type: ActionTypes.LOGGED_IN,
-      });
+        data: profile,
+      }));
     },
   })
 )(App);

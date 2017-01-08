@@ -41,6 +41,23 @@ const Prototype = {
   getToken() {
     return localStorage.getItem('id_token');
   },
+  setAccessToken(accessToken) {
+    localStorage.setItem('access_token', accessToken);
+  },
+  getAccessToken() {
+    return localStorage.getItem('access_token');
+  },
+  getUserInfo() {
+    return new Promise((resolve, reject) =>
+      this.lock.getUserInfo(this.getAccessToken(), (error, profile) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(profile);
+        }
+      })
+    );
+  },
 };
 
 export default {
@@ -61,8 +78,8 @@ export default {
     // Add callback for lock `authenticated` event
     obj.lock.on('authenticated', (authResult) => {
       obj.setToken(authResult.idToken);
-
-      obj.lock.getUserInfo(authResult.accessToken, (error, profile) => onLoggedIn(profile));
+      obj.setAccessToken(authResult.accessToken);
+      onLoggedIn(obj);
 
       // navigate to the home route
       browserHistory.replace('/');

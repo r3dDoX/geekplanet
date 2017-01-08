@@ -32,7 +32,7 @@ const Layout = ({ authService, loggedIn, logout, children }) => {
   return (
     <div style={styles.container}>
       <AppBar
-        title={<Link to="/" style={styles.title}>Geekplanet</Link>}
+        title={<Link to="/" style={styles.title}>geekplanet</Link>}
         showMenuIconButton={false}
         iconElementRight={loggedIn ?
           <IconMenu

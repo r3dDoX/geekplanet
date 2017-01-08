@@ -53,6 +53,19 @@ const config = {
               }
             ]
           ],
+          env: {
+            local: {
+              plugins: [
+                'react-hot-loader/babel',
+              ],
+            },
+            production: {
+              plugins: [
+                'transform-react-inline-elements',
+                'transform-react-constant-elements',
+              ],
+            }
+          }
         },
       },
     ],
@@ -116,7 +129,6 @@ if (process.env.NODE_ENV === 'production') {
     'webpack/hot/only-dev-server'
   );
   config.entry.devServerClient = 'webpack-dev-server/client?http://0.0.0.0:3001';
-  config.module.rules[0].options.plugins.push('react-hot-loader/babel');
   config.plugins.push(
     new webpack.DefinePlugin(require('./src/config/local.config.json'))
   );

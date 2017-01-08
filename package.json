@@ -10,10 +10,10 @@
     "dist": "bestzip geekplanet.zip dist/ src/ package.json webpack.config.js",
     "flow:install": "flow-typed install",
     "test": "eslint \"src/**/*.{js,jsx}\"",
-    "build": "NODE_ENV='production' webpack --progress -p",
+    "build": "NODE_ENV='production' BABEL_ENV='production' webpack --progress --optimize-minimize -p",
     "heroku-postbuild": "npm run build",
     "start": "NODE_ENV='production' node src/server/app.js",
-    "dev": "webpack-dev-server & nodemon src/server/app.js"
+    "dev": "BABEL_ENV='local' webpack-dev-server & nodemon src/server/app.js"
   },
   "author": "",
   "license": "ISC",
@@ -34,6 +34,8 @@
     "babel-loader": "6.2.10",
     "babel-plugin-react-intl": "2.3.0",
     "babel-plugin-transform-flow-strip-types": "6.21.0",
+    "babel-plugin-transform-react-constant-elements": "6.9.1",
+    "babel-plugin-transform-react-inline-elements": "6.8.0",
     "babel-plugin-transform-react-jsx": "6.8.0",
     "babel-plugin-transform-runtime": "6.15.0",
     "babel-preset-es2015": "6.18.0",

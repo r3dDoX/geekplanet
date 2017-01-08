@@ -23,7 +23,7 @@ const styles = {
   },
 };
 
-const Layout = ({ authService, loggedIn, logout, children }) => {
+const Layout = ({ authService, loggedIn, roles, logout, children }) => {
   const executeLogout = () => {
     authService.logout();
     logout();
@@ -40,7 +40,11 @@ const Layout = ({ authService, loggedIn, logout, children }) => {
             anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
             targetOrigin={{ horizontal: 'right', vertical: 'top' }}
           >
-            <MenuItem primaryText="Forms" containerElement={<Link to="/forms">Forms</Link>} />
+            {
+              roles.includes('admin') ?
+                <MenuItem primaryText="Forms" containerElement={<Link to="/forms">Forms</Link>} />
+                : null
+            }
             <MenuItem primaryText="Logout" onClick={executeLogout} />
           </IconMenu>
           :
@@ -57,6 +61,7 @@ const Layout = ({ authService, loggedIn, logout, children }) => {
 Layout.propTypes = {
   logout: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
+  roles: PropTypes.arrayOf(PropTypes.string).isRequired,
   authService: PropTypes.shape({
     login: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,

@@ -95,14 +95,13 @@ module.exports = {
 
     app.get('/api/products/pictures/:id', (req, res) => ProductPictures.readById(req.params.id).pipe(res));
 
-    app.get('/api/productcategories', (req, res) => {
-      return ProductCategory.find({})
-        .then(categories => res.send(categories.map(category => category.name)))
-        .catch((err) => {
-          console.error(err);
-          res.status(500).send('Fetching product categories failed!');
-        })
-    });
+    app.get('/api/productcategories', (req, res) => ProductCategory.find({})
+      .then(categories => res.send(categories.map(category => category.name)))
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Fetching product categories failed!');
+      })
+    );
 
     app.post('/api/productcategories', multer.none(), authorization, isAdmin, (req, res) => {
       new ProductCategory(req.body).save()

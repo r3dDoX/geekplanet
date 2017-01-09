@@ -2,6 +2,7 @@ import ActionTypes from '../actionTypes';
 
 const initialState = {
   loggedIn: false,
+  email: undefined,
   roles: [],
   authService: undefined,
 };
@@ -21,6 +22,8 @@ export default function auth(state = initialState, { type, data }) {
     case ActionTypes.LOGGED_OUT:
       return Object.assign({}, state, {
         loggedIn: false,
+        email: initialState.email,
+        roles: initialState.roles,
       });
     default:
       return state;

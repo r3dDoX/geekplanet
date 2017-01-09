@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import Forms from './forms.jsx';
-import ActionTypes from '../actionTypes';
-import ProductService from '../products/productService';
-import ProducerService from '../producers/producerService';
-import SupplierService from '../suppliers/supplierService';
+import ActionTypes from '../../actionTypes';
+import ProductService from '../../products/productService';
+import ProducerService from '../../producers/producerService';
+import SupplierService from '../../suppliers/supplierService';
 
 const FormsContainer = connect(
   state => state.forms,

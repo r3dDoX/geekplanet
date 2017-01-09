@@ -11,7 +11,7 @@ import fr from 'react-intl/locale-data/fr';
 import it from 'react-intl/locale-data/it';
 import Home from './home/home.jsx';
 import Layout from './layout.jsx';
-import FormsContainer from './forms/formsContainer';
+import FormsContainer from './admin/forms/formsContainer';
 import translationService from './i18n/translationService';
 import ActionTypes from './actionTypes';
 import AuthService from './auth/authService';
@@ -39,7 +39,7 @@ class App extends React.Component {
 
     this.props.authServiceCreated(authService);
     if (authService.loggedIn()) {
-      this.props.loggedIn();
+      this.props.loggedIn(authService);
     }
   }
 
@@ -86,11 +86,11 @@ export default connect(
         data: auth,
       });
     },
-    loggedIn(profile) {
-      dispatch({
+    loggedIn(authService) {
+      authService.getUserInfo().then(profile => dispatch({
         type: ActionTypes.LOGGED_IN,
-      });
-      console.log(profile);
+        data: profile,
+      }));
     },
   })
 )(App);

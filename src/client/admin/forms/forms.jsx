@@ -5,9 +5,9 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import UploadImagePreview from './uploadImagePreview.jsx';
-import ProductService from '../products/productService';
-import SupplierService from '../suppliers/supplierService';
-import ProducerService from '../producers/producerService';
+import ProductService from '../../products/productService';
+import SupplierService from '../../suppliers/supplierService';
+import ProducerService from '../../producers/producerService';
 
 const styles = {
   container: {

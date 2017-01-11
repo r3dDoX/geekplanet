@@ -8,6 +8,7 @@ const initialState = {
   selectedProducer: undefined,
   suppliers: [],
   selectedSupplier: undefined,
+  selectedTab: '0',
 };
 
 export default function forms(state = initialState, { type, data }) {
@@ -39,6 +40,10 @@ export default function forms(state = initialState, { type, data }) {
     case ActionTypes.SUPPLIER_SELECTED:
       return Object.assign({}, state, {
         selectedSupplier: data,
+      });
+    case ActionTypes.SELECT_FORMS_TABS:
+      return Object.assign({}, state, {
+        selectedTab: data,
       });
     default:
       return state;

@@ -1,25 +1,20 @@
 import React, { PropTypes } from 'react';
-import { Card, CardHeader, CardText } from 'material-ui/Card';
+import { connect } from 'react-redux';
+import { Tabs, Tab } from 'material-ui/Tabs';
+import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
-import UploadImagePreview from './uploadImagePreview.jsx';
+import ActionTypes from '../../actionTypes';
 import ProductService from '../../products/productService';
-import SupplierService from '../../suppliers/supplierService';
 import ProducerService from '../../producers/producerService';
+import SupplierService from '../../suppliers/supplierService';
+import UploadImagePreview from './uploadImagePreview.jsx';
 
 const styles = {
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    padding: '20px 10px',
-  },
-  card: {
-    flex: '1 1 300px',
-    maxWidth: '600px',
-    margin: '0 10px 10px',
+  tab: {
+    padding: '20px',
   },
   fileUploadInput: {
     cursor: 'pointer',
@@ -43,9 +38,9 @@ const submitForm = (submitFunction, event) => {
     .then(() => form.reset());
 };
 
-class Forms extends React.Component {
+class FormsComponent extends React.Component {
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.loadProductCategories();
     this.props.loadProducers();
     this.props.loadSuppliers();
@@ -61,6 +56,8 @@ class Forms extends React.Component {
       selectedSupplier,
       suppliers,
       onSelectFile,
+      selectedTab,
+      switchTab,
       loadProductCategories,
       loadProducers,
       loadSuppliers,
@@ -70,10 +67,12 @@ class Forms extends React.Component {
     } = this.props;
 
     return (
-      <div style={styles.container}>
-        <Card style={styles.card}>
-          <CardHeader title="Products" />
-          <CardText>
+      <Tabs
+        onChange={switchTab}
+        value={selectedTab}
+      >
+        <Tab label="Products" value="0">
+          <Paper style={styles.tab}>
             <form name="products" onSubmit={event => submitForm(ProductService.saveProduct, event)}>
               <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
 
@@ -106,11 +105,18 @@ class Forms extends React.Component {
                 fullWidth
               />
 
-              <TextField floatingLabelText="Price" name="price" type="number" fullWidth />
+              <TextField
+                floatingLabelText="Price"
+                name="price"
+                type="number"
+                step="any"
+                fullWidth
+              />
               <TextField
                 floatingLabelText="Purchase Price"
                 name="purchasePrice"
                 type="number"
+                step="any"
                 fullWidth
               />
               <TextField
@@ -192,12 +198,10 @@ class Forms extends React.Component {
               <UploadImagePreview files={selectedFiles} />
               <RaisedButton label="Save" type="submit" primary />
             </form>
-          </CardText>
-        </Card>
-
-        <Card style={styles.card}>
-          <CardHeader title="Product Categories" />
-          <CardText>
+          </Paper>
+        </Tab>
+        <Tab label="Product Categories" value="1">
+          <Paper style={styles.tab}>
             <form
               name="productcategories"
               onSubmit={
@@ -209,12 +213,10 @@ class Forms extends React.Component {
 
               <RaisedButton label="Save" primary type="submit" />
             </form>
-          </CardText>
-        </Card>
-
-        <Card style={styles.card}>
-          <CardHeader title="Suppliers" />
-          <CardText>
+          </Paper>
+        </Tab>
+        <Tab label="Suppliers" value="2">
+          <Paper style={styles.tab}>
             <form
               name="suppliers"
               onSubmit={
@@ -272,12 +274,10 @@ class Forms extends React.Component {
               />
               <RaisedButton label="Save" primary type="submit" />
             </form>
-          </CardText>
-        </Card>
-
-        <Card style={styles.card}>
-          <CardHeader title="Producers" />
-          <CardText>
+          </Paper>
+        </Tab>
+        <Tab label="Producers" value="3">
+          <Paper style={styles.tab}>
             <form
               name="producers"
               onSubmit={
@@ -330,14 +330,14 @@ class Forms extends React.Component {
 
               <RaisedButton label="Save" primary type="submit" />
             </form>
-          </CardText>
-        </Card>
-      </div>
+          </Paper>
+        </Tab>
+      </Tabs>
     );
   }
 }
 
-Forms.propTypes = {
+FormsComponent.propTypes = {
   selectedFiles: PropTypes.instanceOf(FileList),
   selectedProductCategory: PropTypes.string,
   productCategories: PropTypes.arrayOf(PropTypes.string),
@@ -351,6 +351,8 @@ Forms.propTypes = {
     _id: PropTypes.string,
     name: PropTypes.string,
   })),
+  selectedTab: PropTypes.string,
+  switchTab: PropTypes.func,
   onSelectFile: PropTypes.func,
   loadProductCategories: PropTypes.func,
   loadProducers: PropTypes.func,
@@ -360,5 +362,58 @@ Forms.propTypes = {
   selectSupplier: PropTypes.func,
 };
 
+const Forms = connect(
+  state => state.forms,
+  dispatch => ({
+    switchTab(tabIndex) {
+      dispatch({
+        type: ActionTypes.SELECT_FORMS_TABS,
+        data: tabIndex,
+      });
+    },
+    onSelectFile(selectedFiles) {
+      dispatch({
+        type: ActionTypes.SELECT_UPLOAD_FILES,
+        data: selectedFiles,
+      });
+    },
+    loadProductCategories() {
+      ProductService.loadProductCategories().then(categories => dispatch({
+        type: ActionTypes.PRODUCT_CATEGORIES_LOADED,
+        data: categories,
+      }));
+    },
+    loadProducers() {
+      ProducerService.loadProducers().then(categories => dispatch({
+        type: ActionTypes.PRODUCERS_LOADED,
+        data: categories,
+      }));
+    },
+    loadSuppliers() {
+      SupplierService.loadSuppliers().then(categories => dispatch({
+        type: ActionTypes.SUPPLIERS_LOADED,
+        data: categories,
+      }));
+    },
+    selectProductCategory(category) {
+      dispatch({
+        type: ActionTypes.PRODUCT_CATEGORY_SELECTED,
+        data: category,
+      });
+    },
+    selectProducer(producerId) {
+      dispatch({
+        type: ActionTypes.PRODUCER_SELECTED,
+        data: producerId,
+      });
+    },
+    selectSupplier(supplierId) {
+      dispatch({
+        type: ActionTypes.SUPPLIER_SELECTED,
+        data: supplierId,
+      });
+    },
+  }),
+)(FormsComponent);
 
 export default Forms;

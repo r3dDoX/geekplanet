@@ -130,7 +130,8 @@ if (process.env.NODE_ENV === 'production') {
   );
   config.entry.devServerClient = 'webpack-dev-server/client?http://0.0.0.0:3001';
   config.plugins.push(
-    new webpack.DefinePlugin(require('./src/config/local.config.json'))
+    new webpack.DefinePlugin(require('./src/config/local.config.json')),
+    new webpack.HotModuleReplacementPlugin()
   );
 }
 

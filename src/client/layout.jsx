@@ -1,11 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
-import FlatButton from 'material-ui/FlatButton';
-import IconMenu from 'material-ui/IconMenu';
-import IconButton from 'material-ui/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import MenuItem from 'material-ui/MenuItem';
+import Drawer from 'material-ui/Drawer';
+import ActionShoppingCart from 'material-ui/svg-icons/action/shopping-cart';
+import FlatButton from 'material-ui/FlatButton';
 import Link from 'react-router/lib/Link';
 import ActionTypes from './actionTypes';
 
@@ -23,7 +22,7 @@ const styles = {
   },
 };
 
-const Layout = ({ authService, loggedIn, roles, logout, children }) => {
+const Layout = ({ authService, loggedIn, drawerOpened, roles, logout, toggleDrawer, children }) => {
   const executeLogout = () => {
     authService.logout();
     logout();
@@ -33,26 +32,37 @@ const Layout = ({ authService, loggedIn, roles, logout, children }) => {
     <div style={styles.container}>
       <AppBar
         title={<Link to="/" style={styles.title}>geekplanet</Link>}
-        showMenuIconButton={false}
-        iconElementRight={loggedIn ?
-          <IconMenu
-            iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-            anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-          >
-            {
-              roles.includes('admin') ?
-                <MenuItem primaryText="Forms" containerElement={<Link to="/forms">Forms</Link>} />
-                : null
-            }
-            <MenuItem primaryText="Logout" onClick={executeLogout} />
-          </IconMenu>
-          :
-          <FlatButton label="Login" primary onClick={() => authService.login()} />
-        }
+        onLeftIconButtonTouchTap={toggleDrawer}
+        iconElementRight={<FlatButton icon={<ActionShoppingCart />} />}
         style={styles.appBar}
         zDepth={0}
       />
+      <Drawer
+        docked={false}
+        open={drawerOpened}
+        onRequestChange={toggleDrawer}
+      >
+        <AppBar title="geekplanet" onLeftIconButtonTouchTap={toggleDrawer} />
+        {
+          roles.includes('admin') ?
+            <MenuItem
+              primaryText="Forms"
+              containerElement={<Link to="/forms">Forms</Link>}
+              onTouchTap={toggleDrawer}
+            />
+            : null
+        }
+        {
+          loggedIn ?
+            <MenuItem
+              primaryText="Logout"
+              onClick={executeLogout}
+              onTouchTap={toggleDrawer}
+            />
+            :
+            <MenuItem primaryText="Login" onClick={() => authService.login()} />
+        }
+      </Drawer>
       {children}
     </div>
   );
@@ -60,6 +70,8 @@ const Layout = ({ authService, loggedIn, roles, logout, children }) => {
 
 Layout.propTypes = {
   logout: PropTypes.func.isRequired,
+  toggleDrawer: PropTypes.func.isRequired,
+  drawerOpened: PropTypes.bool.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   roles: PropTypes.arrayOf(PropTypes.string).isRequired,
   authService: PropTypes.shape({
@@ -70,11 +82,16 @@ Layout.propTypes = {
 };
 
 export default connect(
-  state => state.auth,
+  state => Object.assign({}, state.auth, state.layout),
   dispatch => ({
     logout() {
       dispatch({
         type: ActionTypes.LOGGED_OUT,
+      });
+    },
+    toggleDrawer() {
+      dispatch({
+        type: ActionTypes.TOGGLE_DRAWER,
       });
     },
   })

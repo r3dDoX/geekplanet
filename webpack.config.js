@@ -13,7 +13,6 @@ const config = {
     vendor: [
       'auth0-lock',
       'jwt-decode',
-      'material-ui',
       'react',
       'react-dom',
       'react-hot-loader',

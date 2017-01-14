@@ -1,9 +1,9 @@
 /* eslint-disable */
 
-const path = require('path'),
-  webpack = require('webpack'),
-  HtmlWebpackPlugin = require('html-webpack-plugin'),
-  CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const config = {
   entry: {
@@ -37,7 +37,12 @@ const config = {
         loader: 'babel-loader',
         options: {
           presets: [
-            ['es2015', { 'modules': false }],
+            [
+              'es2015',
+              {
+                'modules': false
+              }
+            ],
             'react'
           ],
           plugins: [

@@ -5,7 +5,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionTypes from '../../actionTypes';
 import extractAndSubmitForm from './extractAndSubmitForm';
-import SupplierService from '../../suppliers/supplierService';
+import SupplierService from '../suppliers/supplierService';
 
 const styles = {
   container: {

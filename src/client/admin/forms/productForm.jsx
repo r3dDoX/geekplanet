@@ -9,8 +9,8 @@ import ActionTypes from '../../actionTypes';
 import ProductService from '../../products/productService';
 import UploadImagePreview from './uploadImagePreview.jsx';
 import extractAndSubmitForm from './extractAndSubmitForm';
-import ProducerService from '../../producers/producerService';
-import SupplierService from '../../suppliers/supplierService';
+import ProducerService from '../producers/producerService';
+import SupplierService from '../suppliers/supplierService';
 
 const styles = {
   container: {

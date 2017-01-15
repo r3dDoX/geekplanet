@@ -10,7 +10,7 @@ import de from 'react-intl/locale-data/de';
 import fr from 'react-intl/locale-data/fr';
 import it from 'react-intl/locale-data/it';
 import Home from './home/home.jsx';
-import Layout from './layout.jsx';
+import Layout from './layout/layout.jsx';
 import Forms from './admin/forms/forms.jsx';
 import translationService from './i18n/translationService';
 import ActionTypes from './actionTypes';

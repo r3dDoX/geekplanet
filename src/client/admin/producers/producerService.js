@@ -1,4 +1,4 @@
-import Xhr from '../xhr';
+import Xhr from '../../xhr';
 
 export default {
   loadProducers() {

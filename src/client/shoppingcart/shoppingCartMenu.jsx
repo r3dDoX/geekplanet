@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import ListItem from 'material-ui/List/ListItem';
@@ -9,8 +9,9 @@ import ActionShoppingCart from 'material-ui/svg-icons/action/shopping-cart';
 import { FormattedMessage } from 'react-intl';
 import Link from 'react-router/lib/Link';
 import { pinkA400, white, transparent } from 'material-ui/styles/colors';
+import formatPrice from '../products/priceFormatter';
 
-export default () => (
+const ShoppingCartMenu = ({ shoppingCartItems }) => (
   <IconMenu
     anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
     targetOrigin={{ horizontal: 'right', vertical: 'top' }}
@@ -36,37 +37,51 @@ export default () => (
     <Subheader inset>
       <FormattedMessage id="SHOPPING_CART.PRODUCTS" />
     </Subheader>
-    <ListItem
-      primaryText="Test Product 1"
-      secondaryText="49.-"
-      leftAvatar={<Avatar src="/assets/images/logoGoogle.png" />}
-      rightAvatar={
-        <Avatar
-          color={pinkA400} backgroundColor={transparent}
-        >
-          3
-        </Avatar>
-      }
-    />
-    <ListItem
-      primaryText="Test Product 2"
-      secondaryText="46.-"
-      leftAvatar={<Avatar src="/assets/images/logoGoogle.png" />}
-      rightAvatar={
-        <Avatar
-          color={pinkA400} backgroundColor={transparent}
-        >
-          1
-        </Avatar>
-      }
-    />
+    {shoppingCartItems.map(({ amount, product }) => (
+      <ListItem
+        key={product._id}
+        primaryText={product.name}
+        secondaryText={formatPrice(product.price)}
+        leftAvatar={<Avatar src={`/api/products/pictures/${product.files[0]}`} />}
+        rightAvatar={
+          <Avatar
+            color={pinkA400}
+            backgroundColor={transparent}
+          >
+            {amount}
+          </Avatar>
+        }
+      />
+    ))}
     <Divider />
     <Subheader inset>
       <FormattedMessage id="SHOPPING_CART.TOTAL" />
     </Subheader>
     <ListItem
       disabled
-      insetChildren primaryText="CHF 169.-"
+      insetChildren
+      primaryText={
+        formatPrice(
+          shoppingCartItems.reduce(
+            (sum, { amount, product }) => sum + (product.price * amount),
+            0
+          )
+        )
+      }
     />
   </IconMenu>
 );
+
+ShoppingCartMenu.propTypes = {
+  shoppingCartItems: PropTypes.arrayOf(PropTypes.shape({
+    amount: PropTypes.number,
+    product: PropTypes.shape({
+      _id: PropTypes.string,
+      name: PropTypes.string,
+      price: PropTypes.number,
+      files: PropTypes.arrayOf(PropTypes.string),
+    }),
+  })).isRequired,
+};
+
+export default ShoppingCartMenu;

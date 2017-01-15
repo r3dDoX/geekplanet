@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import MenuItem from 'material-ui/MenuItem';
 import Drawer from 'material-ui/Drawer';
-import ActionShoppingCart from 'material-ui/svg-icons/action/shopping-cart';
-import FlatButton from 'material-ui/FlatButton';
 import Link from 'react-router/lib/Link';
 import ActionTypes from './actionTypes';
+import ShoppingCartMenu from './shoppingcart/shoppingCartMenu.jsx';
 
 const styles = {
   container: {
@@ -33,7 +32,9 @@ const Layout = ({ authService, loggedIn, drawerOpened, roles, logout, toggleDraw
       <AppBar
         title={<Link to="/" style={styles.title}>geekplanet</Link>}
         onLeftIconButtonTouchTap={toggleDrawer}
-        iconElementRight={<FlatButton icon={<ActionShoppingCart />} />}
+        iconElementRight={
+          <ShoppingCartMenu />
+        }
         style={styles.appBar}
         zDepth={0}
       />

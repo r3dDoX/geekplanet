@@ -3,7 +3,12 @@
     "GREETING": "Willkommen in unserem Shop, {name}!"
   },
   "COMMON": {
-    "SAVE": "Merken",
     "ORDER": "Bestellen"
+  },
+  "SHOPPING_CART": {
+    "TITLE": "Warenkorb",
+    "SHOPPING_CART_LINK": "Zum Warenkorb",
+    "PRODUCTS": "Produkte",
+    "TOTAL": "Total"
   }
 }

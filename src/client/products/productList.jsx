@@ -91,7 +91,6 @@ const ProductList = ({ products }) => (
         </CardText>
         <CardActions>
           <RaisedButton label={<FormattedMessage id="COMMON.ORDER" />} primary />
-          <RaisedButton label={<FormattedMessage id="COMMON.SAVE" />} />
         </CardActions>
       </Card>
     ))}

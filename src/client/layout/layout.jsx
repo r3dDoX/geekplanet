@@ -20,13 +20,22 @@ const styles = {
   },
 };
 
-const Layout = ({ authService, loggedIn, drawerOpened, roles, logout, toggleDrawer, children }) => (
+const Layout = ({
+  authService,
+  loggedIn,
+  drawerOpened,
+  roles,
+  logout,
+  toggleDrawer,
+  shoppingCart,
+  children
+}) => (
   <div style={styles.container}>
     <AppBar
       title={<Link to="/" style={styles.title}>geekplanet</Link>}
       onLeftIconButtonTouchTap={toggleDrawer}
       iconElementRight={
-        <ShoppingCartMenu />
+        <ShoppingCartMenu shoppingCartItems={shoppingCart} />
       }
       style={styles.appBar}
       zDepth={0}
@@ -56,11 +65,22 @@ Layout.propTypes = {
     login: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
   }),
+  shoppingCart: PropTypes.arrayOf(PropTypes.shape({
+    amount: PropTypes.number,
+    product: PropTypes.shape({
+      _id: PropTypes.string,
+      name: PropTypes.string,
+      description: PropTypes.string,
+      files: PropTypes.arrayOf(PropTypes.string),
+    }),
+  })),
   children: PropTypes.element.isRequired,
 };
 
 export default connect(
-  state => Object.assign({}, state.auth, state.layout),
+  state => Object.assign({
+    shoppingCart: state.shoppingCart,
+  }, state.auth, state.layout),
   dispatch => ({
     logout() {
       dispatch({

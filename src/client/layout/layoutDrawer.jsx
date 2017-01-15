@@ -5,6 +5,7 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import Link from 'react-router/lib/Link';
+import { FormattedMessage } from 'react-intl';
 
 const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDrawer }) => (
   <Drawer
@@ -21,7 +22,11 @@ const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDraw
       roles.includes('admin') ?
         <MenuItem
           primaryText="Forms"
-          containerElement={<Link to="/forms">Forms</Link>}
+          containerElement={
+            <Link to="/forms">
+              <FormattedMessage id="NAVIGATION.FORMS" />
+            </Link>
+          }
           onTouchTap={toggleDrawer}
         />
         : null
@@ -29,12 +34,12 @@ const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDraw
     {
       loggedIn ?
         <MenuItem
-          primaryText="Logout"
+          primaryText={<FormattedMessage id="NAVIGATION.LOGOUT" />}
           onClick={logout}
           onTouchTap={toggleDrawer}
         />
         :
-        <MenuItem primaryText="Login" onClick={login} />
+        <MenuItem primaryText={<FormattedMessage id="NAVIGATION.LOGIN" />} onClick={login} />
     }
   </Drawer>
 );

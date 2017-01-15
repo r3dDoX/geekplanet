@@ -5,6 +5,11 @@
   "COMMON": {
     "ORDER": "Bestellen"
   },
+  "NAVIGATION": {
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "FORMS": "Formulare"
+  },
   "SHOPPING_CART": {
     "TITLE": "Warenkorb",
     "SHOPPING_CART_LINK": "Zum Warenkorb",

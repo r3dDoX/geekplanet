@@ -5,6 +5,11 @@
   "COMMON": {
     "ORDER": "Order"
   },
+  "NAVIGATION": {
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "FORMS": "Forms"
+  },
   "SHOPPING_CART": {
     "TITLE": "Shopping Cart",
     "SHOPPING_CART_LINK": "Go to shopping cart",

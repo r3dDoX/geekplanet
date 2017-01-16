@@ -1,5 +1,7 @@
+import * as storage from './storage';
+
 const setAuthHeader = (req) => {
-  const jwtToken = localStorage.getItem('id_token');
+  const jwtToken = storage.load(storage.ids.ID_TOKEN);
   if (jwtToken) {
     req.setRequestHeader('Authorization', `Bearer ${jwtToken}`);
   }

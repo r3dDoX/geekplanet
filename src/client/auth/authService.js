@@ -1,6 +1,7 @@
 import Auth0Lock from 'auth0-lock';
 import { browserHistory } from 'react-router';
 import jwtDecode from 'jwt-decode';
+import * as storage from '../storage';
 
 const clientId = AUTH.CLIENT_ID;
 const domain = 'geekplanet.eu.auth0.com';
@@ -33,19 +34,19 @@ const Prototype = {
     return false;
   },
   logout() {
-    localStorage.removeItem('id_token');
+    storage.remove(storage.ids.ID_TOKEN);
   },
   setToken(idToken) {
-    localStorage.setItem('id_token', idToken);
+    storage.store(storage.ids.ID_TOKEN, idToken);
   },
   getToken() {
-    return localStorage.getItem('id_token');
+    return storage.load(storage.ids.ID_TOKEN);
   },
   setAccessToken(accessToken) {
-    localStorage.setItem('access_token', accessToken);
+    storage.store(storage.ids.ACCESS_TOKEN, accessToken);
   },
   getAccessToken() {
-    return localStorage.getItem('access_token');
+    return storage.load(storage.ids.ACCESS_TOKEN);
   },
   getUserInfo() {
     return new Promise((resolve, reject) =>

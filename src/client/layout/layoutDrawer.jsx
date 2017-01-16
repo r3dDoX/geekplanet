@@ -27,7 +27,7 @@ const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDraw
               <FormattedMessage id="NAVIGATION.FORMS" />
             </Link>
           }
-          onTouchTap={toggleDrawer}
+          onClick={toggleDrawer}
         />
         : null
     }
@@ -35,8 +35,10 @@ const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDraw
       loggedIn ?
         <MenuItem
           primaryText={<FormattedMessage id="NAVIGATION.LOGOUT" />}
-          onClick={logout}
-          onTouchTap={toggleDrawer}
+          onClick={() => {
+            toggleDrawer();
+            logout();
+          }}
         />
         :
         <MenuItem primaryText={<FormattedMessage id="NAVIGATION.LOGIN" />} onClick={login} />

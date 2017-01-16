@@ -29,6 +29,7 @@ class App extends React.Component {
 
   componentWillMount() {
     this.props.loadTranslations(locale);
+    this.props.loadShoppingCart();
 
     const authService = AuthService.create(locale, this.props.loggedIn);
     this.requireAuth = (nextState, replace) => {
@@ -67,6 +68,7 @@ class App extends React.Component {
 App.propTypes = {
   translations: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   loadTranslations: PropTypes.func,
+  loadShoppingCart: PropTypes.func,
   authServiceCreated: PropTypes.func,
   loggedIn: PropTypes.func,
 };
@@ -79,6 +81,11 @@ export default connect(
         type: ActionTypes.TRANSLATIONS_LOADED,
         data: translations,
       }));
+    },
+    loadShoppingCart() {
+      dispatch({
+        type: ActionTypes.LOAD_SHOPPING_CART,
+      });
     },
     authServiceCreated(auth) {
       dispatch({

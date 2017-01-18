@@ -7,13 +7,13 @@
   },
   "scripts": {
     "predist": "npm run build",
-    "dist": "bestzip geekplanet.zip dist/ src/ package.json webpack.config.js",
+    "dist": "bestzip geekplanet.zip dist/ src/ package.json webpack.prod.config.js",
     "flow:install": "flow-typed install",
     "test": "eslint \"src/**/*.{js,jsx}\"",
-    "build": "NODE_ENV='production' BABEL_ENV='production' webpack --progress --optimize-minimize -p",
+    "build": "NODE_ENV='production' webpack --config webpack.prod.config.js --progress --optimize-minimize -p",
     "heroku-postbuild": "npm run build",
     "start": "NODE_ENV='production' node src/server/app.js",
-    "dev": "BABEL_ENV='local' webpack-dev-server & nodemon src/server/app.js"
+    "dev": "webpack-dev-server --config webpack.dev.config.js & nodemon src/server/app.js"
   },
   "author": "",
   "license": "ISC",

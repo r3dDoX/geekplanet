@@ -6,22 +6,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const config = {
+  devtool: 'source-map',
+
   entry: {
     main: [
       './src/client/index.jsx',
+      'react-hot-loader/patch',
+      'webpack/hot/only-dev-server',
     ],
-    vendor: [
-      'auth0-lock',
-      'jwt-decode',
-      'react',
-      'react-dom',
-      'react-hot-loader',
-      'react-intl',
-      'react-redux',
-      'react-router',
-      'react-tap-event-plugin',
-      'redux',
-    ]
+    devServerClient: 'webpack-dev-server/client?http://0.0.0.0:3001',
   },
 
   output: {
@@ -49,6 +42,7 @@ const config = {
             'transform-flow-strip-types',
             'transform-runtime',
             'transform-react-jsx',
+            'react-hot-loader/babel',
             [
               'react-intl',
               {
@@ -57,19 +51,6 @@ const config = {
               }
             ]
           ],
-          env: {
-            local: {
-              plugins: [
-                'react-hot-loader/babel',
-              ],
-            },
-            production: {
-              plugins: [
-                'transform-react-inline-elements',
-                'transform-react-constant-elements',
-              ],
-            }
-          }
         },
       },
     ],
@@ -86,9 +67,7 @@ const config = {
       }
     ]),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-    }),
+    new webpack.DefinePlugin(require('./src/config/local.config.json')),
   ],
 
   devServer: {
@@ -109,34 +88,5 @@ const config = {
     },
   },
 };
-
-if (process.env.NODE_ENV === 'production') {
-  let definePlugin;
-
-  if (process.env.NODE && ~process.env.NODE.indexOf('heroku')) {
-    definePlugin = new webpack.DefinePlugin(require('./src/config/heroku.config.json'));
-  } else {
-    definePlugin = new webpack.DefinePlugin(require('./src/config/sccloud.config.json'));
-  }
-
-  config.plugins.push(
-    definePlugin
-  );
-} else {
-  config.devtool = 'source-map';
-  config.entry.main.push(
-    'react-hot-loader/patch',
-    'webpack/hot/only-dev-server'
-  );
-  config.entry.vendor.push(
-    'react-hot-loader/patch',
-    'webpack/hot/only-dev-server'
-  );
-  config.entry.devServerClient = 'webpack-dev-server/client?http://0.0.0.0:3001';
-  config.plugins.push(
-    new webpack.DefinePlugin(require('./src/config/local.config.json')),
-    new webpack.HotModuleReplacementPlugin()
-  );
-}
 
 module.exports = config;

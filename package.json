@@ -15,7 +15,7 @@
     "start": "NODE_ENV='production' node src/server/app.js",
     "dev": "webpack-dev-server --config webpack.dev.config.js & nodemon src/server/app.js"
   },
-  "author": "",
+  "author": "Patrick Walther",
   "license": "ISC",
   "dependencies": {
     "compression": "1.6.2",

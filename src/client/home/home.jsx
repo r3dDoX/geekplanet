@@ -28,6 +28,7 @@ const styles = {
   headerSubtitle: {
     color: grey50,
     fontSize: '18px',
+    fontWeight: 300,
   },
 };
 
@@ -37,9 +38,9 @@ export default () => (
       <h1 style={styles.company}>
         <span style={styles.companyFirst}>geek</span>
         <span style={styles.companySecond}>planet</span><br />
-        <small style={styles.headerSubtitle}>
+        <h2 style={styles.headerSubtitle}>
           <FormattedMessage id="HEADER.GREETING" values={{ name: 'Patrick' }} />
-        </small>
+        </h2>
       </h1>
     </div>
     <ProductList />

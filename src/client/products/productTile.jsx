@@ -17,7 +17,7 @@ const styles = {
   },
   productTitle: {
     display: 'flex',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
   stockIcon: {
@@ -72,11 +72,11 @@ const ProductTile = ({ product, addItemToShoppingCart }) => (
         <img alt="Product" src={`/api/products/pictures/${product.files[0]}`} />
       </CardMedia>
     ) : null}
-    <CardTitle>
-      <span style={styles.productTitle}>
-        {product.name}
-        {getStockIcon(product.stock)}
-      </span>
+    <CardTitle
+      title={product.name}
+      style={styles.productTitle}
+    >
+      {getStockIcon(product.stock)}
     </CardTitle>
     <CardText style={styles.productTileBody}>
       {product.shortDescription}

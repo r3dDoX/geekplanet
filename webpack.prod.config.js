@@ -59,6 +59,7 @@ const config = {
             'transform-react-jsx',
             'transform-react-inline-elements',
             'transform-react-constant-elements',
+            'transform-react-remove-prop-types',
             [
               'react-intl',
               {

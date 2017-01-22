@@ -1,6 +1,8 @@
 import React from 'react';
 import { blueGrey100, grey800 } from 'material-ui/styles/colors';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
+import Link from 'react-router/lib/Link';
+import { FormattedMessage } from 'react-intl';
 
 const styles = {
   container: {
@@ -11,8 +13,8 @@ const styles = {
   },
   logo: {
     flex: 'none',
-    maxWidth: '80px',
-    maxHeight: '80px',
+    maxWidth: '60px',
+    maxHeight: '60px',
   },
   textContainer: {
     flex: 1,
@@ -23,16 +25,16 @@ const styles = {
     fontWeight: '300',
     marginBottom: '5px',
   },
-  emailLink: {
+  links: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '14px',
+    fontSize: '12px',
     color: grey800,
   },
   emailIcon: {
-    height: '16px',
-    width: '16px',
+    height: '12px',
+    width: '12px',
     marginRight: '5px',
   },
 };
@@ -41,19 +43,34 @@ const Footer = () => (
   <div style={styles.container}>
     <img src="/assets/images/logo.svg" alt="geekplanet Logo" style={styles.logo} />
     <div style={styles.textContainer}>
-      <h5 style={styles.textTitle}>Kontakt</h5>
-      <a
-        style={styles.emailLink}
-        href="mailto:info@geekplanet.ch"
-      >
+      <h5 style={styles.textTitle}>
+        <FormattedMessage id="FOOTER.CONTACT" />
+      </h5>
+      <a style={styles.links} href="mailto:info@geekplanet.ch">
         <EmailIcon style={styles.emailIcon} /> info@geekplanet.ch
       </a>
     </div>
     <div style={styles.textContainer}>
-      <h5 style={styles.textTitle}>Über uns</h5>
+      <h5 style={styles.textTitle}>
+        <FormattedMessage id="FOOTER.ABOUT_US" />
+      </h5>
+      <Link to="/imprint" style={styles.links}>
+        <FormattedMessage id="FOOTER.IMPRINT" />
+      </Link>
+      <Link to="/privacy" style={styles.links}>
+        <FormattedMessage id="FOOTER.PRIVACY_POLICY" />
+      </Link>
     </div>
     <div style={styles.textContainer}>
-      <h5 style={styles.textTitle}>Social Media</h5>
+      <h5 style={styles.textTitle}>
+        <FormattedMessage id="FOOTER.SOCIAL_MEDIA" />
+      </h5>
+      <a href="http://www.youtube.com/geekplanet.ch/" target="_blank" rel="noopener noreferrer" style={styles.links}>
+        You Tube
+      </a>
+      <a href="https://www.facebook.com/geekplanet.ch/" target="_blank" rel="noopener noreferrer" style={styles.links}>
+        Facebook
+      </a>
     </div>
   </div>
 );

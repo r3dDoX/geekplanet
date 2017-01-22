@@ -18,6 +18,7 @@ const styles = {
   company: {
     fontSize: '56px',
     fontWeight: 300,
+    margin: '30px auto 0',
   },
   companyFirst: {
     color: brandPrimary,
@@ -29,6 +30,7 @@ const styles = {
     color: grey50,
     fontSize: '18px',
     fontWeight: 300,
+    margin: '20px auto 50px',
   },
 };
 
@@ -38,10 +40,10 @@ export default () => (
       <h1 style={styles.company}>
         <span style={styles.companyFirst}>geek</span>
         <span style={styles.companySecond}>planet</span><br />
-        <h2 style={styles.headerSubtitle}>
-          <FormattedMessage id="HEADER.GREETING" values={{ name: 'Patrick' }} />
-        </h2>
       </h1>
+      <h2 style={styles.headerSubtitle}>
+        <FormattedMessage id="HEADER.GREETING" values={{ name: 'Patrick' }} />
+      </h2>
     </div>
     <ProductList />
   </div>

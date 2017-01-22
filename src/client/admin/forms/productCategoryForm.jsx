@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import ProductService from '../../products/productService';
@@ -9,27 +8,26 @@ import extractAndSubmitForm from './extractAndSubmitForm';
 
 const styles = {
   container: {
-    padding: '20px',
+    padding: '24px',
   },
 };
 
 const ProductCategoriesComponent = ({
   loadProductCategories,
 }) => (
-  <Paper style={styles.container}>
-    <form
-      name="productcategories"
-      onSubmit={(event) => {
-        event.preventDefault();
-        extractAndSubmitForm(ProductService.saveProductCategory, event.target)
-          .then(loadProductCategories);
-      }}
-    >
-      <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
+  <form
+    style={styles.container}
+    name="productcategories"
+    onSubmit={(event) => {
+      event.preventDefault();
+      extractAndSubmitForm(ProductService.saveProductCategory, event.target)
+        .then(loadProductCategories);
+    }}
+  >
+    <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
 
-      <RaisedButton label="Save" primary type="submit" />
-    </form>
-  </Paper>
+    <RaisedButton label="Save" primary type="submit" />
+  </form>
 );
 
 ProductCategoriesComponent.propTypes = {

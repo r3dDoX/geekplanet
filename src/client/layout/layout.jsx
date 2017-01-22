@@ -1,14 +1,18 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import AppBar from 'material-ui/AppBar';
-import Link from 'react-router/lib/Link';
+import Paper from 'material-ui/Paper';
 import ActionTypes from '../actionTypes';
+import Header from './header.jsx';
+import Footer from './footer.jsx';
 import LayoutDrawer from './layoutDrawer.jsx';
-import ShoppingCartMenu from '../shoppingcart/shoppingCartMenu.jsx';
+import ShoppingCartPropType from '../shoppingcart/shoppingCart.proptypes';
 
 const styles = {
   container: {
     paddingTop: '60px',
+  },
+  bodyContainer: {
+    position: 'relative',
   },
   appBar: {
     position: 'fixed',
@@ -28,18 +32,10 @@ const Layout = ({
   logout,
   toggleDrawer,
   shoppingCart,
-  children
+  children,
 }) => (
   <div style={styles.container}>
-    <AppBar
-      title={<Link to="/" style={styles.title}>geekplanet</Link>}
-      onLeftIconButtonTouchTap={toggleDrawer}
-      iconElementRight={
-        <ShoppingCartMenu shoppingCartItems={shoppingCart} />
-      }
-      style={styles.appBar}
-      zDepth={0}
-    />
+    <Header toggleDrawer={toggleDrawer} shoppingCart={shoppingCart} />
     <LayoutDrawer
       roles={roles}
       logout={() => {
@@ -51,7 +47,10 @@ const Layout = ({
       drawerOpened={drawerOpened}
       toggleDrawer={toggleDrawer}
     />
-    {children}
+    <Paper style={styles.bodyContainer}>
+      {children}
+    </Paper>
+    <Footer />
   </div>
 );
 
@@ -65,15 +64,7 @@ Layout.propTypes = {
     login: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
   }),
-  shoppingCart: PropTypes.arrayOf(PropTypes.shape({
-    amount: PropTypes.number,
-    product: PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      description: PropTypes.string,
-      files: PropTypes.arrayOf(PropTypes.string),
-    }),
-  })),
+  shoppingCart: ShoppingCartPropType,
   children: PropTypes.element.isRequired,
 };
 

@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import ListItem from 'material-ui/List/ListItem';
@@ -10,6 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import Link from 'react-router/lib/Link';
 import { pinkA400, white, transparent } from 'material-ui/styles/colors';
 import formatPrice from '../products/priceFormatter';
+import ShoppingCartPropType from './shoppingCart.proptypes';
 
 const ShoppingCartMenu = ({ shoppingCartItems }) => (
   <IconMenu
@@ -73,15 +74,7 @@ const ShoppingCartMenu = ({ shoppingCartItems }) => (
 );
 
 ShoppingCartMenu.propTypes = {
-  shoppingCartItems: PropTypes.arrayOf(PropTypes.shape({
-    amount: PropTypes.number,
-    product: PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      price: PropTypes.number,
-      files: PropTypes.arrayOf(PropTypes.string),
-    }),
-  })).isRequired,
+  shoppingCartItems: ShoppingCartPropType.isRequired,
 };
 
 export default ShoppingCartMenu;

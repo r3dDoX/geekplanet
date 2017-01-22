@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -14,7 +13,7 @@ import SupplierService from '../suppliers/supplierService';
 
 const styles = {
   container: {
-    padding: '20px',
+    padding: '24px',
   },
   fileUploadInput: {
     cursor: 'pointer',
@@ -44,139 +43,138 @@ const ProductForm = ({
   selectSupplier,
   selectProducer,
 }) => (
-  <Paper style={styles.container}>
-    <form
-      name="products"
-      onSubmit={(event) => {
-        event.preventDefault();
-        extractAndSubmitForm(ProductService.saveProduct, event.target);
-      }}
+  <form
+    style={styles.container}
+    name="products"
+    onSubmit={(event) => {
+      event.preventDefault();
+      extractAndSubmitForm(ProductService.saveProduct, event.target);
+    }}
+  >
+    <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
+
+    <SelectField
+      floatingLabelText="Category"
+      value={selectedProductCategory}
+      onChange={(event, index, value) => selectProductCategory(value)}
+      autoWidth
     >
-      <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
+      {productCategories.map(category => (
+        <MenuItem value={category} key={category} primaryText={category} />
+      ))}
+    </SelectField>
 
-      <SelectField
-        floatingLabelText="Category"
-        value={selectedProductCategory}
-        onChange={(event, index, value) => selectProductCategory(value)}
-        autoWidth
-      >
-        {productCategories.map(category => (
-          <MenuItem value={category} key={category} primaryText={category} />
-        ))}
-      </SelectField>
+    <TextField
+      floatingLabelText="Short Description"
+      name="shortDescription"
+      type="text"
+      multiLine
+      rows={3}
+      fullWidth
+    />
 
-      <TextField
-        floatingLabelText="Short Description"
-        name="shortDescription"
-        type="text"
-        multiLine
-        rows={3}
-        fullWidth
+    <TextField
+      floatingLabelText="Description"
+      name="description"
+      type="text"
+      multiLine
+      rows={5}
+      fullWidth
+    />
+
+    <TextField
+      floatingLabelText="Price"
+      name="price"
+      type="number"
+      step="any"
+      fullWidth
+    />
+    <TextField
+      floatingLabelText="Purchase Price"
+      name="purchasePrice"
+      type="number"
+      step="any"
+      fullWidth
+    />
+    <TextField
+      floatingLabelText="Purchase Package Size"
+      name="purchasePackageSize"
+      type="number"
+      fullWidth
+    />
+
+    <TextField
+      floatingLabelText="Stock"
+      name="stock"
+      defaultValue="0"
+      type="number"
+      fullWidth
+    />
+
+    <TextField
+      floatingLabelText="Stock Minimum"
+      name="minStock"
+      defaultValue="0"
+      type="number"
+      fullWidth
+    />
+
+    <SelectField
+      floatingLabelText="Supplier"
+      value={(suppliers.find(supplier => supplier._id === selectedSupplier) || {})._id}
+      onChange={(event, index, value) => selectSupplier(value)}
+      autoWidth
+    >
+      {suppliers.map(supplier => (
+        <MenuItem value={supplier._id} key={supplier._id} primaryText={supplier.name} />
+      ))}
+    </SelectField>
+
+    <TextField
+      floatingLabelText="Supplier Product Code"
+      name="supplierProductCode"
+      type="text"
+      fullWidth
+    />
+
+    <SelectField
+      floatingLabelText="Producer"
+      value={(producers.find(producer => producer._id === selectedProducer) || {})._id}
+      onChange={(event, index, value) => selectProducer(value)}
+      autoWidth
+    >
+      {producers.map(producer => (
+        <MenuItem value={producer._id} key={producer._id} primaryText={producer.name} />
+      ))}
+    </SelectField>
+
+    <TextField
+      floatingLabelText="Remarks"
+      name="remarks"
+      type="text"
+      multiLine
+      fullWidth
+    />
+
+    <RaisedButton
+      label="Choose images"
+      labelPosition="before"
+      containerElement="label"
+      fullWidth
+      style={styles.uploadButton}
+    >
+      <input
+        name="productPictures[]"
+        type="file"
+        accept="image/jpeg,image/png"
+        multiple
+        style={styles.fileUploadInput}
+        onChange={event => onSelectFile(event.target.files)}
       />
-
-      <TextField
-        floatingLabelText="Description"
-        name="description"
-        type="text"
-        multiLine
-        rows={5}
-        fullWidth
-      />
-
-      <TextField
-        floatingLabelText="Price"
-        name="price"
-        type="number"
-        step="any"
-        fullWidth
-      />
-      <TextField
-        floatingLabelText="Purchase Price"
-        name="purchasePrice"
-        type="number"
-        step="any"
-        fullWidth
-      />
-      <TextField
-        floatingLabelText="Purchase Package Size"
-        name="purchasePackageSize"
-        type="number"
-        fullWidth
-      />
-
-      <TextField
-        floatingLabelText="Stock"
-        name="stock"
-        defaultValue="0"
-        type="number"
-        fullWidth
-      />
-
-      <TextField
-        floatingLabelText="Stock Minimum"
-        name="minStock"
-        defaultValue="0"
-        type="number"
-        fullWidth
-      />
-
-      <SelectField
-        floatingLabelText="Supplier"
-        value={(suppliers.find(supplier => supplier._id === selectedSupplier) || {})._id}
-        onChange={(event, index, value) => selectSupplier(value)}
-        autoWidth
-      >
-        {suppliers.map(supplier => (
-          <MenuItem value={supplier._id} key={supplier._id} primaryText={supplier.name} />
-        ))}
-      </SelectField>
-
-      <TextField
-        floatingLabelText="Supplier Product Code"
-        name="supplierProductCode"
-        type="text"
-        fullWidth
-      />
-
-      <SelectField
-        floatingLabelText="Producer"
-        value={(producers.find(producer => producer._id === selectedProducer) || {})._id}
-        onChange={(event, index, value) => selectProducer(value)}
-        autoWidth
-      >
-        {producers.map(producer => (
-          <MenuItem value={producer._id} key={producer._id} primaryText={producer.name} />
-        ))}
-      </SelectField>
-
-      <TextField
-        floatingLabelText="Remarks"
-        name="remarks"
-        type="text"
-        multiLine
-        fullWidth
-      />
-
-      <RaisedButton
-        label="Choose images"
-        labelPosition="before"
-        containerElement="label"
-        fullWidth
-        style={styles.uploadButton}
-      >
-        <input
-          name="productPictures[]"
-          type="file"
-          accept="image/jpeg,image/png"
-          multiple
-          style={styles.fileUploadInput}
-          onChange={event => onSelectFile(event.target.files)}
-        />
-      </RaisedButton>
-      <UploadImagePreview files={selectedFiles} />
-      <RaisedButton label="Save" type="submit" primary />
-    </form>
-  </Paper>
+    </RaisedButton>
+    <UploadImagePreview files={selectedFiles} />
+    <RaisedButton label="Save" type="submit" primary />
+  </form>
 );
 
 ProductForm.propTypes = {

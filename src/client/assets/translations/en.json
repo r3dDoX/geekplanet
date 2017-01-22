@@ -2,6 +2,13 @@
   "HEADER": {
     "GREETING": "Welcome to our shop, {name}!"
   },
+  "FOOTER": {
+    "CONTACT": "Contact",
+    "ABOUT_US": "About Us",
+    "SOCIAL_MEDIA": "Social Media",
+    "IMPRINT": "Imprint",
+    "PRIVACY_POLICY": "Privacy Policy"
+  },
   "COMMON": {
     "ORDER": "Order"
   },

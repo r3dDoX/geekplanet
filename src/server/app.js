@@ -13,7 +13,9 @@ const server = app.listen(process.env.PORT || 3000, () => {
   console.info(`Listening on port ${server.address().port}`);
 });
 
-app.use('/', express.static('dist/'));
+app.use('/', express.static('dist/', {
+  maxage: '86400',
+}));
 
 api.registerEndpoints(app);
 

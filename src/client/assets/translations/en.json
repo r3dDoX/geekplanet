@@ -10,7 +10,8 @@
     "PRIVACY_POLICY": "Privacy Policy"
   },
   "COMMON": {
-    "ORDER": "Order"
+    "ORDER": "Order",
+    "DELETE": "Delete"
   },
   "NAVIGATION": {
     "LOGIN": "Login",
@@ -21,6 +22,8 @@
     "TITLE": "Shopping Cart",
     "SHOPPING_CART_LINK": "Go to shopping cart",
     "PRODUCTS": "Products",
-    "TOTAL": "Total"
+    "TOTAL": "Total",
+    "CHECKOUT": "Checkout",
+    "ADDRESS": "Address"
   }
 }

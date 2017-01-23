@@ -14,7 +14,7 @@ const server = app.listen(process.env.PORT || 3000, () => {
 });
 
 app.use('/', express.static('dist/', {
-  maxage: '86400',
+  maxAge: '1d',
 }));
 
 api.registerEndpoints(app);

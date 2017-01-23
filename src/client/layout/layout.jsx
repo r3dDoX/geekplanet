@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
+import Snackbar from 'material-ui/Snackbar';
+import { FormattedMessage } from 'react-intl';
 import ActionTypes from '../actionTypes';
 import Header from './header.jsx';
 import Footer from './footer.jsx';
@@ -32,6 +34,8 @@ const Layout = ({
   logout,
   toggleDrawer,
   shoppingCart,
+  shoppingCartNotification,
+  hideShoppingCartNotification,
   children,
 }) => (
   <div style={styles.container}>
@@ -51,6 +55,14 @@ const Layout = ({
       {children}
     </Paper>
     <Footer />
+    <Snackbar
+      open={shoppingCartNotification}
+      message={
+        <FormattedMessage id="NOTIFICATION.SHOPPING_CART_ITEM_ADDED" />
+      }
+      autoHideDuration={4000}
+      onRequestClose={hideShoppingCartNotification}
+    />
   </div>
 );
 
@@ -65,6 +77,8 @@ Layout.propTypes = {
     logout: PropTypes.func.isRequired,
   }),
   shoppingCart: ShoppingCartPropType,
+  shoppingCartNotification: PropTypes.bool,
+  hideShoppingCartNotification: PropTypes.func,
   children: PropTypes.element.isRequired,
 };
 
@@ -81,6 +95,11 @@ export default connect(
     toggleDrawer() {
       dispatch({
         type: ActionTypes.TOGGLE_DRAWER,
+      });
+    },
+    hideShoppingCartNotification() {
+      dispatch({
+        type: ActionTypes.HIDE_SHOPPING_CART_NOTIFICATION,
       });
     },
   })

@@ -18,6 +18,9 @@
     "LOGOUT": "Logout",
     "FORMS": "Formulare"
   },
+  "NOTIFICATION": {
+    "SHOPPING_CART_ITEM_ADDED": "Produkt zum Warenkorb hinzugefügt"
+  },
   "SHOPPING_CART": {
     "TITLE": "Warenkorb",
     "SHOPPING_CART_LINK": "Zum Warenkorb",

@@ -18,6 +18,9 @@
     "LOGOUT": "Logout",
     "FORMS": "Forms"
   },
+  "NOTIFICATION": {
+    "SHOPPING_CART_ITEM_ADDED": "Added product to cart"
+  },
   "SHOPPING_CART": {
     "TITLE": "Shopping Cart",
     "SHOPPING_CART_LINK": "Go to shopping cart",

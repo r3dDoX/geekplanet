@@ -93,7 +93,12 @@ module.exports = {
   registerEndpoints(app) {
     app.use(mongoSanitize());
 
-    app.get('/api/products/pictures/:id', (req, res) => ProductPictures.readById(req.params.id).pipe(res));
+    app.get('/api/products/pictures/:id', (req, res) => {
+      res.header({
+        'Cache-Control': 'public, max-age=31557600',
+      });
+      ProductPictures.readById(req.params.id).pipe(res);
+    });
 
     app.get('/api/productcategories', (req, res) => ProductCategory.find({})
       .then(categories => res.send(categories.map(category => category.name)))

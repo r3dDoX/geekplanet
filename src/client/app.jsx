@@ -15,6 +15,7 @@ import Forms from './admin/forms/forms.jsx';
 import translationService from './i18n/translationService';
 import ActionTypes from './actionTypes';
 import AuthService from './auth/authService';
+import ShoppingCart from './shoppingcart/shoppingCart.jsx';
 
 addLocaleData([...de, ...en, ...fr, ...it]);
 const language = (navigator.languages && navigator.languages[0])
@@ -54,6 +55,7 @@ class App extends React.Component {
             <Route path="/" component={Layout}>
               <IndexRoute component={Home} />
               <Route path="forms" component={Forms} onEnter={this.requireAuth} />
+              <Route path="shoppingCart" component={ShoppingCart} />
             </Route>
           </Router>
         </IntlProvider>

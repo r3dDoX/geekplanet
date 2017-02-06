@@ -63,6 +63,6 @@
     "react-tap-event-plugin": "2.0.1",
     "redux": "3.6.0",
     "webpack": "2.2.0",
-    "webpack-dev-server": "2.2.0"
+    "webpack-dev-server": "2.2.1"
   }
 }

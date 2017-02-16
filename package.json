@@ -31,7 +31,7 @@
   "devDependencies": {
     "auth0-lock": "10.11.0",
     "babel-core": "6.23.0",
-    "babel-loader": "6.3.0",
+    "babel-loader": "6.3.2",
     "babel-plugin-react-intl": "2.3.1",
     "babel-plugin-transform-flow-strip-types": "6.21.0",
     "babel-plugin-transform-react-constant-elements": "6.9.1",

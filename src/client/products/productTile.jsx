@@ -5,7 +5,8 @@ import SvgIcon from 'material-ui/SvgIcon';
 import Badge from 'material-ui/Badge';
 import { green500, grey700 } from 'material-ui/styles/colors';
 import { FormattedMessage } from 'react-intl';
-import formatPrice from '../products/priceFormatter';
+import formatPrice from './priceFormatter';
+import productPropType from './product.proptypes';
 
 const styles = {
   container: {
@@ -102,14 +103,7 @@ const ProductTile = ({ product, addItemToShoppingCart }) => (
 );
 
 ProductTile.propTypes = {
-  product: PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    price: PropTypes.number,
-    stock: PropTypes.number,
-    description: PropTypes.string,
-    files: PropTypes.arrayOf(PropTypes.string),
-  }).isRequired,
+  product: productPropType.isRequired,
   addItemToShoppingCart: PropTypes.func.isRequired,
 };
 

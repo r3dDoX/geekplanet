@@ -5,6 +5,7 @@ import SvgIcon from 'material-ui/SvgIcon';
 import Badge from 'material-ui/Badge';
 import { green500, grey700 } from 'material-ui/styles/colors';
 import { FormattedMessage } from 'react-intl';
+import formatPrice from '../products/priceFormatter';
 
 const styles = {
   container: {
@@ -25,6 +26,14 @@ const styles = {
   },
   stockBadge: {
     paddingBottom: 0,
+  },
+  actionContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  priceTag: {
+    marginLeft: '8px',
   },
 };
 
@@ -81,7 +90,8 @@ const ProductTile = ({ product, addItemToShoppingCart }) => (
     <CardText style={styles.productTileBody}>
       {product.shortDescription}
     </CardText>
-    <CardActions>
+    <CardActions style={styles.actionContainer}>
+      <span style={styles.priceTag}>{formatPrice(product.price)}</span>
       <RaisedButton
         onClick={() => addItemToShoppingCart(product)}
         label={<FormattedMessage id="COMMON.ORDER" />}
@@ -95,6 +105,7 @@ ProductTile.propTypes = {
   product: PropTypes.shape({
     _id: PropTypes.string,
     name: PropTypes.string,
+    price: PropTypes.string,
     stock: PropTypes.number,
     description: PropTypes.string,
     files: PropTypes.arrayOf(PropTypes.string),

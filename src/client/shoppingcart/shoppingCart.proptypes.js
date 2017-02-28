@@ -1,13 +1,9 @@
 import { PropTypes } from 'react';
+import productPropType from '../products/product.proptypes';
 
 const shoppingCart = PropTypes.arrayOf(PropTypes.shape({
   amount: PropTypes.number,
-  product: PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    description: PropTypes.string,
-    files: PropTypes.arrayOf(PropTypes.string),
-  }),
+  product: productPropType,
 }));
 
 export default shoppingCart;

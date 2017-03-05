@@ -23,10 +23,16 @@
   },
   "SHOPPING_CART": {
     "TITLE": "Warenkorb",
-    "SHOPPING_CART_LINK": "Zum Warenkorb",
     "PRODUCTS": "Produkte",
     "TOTAL": "Total",
-    "CHECKOUT": "Checkout",
-    "ADDRESS": "Lieferadresse"
+    "CHECKOUT": "Zur Kasse"
+  },
+  "ORDER": {
+    "PAYMENT": {
+      "TITLE": "Zahlungsmethode"
+    },
+    "ADDRESS": {
+      "TITLE": "Lieferadresse"
+    }
   }
 }

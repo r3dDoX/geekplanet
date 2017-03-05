@@ -1,18 +1,23 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import ListItem from 'material-ui/List/ListItem';
-import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import ActionShoppingCart from 'material-ui/svg-icons/action/shopping-cart';
 import { FormattedMessage } from 'react-intl';
 import Link from 'react-router/lib/Link';
-import { pinkA400, white, transparent } from 'material-ui/styles/colors';
+import { white } from 'material-ui/styles/colors';
+import ShoppingCartItem from './shoppingCartItem.jsx';
 import formatPrice from '../products/priceFormatter';
 import ShoppingCartPropType from './shoppingCart.proptypes';
+import ActionTypes from '../actionTypes';
 
-const ShoppingCartMenu = ({ shoppingCartItems }) => (
+const ShoppingCartMenu = ({
+  shoppingCart,
+  setAmount,
+}) => (
   <IconMenu
     anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
     targetOrigin={{ horizontal: 'right', vertical: 'top' }}
@@ -26,34 +31,23 @@ const ShoppingCartMenu = ({ shoppingCartItems }) => (
     <ListItem
       insetChildren
       containerElement={
-        <Link to="/shoppingCart">
+        <Link to="/order">
           <FormattedMessage id="SHOPPING_CART.TITLE" />
         </Link>
       }
       primaryText={
-        <FormattedMessage id="SHOPPING_CART.SHOPPING_CART_LINK" />
+        <FormattedMessage id="SHOPPING_CART.CHECKOUT" />
       }
     />
     <Divider />
     <Subheader inset>
       <FormattedMessage id="SHOPPING_CART.PRODUCTS" />
     </Subheader>
-    {shoppingCartItems.map(({ amount, product }) => (
-      <ListItem
-        key={product._id}
-        primaryText={product.name}
-        secondaryText={formatPrice(product.price)}
-        leftAvatar={<Avatar src={`/api/products/pictures/${product.files[0]}`} />}
-        rightAvatar={
-          <Avatar
-            color={pinkA400}
-            backgroundColor={transparent}
-          >
-            {amount}
-          </Avatar>
-        }
-      />
-    ))}
+    {shoppingCart.map(item => <ShoppingCartItem
+      key={item.product._id}
+      shoppingCartItem={item}
+      setAmount={setAmount}
+    />)}
     <Divider />
     <Subheader inset>
       <FormattedMessage id="SHOPPING_CART.TOTAL" />
@@ -63,7 +57,7 @@ const ShoppingCartMenu = ({ shoppingCartItems }) => (
       insetChildren
       primaryText={
         formatPrice(
-          shoppingCartItems.reduce(
+          shoppingCart.reduce(
             (sum, { amount, product }) => sum + (product.price * amount),
             0
           )
@@ -74,7 +68,21 @@ const ShoppingCartMenu = ({ shoppingCartItems }) => (
 );
 
 ShoppingCartMenu.propTypes = {
-  shoppingCartItems: ShoppingCartPropType.isRequired,
+  shoppingCart: ShoppingCartPropType.isRequired,
+  setAmount: PropTypes.func.isRequired,
 };
 
-export default ShoppingCartMenu;
+export default connect(
+  state => ({ shoppingCart: state.shoppingCart }),
+  dispatch => ({
+    setAmount(amount, product) {
+      dispatch({
+        type: ActionTypes.SET_AMOUNT,
+        data: {
+          amount,
+          product,
+        },
+      });
+    },
+  })
+)(ShoppingCartMenu);

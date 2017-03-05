@@ -1,6 +1,6 @@
 import { PropTypes } from 'react';
 
-const product = PropTypes.shape({
+const shoppingCartItem = PropTypes.shape({
   _id: PropTypes.string,
   name: PropTypes.string,
   price: PropTypes.number,
@@ -9,4 +9,4 @@ const product = PropTypes.shape({
   files: PropTypes.arrayOf(PropTypes.string),
 });
 
-export default product;
+export default shoppingCartItem;

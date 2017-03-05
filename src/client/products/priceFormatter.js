@@ -1,9 +1,13 @@
-export default (price) => {
-  let priceString = `CHF ${price}`;
-
+function addDashForNonDecimalNumbers(price) {
   if (price - Math.floor(price) === 0) {
-    priceString += '.-';
+    return `${price}.-`;
   }
+  
+  return price;
+}
 
-  return priceString;
-};
+export const formatPriceWithCurrency = price => `CHF ${addDashForNonDecimalNumbers(price)}`;
+
+export const formatPriceWithoutCurrency = price => addDashForNonDecimalNumbers(price);
+
+export default formatPriceWithCurrency;

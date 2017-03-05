@@ -7,7 +7,6 @@ import ActionTypes from '../actionTypes';
 import Header from './header.jsx';
 import Footer from './footer.jsx';
 import LayoutDrawer from './layoutDrawer.jsx';
-import ShoppingCartPropType from '../shoppingcart/shoppingCart.proptypes';
 
 const styles = {
   container: {
@@ -33,13 +32,12 @@ const Layout = ({
   roles,
   logout,
   toggleDrawer,
-  shoppingCart,
   shoppingCartNotification,
   hideShoppingCartNotification,
   children,
 }) => (
   <div style={styles.container}>
-    <Header toggleDrawer={toggleDrawer} shoppingCart={shoppingCart} />
+    <Header toggleDrawer={toggleDrawer} />
     <LayoutDrawer
       roles={roles}
       logout={() => {
@@ -75,17 +73,14 @@ Layout.propTypes = {
   authService: PropTypes.shape({
     login: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
-  }),
-  shoppingCart: ShoppingCartPropType,
-  shoppingCartNotification: PropTypes.bool,
-  hideShoppingCartNotification: PropTypes.func,
+  }).isRequired,
+  shoppingCartNotification: PropTypes.bool.isRequired,
+  hideShoppingCartNotification: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
 };
 
 export default connect(
-  state => Object.assign({
-    shoppingCart: state.shoppingCart,
-  }, state.auth, state.layout),
+  state => Object.assign({}, state.auth, state.layout),
   dispatch => ({
     logout() {
       dispatch({
@@ -104,4 +99,3 @@ export default connect(
     },
   })
 )(Layout);
-

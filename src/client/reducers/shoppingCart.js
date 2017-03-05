@@ -3,12 +3,16 @@ import { load, store, ids } from '../storage';
 
 const initialState = [];
 
-function insertOrUpdateItem(state, product) {
+function insertOrUpdateItem(state, product, amount) {
   if (state.some(item => item.product._id === product._id)) {
     return state.map((item) => {
       if (item.product._id === product._id) {
         const newItem = item;
-        newItem.amount += 1;
+        if (amount) {
+          newItem.amount = amount;
+        } else {
+          newItem.amount += 1;
+        }
         return newItem;
       }
 
@@ -21,13 +25,14 @@ function insertOrUpdateItem(state, product) {
     amount: 1,
   });
 }
+
 export default function auth(state = initialState, { type, data }) {
   switch (type) {
     case ActionTypes.LOAD_SHOPPING_CART: {
       return load(ids.SHOPPING_CART) || state;
     }
     case ActionTypes.ADD_ITEM_TO_SHOPPING_CART: {
-      const newState = insertOrUpdateItem(state, data._id);
+      const newState = insertOrUpdateItem(state, data);
 
       store(ids.SHOPPING_CART, newState);
 
@@ -41,13 +46,11 @@ export default function auth(state = initialState, { type, data }) {
       return filteredState;
     }
     case ActionTypes.SET_AMOUNT: {
-      return state.map((item) => {
-        if (item.product._id === data.product._id) {
-          item.amount = data.amount;
-          store(ids.SHOPPING_CART, state);
-        }
-        return item;
-      });
+      const newState = insertOrUpdateItem(state, data.product, data.amount);
+
+      store(ids.SHOPPING_CART, newState);
+
+      return newState;
     }
     default: {
       return state;

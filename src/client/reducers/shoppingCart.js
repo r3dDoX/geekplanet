@@ -3,21 +3,25 @@ import { load, store, ids } from '../storage';
 
 const initialState = [];
 
-function insertOrUpdateItem(state, product, amount) {
-  if (state.some(item => item.product._id === product._id)) {
-    return state.map((item) => {
-      if (item.product._id === product._id) {
-        const newItem = item;
-        if (amount) {
-          newItem.amount = amount;
-        } else {
-          newItem.amount += 1;
-        }
-        return newItem;
-      }
+function updateItem(item, id, amount) {
+  if (item.product._id === id) {
+    if (amount) {
+      item.amount = amount;
+    } else {
+      item.amount += 1;
+    }
+  }
 
-      return item;
-    });
+  return item;
+}
+
+function insertOrUpdateItem(state, product, amount) {
+  if (amount === 0) {
+    return state.filter(item => item.product._id !== product._id);
+  }
+
+  if (state.some(item => item.product._id === product._id)) {
+    return state.map(item => updateItem(item, product._id, amount));
   }
 
   return state.concat({

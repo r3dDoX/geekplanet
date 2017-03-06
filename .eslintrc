@@ -8,6 +8,9 @@
       "imports": "always-multiline",
       "exports": "always-multiline",
       "functions": "ignore"
+    }],
+    "no-param-reassign": ["error", {
+      "props": false
     }]
   }
 }

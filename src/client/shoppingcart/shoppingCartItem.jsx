@@ -6,6 +6,12 @@ import { ShoppingCartItemPropType } from './shoppingCart.proptypes';
 import { formatPriceWithoutCurrency } from '../products/priceFormatter';
 import AmountAdjuster from './amountAdjuster.jsx';
 
+const styles = {
+  avatar: {
+    objectFit: 'cover',
+  },
+};
+
 const ShoppingCartItem = ({
   shoppingCartItem,
   setAmount,
@@ -13,7 +19,10 @@ const ShoppingCartItem = ({
   <ListItem
     primaryText={shoppingCartItem.product.name}
     secondaryText={<AmountAdjuster shoppingCartItem={shoppingCartItem} setAmount={setAmount} />}
-    leftAvatar={<Avatar src={`/api/products/pictures/${shoppingCartItem.product.files[0]}`} />}
+    leftAvatar={<Avatar
+      style={styles.avatar}
+      src={`/api/products/pictures/${shoppingCartItem.product.files[0]}`}
+    />}
     rightAvatar={
       <Avatar
         color={pinkA400}

@@ -67,7 +67,7 @@ const config = {
       }
     ]),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.DefinePlugin(require('./src/config/local.config.json')),
+    new webpack.DefinePlugin(Object.assign(require('./src/config/local.config.json'), require('./src/config/secret.config.json'))),
   ],
 
   devServer: {

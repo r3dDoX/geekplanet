@@ -4,7 +4,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import shortId from 'shortid';
 import { FormattedMessage } from 'react-intl';
 import ShoppingCartPropType from '../shoppingcart/shoppingCart.proptypes';
-import secretConfig from '../../config/secret.config.json';
 
 const styles = {
   button: {
@@ -23,8 +22,8 @@ const LightboxOpener = ({ shoppingCart }, { datatrans: { openPaymentLayer } }) =
           (sum, { amount, product }) => sum + (product.price * amount),
           0) * 100,
         currency: 'CHF',
-        sign: process.env.SIGN || secretConfig.SIGN,
-        merchantId: process.env.MERCHANT_ID || secretConfig.MERCHANT_ID,
+        sign: process.env.SIGN || SIGN,
+        merchantId: process.env.MERCHANT_ID || MERCHANT_ID,
         refno: shortId.generate(),
       })
         .catch(e => window.console.error(e))

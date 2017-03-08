@@ -26,7 +26,8 @@
   },
   "ORDER": {
     "PAYMENT": {
-      "TITLE": "Zahlungsmethode"
+      "TITLE": "Zahlungsmethode",
+      "SELECT_PAYMENT_METHOD": "Zahlungsmethode auswählen"
     },
     "ADDRESS": {
       "TITLE": "Lieferadresse"

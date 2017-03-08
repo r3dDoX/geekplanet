@@ -26,7 +26,8 @@
   },
   "ORDER": {
     "PAYMENT": {
-      "TITLE": "Payment"
+      "TITLE": "Payment",
+      "SELECT_PAYMENT_METHOD": "Select Payment Method"
     },
     "ADDRESS": {
       "TITLE": "Shipping Address"

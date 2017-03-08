@@ -6,6 +6,8 @@ import {
   StepContent,
 } from 'material-ui/Stepper';
 import { FormattedMessage } from 'react-intl';
+import { DatatransProvider } from 'react-datatrans-lightbox';
+import LightboxOpener from './lightboxOpener.jsx';
 
 const styles = {
   container: {
@@ -49,7 +51,9 @@ export default () => (
           <FormattedMessage id="ORDER.PAYMENT.TITLE" />
         </StepButton>
         <StepContent>
-          <p>Blubb</p>
+          <DatatransProvider endpoint="https://pilot.datatrans.biz">
+            <LightboxOpener />
+          </DatatransProvider>
         </StepContent>
       </Step>
       <Step>

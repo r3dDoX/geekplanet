@@ -1,7 +1,4 @@
 {
-  "HEADER": {
-    "GREETING": "Willkommen in unserem Shop, {name}!"
-  },
   "FOOTER": {
     "CONTACT": "Kontakt",
     "ABOUT_US": "Über uns",

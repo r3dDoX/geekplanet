@@ -9,9 +9,9 @@ let definePlugin;
 const secretConfig = require('./src/config/secret.config.json');
 
 if (process.env.NODE && ~process.env.NODE.indexOf('heroku')) {
-  definePlugin = new webpack.DefinePlugin(Object.assign(require('./src/config/heroku.config.json'), secretConfig));
+  definePlugin = new webpack.DefinePlugin(Object.assign(require('./src/config/heroku.config.json'), secretConfig, process.env));
 } else {
-  definePlugin = new webpack.DefinePlugin(Object.assign(require('./src/config/sccloud.config.json'), secretConfig));
+  definePlugin = new webpack.DefinePlugin(Object.assign(require('./src/config/sccloud.config.json'), secretConfig, process.env));
 }
 
 const config = {

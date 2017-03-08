@@ -22,8 +22,8 @@ const LightboxOpener = ({ shoppingCart }, { datatrans: { openPaymentLayer } }) =
           (sum, { amount, product }) => sum + (product.price * amount),
           0) * 100,
         currency: 'CHF',
-        sign: process.env.SIGN || SIGN,
-        merchantId: process.env.MERCHANT_ID || MERCHANT_ID,
+        sign: SIGN,
+        merchantId: MERCHANT_ID,
         refno: shortId.generate(),
       })
         .catch(e => window.console.error(e))

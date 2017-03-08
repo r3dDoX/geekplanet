@@ -8,8 +8,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 let definePlugin;
 const secretConfig = require('./src/config/secret.config.json');
 const environment = {
-  MERCHANT_ID: process.env.MERCHANT_ID,
-  SIGN: process.env.SIGN,
+  MERCHANT_ID: `'${process.env.MERCHANT_ID}'`,
+  SIGN: `'${process.env.SIGN}'`,
 };
 
 if (process.env.NODE && ~process.env.NODE.indexOf('heroku')) {

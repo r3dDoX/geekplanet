@@ -6,12 +6,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 let definePlugin;
-const secretConfig = require('./src/config/secret.config.json');
 
 if (process.env.NODE && ~process.env.NODE.indexOf('heroku')) {
-  definePlugin = new webpack.DefinePlugin(Object.assign(require('./src/config/heroku.config.json'), secretConfig));
+  definePlugin = new webpack.DefinePlugin(require('./src/config/heroku.config.json'));
 } else {
-  definePlugin = new webpack.DefinePlugin(Object.assign(require('./src/config/sccloud.config.json'), secretConfig));
+  definePlugin = new webpack.DefinePlugin(require('./src/config/sccloud.config.json'));
 }
 
 const config = {

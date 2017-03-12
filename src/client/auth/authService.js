@@ -70,7 +70,7 @@ export default {
         redirectUrl: AUTH.REDIRECT_URL,
         responseType: 'token',
         params: {
-          scope: 'openid email app_metadata',
+          scope: 'openid user_id email app_metadata',
         },
       },
       language,

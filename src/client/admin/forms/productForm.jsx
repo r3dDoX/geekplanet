@@ -177,24 +177,31 @@ const ProductForm = ({
   </form>
 );
 
+ProductForm.defaultProps = {
+  selectedFiles: undefined,
+  selectedProductCategory: undefined,
+  selectedProducer: undefined,
+  selectedSupplier: undefined,
+};
+
 ProductForm.propTypes = {
   selectedFiles: PropTypes.instanceOf(FileList),
   selectedProductCategory: PropTypes.string,
-  productCategories: PropTypes.arrayOf(PropTypes.string),
+  productCategories: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedProducer: PropTypes.string,
   producers: PropTypes.arrayOf(PropTypes.shape({
     _id: PropTypes.string,
     name: PropTypes.string,
-  })),
+  })).isRequired,
   selectedSupplier: PropTypes.string,
   suppliers: PropTypes.arrayOf(PropTypes.shape({
     _id: PropTypes.string,
     name: PropTypes.string,
-  })),
-  onSelectFile: PropTypes.func,
-  selectProductCategory: PropTypes.func,
-  selectProducer: PropTypes.func,
-  selectSupplier: PropTypes.func,
+  })).isRequired,
+  onSelectFile: PropTypes.func.isRequired,
+  selectProductCategory: PropTypes.func.isRequired,
+  selectProducer: PropTypes.func.isRequired,
+  selectSupplier: PropTypes.func.isRequired,
 };
 
 export default connect(

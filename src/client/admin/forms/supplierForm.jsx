@@ -77,7 +77,7 @@ const SupplierFormComponent = ({
 );
 
 SupplierFormComponent.propTypes = {
-  loadSuppliers: PropTypes.func,
+  loadSuppliers: PropTypes.func.isRequired,
 };
 
 export default connect(

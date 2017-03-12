@@ -47,11 +47,11 @@ class FormsComponent extends React.Component {
 }
 
 FormsComponent.propTypes = {
-  selectedTab: PropTypes.string,
-  switchTab: PropTypes.func,
-  loadProductCategories: PropTypes.func,
-  loadProducers: PropTypes.func,
-  loadSuppliers: PropTypes.func,
+  selectedTab: PropTypes.string.isRequired,
+  switchTab: PropTypes.func.isRequired,
+  loadProductCategories: PropTypes.func.isRequired,
+  loadProducers: PropTypes.func.isRequired,
+  loadSuppliers: PropTypes.func.isRequired,
 };
 
 const Forms = connect(

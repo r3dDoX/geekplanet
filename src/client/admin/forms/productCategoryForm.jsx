@@ -31,7 +31,7 @@ const ProductCategoriesComponent = ({
 );
 
 ProductCategoriesComponent.propTypes = {
-  loadProductCategories: PropTypes.func,
+  loadProductCategories: PropTypes.func.isRequired,
 };
 
 export default connect(

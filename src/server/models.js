@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const models = {};
-module.exports = models;
 
 const gridfs = require('mongoose-gridfs')({
   collection: 'productpictures',
@@ -21,7 +20,7 @@ models.ProductCategory = mongoose.model('ProductCategory', {
   name: String,
 });
 
-models.Product = mongoose.model('Product', {
+const ProductSchema = mongoose.Schema({
   name: String,
   category: String,
   shortDescription: String,
@@ -37,6 +36,8 @@ models.Product = mongoose.model('Product', {
   remarks: String,
   files: [String],
 });
+
+models.Product = mongoose.model('Product', ProductSchema);
 
 models.Producer = mongoose.model('Producer', {
   name: String,
@@ -62,3 +63,16 @@ models.Supplier = mongoose.model('Supplier', {
 models.UserAddress = mongoose.model('UserAddress', {
 
 });
+
+const OrderItemSchema = mongoose.Schema({
+  amount: Number,
+  product: ProductSchema,
+});
+
+models.Order = mongoose.model('Order', {
+  _id: String,
+  user: String,
+  items: [OrderItemSchema],
+});
+
+module.exports = models;

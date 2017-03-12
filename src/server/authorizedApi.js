@@ -2,15 +2,17 @@
 
 const jwt = require('express-jwt');
 const shortId = require('shortid');
+const bodyParser = require('body-parser');
 const multer = require('multer')();
 const streamifier = require('streamifier');
 const secretConfig = require('../config/secret.config.json');
 
 const {
-  ProductPictures,
+  Order,
   Producer,
   Product,
   ProductCategory,
+  ProductPictures,
   Supplier,
 } = require('./models');
 
@@ -74,19 +76,27 @@ module.exports = {
         .catch(error => res.send(error));
     });
 
-    app.get('/api/producers', (req, res) => Producer.find({})
-      .then(producers => res.send(producers))
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send('Fetching producers failed!');
-      })
-    );
-
     app.post('/api/producers', multer.none(), authorization, isAdmin, (req, res) => {
       const producer = req.body;
       producer.address = parseAddress(producer);
 
       new Producer(producer).save()
+        .then(() => res.sendStatus(200))
+        .catch(error => res.send(error));
+    });
+
+    app.post('/api/orders', bodyParser.json(), authorization, (req, res) => {
+      const order = req.body;
+      order._id = order.id;
+      order.user = req.user.user_id;
+
+      new Order(order).save()
+        .then(() => res.sendStatus(200))
+        .catch(error => res.send(error));
+    });
+
+    app.delete('/api/orders/:id', authorization, (req, res) => {
+      Order.remove({ _id: req.params.id, user: req.user.user_id })
         .then(() => res.sendStatus(200))
         .catch(error => res.send(error));
     });

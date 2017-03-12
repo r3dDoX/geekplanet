@@ -6,6 +6,11 @@ export const ShoppingCartItemPropType = PropTypes.shape({
   product: productPropType,
 });
 
-const shoppingCart = PropTypes.arrayOf(ShoppingCartItemPropType);
+export const ShoppingCartItemsPropType = PropTypes.arrayOf(ShoppingCartItemPropType);
 
-export default shoppingCart;
+export const ShoppingCartPropType = PropTypes.shape({
+  id: PropTypes.string,
+  items: ShoppingCartItemsPropType,
+});
+
+export default ShoppingCartPropType;

@@ -23,10 +23,7 @@ app.use('/', express.static('dist/', {
   maxAge: '1d',
 }));
 
-const authorizedApi = require('./authorizedApi');
-const publicApi = require('./publicApi');
-
-authorizedApi.registerEndpoints(app);
-publicApi.registerEndpoints(app);
+require('./authorizedApi').registerEndpoints(app);
+require('./publicApi').registerEndpoints(app);
 
 app.get('/*', (req, res) => res.sendFile(path.join(__dirname, '../../dist', 'index.html')));

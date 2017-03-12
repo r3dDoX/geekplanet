@@ -1,6 +1,6 @@
+import shortId from 'shortid';
 import ActionTypes from '../actionTypes';
 import { load, store, ids } from '../storage';
-import shortId from 'shortid';
 
 const initialState = {
   id: shortId.generate(),

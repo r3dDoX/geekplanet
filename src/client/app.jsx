@@ -36,6 +36,7 @@ class App extends React.Component {
     this.requireAuth = (nextState, replace) => {
       if (!authService.loggedIn()) {
         replace({ pathname: '/' });
+        authService.login();
       }
     };
 
@@ -55,7 +56,7 @@ class App extends React.Component {
             <Route path="/" component={Layout}>
               <IndexRoute component={Home} />
               <Route path="forms" component={Forms} onEnter={this.requireAuth} />
-              <Route path="order" component={OrderStepper} />
+              <Route path="order" component={OrderStepper} onEnter={this.requireAuth} />
             </Route>
           </Router>
         </IntlProvider>

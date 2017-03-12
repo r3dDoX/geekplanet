@@ -11,7 +11,7 @@ import Link from 'react-router/lib/Link';
 import { white } from 'material-ui/styles/colors';
 import ShoppingCartItem from './shoppingCartItem.jsx';
 import formatPrice from '../products/priceFormatter';
-import ShoppingCartPropType from './shoppingCart.proptypes';
+import { ShoppingCartItemsPropType } from './shoppingCart.proptypes';
 import ActionTypes from '../actionTypes';
 
 const ShoppingCartMenu = ({
@@ -68,12 +68,12 @@ const ShoppingCartMenu = ({
 );
 
 ShoppingCartMenu.propTypes = {
-  shoppingCart: ShoppingCartPropType.isRequired,
+  shoppingCart: ShoppingCartItemsPropType.isRequired,
   setAmount: PropTypes.func.isRequired,
 };
 
 export default connect(
-  state => ({ shoppingCart: state.shoppingCart }),
+  state => ({ shoppingCart: state.shoppingCart.items }),
   dispatch => ({
     setAmount(amount, product) {
       dispatch({

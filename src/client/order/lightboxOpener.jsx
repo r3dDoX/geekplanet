@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
-import shortId from 'shortid';
 import { FormattedMessage } from 'react-intl';
-import ShoppingCartPropType from '../shoppingcart/shoppingCart.proptypes';
+import { ShoppingCartPropType } from '../shoppingcart/shoppingCart.proptypes';
 
 const styles = {
   button: {
@@ -18,15 +17,15 @@ const LightboxOpener = ({ shoppingCart }, { datatrans: { openPaymentLayer } }) =
     primary
     onClick={
       () => openPaymentLayer({
-        amount: shoppingCart.reduce(
+        amount: shoppingCart.items.reduce(
           (sum, { amount, product }) => sum + (product.price * amount),
           0) * 100,
         currency: 'CHF',
         sign: SIGN,
         merchantId: MERCHANT_ID,
-        refno: shortId.generate(),
+        refno: shoppingCart.id,
       })
-        .catch(e => window.console.error(e))
+        .catch(e => console.error(e))
     }
   />
 );

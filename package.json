@@ -52,7 +52,7 @@
     "flow-typed": "2.0.0",
     "html-webpack-plugin": "2.28.0",
     "jwt-decode": "2.1.0",
-    "material-ui": "0.17.0",
+    "material-ui": "1.0.0-alpha.7",
     "nodemon": "1.11.0",
     "react": "15.4.2",
     "react-datatrans-lightbox": "1.0.5",

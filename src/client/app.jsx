@@ -67,12 +67,16 @@ class App extends React.Component {
   }
 }
 
+App.defaultProps = {
+  translations: undefined,
+};
+
 App.propTypes = {
   translations: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  loadTranslations: PropTypes.func,
-  loadShoppingCart: PropTypes.func,
-  authServiceCreated: PropTypes.func,
-  loggedIn: PropTypes.func,
+  loadTranslations: PropTypes.func.isRequired,
+  loadShoppingCart: PropTypes.func.isRequired,
+  authServiceCreated: PropTypes.func.isRequired,
+  loggedIn: PropTypes.func.isRequired,
 };
 
 export default connect(

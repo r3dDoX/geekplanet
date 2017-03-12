@@ -72,7 +72,7 @@ const ProducerFormComponent = ({
 );
 
 ProducerFormComponent.propTypes = {
-  loadProducers: PropTypes.func,
+  loadProducers: PropTypes.func.isRequired,
 };
 
 export default connect(

@@ -2,6 +2,7 @@
 
 const jwt = require('express-jwt');
 const shortId = require('shortid');
+const bodyParser = require('body-parser');
 const multer = require('multer')();
 const streamifier = require('streamifier');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -177,6 +178,12 @@ module.exports = {
       new Producer(producer).save()
         .then(() => res.sendStatus(200))
         .catch(error => res.send(error));
+    });
+
+    app.post('/api/payment/:state', bodyParser.urlencoded(), (req, res) => {
+      console.log(req.params.state);
+      console.log(req.body);
+      res.redirect('/order');
     });
   },
 };

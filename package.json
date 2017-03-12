@@ -18,6 +18,7 @@
   "author": "Patrick Walther",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "1.17.1",
     "compression": "1.6.2",
     "express": "4.15.2",
     "express-jwt": "5.1.0",

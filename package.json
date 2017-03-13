@@ -30,7 +30,7 @@
     "streamifier": "0.1.1"
   },
   "devDependencies": {
-    "auth0-lock": "10.12.3",
+    "auth0-lock": "10.13.0",
     "babel-core": "6.24.0",
     "babel-loader": "6.4.0",
     "babel-plugin-react-intl": "2.3.1",

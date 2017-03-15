@@ -73,7 +73,7 @@ models.Order = mongoose.model('Order', {
   _id: String,
   state: {
     type: String,
-    enum: ['STARTED', 'FINISHING', 'FINISHED'],
+    enum: ['STARTED', 'FINISHED', 'CANCELLED'],
     default: 'STARTED',
   },
   user: String,

@@ -90,6 +90,7 @@ module.exports = {
       const order = req.body;
       order._id = order.id;
       order.user = req.user.user_id;
+      order.state = 'STARTED';
 
       new Order(order).save()
         .then(() => res.sendStatus(200))
@@ -97,15 +98,13 @@ module.exports = {
     });
 
     app.delete('/api/orders/:id', authorization, (req, res) =>
-      Order.remove({ _id: req.params.id, user: req.user.user_id })
+      Order.findOneAndUpdate({ _id: req.params.id, user: req.user.user_id }, { state: 'CANCELLED' })
         .then(() => res.sendStatus(200))
         .catch(error => res.send(error))
     );
 
     app.post('/api/payment', bodyParser.json(), authorization, (req, res) => {
       const amount = 22000;
-      Order.findOneAndUpdate({ _id: req.params.id, user: req.user.user_id }, { state: 'FINISHING' })
-        .then(order => console.log(order));
 
       stripe.customers.create({
         email: req.user.email,

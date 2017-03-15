@@ -104,20 +104,28 @@ module.exports = {
     );
 
     app.post('/api/payment', bodyParser.json(), authorization, (req, res) => {
-      const amount = 22000;
-
-      stripe.customers.create({
-        email: req.user.email,
-        source: req.body.token.id,
-      })
-        .then(customer =>
-          stripe.charges.create({
-            amount,
-            description: 'Sample Charge',
-            currency: 'chf',
-            customer: customer.id,
-          }))
-        .then(() => res.sendStatus(200))
+      Order.findOne({ _id: req.body.shoppingCartId, user: req.user.user_id })
+        .then((order) => {
+          stripe.customers.create({
+            email: req.user.email,
+            source: req.body.token.id,
+          })
+            .then(customer =>
+              stripe.charges.create({
+                amount: order.items.reduce(
+                  (sum, { amount, product }) => sum + (amount * product.price * 100),
+                  0
+                ),
+                description: order._id,
+                currency: 'chf',
+                customer: customer.id,
+              }))
+            .then(() => {
+              Order.findOneAndUpdate({ _id: order._id }, { state: 'FINISHED' }).exec();
+              res.sendStatus(200);
+            })
+            .catch(error => console.error(error));
+        })
         .catch(error => console.error(error));
     });
   },

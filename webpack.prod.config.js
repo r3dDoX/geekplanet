@@ -12,8 +12,6 @@ Object.keys(secretConfig).map((key) => {
   secretConfig[key] = `'${secretConfig[key] || process.env[key]}'`;
 });
 
-console.log(secretConfig);
-
 if (process.env.NODE && ~process.env.NODE.indexOf('heroku')) {
   definePlugin = new webpack.DefinePlugin(Object.assign(require('./src/config/heroku.config.json'), secretConfig));
 } else {

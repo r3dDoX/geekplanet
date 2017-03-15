@@ -9,7 +9,7 @@
   },
   "globals": {
     "AUTH": false,
-    "SIGN": false,
-    "MERCHANT_ID": false
+    "PAYMENT_PUBLIC": false,
+    "StripeCheckout": false
   }
 }

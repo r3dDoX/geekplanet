@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const multer = require('multer')();
 const streamifier = require('streamifier');
 const secretConfig = require('../config/secret.config.json');
-const stripe = require('stripe')(secretConfig.PAYMENT_SECRET);
+const stripe = require('stripe')(secretConfig.PAYMENT_SECRET || process.env.PAYMENT_SECRET);
 
 const {
   Order,

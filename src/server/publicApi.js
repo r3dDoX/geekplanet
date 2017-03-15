@@ -50,11 +50,5 @@ module.exports = {
         res.status(500).send('Fetching producers failed!');
       })
     );
-
-    app.post('/api/payment/:state', bodyParser.urlencoded(), (req, res) => {
-      console.log(req.params.state);
-      console.log(req.body);
-      res.redirect('/order');
-    });
   },
 };

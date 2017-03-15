@@ -71,6 +71,11 @@ const OrderItemSchema = mongoose.Schema({
 
 models.Order = mongoose.model('Order', {
   _id: String,
+  state: {
+    type: String,
+    enum: ['STARTED', 'FINISHING', 'FINISHED'],
+    default: 'STARTED',
+  },
   user: String,
   items: [OrderItemSchema],
 });

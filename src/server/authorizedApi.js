@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const multer = require('multer')();
 const streamifier = require('streamifier');
 const secretConfig = require('../config/secret.config.json');
+const stripe = require('stripe')(secretConfig.PAYMENT_SECRET);
 
 const {
   Order,
@@ -95,10 +96,30 @@ module.exports = {
         .catch(error => res.send(error));
     });
 
-    app.delete('/api/orders/:id', authorization, (req, res) => {
+    app.delete('/api/orders/:id', authorization, (req, res) =>
       Order.remove({ _id: req.params.id, user: req.user.user_id })
         .then(() => res.sendStatus(200))
-        .catch(error => res.send(error));
+        .catch(error => res.send(error))
+    );
+
+    app.post('/api/payment', bodyParser.json(), authorization, (req, res) => {
+      const amount = 22000;
+      Order.findOneAndUpdate({ _id: req.params.id, user: req.user.user_id }, { state: 'FINISHING' })
+        .then(order => console.log(order));
+
+      stripe.customers.create({
+        email: req.user.email,
+        source: req.body.token.id,
+      })
+        .then(customer =>
+          stripe.charges.create({
+            amount,
+            description: 'Sample Charge',
+            currency: 'chf',
+            customer: customer.id,
+          }))
+        .then(() => res.sendStatus(200))
+        .catch(error => console.error(error));
     });
   },
 };

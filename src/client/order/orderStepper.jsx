@@ -7,10 +7,10 @@ import {
   StepContent,
 } from 'material-ui/Stepper';
 import { FormattedMessage } from 'react-intl';
-import RaisedButton from 'material-ui/RaisedButton';
-import Xhr from '../xhr';
 import { ShoppingCartPropType } from '../shoppingcart/shoppingCart.proptypes';
 import ActionTypes from '../actionTypes';
+import UserAddress from './userAddress.jsx';
+import Payment from './payment.jsx';
 
 const styles = {
   container: {
@@ -42,33 +42,7 @@ const styles = {
   },
 };
 
-const startOrder = shoppingCart => Xhr.post(
-  '/api/orders',
-  JSON.stringify(shoppingCart),
-  'application/json'
-);
-
 const OrderStepper = ({ email, shoppingCart, finishOrder }) => {
-  const stripeConfig = {
-    key: PAYMENT_PUBLIC,
-    locale: 'auto',
-    opened: () => startOrder(shoppingCart),
-    token: token => Xhr.post(
-      '/api/payment',
-      JSON.stringify({ token, shoppingCartId: shoppingCart.id }),
-      'application/json'
-    )
-      .then(finishOrder, () => {
-        /* TODO implement error handling when payment fails */
-      }),
-  };
-
-  if (email) {
-    stripeConfig.email = email;
-  }
-
-  const handler = StripeCheckout.configure(stripeConfig);
-
   return (
     <div style={styles.container}>
       <Stepper
@@ -78,30 +52,22 @@ const OrderStepper = ({ email, shoppingCart, finishOrder }) => {
       >
         <Step>
           <StepButton>
-            <FormattedMessage id="ORDER.PAYMENT.TITLE" />
+            <FormattedMessage id="ORDER.ADDRESS.TITLE" />
           </StepButton>
           <StepContent>
-            <RaisedButton
-              onClick={() => handler.open({
-                name: 'Geekplanet GmbH',
-                image: '/assets/images/icon.png',
-                currency: 'chf',
-                amount: shoppingCart.items.reduce(
-                  (sum, { amount, product }) => (amount * product.price * 100) + sum,
-                  0
-                ),
-              })}
-              label={<FormattedMessage id="ORDER.PAYMENT.SELECT_PAYMENT_METHOD" />}
-              primary
-            />
+            <UserAddress />
           </StepContent>
         </Step>
         <Step>
           <StepButton>
-            <FormattedMessage id="ORDER.ADDRESS.TITLE" />
+            <FormattedMessage id="ORDER.PAYMENT.TITLE" />
           </StepButton>
           <StepContent>
-            <p>An ad group contains one or more ads which target a shared set of keywords.</p>
+            {email && <Payment
+              email={email}
+              shoppingCart={shoppingCart}
+              finishOrder={finishOrder}
+            />}
           </StepContent>
         </Step>
       </Stepper>

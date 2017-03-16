@@ -2,6 +2,7 @@ import Auth0Lock from 'auth0-lock';
 import { browserHistory } from 'react-router';
 import jwtDecode from 'jwt-decode';
 import * as storage from '../storage';
+import { backgroundColor } from '../theme';
 
 const clientId = AUTH.CLIENT_ID;
 const domain = 'geekplanet.eu.auth0.com';
@@ -74,6 +75,10 @@ export default {
         },
       },
       language,
+      theme: {
+        logo: '/assets/images/logo.svg',
+        primaryColor: backgroundColor,
+      },
     });
 
     // Add callback for lock `authenticated` event

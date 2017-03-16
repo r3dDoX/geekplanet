@@ -30,6 +30,7 @@ const ShoppingCartMenu = ({
   >
     <ListItem
       insetChildren
+      disabled={shoppingCart.length === 0}
       containerElement={
         <Link to="/order">
           <FormattedMessage id="SHOPPING_CART.TITLE" />

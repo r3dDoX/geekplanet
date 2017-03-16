@@ -42,38 +42,36 @@ const styles = {
   },
 };
 
-const OrderStepper = ({ email, shoppingCart, finishOrder }) => {
-  return (
-    <div style={styles.container}>
-      <Stepper
-        activeStep={0}
-        linear={false}
-        orientation="vertical"
-      >
-        <Step>
-          <StepButton>
-            <FormattedMessage id="ORDER.ADDRESS.TITLE" />
-          </StepButton>
-          <StepContent>
-            <UserAddress />
-          </StepContent>
-        </Step>
-        <Step>
-          <StepButton>
-            <FormattedMessage id="ORDER.PAYMENT.TITLE" />
-          </StepButton>
-          <StepContent>
-            {email && <Payment
-              email={email}
-              shoppingCart={shoppingCart}
-              finishOrder={finishOrder}
-            />}
-          </StepContent>
-        </Step>
-      </Stepper>
-    </div>
-  );
-};
+const OrderStepper = ({ email, shoppingCart, finishOrder }) => (
+  <div style={styles.container}>
+    <Stepper
+      activeStep={0}
+      linear={false}
+      orientation="vertical"
+    >
+      <Step>
+        <StepButton>
+          <FormattedMessage id="ORDER.ADDRESS.TITLE" />
+        </StepButton>
+        <StepContent>
+          <UserAddress />
+        </StepContent>
+      </Step>
+      <Step>
+        <StepButton>
+          <FormattedMessage id="ORDER.PAYMENT.TITLE" />
+        </StepButton>
+        <StepContent>
+          {email && <Payment
+            email={email}
+            shoppingCart={shoppingCart}
+            finishOrder={finishOrder}
+          />}
+        </StepContent>
+      </Step>
+    </Stepper>
+  </div>
+);
 
 OrderStepper.defaultProps = {
   email: '',

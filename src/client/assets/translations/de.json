@@ -33,7 +33,17 @@
       "SELECT_PAYMENT_METHOD": "Zahlungsmethode auswählen"
     },
     "ADDRESS": {
-      "TITLE": "Lieferadresse"
+      "TITLE": "Lieferadresse",
+      "FORM": {
+        "TITLE": "Anrede",
+        "MR": "Herr",
+        "MRS": "Frau",
+        "FIRST_NAME": "Vorname",
+        "LAST_NAME": "Nachname",
+        "ADDRESS": "Adresse",
+        "ZIP": "PLZ",
+        "CITY": "Stadt"
+      }
     }
   }
 }

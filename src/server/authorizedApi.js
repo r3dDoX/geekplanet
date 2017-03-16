@@ -10,6 +10,7 @@ const stripe = require('stripe')(secretConfig.PAYMENT_SECRET || process.env.PAYM
 
 const {
   Order,
+  OrderState,
   Producer,
   Product,
   ProductCategory,
@@ -37,12 +38,17 @@ const isAdmin = (req, res, next) => {
   next();
 };
 
+const handleGenericError = (error, response) => {
+  console.error(error);
+  response.status(500).send(error);
+};
+
 module.exports = {
   registerEndpoints(app) {
     app.post('/api/productcategories', multer.none(), authorization, isAdmin, (req, res) => {
       new ProductCategory(req.body).save()
         .then(() => res.sendStatus(200))
-        .catch(error => res.send(error));
+        .catch(error => handleGenericError(error, res));
     });
 
     app.post('/api/products', multer.any(), authorization, isAdmin, (req, res) => {
@@ -74,7 +80,7 @@ module.exports = {
 
       new Supplier(supplier).save()
         .then(() => res.sendStatus(200))
-        .catch(error => res.send(error));
+        .catch(error => handleGenericError(error, res));
     });
 
     app.post('/api/producers', multer.none(), authorization, isAdmin, (req, res) => {
@@ -83,50 +89,36 @@ module.exports = {
 
       new Producer(producer).save()
         .then(() => res.sendStatus(200))
-        .catch(error => res.send(error));
+        .catch(error => handleGenericError(error, res));
     });
 
     app.post('/api/orders', bodyParser.json(), authorization, (req, res) => {
       const order = req.body;
       order._id = order.id;
       order.user = req.user.user_id;
-      order.state = 'STARTED';
+      order.state = OrderState.STARTED;
 
       new Order(order).save()
         .then(() => res.sendStatus(200))
-        .catch(error => res.send(error));
+        .catch(error => handleGenericError(error, res));
     });
 
-    app.delete('/api/orders/:id', authorization, (req, res) =>
-      Order.findOneAndUpdate({ _id: req.params.id, user: req.user.user_id }, { state: 'CANCELLED' })
-        .then(() => res.sendStatus(200))
-        .catch(error => res.send(error))
-    );
-
     app.post('/api/payment', bodyParser.json(), authorization, (req, res) => {
-      Order.findOne({ _id: req.body.shoppingCartId, user: req.user.user_id })
-        .then((order) => {
-          stripe.customers.create({
-            email: req.user.email,
+      const orderQuery = Order.findOne({ _id: req.body.shoppingCartId, user: req.user.user_id });
+
+      orderQuery
+        .then(order =>
+          stripe.charges.create({
+            amount: order.items.reduce(
+              (sum, { amount, product }) => sum + (amount * product.price * 100), 0
+            ),
+            description: order._id,
+            currency: 'chf',
             source: req.body.token.id,
-          })
-            .then(customer =>
-              stripe.charges.create({
-                amount: order.items.reduce(
-                  (sum, { amount, product }) => sum + (amount * product.price * 100),
-                  0
-                ),
-                description: order._id,
-                currency: 'chf',
-                customer: customer.id,
-              }))
-            .then(() => {
-              Order.findOneAndUpdate({ _id: order._id }, { state: 'FINISHED' }).exec();
-              res.sendStatus(200);
-            })
-            .catch(error => console.error(error));
-        })
-        .catch(error => console.error(error));
+          }))
+        .then(() => orderQuery.update({ state: OrderState.FINISHED }))
+        .then(() => res.sendStatus(200))
+        .catch(error => handleGenericError(error, res));
     });
   },
 };

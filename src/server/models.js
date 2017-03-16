@@ -69,14 +69,23 @@ const OrderItemSchema = mongoose.Schema({
   product: ProductSchema,
 });
 
+models.OrderState = {
+  STARTED: 'STARTED',
+  FINISHED: 'FINISHED',
+};
+
 models.Order = mongoose.model('Order', {
   _id: String,
   state: {
     type: String,
-    enum: ['STARTED', 'FINISHED', 'CANCELLED'],
-    default: 'STARTED',
+    enum: Object.keys(models.OrderState),
+    default: models.OrderState.STARTED,
   },
   user: String,
+  date: {
+    type: Date,
+    default: Date.now(),
+  },
   items: [OrderItemSchema],
 });
 

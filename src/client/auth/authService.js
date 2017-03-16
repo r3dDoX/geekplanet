@@ -75,6 +75,9 @@ export default {
         },
       },
       language,
+      languageDictionary: {
+        title: '',
+      },
       theme: {
         logo: '/assets/images/logo.svg',
         primaryColor: brandSecondary,

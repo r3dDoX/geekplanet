@@ -10,6 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import RaisedButton from 'material-ui/RaisedButton';
 import Xhr from '../xhr';
 import { ShoppingCartPropType } from '../shoppingcart/shoppingCart.proptypes';
+import ActionTypes from '../actionTypes';
 
 const styles = {
   container: {
@@ -46,19 +47,20 @@ const startOrder = shoppingCart => Xhr.post(
   JSON.stringify(shoppingCart),
   'application/json'
 );
-const removeOrder = shoppingCartId => Xhr.deleteHttp(`/api/orders/${shoppingCartId}`);
 
-const OrderStepper = ({ email, shoppingCart }) => {
+const OrderStepper = ({ email, shoppingCart, finishOrder }) => {
   const stripeConfig = {
     key: PAYMENT_PUBLIC,
     locale: 'auto',
+    opened: () => startOrder(shoppingCart),
     token: token => Xhr.post(
       '/api/payment',
       JSON.stringify({ token, shoppingCartId: shoppingCart.id }),
       'application/json'
-    ),
-    opened: () => startOrder(shoppingCart),
-    closed: () => removeOrder(shoppingCart.id),
+    )
+      .then(finishOrder, () => {
+        /* TODO implement error handling when payment fails */
+      }),
   };
 
   if (email) {
@@ -114,6 +116,7 @@ OrderStepper.defaultProps = {
 OrderStepper.propTypes = {
   email: PropTypes.string,
   shoppingCart: ShoppingCartPropType.isRequired,
+  finishOrder: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -121,5 +124,9 @@ export default connect(
     email: state.auth.email,
     shoppingCart: state.shoppingCart,
   }),
-  () => ({})
+  dispatch => ({
+    finishOrder: () => dispatch({
+      type: ActionTypes.ORDER_FINISHED,
+    }),
+  })
 )(OrderStepper);

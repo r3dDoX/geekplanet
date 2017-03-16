@@ -1,6 +1,6 @@
 import shortId from 'shortid';
 import ActionTypes from '../actionTypes';
-import { load, store, ids } from '../storage';
+import { load, store, remove, ids } from '../storage';
 
 const initialState = {
   id: shortId.generate(),
@@ -68,6 +68,10 @@ export default function auth(state = initialState, { type, data }) {
       store(ids.SHOPPING_CART, newState);
 
       return newState;
+    }
+    case ActionTypes.ORDER_FINISHED: {
+      remove(ids.SHOPPING_CART);
+      return initialState;
     }
     default: {
       return state;

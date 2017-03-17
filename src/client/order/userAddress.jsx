@@ -1,44 +1,43 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import TextField from 'material-ui/TextField';
-import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { FormattedMessage } from 'react-intl';
+import RaisedButton from 'material-ui/RaisedButton';
+import SelectField from './selectField.jsx';
+import TextField from './textField.jsx';
+
+const formName = 'userAddress';
 
 const styles = {
   container: {
     marginTop: '20px',
   },
+  submitButton: {
+    marginTop: '20px',
+  },
 };
 
-const renderSelectField = ({ input, label, meta: { touched, error }, children }) => (
-  <SelectField
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    onChange={(event, index, value) => input.onChange(value)}
-    autoWidth
-  >
-    {children}
-  </SelectField>
-);
+const required = (value) => {
+  if (!(value && value.length >= 1)) {
+    return <FormattedMessage id="ORDER.ADDRESS.FORM.REQUIRED" />;
+  }
 
-const renderTextField = ({ input, label, type, min, max, meta: { touched, error } }) => (
-  <TextField
-    floatingLabelText={label}
-    errorText={touched && error}
-    type={type}
-    min={min}
-    max={max}
-    {...input}
-  />
-);
+  return null;
+};
 
-const UserAddress = () => (
+const requiredZIP = (value) => {
+  if (!(value && Number(value) >= 1000 && Number(value) < 10000)) {
+    return <FormattedMessage id="ORDER.ADDRESS.FORM.REQUIRED_ZIP" />;
+  }
+
+  return null;
+};
+
+const UserAddress = ({ handleSubmit, onSubmit }) => (
   <div style={styles.container}>
-    <form>
+    <form name={formName} onSubmit={handleSubmit(onSubmit)}>
       <Field
-        component={renderSelectField}
+        component={SelectField}
         name="title"
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.TITLE" />}
       >
@@ -47,43 +46,68 @@ const UserAddress = () => (
       </Field>
       <br />
       <Field
-        component={renderTextField}
+        component={TextField}
         name="firstName"
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.FIRST_NAME" />}
         type="text"
+        validate={[required]}
       />&nbsp;
       <Field
-        component={renderTextField}
+        component={TextField}
         name="lastName"
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.LAST_NAME" />}
         type="text"
+        validate={[required]}
       />
       <br />
       <Field
-        component={renderTextField}
-        name="address"
-        label={<FormattedMessage id="ORDER.ADDRESS.FORM.ADDRESS" />}
+        component={TextField}
+        name="streetName"
+        label={<FormattedMessage id="ORDER.ADDRESS.FORM.STREET_NAME" />}
         type="text"
+        validate={[required]}
+      />&nbsp;
+      <Field
+        component={TextField}
+        name="streetNumber"
+        label={<FormattedMessage id="ORDER.ADDRESS.FORM.STREET_NUMBER" />}
+        type="number"
+        validate={[required]}
       />
       <br />
       <Field
-        component={renderTextField}
+        component={TextField}
         name="zip"
         min="1000"
         max="9999"
         type="number"
+        validate={[requiredZIP]}
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.ZIP" />}
       />&nbsp;
       <Field
-        component={renderTextField}
+        component={TextField}
         name="city"
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.CITY" />}
         type="text"
+        validate={[required]}
+      />
+      <br />
+      <RaisedButton
+        primary
+        style={styles.submitButton}
+        label={<FormattedMessage id="ORDER.ADDRESS.FORM.NEXT" />}
+        type="submit"
       />
     </form>
   </div>
 );
 
+UserAddress.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
+
 export default reduxForm({
-  form: 'userAddress',
+  form: formName,
+  destroyOnUnmount: false,
 })(UserAddress);

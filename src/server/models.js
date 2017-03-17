@@ -9,12 +9,14 @@ const gridfs = require('mongoose-gridfs')({
 
 models.ProductPictures = gridfs.model;
 
-const AddressSchema = mongoose.Schema({
+const address = {
   streetName: String,
   streetNumber: String,
   zip: Number,
   city: String,
-});
+};
+
+const AddressSchema = mongoose.Schema(address);
 
 models.ProductCategory = mongoose.model('ProductCategory', {
   name: String,
@@ -60,9 +62,11 @@ models.Supplier = mongoose.model('Supplier', {
   remarks: String,
 });
 
-models.UserAddress = mongoose.model('UserAddress', {
-
-});
+models.UserAddress = mongoose.model('UserAddress', Object.assign({
+  user: String,
+  firstName: String,
+  lastName: String,
+}, address));
 
 const OrderItemSchema = mongoose.Schema({
   amount: Number,

@@ -40,10 +40,17 @@
         "MRS": "Frau",
         "FIRST_NAME": "Vorname",
         "LAST_NAME": "Nachname",
-        "ADDRESS": "Adresse",
+        "STREET_NAME": "Strasse",
+        "STREET_NUMBER": "Nummer",
         "ZIP": "PLZ",
-        "CITY": "Stadt"
+        "CITY": "Stadt",
+        "NEXT": "Weiter",
+        "REQUIRED": "Dieses Feld ist notwendig",
+        "REQUIRED_ZIP": "Die Postleitzahl muss zwischen 1000 und 9999 liegen"
       }
+    },
+    "CONFIRMATION": {
+      "TITLE": "Bestätigung"
     }
   }
 }

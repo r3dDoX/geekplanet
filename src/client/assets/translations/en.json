@@ -40,10 +40,17 @@
         "MRS": "Mrs",
         "FIRST_NAME": "First name",
         "LAST_NAME": "Last name",
-        "ADDRESS": "Address",
+        "STREET_NAME": "Street",
+        "STREET_NUMBER": "Number",
         "ZIP": "ZIP",
-        "CITY": "City"
+        "CITY": "City",
+        "NEXT": "Next",
+        "REQUIRED": "This field is required",
+        "REQUIRED_ZIP": "The zip code must be between 1000 and 9999"
       }
+    },
+    "CONFIRMATION": {
+      "TITLE": "Confirmation"
     }
   }
 }

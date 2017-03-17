@@ -16,6 +16,7 @@ const {
   ProductCategory,
   ProductPictures,
   Supplier,
+  UserAddress,
 } = require('./models');
 
 const parseAddress = ({ streetName, houseNumber, zip, city }) => ({
@@ -100,6 +101,15 @@ module.exports = {
 
       new Order(order).save()
         .then(() => res.sendStatus(200))
+        .catch(error => handleGenericError(error, res));
+    });
+
+    app.post('/api/userAddress', authorization, bodyParser.json(), (req, res) => {
+      const userAddress = req.body;
+      userAddress.user = req.user.user_id;
+
+      new UserAddress(userAddress).save()
+        .then(address => res.status(200).send(address._id))
         .catch(error => handleGenericError(error, res));
     });
 

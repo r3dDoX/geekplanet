@@ -11,6 +11,7 @@ import { ShoppingCartPropType } from '../shoppingcart/shoppingCart.proptypes';
 import ActionTypes from '../actionTypes';
 import UserAddress from './userAddress.jsx';
 import Payment from './payment.jsx';
+import Xhr from '../xhr';
 
 const styles = {
   container: {
@@ -42,10 +43,10 @@ const styles = {
   },
 };
 
-const OrderStepper = ({ email, shoppingCart, finishOrder }) => (
+const OrderStepper = ({ email, shoppingCart, finishOrder, saveAddress, order }) => (
   <div style={styles.container}>
     <Stepper
-      activeStep={0}
+      activeStep={order.step}
       linear={false}
       orientation="vertical"
     >
@@ -54,7 +55,7 @@ const OrderStepper = ({ email, shoppingCart, finishOrder }) => (
           <FormattedMessage id="ORDER.ADDRESS.TITLE" />
         </StepButton>
         <StepContent>
-          <UserAddress />
+          <UserAddress onSubmit={saveAddress} />
         </StepContent>
       </Step>
       <Step>
@@ -69,6 +70,14 @@ const OrderStepper = ({ email, shoppingCart, finishOrder }) => (
           />}
         </StepContent>
       </Step>
+      <Step>
+        <StepButton>
+          <FormattedMessage id="ORDER.CONFIRMATION.TITLE" />
+        </StepButton>
+        <StepContent>
+          <p>Bestätigung</p>
+        </StepContent>
+      </Step>
     </Stepper>
   </div>
 );
@@ -81,14 +90,29 @@ OrderStepper.propTypes = {
   email: PropTypes.string,
   shoppingCart: ShoppingCartPropType.isRequired,
   finishOrder: PropTypes.func.isRequired,
-};
+  saveAddress: PropTypes.func.isRequired,
+  order: PropTypes.shape({
+    step: PropTypes.number.isRequired,
+  }).isRequired,
+}
+;
 
 export default connect(
   state => ({
     email: state.auth.email,
     shoppingCart: state.shoppingCart,
+    order: state.order,
   }),
   dispatch => ({
+    saveAddress: address => Xhr.post(
+      '/api/userAddress',
+      JSON.stringify(address),
+      'application/json'
+    )
+      .then(addressId => dispatch({
+        type: ActionTypes.SAVE_ADDRESS,
+        data: addressId,
+      })),
     finishOrder: () => dispatch({
       type: ActionTypes.ORDER_FINISHED,
     }),

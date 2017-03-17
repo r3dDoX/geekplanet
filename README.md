@@ -13,11 +13,15 @@ Don't worry about ```npm install```. This will be run on start of the node conta
 * Express
 * JWT
 * Mongoose
-* Stripe
 
 ## Frontend
 * React
-* Auth0
-* Stripe
+* Redux
 * Webpack
 * Babel
+
+## Authentication Provider
+* Auth0
+
+## Payment Provider
+* Stripe

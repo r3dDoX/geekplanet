@@ -64,6 +64,7 @@ models.Supplier = mongoose.model('Supplier', {
 
 models.UserAddress = mongoose.model('UserAddress', Object.assign({
   user: String,
+  title: String,
   firstName: String,
   lastName: String,
 }, address));

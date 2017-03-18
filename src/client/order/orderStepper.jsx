@@ -7,11 +7,14 @@ import {
   StepContent,
 } from 'material-ui/Stepper';
 import { FormattedMessage } from 'react-intl';
+import { reset } from 'redux-form';
 import { ShoppingCartPropType } from '../shoppingcart/shoppingCart.proptypes';
 import ActionTypes from '../actionTypes';
-import UserAddress from './userAddress.jsx';
+import AddressChooser from './addressChooser.jsx';
+import UserAddress, { formName } from './userAddress.jsx';
 import Payment from './payment.jsx';
 import Xhr from '../xhr';
+import OrderPropType from './order.proptypes';
 
 const styles = {
   container: {
@@ -43,44 +46,62 @@ const styles = {
   },
 };
 
-const OrderStepper = ({ email, shoppingCart, finishOrder, saveAddress, order }) => (
-  <div style={styles.container}>
-    <Stepper
-      activeStep={order.step}
-      linear={false}
-      orientation="vertical"
-    >
-      <Step>
-        <StepButton>
-          <FormattedMessage id="ORDER.ADDRESS.TITLE" />
-        </StepButton>
-        <StepContent>
-          <UserAddress onSubmit={saveAddress} />
-        </StepContent>
-      </Step>
-      <Step>
-        <StepButton>
-          <FormattedMessage id="ORDER.PAYMENT.TITLE" />
-        </StepButton>
-        <StepContent>
-          {email && <Payment
-            email={email}
-            shoppingCart={shoppingCart}
-            finishOrder={finishOrder}
-          />}
-        </StepContent>
-      </Step>
-      <Step>
-        <StepButton>
-          <FormattedMessage id="ORDER.CONFIRMATION.TITLE" />
-        </StepButton>
-        <StepContent>
-          <p>Bestätigung</p>
-        </StepContent>
-      </Step>
-    </Stepper>
-  </div>
-);
+class OrderStepper extends React.Component {
+  componentWillMount() {
+    this.props.loadAddresses();
+  }
+
+  render() {
+    const {
+      email,
+      shoppingCart,
+      finishOrder,
+      selectAddress,
+      saveAddress,
+      order,
+    } = this.props;
+
+    return (
+      <div style={styles.container}>
+        <Stepper
+          activeStep={order.step}
+          linear={false}
+          orientation="vertical"
+        >
+          <Step>
+            <StepButton>
+              <FormattedMessage id="ORDER.ADDRESS.TITLE" />
+            </StepButton>
+            <StepContent>
+              <AddressChooser addresses={order.addresses} selectAddress={selectAddress} />
+              <UserAddress onSubmit={saveAddress} initialValues={order.selectedAddress} />
+            </StepContent>
+          </Step>
+          <Step>
+            <StepButton>
+              <FormattedMessage id="ORDER.PAYMENT.TITLE" />
+            </StepButton>
+            <StepContent>
+              {email && <Payment
+                email={email}
+                shoppingCart={shoppingCart}
+                finishOrder={finishOrder}
+              />}
+            </StepContent>
+          </Step>
+          <Step>
+            <StepButton>
+              <FormattedMessage id="ORDER.CONFIRMATION.TITLE" />
+            </StepButton>
+            <StepContent>
+              <p>Bestätigung</p>
+            </StepContent>
+          </Step>
+        </Stepper>
+      </div>
+    );
+  }
+}
 
 OrderStepper.defaultProps = {
   email: '',
@@ -90,12 +111,11 @@ OrderStepper.propTypes = {
   email: PropTypes.string,
   shoppingCart: ShoppingCartPropType.isRequired,
   finishOrder: PropTypes.func.isRequired,
+  loadAddresses: PropTypes.func.isRequired,
+  selectAddress: PropTypes.func.isRequired,
   saveAddress: PropTypes.func.isRequired,
-  order: PropTypes.shape({
-    step: PropTypes.number.isRequired,
-  }).isRequired,
-}
-;
+  order: OrderPropType.isRequired,
+};
 
 export default connect(
   state => ({
@@ -104,6 +124,21 @@ export default connect(
     order: state.order,
   }),
   dispatch => ({
+    loadAddresses: () => Xhr.get('/api/userAddresses')
+      .then(addresses => dispatch({
+        type: ActionTypes.ADDRESSES_LOADED,
+        data: addresses,
+      })),
+    selectAddress: (addressId) => {
+      if (addressId) {
+        dispatch({
+          type: ActionTypes.SELECT_ADDRESS,
+          data: addressId,
+        });
+      } else {
+        dispatch(reset(formName));
+      }
+    },
     saveAddress: address => Xhr.post(
       '/api/userAddress',
       JSON.stringify(address),

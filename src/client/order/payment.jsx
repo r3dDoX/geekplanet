@@ -4,6 +4,12 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Xhr from '../xhr';
 import { ShoppingCartPropType } from '../shoppingcart/shoppingCart.proptypes';
 
+const styles = {
+  paymentButton: {
+    marginTop: '20px',
+  },
+};
+
 const startOrder = shoppingCart => Xhr.post(
   '/api/orders',
   JSON.stringify(shoppingCart),
@@ -28,6 +34,7 @@ const Payment = ({ email, shoppingCart, finishOrder }) => {
 
   return (
     <RaisedButton
+      style={styles.paymentButton}
       onClick={() => handler.open({
         name: 'Geekplanet GmbH',
         image: '/assets/images/icon.png',

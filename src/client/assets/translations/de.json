@@ -43,6 +43,7 @@
         "STREET_ADDRESS": "Adresse",
         "ZIP": "PLZ",
         "CITY": "Stadt",
+        "COUNTRY": "Land",
         "NEXT": "Weiter",
         "REQUIRED": "Dieses Feld ist notwendig",
         "REQUIRED_ZIP": "Die Postleitzahl muss zwischen 1000 und 9999 liegen",
@@ -53,5 +54,9 @@
     "CONFIRMATION": {
       "TITLE": "Bestätigung"
     }
+  },
+  "COUNTRIES": {
+    "CHE": "Schweiz",
+    "LIE": "Liechtenstein"
   }
 }

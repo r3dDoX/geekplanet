@@ -8,6 +8,7 @@ export const UserAddressPropType = PropTypes.shape({
   streetAddress: PropTypes.string.isRequired,
   zip: PropTypes.number.isRequired,
   city: PropTypes.string.isRequired,
+  country: PropTypes.string.isRequired,
 });
 
 export const UserAddressesPropType = PropTypes.arrayOf(UserAddressPropType);

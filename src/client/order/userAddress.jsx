@@ -49,6 +49,7 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         component={SelectField}
         name="title"
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.TITLE" />}
+        validate={[required]}
       >
         <MenuItem value={'Frau'} primaryText={<FormattedMessage id="ORDER.ADDRESS.FORM.MRS" />} />
         <MenuItem value={'Herr'} primaryText={<FormattedMessage id="ORDER.ADDRESS.FORM.MR" />} />
@@ -93,6 +94,16 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         type="text"
         validate={[required]}
       />
+      <br />
+      <Field
+        component={SelectField}
+        name="country"
+        label={<FormattedMessage id="ORDER.ADDRESS.FORM.COUNTRY" />}
+        validate={[required]}
+      >
+        <MenuItem value={'Schweiz'} primaryText={<FormattedMessage id="COUNTRIES.CHE" />} />
+        <MenuItem value={'Liechtenstein'} primaryText={<FormattedMessage id="COUNTRIES.LIE" />} />
+      </Field>
       <br />
       <RaisedButton
         primary

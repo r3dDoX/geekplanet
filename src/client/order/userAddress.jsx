@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from './selectField.jsx';
 import TextField from './textField.jsx';
 
-const formName = 'userAddress';
+export const formName = 'userAddress';
 
 const styles = {
   container: {

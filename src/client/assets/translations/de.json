@@ -46,7 +46,8 @@
         "CITY": "Stadt",
         "NEXT": "Weiter",
         "REQUIRED": "Dieses Feld ist notwendig",
-        "REQUIRED_ZIP": "Die Postleitzahl muss zwischen 1000 und 9999 liegen"
+        "REQUIRED_ZIP": "Die Postleitzahl muss zwischen 1000 und 9999 liegen",
+        "NO_ADDRESS": "Neue Adresse erfassen"
       }
     },
     "CONFIRMATION": {

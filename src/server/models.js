@@ -11,7 +11,7 @@ models.ProductPictures = gridfs.model;
 
 const address = {
   streetName: String,
-  streetNumber: String,
+  streetNumber: Number,
   zip: Number,
   city: String,
 };

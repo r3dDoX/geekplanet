@@ -113,6 +113,12 @@ module.exports = {
         .catch(error => handleGenericError(error, res));
     });
 
+    app.get('/api/userAddresses', authorization, (req, res) =>
+      UserAddress.find({ user: req.user.user_id }, { user: 0 })
+        .then(addresses => res.status(200).send(JSON.stringify(addresses)))
+        .catch(error => handleGenericError(error, res))
+    );
+
     app.post('/api/payment', bodyParser.json(), authorization, (req, res) => {
       const orderQuery = Order.findOne({ _id: req.body.shoppingCartId, user: req.user.user_id });
 

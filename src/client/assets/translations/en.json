@@ -46,7 +46,8 @@
         "CITY": "City",
         "NEXT": "Next",
         "REQUIRED": "This field is required",
-        "REQUIRED_ZIP": "The zip code must be between 1000 and 9999"
+        "REQUIRED_ZIP": "The zip code must be between 1000 and 9999",
+        "NO_ADDRESS": "Add new address"
       }
     },
     "CONFIRMATION": {

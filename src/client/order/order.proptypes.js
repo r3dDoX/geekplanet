@@ -5,8 +5,7 @@ export const UserAddressPropType = PropTypes.shape({
   title: PropTypes.string.isRequired,
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
-  streetName: PropTypes.string.isRequired,
-  streetNumber: PropTypes.number.isRequired,
+  streetAddress: PropTypes.string.isRequired,
   zip: PropTypes.number.isRequired,
   city: PropTypes.string.isRequired,
 });

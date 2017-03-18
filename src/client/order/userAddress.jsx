@@ -12,6 +12,9 @@ const styles = {
   container: {
     marginTop: '20px',
   },
+  idField: {
+    display: 'none',
+  },
   submitButton: {
     marginTop: '20px',
   },
@@ -36,6 +39,12 @@ const requiredZIP = (value) => {
 const UserAddress = ({ handleSubmit, onSubmit }) => (
   <div style={styles.container}>
     <form name={formName} onSubmit={handleSubmit(onSubmit)}>
+      <Field
+        component={TextField}
+        name="_id"
+        type="text"
+        style={styles.idField}
+      />
       <Field
         component={SelectField}
         name="title"
@@ -62,16 +71,9 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
       <br />
       <Field
         component={TextField}
-        name="streetName"
-        label={<FormattedMessage id="ORDER.ADDRESS.FORM.STREET_NAME" />}
+        name="streetAddress"
+        label={<FormattedMessage id="ORDER.ADDRESS.FORM.STREET_ADDRESS" />}
         type="text"
-        validate={[required]}
-      />&nbsp;
-      <Field
-        component={TextField}
-        name="streetNumber"
-        label={<FormattedMessage id="ORDER.ADDRESS.FORM.STREET_NUMBER" />}
-        type="number"
         validate={[required]}
       />
       <br />

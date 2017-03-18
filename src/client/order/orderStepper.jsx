@@ -82,7 +82,7 @@ class OrderStepper extends React.Component {
                   )
                 }
               />
-              <UserAddress onSubmit={saveAddress} selectedAddress={order.selectedAddress} />
+              <UserAddress onSubmit={saveAddress} />
             </StepContent>
           </Step>
           <Step>
@@ -144,15 +144,24 @@ export default connect(
       });
       dispatch(initialize(formName, address));
     },
-    saveAddress: address => Xhr.post(
-      '/api/userAddress',
-      JSON.stringify(address),
-      'application/json'
-    )
-      .then(addressId => dispatch({
-        type: ActionTypes.SAVE_ADDRESS,
-        data: addressId,
-      })),
+    saveAddress: (address) => {
+      if (address._id) {
+        dispatch({
+          type: ActionTypes.SAVE_ADDRESS,
+          data: address._id,
+        });
+      } else {
+        Xhr.post(
+          '/api/userAddress',
+          JSON.stringify(address),
+          'application/json'
+        )
+          .then(addressId => dispatch({
+            type: ActionTypes.SAVE_ADDRESS,
+            data: addressId,
+          }));
+      }
+    },
     finishOrder: () => dispatch({
       type: ActionTypes.ORDER_FINISHED,
     }),

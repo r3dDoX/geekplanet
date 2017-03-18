@@ -10,8 +10,7 @@ const gridfs = require('mongoose-gridfs')({
 models.ProductPictures = gridfs.model;
 
 const address = {
-  streetName: String,
-  streetNumber: Number,
+  streetAddress: String,
   zip: Number,
   city: String,
 };

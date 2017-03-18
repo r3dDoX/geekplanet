@@ -7,7 +7,7 @@ import {
   StepContent,
 } from 'material-ui/Stepper';
 import { FormattedMessage } from 'react-intl';
-import { reset } from 'redux-form';
+import { initialize } from 'redux-form';
 import { ShoppingCartPropType } from '../shoppingcart/shoppingCart.proptypes';
 import ActionTypes from '../actionTypes';
 import AddressChooser from './addressChooser.jsx';
@@ -73,8 +73,16 @@ class OrderStepper extends React.Component {
               <FormattedMessage id="ORDER.ADDRESS.TITLE" />
             </StepButton>
             <StepContent>
-              <AddressChooser addresses={order.addresses} selectAddress={selectAddress} />
-              <UserAddress onSubmit={saveAddress} initialValues={order.selectedAddress} />
+              <AddressChooser
+                addresses={order.addresses}
+                selectedAddressId={order.selectedAddress && order.selectedAddress._id}
+                selectAddress={
+                  addressId => selectAddress(order.addresses
+                    .find(address => address._id === addressId)
+                  )
+                }
+              />
+              <UserAddress onSubmit={saveAddress} selectedAddress={order.selectedAddress} />
             </StepContent>
           </Step>
           <Step>
@@ -129,15 +137,12 @@ export default connect(
         type: ActionTypes.ADDRESSES_LOADED,
         data: addresses,
       })),
-    selectAddress: (addressId) => {
-      if (addressId) {
-        dispatch({
-          type: ActionTypes.SELECT_ADDRESS,
-          data: addressId,
-        });
-      } else {
-        dispatch(reset(formName));
-      }
+    selectAddress: (address) => {
+      dispatch({
+        type: ActionTypes.SELECT_ADDRESS,
+        data: address,
+      });
+      dispatch(initialize(formName, address));
     },
     saveAddress: address => Xhr.post(
       '/api/userAddress',

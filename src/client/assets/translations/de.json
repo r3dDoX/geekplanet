@@ -47,7 +47,8 @@
         "NEXT": "Weiter",
         "REQUIRED": "Dieses Feld ist notwendig",
         "REQUIRED_ZIP": "Die Postleitzahl muss zwischen 1000 und 9999 liegen",
-        "NO_ADDRESS": "Neue Adresse erfassen"
+        "NO_ADDRESS": "Neue Adresse erfassen",
+        "RECENTLY": "Kürzlich gebraucht"
       }
     },
     "CONFIRMATION": {

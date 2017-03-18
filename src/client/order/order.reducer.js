@@ -22,7 +22,7 @@ export default function auth(state = initialState, { type, data }) {
     }
     case ActionTypes.SELECT_ADDRESS: {
       return Object.assign({}, state, {
-        selectedAddress: state.addresses.find(address => address._id === data),
+        selectedAddress: data,
       });
     }
     default: {

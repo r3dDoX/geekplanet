@@ -13,6 +13,7 @@ const address = {
   streetAddress: String,
   zip: Number,
   city: String,
+  country: String,
 };
 
 const AddressSchema = mongoose.Schema(address);
@@ -23,7 +24,10 @@ models.ProductCategory = mongoose.model('ProductCategory', {
 
 const ProductSchema = mongoose.Schema({
   name: String,
-  category: String,
+  category: {
+    type: String,
+    index: true,
+  },
   shortDescription: String,
   description: String,
   price: Number,
@@ -62,7 +66,10 @@ models.Supplier = mongoose.model('Supplier', {
 });
 
 models.UserAddress = mongoose.model('UserAddress', Object.assign({
-  user: String,
+  user: {
+    type: String,
+    index: true,
+  },
   title: String,
   firstName: String,
   lastName: String,
@@ -79,16 +86,23 @@ models.OrderState = {
 };
 
 models.Order = mongoose.model('Order', {
-  _id: String,
+  _id: {
+    type: String,
+    index: true,
+  },
   state: {
     type: String,
     enum: Object.keys(models.OrderState),
     default: models.OrderState.STARTED,
   },
-  user: String,
+  user: {
+    type: String,
+    index: true,
+  },
   date: {
     type: Date,
     default: Date.now(),
+    index: true,
   },
   items: [OrderItemSchema],
 });

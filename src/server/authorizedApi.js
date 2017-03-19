@@ -19,39 +19,33 @@ const {
   UserAddress,
 } = require('./models');
 
-const parseAddress = ({ streetName, houseNumber, zip, city }) => ({
-  streetName,
-  houseNumber,
-  zip,
-  city,
-});
-
 const authorization = jwt({
   secret: process.env.SECRET || secretConfig.SECRET,
   audience: process.env.AUDIENCE || secretConfig.AUDIENCE,
 });
 
-const isAdmin = (req, res, next) => {
+function isAdmin(req, res, next) {
   if (!req.user || req.user.app_metadata.roles.indexOf('admin') === -1) {
     res.sendStatus(403);
     return;
   }
   next();
-};
+}
 
-const handleGenericError = (error, response) => {
+function handleGenericError(error, response) {
   console.error(error);
   response.status(500).send(error);
-};
+}
+
+function saveOrUpdate(Colleciton, document) {
+  if (document._id) {
+    return Colleciton.findOneAndUpdate({ _id: document._id }, document);
+  }
+  return new Colleciton(document).save();
+}
 
 module.exports = {
   registerEndpoints(app) {
-    app.post('/api/productcategories', multer.none(), authorization, isAdmin, (req, res) => {
-      new ProductCategory(req.body).save()
-        .then(() => res.sendStatus(200))
-        .catch(error => handleGenericError(error, res));
-    });
-
     app.post('/api/products', multer.any(), authorization, isAdmin, (req, res) => {
       Promise.all(req.files.map(file =>
         new Promise((resolve, reject) =>
@@ -75,25 +69,25 @@ module.exports = {
         });
     });
 
-    app.post('/api/suppliers', multer.none(), authorization, isAdmin, (req, res) => {
-      const supplier = req.body;
-      supplier.address = parseAddress(supplier);
-
-      new Supplier(supplier).save()
+    app.put('/api/productcategories', authorization, isAdmin, bodyParser.json(), (req, res) =>
+      saveOrUpdate(ProductCategory, req.body)
         .then(() => res.sendStatus(200))
-        .catch(error => handleGenericError(error, res));
-    });
+        .catch(error => handleGenericError(error, res))
+    );
 
-    app.post('/api/producers', multer.none(), authorization, isAdmin, (req, res) => {
-      const producer = req.body;
-      producer.address = parseAddress(producer);
-
-      new Producer(producer).save()
+    app.put('/api/suppliers', authorization, isAdmin, bodyParser.json(), (req, res) =>
+      saveOrUpdate(Supplier, req.body)
         .then(() => res.sendStatus(200))
-        .catch(error => handleGenericError(error, res));
-    });
+        .catch(error => handleGenericError(error, res))
+    );
 
-    app.post('/api/orders', bodyParser.json(), authorization, (req, res) => {
+    app.put('/api/producers', authorization, isAdmin, bodyParser.json(), (req, res) =>
+      saveOrUpdate(Producer, req.body)
+        .then(() => res.sendStatus(200))
+        .catch(error => handleGenericError(error, res))
+    );
+
+    app.post('/api/orders', authorization, bodyParser.json(), (req, res) => {
       const order = req.body;
       order._id = order.id;
       order.user = req.user.user_id;

@@ -28,7 +28,7 @@ export default function forms(state = initialState, { type, data }) {
       return Object.assign({}, state, {
         selectedProductCategory: data || {},
       });
-    case ActionTypes.PRODUCT_CATEGORY_SELECTED:
+    case ActionTypes.SELECT_PRODUCT_PRODUCT_CATEGORY:
       return Object.assign({}, state, {
         selectedProductProductCategory: data,
       });

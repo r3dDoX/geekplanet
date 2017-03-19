@@ -236,7 +236,7 @@ export default connect(
     },
     selectProductCategory(category) {
       dispatch({
-        type: ActionTypes.PRODUCT_CATEGORY_SELECTED,
+        type: ActionTypes.SELECT_PRODUCT_PRODUCT_CATEGORY,
         data: category,
       });
     },

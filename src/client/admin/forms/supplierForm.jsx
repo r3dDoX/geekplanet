@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
-import TextField from 'material-ui/TextField';
+import { Field, reduxForm } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
-import ActionTypes from '../../actionTypes';
-import extractAndSubmitForm from './extractAndSubmitForm';
-import SupplierService from '../suppliers/supplierService';
+import MenuItem from 'material-ui/MenuItem';
+import TextField from '../../formHelpers/textField.jsx';
+import SelectField from '../../formHelpers/selectField.jsx';
+import { SupplierPropType } from './forms.proptypes';
+
+export const formName = 'supplier';
 
 const styles = {
   container: {
@@ -12,82 +14,119 @@ const styles = {
   },
 };
 
-const SupplierFormComponent = ({
-  loadSuppliers,
+const SupplierForm = ({
+  handleSubmit,
+  onSubmit,
+  suppliers,
+  selectSupplier,
 }) => (
   <form
     style={styles.container}
-    name="suppliers"
-    onSubmit={(event) => {
-      event.preventDefault();
-      extractAndSubmitForm(SupplierService.saveSupplier, event.target)
-        .then(loadSuppliers);
-    }}
+    name={formName}
+    onSubmit={handleSubmit(onSubmit)}
   >
-    <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
-    <TextField
-      floatingLabelText="VAT Number"
-      name="vatNumber"
+    <Field
+      component={SelectField}
+      name="_id"
+      onChange={(event, value) => selectSupplier(value)}
+    >
+      <MenuItem
+        value=""
+        primaryText="Create new"
+      />
+      {suppliers.map(({ _id, name }) => <MenuItem
+        key={_id}
+        value={_id}
+        primaryText={name}
+      />)}
+    </Field>
+    <br />
+    <Field
+      component={TextField}
+      name="name"
+      label="Name"
       type="text"
-      fullWidth
+    />&nbsp;
+    <Field
+      component={TextField}
+      name="vatNumber"
+      label="VAT Number"
+      type="text"
     />
     <h3>Address</h3>
-    <TextField floatingLabelText="Street Name" name="streetName" type="text" fullWidth />
-    <TextField
-      floatingLabelText="House Number"
-      name="houseNumber"
+    <Field
+      component={TextField}
+      name="address.streetAddress"
+      label="Street address"
       type="text"
-      fullWidth
     />
-    <TextField floatingLabelText="ZIP" name="zip" type="number" fullWidth />
-    <TextField floatingLabelText="City" name="city" type="city" fullWidth />
-    <TextField
-      floatingLabelText="Contact Name"
+    <br />
+    <Field
+      component={TextField}
+      name="address.zip"
+      label="Zip"
+      type="number"
+    />&nbsp;
+    <Field
+      component={TextField}
+      name="address.city"
+      label="City"
+      type="text"
+    />
+    <br />
+    <Field
+      component={TextField}
+      name="address.country"
+      label="Country"
+      type="text"
+    />
+    <br />
+    <Field
+      component={TextField}
       name="contactName"
+      label="Contact Name"
       type="text"
-      fullWidth
-    />
-    <TextField
-      floatingLabelText="Contact Email"
+    />&nbsp;
+    <Field
+      component={TextField}
       name="contactEmail"
+      label="Contact Email"
       type="email"
-      fullWidth
-    />
-    <TextField
-      floatingLabelText="Contact Phone"
+    />&nbsp;
+    <Field
+      component={TextField}
       name="contactPhone"
+      label="Contact Phone"
       type="tel"
-      fullWidth
     />
-    <TextField
-      floatingLabelText="Customer Number"
+    <br />
+    <Field
+      component={TextField}
       name="customerNumber"
+      label="Customer Number"
       type="text"
-      fullWidth
     />
-    <TextField
-      floatingLabelText="Remarks"
+    <br />
+    <Field
+      component={TextField}
       name="remarks"
+      label="Remarks"
       type="text"
       multiLine
-      fullWidth
     />
+    <br />
     <RaisedButton label="Save" primary type="submit" />
   </form>
 );
 
-SupplierFormComponent.propTypes = {
-  loadSuppliers: PropTypes.func.isRequired,
+SupplierForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  selectSupplier: PropTypes.func.isRequired,
+  suppliers: PropTypes.arrayOf(SupplierPropType).isRequired,
 };
 
-export default connect(
-  state => state.forms,
-  dispatch => ({
-    loadSuppliers() {
-      SupplierService.loadSuppliers().then(categories => dispatch({
-        type: ActionTypes.SUPPLIERS_LOADED,
-        data: categories,
-      }));
-    },
-  })
-)(SupplierFormComponent);
+export default reduxForm({
+  form: formName,
+  destroyOnUnmount: false,
+})(SupplierForm);

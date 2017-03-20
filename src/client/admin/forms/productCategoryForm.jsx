@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
-import TextField from 'material-ui/TextField';
+import { Field, reduxForm } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
-import ProductService from '../../products/productService';
-import ActionTypes from '../../actionTypes';
-import extractAndSubmitForm from './extractAndSubmitForm';
+import MenuItem from 'material-ui/MenuItem';
+import TextField from '../../formHelpers/textField.jsx';
+import SelectField from '../../formHelpers/selectField.jsx';
+import { ProductCategoryPropType } from './forms.proptypes';
+
+export const formName = 'productcategories';
 
 const styles = {
   container: {
@@ -12,36 +14,52 @@ const styles = {
   },
 };
 
-const ProductCategoriesComponent = ({
-  loadProductCategories,
+const ProductCategoriesForm = ({
+  handleSubmit,
+  onSubmit,
+  productCategories,
+  selectProductCategory,
 }) => (
   <form
     style={styles.container}
-    name="productcategories"
-    onSubmit={(event) => {
-      event.preventDefault();
-      extractAndSubmitForm(ProductService.saveProductCategory, event.target)
-        .then(loadProductCategories);
-    }}
+    name={formName}
+    onSubmit={handleSubmit(onSubmit)}
   >
-    <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
-
+    <Field
+      component={SelectField}
+      name="_id"
+      onChange={(event, value) => selectProductCategory(value)}
+    >
+      <MenuItem
+        value=""
+        primaryText="Create new"
+      />
+      {productCategories.map(({ _id, name }) => <MenuItem
+        key={_id}
+        value={_id}
+        primaryText={name}
+      />)}
+    </Field>
+    <br />
+    <Field
+      component={TextField}
+      name="name"
+      label="Name"
+      type="text"
+    />
+    <br />
     <RaisedButton label="Save" primary type="submit" />
   </form>
 );
 
-ProductCategoriesComponent.propTypes = {
-  loadProductCategories: PropTypes.func.isRequired,
+ProductCategoriesForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  selectProductCategory: PropTypes.func.isRequired,
+  productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
 };
 
-export default connect(
-  state => state.forms,
-  dispatch => ({
-    loadProductCategories() {
-      ProductService.loadProductCategories().then(categories => dispatch({
-        type: ActionTypes.PRODUCT_CATEGORIES_LOADED,
-        data: categories,
-      }));
-    },
-  })
-)(ProductCategoriesComponent);
+export default reduxForm({
+  form: formName,
+  destroyOnUnmount: false,
+})(ProductCategoriesForm);

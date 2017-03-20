@@ -12,7 +12,7 @@ const styles = {
 
 const startOrder = shoppingCart => Xhr.post(
   '/api/orders',
-  JSON.stringify(shoppingCart),
+  shoppingCart,
   'application/json'
 );
 
@@ -24,7 +24,7 @@ const Payment = ({ email, shoppingCart, finishOrder }) => {
     opened: () => startOrder(shoppingCart),
     token: token => Xhr.post(
       '/api/payment',
-      JSON.stringify({ token, shoppingCartId: shoppingCart.id }),
+      { token, shoppingCartId: shoppingCart.id },
       'application/json'
     )
       .then(finishOrder, () => {

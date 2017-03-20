@@ -5,6 +5,6 @@ export default {
     return Xhr.get('/api/producers');
   },
   saveProducer(data) {
-    return Xhr.post('/api/producers', data);
+    return Xhr.put('/api/producers', data, 'application/json');
   },
 };

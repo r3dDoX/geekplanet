@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
+import Divider from 'material-ui/Divider';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from '../../formHelpers/textField.jsx';
 import SelectField from '../../formHelpers/selectField.jsx';
@@ -34,6 +35,7 @@ const ProducerForm = ({
         value=""
         primaryText="Create new"
       />
+      <Divider />
       {producers.map(({ _id, name }) => <MenuItem
         key={_id}
         value={_id}

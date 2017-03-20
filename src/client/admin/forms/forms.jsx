@@ -1,14 +1,23 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { initialize } from 'redux-form';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import ActionTypes from '../../actionTypes';
 import ProductService from '../../products/productService';
 import ProducerService from '../producers/producerService';
 import SupplierService from '../suppliers/supplierService';
 import ProductForm from './productForm.jsx';
-import ProductCategoryForm from './productCategoryForm.jsx';
-import ProducerForm from './producerForm.jsx';
-import SupplierForm from './supplierForm.jsx';
+import ProductCategoryForm, {
+  formName as productCategoryFormName,
+}  from './productCategoryForm.jsx';
+import ProducerForm, { formName as producerFormName } from './producerForm.jsx';
+import SupplierForm, { formName as supplierFormName } from './supplierForm.jsx';
+import {
+  ProducerPropType,
+  SupplierPropType,
+  ProductCategoryPropType
+} from './forms.proptypes';
+import ProductCategoryService from '../productcategories/productCategoryService';
 
 class FormsComponent extends React.Component {
 
@@ -22,6 +31,16 @@ class FormsComponent extends React.Component {
     const {
       selectedTab,
       switchTab,
+      productCategories,
+      selectProductCategory,
+      loadProductCategories,
+      producers,
+      suppliers,
+      clearForm,
+      selectProducer,
+      selectSupplier,
+      loadProducers,
+      loadSuppliers,
     } = this.props;
 
     return (
@@ -33,13 +52,44 @@ class FormsComponent extends React.Component {
           <ProductForm />
         </Tab>
         <Tab label="Product Categories" value="1">
-          <ProductCategoryForm />
+          <ProductCategoryForm
+            selectProductCategory={productCategoryId => selectProductCategory(
+              productCategories
+                .find(productCategory => productCategory._id === productCategoryId)
+            )}
+            productCategories={productCategories}
+            onSubmit={
+              productCategory => ProductCategoryService.saveProductCategory(productCategory)
+                .then(loadProductCategories)
+                .then(() => clearForm(productCategoryFormName))
+            }
+          />
         </Tab>
         <Tab label="Suppliers" value="2">
-          <SupplierForm />
+          <SupplierForm
+            selectSupplier={supplierId => selectSupplier(
+              suppliers.find(supplier => supplier._id === supplierId)
+            )}
+            suppliers={suppliers}
+            onSubmit={
+              supplier => SupplierService.saveSupplier(supplier)
+                .then(loadSuppliers)
+                .then(() => clearForm(supplierFormName))
+            }
+          />
         </Tab>
         <Tab label="Producers" value="3">
-          <ProducerForm />
+          <ProducerForm
+            selectProducer={producerId => selectProducer(
+              producers.find(producer => producer._id === producerId)
+            )}
+            producers={producers}
+            onSubmit={
+              producer => ProducerService.saveProducer(producer)
+                .then(loadProducers)
+                .then(() => clearForm(producerFormName))
+            }
+          />
         </Tab>
       </Tabs>
     );
@@ -49,8 +99,15 @@ class FormsComponent extends React.Component {
 FormsComponent.propTypes = {
   selectedTab: PropTypes.string.isRequired,
   switchTab: PropTypes.func.isRequired,
+  clearForm: PropTypes.func.isRequired,
+  productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
+  selectProductCategory: PropTypes.func.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
+  producers: PropTypes.arrayOf(ProducerPropType).isRequired,
+  selectProducer: PropTypes.func.isRequired,
   loadProducers: PropTypes.func.isRequired,
+  suppliers: PropTypes.arrayOf(SupplierPropType).isRequired,
+  selectSupplier: PropTypes.func.isRequired,
   loadSuppliers: PropTypes.func.isRequired,
 };
 
@@ -63,22 +120,46 @@ const Forms = connect(
         data: tabIndex,
       });
     },
+    clearForm(formName) {
+      dispatch(initialize(formName));
+    },
+    selectProductCategory: (productCategory) => {
+      dispatch({
+        type: ActionTypes.SELECT_PRODUCT_CATEGORY,
+        data: productCategory,
+      });
+      dispatch(initialize(productCategoryFormName, productCategory));
+    },
     loadProductCategories() {
       ProductService.loadProductCategories().then(categories => dispatch({
         type: ActionTypes.PRODUCT_CATEGORIES_LOADED,
         data: categories,
       }));
     },
+    selectProducer: (producer) => {
+      dispatch({
+        type: ActionTypes.SELECT_PRODUCER,
+        data: producer,
+      });
+      dispatch(initialize(producerFormName, producer));
+    },
     loadProducers() {
-      ProducerService.loadProducers().then(categories => dispatch({
+      ProducerService.loadProducers().then(producers => dispatch({
         type: ActionTypes.PRODUCERS_LOADED,
-        data: categories,
+        data: producers,
       }));
     },
+    selectSupplier: (supplier) => {
+      dispatch({
+        type: ActionTypes.SELECT_SUPPLIER,
+        data: supplier,
+      });
+      dispatch(initialize(supplierFormName, supplier));
+    },
     loadSuppliers() {
-      SupplierService.loadSuppliers().then(categories => dispatch({
+      SupplierService.loadSuppliers().then(suppliers => dispatch({
         type: ActionTypes.SUPPLIERS_LOADED,
-        data: categories,
+        data: suppliers,
       }));
     },
   }),

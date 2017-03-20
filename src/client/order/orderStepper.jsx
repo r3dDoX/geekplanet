@@ -153,7 +153,7 @@ export default connect(
       } else {
         Xhr.post(
           '/api/userAddress',
-          JSON.stringify(address),
+          address,
           'application/json'
         )
           .then(addressId => dispatch({

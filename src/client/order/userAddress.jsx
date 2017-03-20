@@ -3,8 +3,8 @@ import { Field, reduxForm } from 'redux-form';
 import MenuItem from 'material-ui/MenuItem';
 import { FormattedMessage } from 'react-intl';
 import RaisedButton from 'material-ui/RaisedButton';
-import SelectField from './selectField.jsx';
-import TextField from './textField.jsx';
+import SelectField from '../formHelpers/selectField.jsx';
+import TextField from '../formHelpers/textField.jsx';
 
 export const formName = 'userAddress';
 

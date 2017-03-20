@@ -20,7 +20,7 @@ module.exports = {
     });
 
     app.get('/api/productcategories', (req, res) => ProductCategory.find({})
-      .then(categories => res.send(categories.map(category => category.name)))
+      .then(categories => res.send(categories))
       .catch((err) => {
         console.error(err);
         res.status(500).send('Fetching product categories failed!');

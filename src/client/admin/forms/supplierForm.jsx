@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
 import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider';
 import TextField from '../../formHelpers/textField.jsx';
 import SelectField from '../../formHelpers/selectField.jsx';
 import { SupplierPropType } from './forms.proptypes';
@@ -34,6 +35,7 @@ const SupplierForm = ({
         value=""
         primaryText="Create new"
       />
+      <Divider />
       {suppliers.map(({ _id, name }) => <MenuItem
         key={_id}
         value={_id}

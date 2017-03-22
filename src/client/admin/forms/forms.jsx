@@ -157,8 +157,8 @@ export default connect(
     },
     selectFiles(selectedFiles, initialFiles) {
       const formData = new FormData();
-      for (const file of selectedFiles) {
-        formData.append('files[]', file);
+      for (let i = 0; i < selectedFiles.length; i += 1) {
+        formData.append('files[]', selectedFiles[i]);
       }
       ProductService.savePictures(formData)
         .then((savedFileIds) => {
@@ -195,16 +195,14 @@ export default connect(
         data: categories,
       }));
     },
-    selectProducer: producer =>
-      dispatch(initialize(producerFormName, producer)),
+    selectProducer: producer => dispatch(initialize(producerFormName, producer)),
     loadProducers() {
       ProducerService.loadProducers().then(producers => dispatch({
         type: ActionTypes.PRODUCERS_LOADED,
         data: producers,
       }));
     },
-    selectSupplier: (supplier) =>
-      dispatch(initialize(supplierFormName, supplier)),
+    selectSupplier: supplier => dispatch(initialize(supplierFormName, supplier)),
     loadSuppliers() {
       SupplierService.loadSuppliers().then(suppliers => dispatch({
         type: ActionTypes.SUPPLIERS_LOADED,

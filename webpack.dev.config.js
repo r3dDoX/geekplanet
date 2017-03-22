@@ -4,6 +4,11 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const secretConfig = require('./src/config/secret.config.json');
+
+Object.keys(secretConfig).map((key) => {
+  secretConfig[key] = `'${secretConfig[key]}'`;
+});
 
 const config = {
   devtool: 'source-map',
@@ -67,7 +72,7 @@ const config = {
       }
     ]),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.DefinePlugin(Object.assign(require('./src/config/local.config.json'), require('./src/config/secret.config.json'))),
+    new webpack.DefinePlugin(Object.assign(require('./src/config/local.config.json'), secretConfig)),
   ],
 
   devServer: {

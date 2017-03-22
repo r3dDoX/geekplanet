@@ -2,6 +2,7 @@ import Auth0Lock from 'auth0-lock';
 import { browserHistory } from 'react-router';
 import jwtDecode from 'jwt-decode';
 import * as storage from '../storage';
+import { brandSecondary } from '../theme';
 
 const clientId = AUTH.CLIENT_ID;
 const domain = 'geekplanet.eu.auth0.com';
@@ -70,10 +71,17 @@ export default {
         redirectUrl: AUTH.REDIRECT_URL,
         responseType: 'token',
         params: {
-          scope: 'openid email app_metadata',
+          scope: 'openid user_id email app_metadata',
         },
       },
       language,
+      languageDictionary: {
+        title: '',
+      },
+      theme: {
+        logo: '/assets/images/logo.svg',
+        primaryColor: brandSecondary,
+      },
     });
 
     // Add callback for lock `authenticated` event

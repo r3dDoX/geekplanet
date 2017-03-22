@@ -1,13 +1,16 @@
-import ActionTypes from '../actionTypes';
+import ActionTypes from '../../actionTypes';
 
 const initialState = {
   selectedFiles: undefined,
   productCategories: [],
-  selectedProductCategory: undefined,
+  selectedProductProductCategory: undefined,
+  selectedProductCategory: {},
   producers: [],
-  selectedProducer: undefined,
+  selectedProductProducer: undefined,
+  selectedProducer: {},
   suppliers: [],
-  selectedSupplier: undefined,
+  selectedSupplier: {},
+  selectedProductSupplier: undefined,
   selectedTab: '0',
 };
 
@@ -21,25 +24,37 @@ export default function forms(state = initialState, { type, data }) {
       return Object.assign({}, state, {
         productCategories: data,
       });
-    case ActionTypes.PRODUCT_CATEGORY_SELECTED:
+    case ActionTypes.SELECT_PRODUCT_CATEGORY:
       return Object.assign({}, state, {
-        selectedProductCategory: data,
+        selectedProductCategory: data || {},
+      });
+    case ActionTypes.SELECT_PRODUCT_PRODUCT_CATEGORY:
+      return Object.assign({}, state, {
+        selectedProductProductCategory: data,
       });
     case ActionTypes.PRODUCERS_LOADED:
       return Object.assign({}, state, {
         producers: data,
       });
-    case ActionTypes.PRODUCER_SELECTED:
+    case ActionTypes.SELECT_PRODUCER:
       return Object.assign({}, state, {
-        selectedProducer: data,
+        selectedProducer: data || {},
+      });
+    case ActionTypes.SELECT_PRODUCT_PRODUCER:
+      return Object.assign({}, state, {
+        selectedProductProducer: data,
       });
     case ActionTypes.SUPPLIERS_LOADED:
       return Object.assign({}, state, {
         suppliers: data,
       });
-    case ActionTypes.SUPPLIER_SELECTED:
+    case ActionTypes.SELECT_SUPPLIER:
       return Object.assign({}, state, {
-        selectedSupplier: data,
+        selectedSupplier: data || {},
+      });
+    case ActionTypes.SELECT_PRODUCT_SUPPLIER:
+      return Object.assign({}, state, {
+        selectedProductSupplier: data,
       });
     case ActionTypes.SELECT_FORMS_TABS:
       return Object.assign({}, state, {

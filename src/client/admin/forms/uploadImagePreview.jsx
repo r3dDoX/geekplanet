@@ -16,13 +16,13 @@ const styles = {
   },
 };
 
-const UploadImagePreview = props => (
+const UploadImagePreview = ({ files }) => (
   <div style={styles.root}>
-    { props.files ? (
+    { files ? (
       <GridList cols={2.2} style={styles.gridList}>
-        {Array.from(props.files).map((file, index) => (
+        {Array.from(files).map(file => (
           <GridTile
-            key={index}
+            key={file.name}
             title={file.name}
           >
             <img alt={file.name} src={URL.createObjectURL(file)} />
@@ -32,6 +32,10 @@ const UploadImagePreview = props => (
     ) : null}
   </div>
 );
+
+UploadImagePreview.defaultProps = {
+  files: undefined,
+};
 
 UploadImagePreview.propTypes = {
   files: PropTypes.instanceOf(FileList),

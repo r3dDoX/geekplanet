@@ -35,4 +35,9 @@ export const ProductCategoryPropType = PropTypes.shape({
   name: PropTypes.string,
 });
 
+export const ProductPropType = PropTypes.shape({
+  _id: PropTypes.string,
+  name: PropTypes.string,
+});
+
 export default ProducerPropType;

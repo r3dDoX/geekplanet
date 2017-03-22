@@ -1,15 +1,19 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
-import TextField from 'material-ui/TextField';
-import SelectField from 'material-ui/SelectField';
+import { Field, reduxForm } from 'redux-form';
 import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
-import ActionTypes from '../../actionTypes';
-import ProductService from '../../products/productService';
 import UploadImagePreview from './uploadImagePreview.jsx';
-import extractAndSubmitForm from './extractAndSubmitForm';
-import ProducerService from '../producers/producerService';
-import SupplierService from '../suppliers/supplierService';
+import TextField from '../../formHelpers/textField.jsx';
+import SelectField from '../../formHelpers/selectField.jsx';
+import {
+  ProductPropType,
+  ProducerPropType,
+  SupplierPropType,
+  ProductCategoryPropType
+} from './forms.proptypes';
+
+export const formName = 'products';
 
 const styles = {
   container: {
@@ -28,132 +32,156 @@ const styles = {
   uploadButton: {
     marginTop: '10px',
   },
+  selectFields: {
+    verticalAlign: 'bottom',
+  },
+  fileInput: {
+    display: 'none',
+  },
 };
 
 const ProductForm = ({
-  productCategories,
-  selectedProductProductCategory,
+  handleSubmit,
+  onSubmit,
+  products,
+  selectProduct,
   suppliers,
-  selectedProductSupplier,
   producers,
+  productCategories,
   selectedFiles,
-  onSelectFile,
-  selectedProductProducer,
-  selectProductCategory,
-  selectSupplier,
-  selectProducer,
+  selectFiles,
 }) => (
   <form
     style={styles.container}
-    name="products"
-    onSubmit={(event) => {
-      event.preventDefault();
-      extractAndSubmitForm(ProductService.saveProduct, event.target);
-    }}
+    name={formName}
+    onSubmit={handleSubmit(onSubmit)}
   >
-    <TextField floatingLabelText="Name" name="name" type="text" fullWidth />
-
-    <SelectField
-      floatingLabelText="Category"
-      value={selectedProductProductCategory}
-      onChange={(event, index, value) => selectProductCategory(value)}
-      autoWidth
+    <Field
+      component={SelectField}
+      name="_id"
+      onChange={(event, value) => selectProduct(value)}
     >
-      {productCategories.map(category => (
-        <MenuItem value={category.name} key={category._id} primaryText={category.name} />
-      ))}
-    </SelectField>
+      <MenuItem
+        value=""
+        primaryText="Create new"
+      />
+      <Divider />
+      {products.map(({ _id, name }) => <MenuItem
+        key={_id}
+        value={_id}
+        primaryText={name}
+      />)}
+    </Field>
+    <br />
 
-    <TextField
-      floatingLabelText="Short Description"
+    <Field
+      component={TextField}
+      name="name"
+      label="Name"
+      type="text"
+    />&nbsp;
+    <Field
+      component={SelectField}
+      name="category"
+      label="Product Category"
+      style={styles.selectFields}
+    >
+      {productCategories.map(({ _id, name }) => <MenuItem
+        key={_id}
+        value={_id}
+        primaryText={name}
+      />)}
+    </Field>
+    <br />
+    <Field
+      component={TextField}
       name="shortDescription"
+      label="Short Description"
       type="text"
       multiLine
       rows={3}
-      fullWidth
     />
-
-    <TextField
-      floatingLabelText="Description"
+    <br />
+    <Field
+      component={TextField}
       name="description"
+      label="Description"
       type="text"
       multiLine
       rows={5}
-      fullWidth
     />
-
-    <TextField
-      floatingLabelText="Price"
+    <br />
+    <Field
+      component={TextField}
       name="price"
+      label="Price"
       type="number"
       step="any"
-      fullWidth
-    />
-    <TextField
-      floatingLabelText="Purchase Price"
+    />&nbsp;
+    <Field
+      component={TextField}
       name="purchasePrice"
+      label="Purchase Price"
       type="number"
       step="any"
-      fullWidth
-    />
-    <TextField
-      floatingLabelText="Purchase Package Size"
+    />&nbsp;
+    <Field
+      component={TextField}
       name="purchasePackageSize"
+      label="Purchase Package Size"
       type="number"
-      fullWidth
     />
-
-    <TextField
-      floatingLabelText="Stock"
+    <br />
+    <Field
+      component={TextField}
       name="stock"
-      defaultValue="0"
+      label="Stock"
       type="number"
-      fullWidth
-    />
-
-    <TextField
-      floatingLabelText="Stock Minimum"
+    />&nbsp;
+    <Field
+      component={TextField}
       name="minStock"
-      defaultValue="0"
+      label="Stock Minimum"
       type="number"
-      fullWidth
     />
-
-    <SelectField
-      floatingLabelText="Supplier"
-      value={(suppliers.find(supplier => supplier._id === selectedProductSupplier) || {})._id}
-      onChange={(event, index, value) => selectSupplier(value)}
-      autoWidth
+    <br />
+    <Field
+      component={SelectField}
+      name="supplier"
+      label="Supplier"
+      style={styles.selectFields}
     >
-      {suppliers.map(supplier => (
-        <MenuItem value={supplier._id} key={supplier._id} primaryText={supplier.name} />
-      ))}
-    </SelectField>
-
-    <TextField
-      floatingLabelText="Supplier Product Code"
+      {suppliers.map(({ _id, name }) => <MenuItem
+        key={_id}
+        value={_id}
+        primaryText={name}
+      />)}
+    </Field>&nbsp;
+    <Field
+      component={TextField}
       name="supplierProductCode"
+      label="Supplier Product Code"
       type="text"
-      fullWidth
     />
-
-    <SelectField
-      floatingLabelText="Producer"
-      value={(producers.find(producer => producer._id === selectedProductProducer) || {})._id}
-      onChange={(event, index, value) => selectProducer(value)}
-      autoWidth
+    <br />
+    <Field
+      component={SelectField}
+      name="producer"
+      label="Producer"
     >
-      {producers.map(producer => (
-        <MenuItem value={producer._id} key={producer._id} primaryText={producer.name} />
-      ))}
-    </SelectField>
-
-    <TextField
-      floatingLabelText="Remarks"
+      {producers.map(({ _id, name }) => <MenuItem
+        key={_id}
+        value={_id}
+        primaryText={name}
+      />)}
+    </Field>
+    <br />
+    <Field
+      component={TextField}
       name="remarks"
+      label="Remarks"
       type="text"
       multiLine
-      fullWidth
     />
 
     <RaisedButton
@@ -164,12 +192,11 @@ const ProductForm = ({
       style={styles.uploadButton}
     >
       <input
-        name="productPictures[]"
         type="file"
         accept="image/jpeg,image/png"
         multiple
         style={styles.fileUploadInput}
-        onChange={event => onSelectFile(event.target.files)}
+        onChange={event => selectFiles(event.target.files)}
       />
     </RaisedButton>
     <UploadImagePreview files={selectedFiles} />
@@ -178,79 +205,24 @@ const ProductForm = ({
 );
 
 ProductForm.defaultProps = {
-  selectedFiles: undefined,
   selectedProductProductCategory: undefined,
   selectedProductProducer: undefined,
   selectedProductSupplier: undefined,
 };
 
 ProductForm.propTypes = {
-  selectedFiles: PropTypes.instanceOf(FileList),
-  selectedProductProductCategory: PropTypes.string,
-  productCategories: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-  })).isRequired,
-  selectedProductProducer: PropTypes.string,
-  producers: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-  })).isRequired,
-  selectedProductSupplier: PropTypes.string,
-  suppliers: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-  })).isRequired,
-  onSelectFile: PropTypes.func.isRequired,
-  selectProductCategory: PropTypes.func.isRequired,
-  selectProducer: PropTypes.func.isRequired,
-  selectSupplier: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  products: PropTypes.arrayOf(ProductPropType).isRequired,
+  productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
+  producers: PropTypes.arrayOf(ProducerPropType).isRequired,
+  suppliers: PropTypes.arrayOf(SupplierPropType).isRequired,
+  selectedFiles: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectFiles: PropTypes.func.isRequired,
+  selectProduct: PropTypes.func.isRequired,
 };
 
-export default connect(
-  state => state.forms,
-  dispatch => ({
-    onSelectFile(selectedFiles) {
-      dispatch({
-        type: ActionTypes.SELECT_UPLOAD_FILES,
-        data: selectedFiles,
-      });
-    },
-    loadProductCategories() {
-      ProductService.loadProductCategories().then(categories => dispatch({
-        type: ActionTypes.PRODUCT_CATEGORIES_LOADED,
-        data: categories,
-      }));
-    },
-    loadProducers() {
-      ProducerService.loadProducers().then(categories => dispatch({
-        type: ActionTypes.PRODUCERS_LOADED,
-        data: categories,
-      }));
-    },
-    loadSuppliers() {
-      SupplierService.loadSuppliers().then(categories => dispatch({
-        type: ActionTypes.SUPPLIERS_LOADED,
-        data: categories,
-      }));
-    },
-    selectProductCategory(category) {
-      dispatch({
-        type: ActionTypes.SELECT_PRODUCT_PRODUCT_CATEGORY,
-        data: category,
-      });
-    },
-    selectProducer(producerId) {
-      dispatch({
-        type: ActionTypes.SELECT_PRODUCT_PRODUCER,
-        data: producerId,
-      });
-    },
-    selectSupplier(supplierId) {
-      dispatch({
-        type: ActionTypes.SELECT_PRODUCT_SUPPLIER,
-        data: supplierId,
-      });
-    },
-  })
-)(ProductForm);
+export default reduxForm({
+  form: formName,
+  destroyOnUnmount: false,
+})(ProductForm);

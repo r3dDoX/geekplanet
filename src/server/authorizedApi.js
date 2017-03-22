@@ -46,7 +46,7 @@ function saveOrUpdate(Colleciton, document) {
 
 module.exports = {
   registerEndpoints(app) {
-    app.post('/api/products', multer.any(), authorization, isAdmin, (req, res) => {
+    app.post('/api/products/pictures', authorization, isAdmin, multer.any(), (req, res) =>
       Promise.all(req.files.map(file =>
         new Promise((resolve, reject) =>
           ProductPictures.write(
@@ -59,15 +59,15 @@ module.exports = {
           )
         )
       ))
-        .then((files) => {
-          const productWithFiles = Object.assign(req.body, { files });
-          return new Product(productWithFiles).save().then(() => res.sendStatus(200));
-        })
-        .catch((err) => {
-          console.error(err);
-          res.status(500).send('Failed to save product and/or pictures!');
-        });
-    });
+        .then(files => res.status(200).send(JSON.stringify(files)))
+        .catch(handleGenericError)
+    );
+
+    app.put('/api/products', authorization, isAdmin, bodyParser.json(), (req, res) =>
+        saveOrUpdate(Product, req.body)
+          .then(() => res.sendStatus(200))
+          .catch(handleGenericError)
+    );
 
     app.put('/api/productcategories', authorization, isAdmin, bodyParser.json(), (req, res) =>
       saveOrUpdate(ProductCategory, req.body)

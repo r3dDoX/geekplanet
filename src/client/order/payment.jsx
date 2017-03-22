@@ -10,11 +10,7 @@ const styles = {
   },
 };
 
-const startOrder = shoppingCart => Xhr.post(
-  '/api/orders',
-  shoppingCart,
-  'application/json'
-);
+const startOrder = shoppingCart => Xhr.post('/api/orders', shoppingCart);
 
 const Payment = ({ email, shoppingCart, finishOrder }) => {
   const handler = StripeCheckout.configure({
@@ -22,11 +18,7 @@ const Payment = ({ email, shoppingCart, finishOrder }) => {
     email,
     locale: 'auto',
     opened: () => startOrder(shoppingCart),
-    token: token => Xhr.post(
-      '/api/payment',
-      { token, shoppingCartId: shoppingCart.id },
-      'application/json'
-    )
+    token: token => Xhr.post('/api/payment', { token, shoppingCartId: shoppingCart.id })
       .then(finishOrder, () => {
         /* TODO implement error handling when payment fails */
       }),

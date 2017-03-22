@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { GridList, GridTile } from 'material-ui/GridList';
+import ProductService from '../../products/productService';
 
 const styles = {
   root: {
@@ -13,7 +14,7 @@ const styles = {
     display: 'flex',
     flexWrap: 'nowrap',
     overflowX: 'auto',
-  },
+  }
 };
 
 const UploadImagePreview = ({ files }) => (
@@ -22,10 +23,9 @@ const UploadImagePreview = ({ files }) => (
       <GridList cols={2.2} style={styles.gridList}>
         {Array.from(files).map(file => (
           <GridTile
-            key={file.name}
-            title={file.name}
+            key={file}
           >
-            <img alt={file.name} src={URL.createObjectURL(file)} />
+            <img alt="Product" src={ProductService.getPictureUrl(file)} />
           </GridTile>
         ))}
       </GridList>
@@ -33,12 +33,8 @@ const UploadImagePreview = ({ files }) => (
   </div>
 );
 
-UploadImagePreview.defaultProps = {
-  files: undefined,
-};
-
 UploadImagePreview.propTypes = {
-  files: PropTypes.instanceOf(FileList),
+  files: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default UploadImagePreview;

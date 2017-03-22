@@ -1,10 +1,10 @@
 import Xhr from '../../xhr';
 
 export default {
-  loadProductCategory() {
+  loadProductCategories() {
     return Xhr.get('/api/productcategories');
   },
   saveProductCategory(data) {
-    return Xhr.put('/api/productcategories', data, 'application/json');
+    return Xhr.put('/api/productcategories', data);
   },
 };

@@ -5,6 +5,6 @@ export default {
     return Xhr.get('/api/suppliers');
   },
   saveSupplier(data) {
-    return Xhr.put('/api/suppliers', data, 'application/json');
+    return Xhr.put('/api/suppliers', data);
   },
 };

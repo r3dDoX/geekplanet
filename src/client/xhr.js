@@ -32,8 +32,16 @@ function wrapXhrPromise(path, method, data, contentType) {
     if (contentType) {
       request.setRequestHeader('Content-Type', contentType);
     }
-    request.send(JSON.stringify(data));
+    request.send(data);
   });
+}
+
+function multipartRequest(path, method, data) {
+  return wrapXhrPromise(path, method, data);
+}
+
+function jsonRequest(path, method, data) {
+  return wrapXhrPromise(path, method, JSON.stringify(data), 'application/json');
 }
 
 export default {
@@ -42,11 +50,15 @@ export default {
   },
 
   post(path, data, contentType) {
-    return wrapXhrPromise(path, 'POST', data, contentType);
+    return jsonRequest(path, 'POST', data, contentType);
+  },
+
+  postMultipart(path, multipartData) {
+    return multipartRequest(path, 'POST', multipartData);
   },
 
   put(path, data, contentType) {
-    return wrapXhrPromise(path, 'PUT', data, contentType);
+    return jsonRequest(path, 'PUT', data, contentType);
   },
 
   deleteHttp(path) {

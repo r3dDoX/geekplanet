@@ -25,7 +25,7 @@ models.ProductCategory = mongoose.model('ProductCategory', {
 const ProductSchema = mongoose.Schema({
   name: String,
   category: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     index: true,
   },
   shortDescription: String,

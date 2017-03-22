@@ -1,27 +1,29 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { initialize } from 'redux-form';
+import { initialize, change } from 'redux-form';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import ActionTypes from '../../actionTypes';
 import ProductService from '../../products/productService';
+import ProductCategoryService from '../productcategories/productCategoryService';
 import ProducerService from '../producers/producerService';
 import SupplierService from '../suppliers/supplierService';
-import ProductForm from './productForm.jsx';
+import ProductForm, { formName as productFormName } from './productForm.jsx';
 import ProductCategoryForm, {
   formName as productCategoryFormName,
-}  from './productCategoryForm.jsx';
+} from './productCategoryForm.jsx';
 import ProducerForm, { formName as producerFormName } from './producerForm.jsx';
 import SupplierForm, { formName as supplierFormName } from './supplierForm.jsx';
 import {
   ProducerPropType,
   SupplierPropType,
-  ProductCategoryPropType
+  ProductCategoryPropType,
+  ProductPropType,
 } from './forms.proptypes';
-import ProductCategoryService from '../productcategories/productCategoryService';
 
-class FormsComponent extends React.Component {
+class Forms extends React.Component {
 
   componentWillMount() {
+    this.props.loadProducts();
     this.props.loadProductCategories();
     this.props.loadProducers();
     this.props.loadSuppliers();
@@ -31,6 +33,12 @@ class FormsComponent extends React.Component {
     const {
       selectedTab,
       switchTab,
+      selectFiles,
+      resetSelectedFiles,
+      selectedFiles,
+      products,
+      selectProduct,
+      loadProducts,
       productCategories,
       selectProductCategory,
       loadProductCategories,
@@ -49,7 +57,25 @@ class FormsComponent extends React.Component {
         value={selectedTab}
       >
         <Tab label="Products" value="0">
-          <ProductForm />
+          <ProductForm
+            products={products}
+            selectProduct={productId => selectProduct(
+              products.find(product => product._id === productId)
+            )}
+            selectFiles={uploadFiles => selectFiles(uploadFiles, selectedFiles)}
+            selectedFiles={selectedFiles}
+            productCategories={productCategories}
+            producers={producers}
+            suppliers={suppliers}
+            onSubmit={
+              product => ProductService.saveProduct(product)
+                .then(loadProducts)
+                .then(() => {
+                  clearForm(productFormName);
+                  resetSelectedFiles();
+                })
+            }
+          />
         </Tab>
         <Tab label="Product Categories" value="1">
           <ProductCategoryForm
@@ -96,10 +122,16 @@ class FormsComponent extends React.Component {
   }
 }
 
-FormsComponent.propTypes = {
+Forms.propTypes = {
   selectedTab: PropTypes.string.isRequired,
   switchTab: PropTypes.func.isRequired,
   clearForm: PropTypes.func.isRequired,
+  selectFiles: PropTypes.func.isRequired,
+  resetSelectedFiles: PropTypes.func.isRequired,
+  selectedFiles: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectProduct: PropTypes.func.isRequired,
+  loadProducts: PropTypes.func.isRequired,
+  products: PropTypes.arrayOf(ProductPropType).isRequired,
   productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   selectProductCategory: PropTypes.func.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
@@ -111,7 +143,7 @@ FormsComponent.propTypes = {
   loadSuppliers: PropTypes.func.isRequired,
 };
 
-const Forms = connect(
+export default connect(
   state => state.forms,
   dispatch => ({
     switchTab(tabIndex) {
@@ -123,39 +155,56 @@ const Forms = connect(
     clearForm(formName) {
       dispatch(initialize(formName));
     },
-    selectProductCategory: (productCategory) => {
-      dispatch({
-        type: ActionTypes.SELECT_PRODUCT_CATEGORY,
-        data: productCategory,
-      });
-      dispatch(initialize(productCategoryFormName, productCategory));
+    selectFiles(selectedFiles, initialFiles) {
+      const formData = new FormData();
+      for (const file of selectedFiles) {
+        formData.append('files[]', file);
+      }
+      ProductService.savePictures(formData)
+        .then((savedFileIds) => {
+          dispatch({
+            type: ActionTypes.SELECT_UPLOAD_FILES,
+            data: savedFileIds,
+          });
+          dispatch(change(productFormName, 'files', initialFiles.concat(savedFileIds)));
+        });
     },
+    resetSelectedFiles() {
+      dispatch({
+        type: ActionTypes.RESET_SELECTED_FILES,
+      });
+    },
+    loadProducts() {
+      ProductService.loadProducts().then(products => dispatch({
+        type: ActionTypes.PRODUCTS_LOADED,
+        data: products,
+      }));
+    },
+    selectProduct: (product) => {
+      dispatch({
+        type: ActionTypes.SELECT_PRODUCT,
+        data: product,
+      });
+      dispatch(initialize(productFormName, product));
+    },
+    selectProductCategory: productCategory =>
+      dispatch(initialize(productCategoryFormName, productCategory)),
     loadProductCategories() {
-      ProductService.loadProductCategories().then(categories => dispatch({
+      ProductCategoryService.loadProductCategories().then(categories => dispatch({
         type: ActionTypes.PRODUCT_CATEGORIES_LOADED,
         data: categories,
       }));
     },
-    selectProducer: (producer) => {
-      dispatch({
-        type: ActionTypes.SELECT_PRODUCER,
-        data: producer,
-      });
-      dispatch(initialize(producerFormName, producer));
-    },
+    selectProducer: producer =>
+      dispatch(initialize(producerFormName, producer)),
     loadProducers() {
       ProducerService.loadProducers().then(producers => dispatch({
         type: ActionTypes.PRODUCERS_LOADED,
         data: producers,
       }));
     },
-    selectSupplier: (supplier) => {
-      dispatch({
-        type: ActionTypes.SELECT_SUPPLIER,
-        data: supplier,
-      });
-      dispatch(initialize(supplierFormName, supplier));
-    },
+    selectSupplier: (supplier) =>
+      dispatch(initialize(supplierFormName, supplier)),
     loadSuppliers() {
       SupplierService.loadSuppliers().then(suppliers => dispatch({
         type: ActionTypes.SUPPLIERS_LOADED,
@@ -163,6 +212,4 @@ const Forms = connect(
       }));
     },
   }),
-)(FormsComponent);
-
-export default Forms;
+)(Forms);

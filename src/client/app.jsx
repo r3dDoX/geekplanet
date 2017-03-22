@@ -36,6 +36,7 @@ class App extends React.Component {
     this.requireAuth = (nextState, replace) => {
       if (!authService.loggedIn()) {
         replace({ pathname: '/' });
+        authService.login();
       }
     };
 
@@ -55,7 +56,7 @@ class App extends React.Component {
             <Route path="/" component={Layout}>
               <IndexRoute component={Home} />
               <Route path="forms" component={Forms} onEnter={this.requireAuth} />
-              <Route path="order" component={OrderStepper} />
+              <Route path="order" component={OrderStepper} onEnter={this.requireAuth} />
             </Route>
           </Router>
         </IntlProvider>
@@ -67,12 +68,16 @@ class App extends React.Component {
   }
 }
 
+App.defaultProps = {
+  translations: undefined,
+};
+
 App.propTypes = {
   translations: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  loadTranslations: PropTypes.func,
-  loadShoppingCart: PropTypes.func,
-  authServiceCreated: PropTypes.func,
-  loggedIn: PropTypes.func,
+  loadTranslations: PropTypes.func.isRequired,
+  loadShoppingCart: PropTypes.func.isRequired,
+  authServiceCreated: PropTypes.func.isRequired,
+  loggedIn: PropTypes.func.isRequired,
 };
 
 export default connect(

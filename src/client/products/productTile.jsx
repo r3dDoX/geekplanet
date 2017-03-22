@@ -19,7 +19,7 @@ const styles = {
   },
   productTitle: {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'space-between',
   },
   stockIcon: {

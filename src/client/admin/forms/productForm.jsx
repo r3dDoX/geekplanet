@@ -32,13 +32,13 @@ const styles = {
 
 const ProductForm = ({
   productCategories,
-  selectedProductCategory,
+  selectedProductProductCategory,
   suppliers,
-  selectedSupplier,
+  selectedProductSupplier,
   producers,
   selectedFiles,
   onSelectFile,
-  selectedProducer,
+  selectedProductProducer,
   selectProductCategory,
   selectSupplier,
   selectProducer,
@@ -55,12 +55,12 @@ const ProductForm = ({
 
     <SelectField
       floatingLabelText="Category"
-      value={selectedProductCategory}
+      value={selectedProductProductCategory}
       onChange={(event, index, value) => selectProductCategory(value)}
       autoWidth
     >
       {productCategories.map(category => (
-        <MenuItem value={category} key={category} primaryText={category} />
+        <MenuItem value={category.name} key={category._id} primaryText={category.name} />
       ))}
     </SelectField>
 
@@ -121,7 +121,7 @@ const ProductForm = ({
 
     <SelectField
       floatingLabelText="Supplier"
-      value={(suppliers.find(supplier => supplier._id === selectedSupplier) || {})._id}
+      value={(suppliers.find(supplier => supplier._id === selectedProductSupplier) || {})._id}
       onChange={(event, index, value) => selectSupplier(value)}
       autoWidth
     >
@@ -139,7 +139,7 @@ const ProductForm = ({
 
     <SelectField
       floatingLabelText="Producer"
-      value={(producers.find(producer => producer._id === selectedProducer) || {})._id}
+      value={(producers.find(producer => producer._id === selectedProductProducer) || {})._id}
       onChange={(event, index, value) => selectProducer(value)}
       autoWidth
     >
@@ -177,24 +177,34 @@ const ProductForm = ({
   </form>
 );
 
+ProductForm.defaultProps = {
+  selectedFiles: undefined,
+  selectedProductProductCategory: undefined,
+  selectedProductProducer: undefined,
+  selectedProductSupplier: undefined,
+};
+
 ProductForm.propTypes = {
   selectedFiles: PropTypes.instanceOf(FileList),
-  selectedProductCategory: PropTypes.string,
-  productCategories: PropTypes.arrayOf(PropTypes.string),
-  selectedProducer: PropTypes.string,
+  selectedProductProductCategory: PropTypes.string,
+  productCategories: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+  })).isRequired,
+  selectedProductProducer: PropTypes.string,
   producers: PropTypes.arrayOf(PropTypes.shape({
     _id: PropTypes.string,
     name: PropTypes.string,
-  })),
-  selectedSupplier: PropTypes.string,
+  })).isRequired,
+  selectedProductSupplier: PropTypes.string,
   suppliers: PropTypes.arrayOf(PropTypes.shape({
     _id: PropTypes.string,
     name: PropTypes.string,
-  })),
-  onSelectFile: PropTypes.func,
-  selectProductCategory: PropTypes.func,
-  selectProducer: PropTypes.func,
-  selectSupplier: PropTypes.func,
+  })).isRequired,
+  onSelectFile: PropTypes.func.isRequired,
+  selectProductCategory: PropTypes.func.isRequired,
+  selectProducer: PropTypes.func.isRequired,
+  selectSupplier: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -226,19 +236,19 @@ export default connect(
     },
     selectProductCategory(category) {
       dispatch({
-        type: ActionTypes.PRODUCT_CATEGORY_SELECTED,
+        type: ActionTypes.SELECT_PRODUCT_PRODUCT_CATEGORY,
         data: category,
       });
     },
     selectProducer(producerId) {
       dispatch({
-        type: ActionTypes.PRODUCER_SELECTED,
+        type: ActionTypes.SELECT_PRODUCT_PRODUCER,
         data: producerId,
       });
     },
     selectSupplier(supplierId) {
       dispatch({
-        type: ActionTypes.SUPPLIER_SELECTED,
+        type: ActionTypes.SELECT_PRODUCT_SUPPLIER,
         data: supplierId,
       });
     },

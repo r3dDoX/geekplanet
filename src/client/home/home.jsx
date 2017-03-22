@@ -1,6 +1,7 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { grey50 } from 'material-ui/styles/colors';
-import { backgroundColor } from '../theme';
+import { backgroundColor, brandPrimary, brandSecondary } from '../theme';
 import ProductList from '../products/productList.jsx';
 
 const styles = {
@@ -10,9 +11,20 @@ const styles = {
     flexWrap: 'wrap',
   },
   header: {
-    padding: '80px',
+    padding: '50px',
     textAlign: 'center',
     backgroundColor,
+  },
+  company: {
+    fontSize: '56px',
+    fontWeight: 300,
+    margin: '30px auto 0',
+  },
+  companyFirst: {
+    color: brandPrimary,
+  },
+  companySecond: {
+    color: brandSecondary,
   },
   headerSubtitle: {
     color: grey50,
@@ -20,15 +32,18 @@ const styles = {
     fontWeight: 300,
     margin: '20px auto 50px',
   },
-  logo: {
-    width: '200px',
-  },
 };
 
 export default () => (
   <div style={styles.container}>
     <div style={styles.header}>
-      <img src="/assets/images/logo.svg" alt="geekplanet Logo" style={styles.logo} />
+      <h1 style={styles.company}>
+        <span style={styles.companyFirst}>geek</span>
+        <span style={styles.companySecond}>planet</span><br />
+      </h1>
+      <h2 style={styles.headerSubtitle}>
+        <FormattedMessage id="HEADER.SUBTITLE" />
+      </h2>
     </div>
     <ProductList />
   </div>

@@ -39,7 +39,7 @@ const config = {
 
   output: {
     path: path.join(__dirname, 'dist/'),
-    filename: '[hash].[name].js',
+    filename: '[name].[chunkhash].js',
   },
 
   module: {
@@ -90,6 +90,10 @@ const config = {
     ]),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest',
+      minChunks: Infinity
     }),
     definePlugin,
   ],

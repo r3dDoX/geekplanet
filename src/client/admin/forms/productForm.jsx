@@ -50,6 +50,7 @@ const ProductForm = ({
   productCategories,
   selectedFiles,
   selectFiles,
+  removeFile,
 }) => (
   <form
     style={styles.container}
@@ -199,7 +200,7 @@ const ProductForm = ({
         onChange={event => selectFiles(event.target.files)}
       />
     </RaisedButton>
-    <UploadImagePreview files={selectedFiles} />
+    <UploadImagePreview files={selectedFiles} removeFile={removeFile} />
     <RaisedButton label="Save" type="submit" primary />
   </form>
 );
@@ -219,6 +220,7 @@ ProductForm.propTypes = {
   suppliers: PropTypes.arrayOf(SupplierPropType).isRequired,
   selectedFiles: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectFiles: PropTypes.func.isRequired,
+  removeFile: PropTypes.func.isRequired,
   selectProduct: PropTypes.func.isRequired,
 };
 

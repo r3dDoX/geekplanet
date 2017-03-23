@@ -34,6 +34,7 @@ class Forms extends React.Component {
       selectedTab,
       switchTab,
       selectFiles,
+      removeFile,
       resetSelectedFiles,
       selectedFiles,
       products,
@@ -63,6 +64,7 @@ class Forms extends React.Component {
               products.find(product => product._id === productId)
             )}
             selectFiles={uploadFiles => selectFiles(uploadFiles, selectedFiles)}
+            removeFile={removeFile}
             selectedFiles={selectedFiles}
             productCategories={productCategories}
             producers={producers}
@@ -127,6 +129,7 @@ Forms.propTypes = {
   switchTab: PropTypes.func.isRequired,
   clearForm: PropTypes.func.isRequired,
   selectFiles: PropTypes.func.isRequired,
+  removeFile: PropTypes.func.isRequired,
   resetSelectedFiles: PropTypes.func.isRequired,
   selectedFiles: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectProduct: PropTypes.func.isRequired,
@@ -167,6 +170,16 @@ export default connect(
             data: savedFileIds,
           });
           dispatch(change(productFormName, 'files', initialFiles.concat(savedFileIds)));
+        });
+    },
+    removeFile(initialFiles, fileIdToRemove) {
+      ProductService.removePicture(fileIdToRemove)
+        .then(() => {
+          dispatch({
+            type: ActionTypes.REMOVE_SELECTED_FILE,
+            data: fileIdToRemove,
+          });
+          dispatch(change(productFormName, 'files', initialFiles.filter(fileId => fileId !== fileIdToRemove)));
         });
     },
     resetSelectedFiles() {

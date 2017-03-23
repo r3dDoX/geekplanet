@@ -14,7 +14,7 @@ module.exports = {
   registerEndpoints(app) {
     app.get('/api/products/pictures/:id', (req, res) => {
       res.header({
-        'Cache-Control': 'public, max-age=31557600',
+        'Cache-Control': 'public, max-age=31556926',
       });
       ProductPictures.readById(req.params.id).pipe(res);
     });

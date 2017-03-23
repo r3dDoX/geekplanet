@@ -19,6 +19,10 @@ export default function forms(state = initialState, { type, data }) {
       return Object.assign({}, state, {
         selectedFiles: initialState.selectedFiles,
       });
+    case ActionTypes.REMOVE_SELECTED_FILE:
+      return Object.assign({}, state, {
+        selectedFiles: state.selectedFiles.filter(fileId => fileId !== data),
+      });
     case ActionTypes.SELECT_PRODUCT:
       return Object.assign({}, state, {
         selectedFiles: data.files,

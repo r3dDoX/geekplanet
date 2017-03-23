@@ -60,13 +60,20 @@ module.exports = {
         )
       ))
         .then(files => res.status(200).send(JSON.stringify(files)))
-        .catch(handleGenericError)
+        .catch(error => handleGenericError(error, res))
+    );
+
+    app.delete('/api/products/pictures/:id', authorization, isAdmin, (req, res) =>
+      ProductPictures.remove({ _id: req.params.id })
+        .then(() => Product.update({}, { $pull: { files: req.params.id } }, { multi: true }))
+        .then(() => res.sendStatus(200))
+        .catch(error => handleGenericError(error, res))
     );
 
     app.put('/api/products', authorization, isAdmin, bodyParser.json(), (req, res) =>
-        saveOrUpdate(Product, req.body)
-          .then(() => res.sendStatus(200))
-          .catch(handleGenericError)
+      saveOrUpdate(Product, req.body)
+        .then(() => res.sendStatus(200))
+        .catch(handleGenericError)
     );
 
     app.put('/api/productcategories', authorization, isAdmin, bodyParser.json(), (req, res) =>

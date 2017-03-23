@@ -57,8 +57,8 @@ export default {
     return multipartRequest(path, 'POST', multipartData);
   },
 
-  put(path, data, contentType) {
-    return jsonRequest(path, 'PUT', data, contentType);
+  put(path, data) {
+    return jsonRequest(path, 'PUT', data);
   },
 
   deleteHttp(path) {

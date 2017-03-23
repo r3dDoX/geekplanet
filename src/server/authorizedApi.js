@@ -39,7 +39,7 @@ function handleGenericError(error, response) {
 
 function saveOrUpdate(Colleciton, document) {
   if (document._id) {
-    return Colleciton.findOneAndUpdate({ _id: document._id }, document);
+    return Colleciton.findOneAndUpdate({ _id: document._id }, document, { upsert: true });
   }
   return new Colleciton(document).save();
 }
@@ -94,25 +94,26 @@ module.exports = {
         .catch(error => handleGenericError(error, res))
     );
 
-    app.post('/api/orders', authorization, bodyParser.json(), (req, res) => {
-      const order = req.body;
-      order._id = order.id;
-      order.user = req.user.user_id;
-      order.state = OrderState.STARTED;
-
-      new Order(order).save()
+    app.put('/api/orders', authorization, bodyParser.json(), (req, res) =>
+      saveOrUpdate(Order, Object.assign(
+        req.body,
+        {
+          user: req.user.user_id,
+          state: OrderState.STARTED,
+        }
+      ))
         .then(() => res.sendStatus(200))
-        .catch(error => handleGenericError(error, res));
-    });
+        .catch(error => handleGenericError(error, res))
+    );
 
-    app.post('/api/userAddress', authorization, bodyParser.json(), (req, res) => {
-      const userAddress = req.body;
-      userAddress.user = req.user.user_id;
-
-      new UserAddress(userAddress).save()
+    app.put('/api/userAddress', authorization, bodyParser.json(), (req, res) =>
+      saveOrUpdate(UserAddress, Object.assign(
+        req.body,
+        { user: req.user.user_id }
+      ))
         .then(address => res.status(200).send(address._id))
-        .catch(error => handleGenericError(error, res));
-    });
+        .catch(error => handleGenericError(error, res))
+    );
 
     app.get('/api/userAddresses', authorization, (req, res) =>
       UserAddress.find({ user: req.user.user_id }, { user: 0 })

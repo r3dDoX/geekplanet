@@ -52,7 +52,8 @@
       }
     },
     "CONFIRMATION": {
-      "TITLE": "Confirmation"
+      "TITLE": "Confirmation",
+      "TEXT": "Thank you for your order. You should receive an email with the confirmation shortly."
     }
   },
   "COUNTRIES": {

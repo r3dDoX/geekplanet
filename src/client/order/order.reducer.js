@@ -25,6 +25,16 @@ export default function auth(state = initialState, { type, data }) {
         selectedAddress: data,
       });
     }
+    case ActionTypes.ORDER_FINISHED: {
+      return Object.assign({}, state, {
+        step: 2,
+      });
+    }
+    case ActionTypes.SELECT_ORDER_STEP: {
+      return Object.assign({}, state, {
+        step: data,
+      });
+    }
     default: {
       return state;
     }

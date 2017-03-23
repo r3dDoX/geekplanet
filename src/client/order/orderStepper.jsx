@@ -59,6 +59,7 @@ class OrderStepper extends React.Component {
       selectAddress,
       saveAddress,
       order,
+      selectStep,
     } = this.props;
 
     return (
@@ -68,7 +69,11 @@ class OrderStepper extends React.Component {
           linear={false}
           orientation="vertical"
         >
-          <Step>
+          <Step
+            onClick={() => selectStep(0)}
+            completed={order.step > 0}
+            disabled={order.step === 2}
+          >
             <StepButton>
               <FormattedMessage id="ORDER.ADDRESS.TITLE" />
             </StepButton>
@@ -77,15 +82,15 @@ class OrderStepper extends React.Component {
                 addresses={order.addresses}
                 selectedAddressId={order.selectedAddress && order.selectedAddress._id}
                 selectAddress={
-                  addressId => selectAddress(order.addresses
-                    .find(address => address._id === addressId)
+                  addressId => selectAddress(
+                    order.addresses.find(address => address._id === addressId)
                   )
                 }
               />
               <UserAddress onSubmit={saveAddress} />
             </StepContent>
           </Step>
-          <Step>
+          <Step completed={order.step > 1} disabled={order.step !== 1}>
             <StepButton>
               <FormattedMessage id="ORDER.PAYMENT.TITLE" />
             </StepButton>
@@ -93,16 +98,21 @@ class OrderStepper extends React.Component {
               {email && <Payment
                 email={email}
                 shoppingCart={shoppingCart}
+                startOrder={() => Xhr.put('/api/orders', Object.assign({
+                  _id: shoppingCart.id,
+                  address: order.selectedAddress,
+                  items: shoppingCart.items,
+                }))}
                 finishOrder={finishOrder}
               />}
             </StepContent>
           </Step>
-          <Step>
+          <Step completed={order.step === 2} disabled={order.step !== 2}>
             <StepButton>
               <FormattedMessage id="ORDER.CONFIRMATION.TITLE" />
             </StepButton>
             <StepContent>
-              <p>Bestätigung</p>
+              <p><FormattedMessage id="ORDER.CONFIRMATION.TEXT" /></p>
             </StepContent>
           </Step>
         </Stepper>
@@ -122,6 +132,7 @@ OrderStepper.propTypes = {
   loadAddresses: PropTypes.func.isRequired,
   selectAddress: PropTypes.func.isRequired,
   saveAddress: PropTypes.func.isRequired,
+  selectStep: PropTypes.func.isRequired,
   order: OrderPropType.isRequired,
 };
 
@@ -144,24 +155,20 @@ export default connect(
       });
       dispatch(initialize(formName, address));
     },
-    saveAddress: (address) => {
-      if (address._id) {
-        dispatch({
+    saveAddress: address =>
+      Xhr.put(
+        '/api/userAddress',
+        address,
+        'application/json'
+      )
+        .then(addressId => dispatch({
           type: ActionTypes.SAVE_ADDRESS,
-          data: address._id,
-        });
-      } else {
-        Xhr.post(
-          '/api/userAddress',
-          address,
-          'application/json'
-        )
-          .then(addressId => dispatch({
-            type: ActionTypes.SAVE_ADDRESS,
-            data: addressId,
-          }));
-      }
-    },
+          data: addressId,
+        })),
+    selectStep: step => dispatch({
+      type: ActionTypes.SELECT_ORDER_STEP,
+      data: step,
+    }),
     finishOrder: () => dispatch({
       type: ActionTypes.ORDER_FINISHED,
     }),

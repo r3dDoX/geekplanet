@@ -65,15 +65,20 @@ models.Supplier = mongoose.model('Supplier', {
   remarks: String,
 });
 
-models.UserAddress = mongoose.model('UserAddress', Object.assign({
-  user: {
-    type: String,
-    index: true,
+const UserAddressSchema = mongoose.Schema(Object.assign(
+  {
+    user: {
+      type: String,
+      index: true,
+    },
+    title: String,
+    firstName: String,
+    lastName: String,
   },
-  title: String,
-  firstName: String,
-  lastName: String,
-}, address));
+  address
+));
+
+models.UserAddress = mongoose.model('UserAddress', UserAddressSchema);
 
 const OrderItemSchema = mongoose.Schema({
   amount: Number,
@@ -99,6 +104,7 @@ models.Order = mongoose.model('Order', {
     type: String,
     index: true,
   },
+  address: UserAddressSchema,
   date: {
     type: Date,
     default: Date.now(),

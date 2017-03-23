@@ -10,14 +10,12 @@ const styles = {
   },
 };
 
-const startOrder = shoppingCart => Xhr.post('/api/orders', shoppingCart);
-
-const Payment = ({ email, shoppingCart, finishOrder }) => {
+const Payment = ({ email, shoppingCart, startOrder, finishOrder }) => {
   const handler = StripeCheckout.configure({
     key: PAYMENT_PUBLIC,
     email,
     locale: 'auto',
-    opened: () => startOrder(shoppingCart),
+    opened: startOrder,
     token: token => Xhr.post('/api/payment', { token, shoppingCartId: shoppingCart.id })
       .then(finishOrder, () => {
         /* TODO implement error handling when payment fails */
@@ -28,7 +26,7 @@ const Payment = ({ email, shoppingCart, finishOrder }) => {
     <RaisedButton
       style={styles.paymentButton}
       onClick={() => handler.open({
-        name: 'Geekplanet GmbH',
+        name: 'geekplanet GmbH',
         image: '/assets/images/icon.png',
         currency: 'chf',
         amount: shoppingCart.items.reduce(
@@ -45,6 +43,7 @@ const Payment = ({ email, shoppingCart, finishOrder }) => {
 Payment.propTypes = {
   email: PropTypes.string.isRequired,
   shoppingCart: ShoppingCartPropType.isRequired,
+  startOrder: PropTypes.func.isRequired,
   finishOrder: PropTypes.func.isRequired,
 };
 

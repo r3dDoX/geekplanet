@@ -54,6 +54,12 @@ const SupplierForm = ({
       name="vatNumber"
       label="VAT Number"
       type="text"
+    />&nbsp;
+    <Field
+      component={TextField}
+      name="customerNumber"
+      label="Customer Number"
+      type="text"
     />
     <h3>Address</h3>
     <Field
@@ -82,7 +88,34 @@ const SupplierForm = ({
       label="Country"
       type="text"
     />
+    <h3>Bank</h3>
+    <Field
+      component={TextField}
+      name="bank"
+      label="Bank"
+      type="text"
+    />&nbsp;
+    <Field
+      component={TextField}
+      name="iban"
+      label="IBAN"
+      type="text"
+    />&nbsp;
+    <Field
+      component={TextField}
+      name="bic"
+      label="BIC"
+      type="text"
+    />
     <br />
+    <Field
+      component={TextField}
+      name="bankRemarks"
+      label="Remarks"
+      type="text"
+      multiLine
+    />
+    <h3>Contact</h3>
     <Field
       component={TextField}
       name="contactName"
@@ -100,13 +133,6 @@ const SupplierForm = ({
       name="contactPhone"
       label="Contact Phone"
       type="tel"
-    />
-    <br />
-    <Field
-      component={TextField}
-      name="customerNumber"
-      label="Customer Number"
-      type="text"
     />
     <br />
     <Field

@@ -3,7 +3,7 @@ function addDashForNonDecimalNumbers(price) {
     return `${price}.-`;
   }
 
-  return price;
+  return Number(price).toFixed(2);
 }
 
 export const formatPriceWithCurrency = price => `CHF ${addDashForNonDecimalNumbers(price)}`;

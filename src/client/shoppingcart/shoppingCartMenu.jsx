@@ -28,19 +28,6 @@ const ShoppingCartMenu = ({
     }
     width={320}
   >
-    <ListItem
-      insetChildren
-      disabled={shoppingCart.length === 0}
-      containerElement={
-        <Link to="/order">
-          <FormattedMessage id="SHOPPING_CART.TITLE" />
-        </Link>
-      }
-      primaryText={
-        <FormattedMessage id="SHOPPING_CART.CHECKOUT" />
-      }
-    />
-    <Divider />
     <Subheader inset>
       <FormattedMessage id="SHOPPING_CART.PRODUCTS" />
     </Subheader>
@@ -63,6 +50,19 @@ const ShoppingCartMenu = ({
             0
           )
         )
+      }
+    />
+    <Divider />
+    <ListItem
+      insetChildren
+      disabled={shoppingCart.length === 0}
+      containerElement={
+        <Link to="/order">
+          <FormattedMessage id="SHOPPING_CART.TITLE" />
+        </Link>
+      }
+      primaryText={
+        <FormattedMessage id="SHOPPING_CART.CHECKOUT" />
       }
     />
   </IconMenu>

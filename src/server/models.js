@@ -57,11 +57,15 @@ models.Producer = mongoose.model('Producer', {
 models.Supplier = mongoose.model('Supplier', {
   name: String,
   vatNumber: String,
+  customerNumber: String,
   address: AddressSchema,
+  bank: String,
+  iban: String,
+  bic: String,
+  bankRemarks: String,
   contactName: String,
   contactEmail: String,
   contactPhone: String,
-  customerNumber: String,
   remarks: String,
 });
 

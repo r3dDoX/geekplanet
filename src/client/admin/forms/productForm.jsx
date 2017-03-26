@@ -12,6 +12,7 @@ import {
   SupplierPropType,
   ProductCategoryPropType
 } from './forms.proptypes';
+import Tags from '../tags/tags.jsx';
 
 export const formName = 'products';
 
@@ -51,6 +52,10 @@ const ProductForm = ({
   selectedFiles,
   selectFiles,
   removeFile,
+  tags,
+  savedTags,
+  selectTag,
+  removeTag,
 }) => (
   <form
     style={styles.container}
@@ -93,6 +98,13 @@ const ProductForm = ({
         primaryText={name}
       />)}
     </Field>
+    <br />
+    <Tags
+      savedTags={savedTags}
+      tags={tags}
+      selectTag={selectTag}
+      removeTag={removeTag}
+    />
     <br />
     <Field
       component={TextField}
@@ -222,6 +234,10 @@ ProductForm.propTypes = {
   selectFiles: PropTypes.func.isRequired,
   removeFile: PropTypes.func.isRequired,
   selectProduct: PropTypes.func.isRequired,
+  savedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectTag: PropTypes.func.isRequired,
+  removeTag: PropTypes.func.isRequired,
 };
 
 export default reduxForm({

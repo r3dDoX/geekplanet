@@ -22,6 +22,13 @@ models.ProductCategory = mongoose.model('ProductCategory', {
   name: String,
 });
 
+models.Tag = mongoose.model('Tag', {
+  name: {
+    type: String,
+    index: true,
+  },
+});
+
 const ProductSchema = mongoose.Schema({
   name: String,
   category: {
@@ -40,6 +47,7 @@ const ProductSchema = mongoose.Schema({
   producer: mongoose.Schema.Types.ObjectId,
   remarks: String,
   files: [String],
+  tags: [String],
 });
 
 models.Product = mongoose.model('Product', ProductSchema);

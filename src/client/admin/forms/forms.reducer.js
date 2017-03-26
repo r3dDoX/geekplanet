@@ -2,6 +2,8 @@ import ActionTypes from '../../actionTypes';
 
 const initialState = {
   selectedFiles: [],
+  tags: [],
+  savedTags: [],
   products: [],
   productCategories: [],
   producers: [],
@@ -25,7 +27,8 @@ export default function forms(state = initialState, { type, data }) {
       });
     case ActionTypes.SELECT_PRODUCT:
       return Object.assign({}, state, {
-        selectedFiles: data.files,
+        selectedFiles: (data && data.files) || initialState.selectedFiles,
+        tags: (data && data.tags) || initialState.tags,
       });
     case ActionTypes.PRODUCTS_LOADED:
       return Object.assign({}, state, {
@@ -46,6 +49,14 @@ export default function forms(state = initialState, { type, data }) {
     case ActionTypes.SELECT_FORMS_TABS:
       return Object.assign({}, state, {
         selectedTab: data,
+      });
+    case ActionTypes.TAGS_LOADED:
+      return Object.assign({}, state, {
+        savedTags: data.map(tag => tag.name),
+      });
+    case ActionTypes.SET_TAGS:
+      return Object.assign({}, state, {
+        tags: data,
       });
     default:
       return state;

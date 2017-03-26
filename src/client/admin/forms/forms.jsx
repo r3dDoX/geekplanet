@@ -19,6 +19,7 @@ import {
   ProductCategoryPropType,
   ProductPropType,
 } from './forms.proptypes';
+import TagService from '../tags/tagService';
 
 class Forms extends React.Component {
 
@@ -27,6 +28,7 @@ class Forms extends React.Component {
     this.props.loadProductCategories();
     this.props.loadProducers();
     this.props.loadSuppliers();
+    this.props.loadTags();
   }
 
   render() {
@@ -50,6 +52,10 @@ class Forms extends React.Component {
       selectSupplier,
       loadProducers,
       loadSuppliers,
+      tags,
+      savedTags,
+      selectTag,
+      removeTag,
     } = this.props;
 
     return (
@@ -69,6 +75,10 @@ class Forms extends React.Component {
             productCategories={productCategories}
             producers={producers}
             suppliers={suppliers}
+            tags={tags}
+            savedTags={savedTags}
+            selectTag={selectTag}
+            removeTag={removeTag}
             onSubmit={
               product => ProductService.saveProduct(product)
                 .then(loadProducts)
@@ -144,6 +154,11 @@ Forms.propTypes = {
   suppliers: PropTypes.arrayOf(SupplierPropType).isRequired,
   selectSupplier: PropTypes.func.isRequired,
   loadSuppliers: PropTypes.func.isRequired,
+  savedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  loadTags: PropTypes.func.isRequired,
+  selectTag: PropTypes.func.isRequired,
+  removeTag: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -221,6 +236,35 @@ export default connect(
         type: ActionTypes.SUPPLIERS_LOADED,
         data: suppliers,
       }));
+    },
+    loadTags() {
+      TagService.loadTags().then(tags => dispatch({
+        type: ActionTypes.TAGS_LOADED,
+        data: tags,
+      }));
+    },
+    selectTag(tags, item, index) {
+      if (index < 0) {
+        TagService.saveTag({ name: item })
+          .then(() => TagService.loadTags().then(tags => dispatch({
+            type: ActionTypes.TAGS_LOADED,
+            data: tags,
+          })));
+      }
+      const newTags = tags.concat(item);
+      dispatch({
+        type: ActionTypes.SET_TAGS,
+        data: newTags,
+      });
+      dispatch(change(productFormName, 'tags', newTags));
+    },
+    removeTag(tags, tag) {
+      const newTags = tags.filter(actTag => actTag !== tag);
+      dispatch({
+        type: ActionTypes.SET_TAGS,
+        data: newTags,
+      });
+      dispatch(change(productFormName, 'tags', newTags));
     },
   }),
 )(Forms);

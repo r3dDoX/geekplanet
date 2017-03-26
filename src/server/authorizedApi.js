@@ -130,18 +130,26 @@ module.exports = {
 
     app.post('/api/payment', bodyParser.json(), authorization, (req, res) => {
       const orderQuery = Order.findOne({ _id: req.body.shoppingCartId, user: req.user.user_id });
+      let items;
 
       orderQuery
-        .then(order =>
-          stripe.charges.create({
+        .then((order) => {
+          items = order.items;
+          return stripe.charges.create({
             amount: order.items.reduce(
               (sum, { amount, product }) => sum + (amount * product.price * 100), 0
             ),
             description: order._id,
             currency: 'chf',
             source: req.body.token.id,
-          }))
-        .then(() => orderQuery.update({ state: OrderState.FINISHED }))
+          });
+        })
+        .then(() => {
+          orderQuery.update({ state: OrderState.FINISHED });
+          items.forEach(({ amount, product }) =>
+            Product.update({ _id: product._id }, { $inc: { stock: amount * -1 } }).exec()
+          );
+        })
         .then(() => res.sendStatus(200))
         .catch(error => handleGenericError(error, res));
     });

@@ -10,7 +10,7 @@ import {
   ProductPropType,
   ProducerPropType,
   SupplierPropType,
-  ProductCategoryPropType
+  ProductCategoryPropType,
 } from './forms.proptypes';
 import Tags from '../tags/tags.jsx';
 

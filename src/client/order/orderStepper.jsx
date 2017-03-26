@@ -70,7 +70,11 @@ class OrderStepper extends React.Component {
           orientation="vertical"
         >
           <Step
-            onClick={() => selectStep(0)}
+            onClick={() => {
+              if (order.step !== 2) {
+                selectStep(0);
+              }
+            }}
             completed={order.step > 0}
             disabled={order.step === 2}
           >

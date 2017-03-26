@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import browserHistory from 'react-router/lib/browserHistory';
 import {
   Step,
   Stepper,
@@ -49,6 +50,9 @@ const styles = {
 
 class OrderStepper extends React.Component {
   componentWillMount() {
+    if (this.props.shoppingCart.items.length === 0) {
+      browserHistory.push('/');
+    }
     this.props.loadAddresses();
   }
 

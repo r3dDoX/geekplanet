@@ -5,7 +5,7 @@ import Divider from 'material-ui/Divider';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from '../../formHelpers/textField.jsx';
 import SelectField from '../../formHelpers/selectField.jsx';
-import { ProducerPropType } from './forms.proptypes';
+import { ProducerPropType } from '../forms/forms.proptypes';
 
 export const formName = 'producer';
 
@@ -82,7 +82,7 @@ const ProducerForm = ({
       label="Country"
       type="text"
     />
-    <br />
+    <h3>Contact</h3>
     <Field
       component={TextField}
       name="contactName"

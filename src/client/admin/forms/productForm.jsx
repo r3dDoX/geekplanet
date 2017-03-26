@@ -196,12 +196,11 @@ const ProductForm = ({
       type="text"
       multiLine
     />
-
+    <br />
     <RaisedButton
       label="Choose images"
       labelPosition="before"
       containerElement="label"
-      fullWidth
       style={styles.uploadButton}
     >
       <input

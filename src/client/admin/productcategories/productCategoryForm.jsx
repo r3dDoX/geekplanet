@@ -5,7 +5,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import TextField from '../../formHelpers/textField.jsx';
 import SelectField from '../../formHelpers/selectField.jsx';
-import { ProductCategoryPropType } from './forms.proptypes';
+import { ProductCategoryPropType } from '../forms/forms.proptypes';
 
 export const formName = 'productcategories';
 

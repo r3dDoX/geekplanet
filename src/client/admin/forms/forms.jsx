@@ -10,9 +10,9 @@ import SupplierService from '../suppliers/supplierService';
 import ProductForm, { formName as productFormName } from './productForm.jsx';
 import ProductCategoryForm, {
   formName as productCategoryFormName,
-} from './productCategoryForm.jsx';
-import ProducerForm, { formName as producerFormName } from './producerForm.jsx';
-import SupplierForm, { formName as supplierFormName } from './supplierForm.jsx';
+} from '../productcategories/productCategoryForm.jsx';
+import ProducerForm, { formName as producerFormName } from '../producers/producerForm.jsx';
+import SupplierForm, { formName as supplierFormName } from '../suppliers/supplierForm.jsx';
 import {
   ProducerPropType,
   SupplierPropType,

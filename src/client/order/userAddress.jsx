@@ -49,7 +49,7 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         component={SelectField}
         name="title"
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.TITLE" />}
-        validate={[required]}
+        validate={required}
       >
         <MenuItem value={'Frau'} primaryText={<FormattedMessage id="ORDER.ADDRESS.FORM.MRS" />} />
         <MenuItem value={'Herr'} primaryText={<FormattedMessage id="ORDER.ADDRESS.FORM.MR" />} />
@@ -60,14 +60,14 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         name="firstName"
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.FIRST_NAME" />}
         type="text"
-        validate={[required]}
+        validate={required}
       />&nbsp;
       <Field
         component={TextField}
         name="lastName"
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.LAST_NAME" />}
         type="text"
-        validate={[required]}
+        validate={required}
       />
       <br />
       <Field
@@ -75,7 +75,7 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         name="streetAddress"
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.STREET_ADDRESS" />}
         type="text"
-        validate={[required]}
+        validate={required}
       />
       <br />
       <Field
@@ -84,7 +84,7 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         min="1000"
         max="9999"
         type="number"
-        validate={[requiredZIP]}
+        validate={requiredZIP}
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.ZIP" />}
       />&nbsp;
       <Field
@@ -92,14 +92,14 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         name="city"
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.CITY" />}
         type="text"
-        validate={[required]}
+        validate={required}
       />
       <br />
       <Field
         component={SelectField}
         name="country"
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.COUNTRY" />}
-        validate={[required]}
+        validate={required}
       >
         <MenuItem value={'Schweiz'} primaryText={<FormattedMessage id="COUNTRIES.CHE" />} />
         <MenuItem value={'Liechtenstein'} primaryText={<FormattedMessage id="COUNTRIES.LIE" />} />

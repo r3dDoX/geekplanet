@@ -1,10 +1,16 @@
 import ActionTypes from '../actionTypes';
 
+export const OrderSteps = {
+  ADDRESS: 0,
+  PAYMENT: 1,
+  CONFIRMATION: 2,
+};
+
 const initialState = {
   address: undefined,
   addresses: [],
   selectedAddress: undefined,
-  step: 0,
+  step: OrderSteps.ADDRESS,
 };
 
 export default function auth(state = initialState, { type, data }) {
@@ -12,7 +18,7 @@ export default function auth(state = initialState, { type, data }) {
     case ActionTypes.SAVE_ADDRESS: {
       return Object.assign({}, state, {
         address: data,
-        step: 1,
+        step: OrderSteps.PAYMENT,
       });
     }
     case ActionTypes.ADDRESSES_LOADED: {
@@ -27,7 +33,7 @@ export default function auth(state = initialState, { type, data }) {
     }
     case ActionTypes.ORDER_FINISHED: {
       return Object.assign({}, state, {
-        step: 2,
+        step: OrderSteps.CONFIRMATION,
       });
     }
     case ActionTypes.SELECT_ORDER_STEP: {

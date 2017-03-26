@@ -15,6 +15,7 @@ import UserAddress, { formName } from './userAddress.jsx';
 import Payment from './payment.jsx';
 import Xhr from '../xhr';
 import OrderPropType from './order.proptypes';
+import { OrderSteps } from './order.reducer';
 
 const styles = {
   container: {
@@ -71,12 +72,12 @@ class OrderStepper extends React.Component {
         >
           <Step
             onClick={() => {
-              if (order.step !== 2) {
-                selectStep(0);
+              if (order.step !== OrderSteps.CONFIRMATION) {
+                selectStep(OrderSteps.ADDRESS);
               }
             }}
-            completed={order.step > 0}
-            disabled={order.step === 2}
+            completed={order.step > OrderSteps.ADDRESS}
+            disabled={order.step === OrderSteps.CONFIRMATION}
           >
             <StepButton>
               <FormattedMessage id="ORDER.ADDRESS.TITLE" />
@@ -94,7 +95,10 @@ class OrderStepper extends React.Component {
               <UserAddress onSubmit={saveAddress} />
             </StepContent>
           </Step>
-          <Step completed={order.step > 1} disabled={order.step !== 1}>
+          <Step
+            completed={order.step > OrderSteps.PAYMENT}
+            disabled={order.step !== OrderSteps.PAYMENT}
+          >
             <StepButton>
               <FormattedMessage id="ORDER.PAYMENT.TITLE" />
             </StepButton>
@@ -111,7 +115,10 @@ class OrderStepper extends React.Component {
               />}
             </StepContent>
           </Step>
-          <Step completed={order.step === 2} disabled={order.step !== 2}>
+          <Step
+            completed={order.step === OrderSteps.CONFIRMATION}
+            disabled={order.step !== OrderSteps.CONFIRMATION}
+          >
             <StepButton>
               <FormattedMessage id="ORDER.CONFIRMATION.TITLE" />
             </StepButton>

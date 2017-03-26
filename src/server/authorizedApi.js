@@ -17,6 +17,7 @@ const {
   ProductPictures,
   Supplier,
   UserAddress,
+  Tag,
 } = require('./models');
 
 const authorization = jwt({
@@ -72,6 +73,12 @@ module.exports = {
 
     app.put('/api/products', authorization, isAdmin, bodyParser.json(), (req, res) =>
       saveOrUpdate(Product, req.body)
+        .then(() => res.sendStatus(200))
+        .catch(handleGenericError)
+    );
+
+    app.put('/api/tags', authorization, isAdmin, bodyParser.json(), (req, res) =>
+      saveOrUpdate(Tag, req.body)
         .then(() => res.sendStatus(200))
         .catch(handleGenericError)
     );

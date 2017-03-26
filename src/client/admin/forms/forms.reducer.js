@@ -20,6 +20,7 @@ export default function forms(state = initialState, { type, data }) {
     case ActionTypes.RESET_SELECTED_FILES:
       return Object.assign({}, state, {
         selectedFiles: initialState.selectedFiles,
+        tags: initialState.tags,
       });
     case ActionTypes.REMOVE_SELECTED_FILE:
       return Object.assign({}, state, {

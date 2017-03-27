@@ -75,6 +75,11 @@ const config = {
           ],
         },
       },
+      {
+        test: /\.svg$/,
+        exclude: /node_modules/,
+        loader: 'react-svg-inline-loader',
+      },
     ],
   },
 

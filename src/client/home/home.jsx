@@ -1,8 +1,8 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import { grey50 } from 'material-ui/styles/colors';
-import { backgroundColor, brandPrimary, brandSecondary } from '../theme';
+import { backgroundColor } from '../theme';
 import ProductList from '../products/productList.jsx';
+import Slogan from '../assets/images/gpslogan.svg';
 
 const styles = {
   container: {
@@ -11,20 +11,12 @@ const styles = {
     flexWrap: 'wrap',
   },
   header: {
-    padding: '50px',
-    textAlign: 'center',
+    padding: '80px 30px',
     backgroundColor,
   },
-  company: {
-    fontSize: '56px',
-    fontWeight: 300,
-    margin: '30px auto 0',
-  },
-  companyFirst: {
-    color: brandPrimary,
-  },
-  companySecond: {
-    color: brandSecondary,
+  sloganContainer: {
+    maxWidth: '350px',
+    margin: '0 auto',
   },
   headerSubtitle: {
     color: grey50,
@@ -35,15 +27,11 @@ const styles = {
 };
 
 export default () => (
-  <div style={styles.container}>
+  <div>
     <div style={styles.header}>
-      <h1 style={styles.company}>
-        <span style={styles.companyFirst}>geek</span>
-        <span style={styles.companySecond}>planet</span><br />
-      </h1>
-      <h2 style={styles.headerSubtitle}>
-        <FormattedMessage id="HEADER.SUBTITLE" />
-      </h2>
+      <div style={styles.sloganContainer}>
+        <Slogan />
+      </div>
     </div>
     <ProductList />
   </div>

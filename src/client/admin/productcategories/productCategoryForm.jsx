@@ -50,6 +50,20 @@ const ProductCategoriesForm = ({
       type="text"
     />
     <br />
+    <Field
+      component={SelectField}
+      name="parentCategory"
+      label="Parent Category"
+    >
+      <MenuItem value={null} primaryText="None" />
+      <Divider />
+      {productCategories.map(({ name }) => <MenuItem
+        key={name}
+        value={name}
+        primaryText={name}
+      />)}
+    </Field>
+    <br />
     <RaisedButton label="Save" primary type="submit" />
   </form>
 );

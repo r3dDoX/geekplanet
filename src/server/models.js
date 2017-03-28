@@ -19,7 +19,11 @@ const address = {
 const AddressSchema = mongoose.Schema(address);
 
 models.ProductCategory = mongoose.model('ProductCategory', {
-  name: String,
+  parentCategory: String,
+  name: {
+    type: String,
+    unique: true,
+  },
 });
 
 models.Tag = mongoose.model('Tag', {

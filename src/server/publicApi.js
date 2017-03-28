@@ -1,4 +1,5 @@
 /* @flow */
+const Logger = require('./logger');
 
 const {
   ProductPictures,
@@ -21,7 +22,7 @@ module.exports = {
     app.get('/api/productcategories', (req, res) => ProductCategory.find().sort({ name: 1 })
       .then(categories => res.send(categories))
       .catch((err) => {
-        console.error(err);
+        Logger.error(err);
         res.status(500).send('Fetching product categories failed!');
       })
     );
@@ -29,7 +30,7 @@ module.exports = {
     app.get('/api/products', (req, res) => Product.find().sort({ name: 1 })
       .then(products => res.send(products))
       .catch((err) => {
-        console.error(err);
+        Logger.error(err);
         res.status(500).send('Fetching products failed!');
       })
     );
@@ -37,7 +38,7 @@ module.exports = {
     app.get('/api/suppliers', (req, res) => Supplier.find().sort({ name: 1 })
       .then(suppliers => res.send(suppliers))
       .catch((err) => {
-        console.error(err);
+        Logger.error(err);
         res.status(500).send('Fetching suppliers failed!');
       })
     );
@@ -45,7 +46,7 @@ module.exports = {
     app.get('/api/producers', (req, res) => Producer.find().sort({ name: 1 })
       .then(producers => res.send(producers))
       .catch((err) => {
-        console.error(err);
+        Logger.error(err);
         res.status(500).send('Fetching producers failed!');
       })
     );
@@ -53,7 +54,7 @@ module.exports = {
     app.get('/api/tags', (req, res) => Tag.find().sort({ name: 1 })
       .then(tags => res.send(tags))
       .catch((err) => {
-        console.error(err);
+        Logger.error(err);
         res.status(500).send('Fetching tags failed!');
       })
     );

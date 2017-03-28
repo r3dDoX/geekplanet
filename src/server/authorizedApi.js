@@ -38,11 +38,11 @@ function handleGenericError(error, response) {
   response.status(500).send(error);
 }
 
-function saveOrUpdate(Colleciton, document) {
+function saveOrUpdate(Collection, document) {
   if (document._id) {
-    return Colleciton.findOneAndUpdate({ _id: document._id }, document, { upsert: true });
+    return Collection.findOneAndUpdate({ _id: document._id }, document, { upsert: true }).exec();
   }
-  return new Colleciton(document).save();
+  return new Collection(document).save();
 }
 
 module.exports = {
@@ -83,11 +83,24 @@ module.exports = {
         .catch(handleGenericError)
     );
 
-    app.put('/api/productcategories', authorization, isAdmin, bodyParser.json(), (req, res) =>
-      saveOrUpdate(ProductCategory, req.body)
+    app.put('/api/productcategories', authorization, isAdmin, bodyParser.json(), ({ body }, res) => {
+      const promises = [];
+      if (body._id) {
+        ProductCategory.findOne({ _id: body._id })
+          .then(({ name }) => {
+            if (name !== body.name) {
+              promises.push(ProductCategory.update(
+                { parentCategory: name },
+                { $set: { parentCategory: body.name } },
+                { multi: true }).exec());
+            }
+          });
+      }
+      promises.push(saveOrUpdate(ProductCategory, body));
+      Promise.all(promises)
         .then(() => res.sendStatus(200))
-        .catch(error => handleGenericError(error, res))
-    );
+        .catch(error => handleGenericError(error, res));
+    });
 
     app.put('/api/suppliers', authorization, isAdmin, bodyParser.json(), (req, res) =>
       saveOrUpdate(Supplier, req.body)

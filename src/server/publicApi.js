@@ -1,14 +1,12 @@
 /* @flow */
 
-const bodyParser = require('body-parser');
-
 const {
   ProductPictures,
   Producer,
   Product,
   ProductCategory,
   Supplier,
-  Tag
+  Tag,
 } = require('./models');
 
 module.exports = {
@@ -20,21 +18,15 @@ module.exports = {
       ProductPictures.readById(req.params.id).pipe(res);
     });
 
-    app.get('/api/productcategories', (req, res) => ProductCategory.find({})
-      .then(categories => res.send(categories.sort((a, b) => {
-        const nameA = a.name.toUpperCase();
-        const nameB = b.name.toUpperCase();
-        if (nameA < nameB) return -1;
-        if (nameA > nameB) return 1;
-        return 0;
-      })))
+    app.get('/api/productcategories', (req, res) => ProductCategory.find().sort({ name: 1 })
+      .then(categories => res.send(categories))
       .catch((err) => {
         console.error(err);
         res.status(500).send('Fetching product categories failed!');
       })
     );
 
-    app.get('/api/products', (req, res) => Product.find({})
+    app.get('/api/products', (req, res) => Product.find().sort({ name: 1 })
       .then(products => res.send(products))
       .catch((err) => {
         console.error(err);
@@ -42,7 +34,7 @@ module.exports = {
       })
     );
 
-    app.get('/api/suppliers', (req, res) => Supplier.find({})
+    app.get('/api/suppliers', (req, res) => Supplier.find().sort({ name: 1 })
       .then(suppliers => res.send(suppliers))
       .catch((err) => {
         console.error(err);
@@ -50,7 +42,7 @@ module.exports = {
       })
     );
 
-    app.get('/api/producers', (req, res) => Producer.find({})
+    app.get('/api/producers', (req, res) => Producer.find().sort({ name: 1 })
       .then(producers => res.send(producers))
       .catch((err) => {
         console.error(err);
@@ -58,7 +50,7 @@ module.exports = {
       })
     );
 
-    app.get('/api/tags', (req, res) => Tag.find({})
+    app.get('/api/tags', (req, res) => Tag.find().sort({ name: 1 })
       .then(tags => res.send(tags))
       .catch((err) => {
         console.error(err);

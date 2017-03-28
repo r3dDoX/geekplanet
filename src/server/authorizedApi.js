@@ -5,6 +5,7 @@ const shortId = require('shortid');
 const bodyParser = require('body-parser');
 const multer = require('multer')();
 const streamifier = require('streamifier');
+const Logger = require('./logger');
 const secretConfig = require('../config/secret.config.json');
 const stripe = require('stripe')(secretConfig.PAYMENT_SECRET || process.env.PAYMENT_SECRET);
 
@@ -34,7 +35,7 @@ function isAdmin(req, res, next) {
 }
 
 function handleGenericError(error, response) {
-  console.error(error);
+  Logger.error(error);
   response.status(500).send(error);
 }
 

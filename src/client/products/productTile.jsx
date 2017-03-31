@@ -71,7 +71,7 @@ const getStockIcon = stockCount => (
     secondary={stockCount <= 0}
     style={styles.stockBadge}
   >
-    {stockCount ? inStockIcon : outOfStockIcon}
+    {stockCount > 0 ? inStockIcon : outOfStockIcon}
   </Badge>
 );
 

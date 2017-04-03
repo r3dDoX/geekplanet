@@ -19,7 +19,7 @@ const server = app.listen(process.env.PORT || 3000, () => {
   console.info(`Listening on port ${server.address().port}`);
 });
 
-app.get('*', (req, res, next) => {
+app.use('*', (req, res, next) => {
   if (process.env.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
     res.redirect(`https://${req.host}${req.url}`);
   } else {

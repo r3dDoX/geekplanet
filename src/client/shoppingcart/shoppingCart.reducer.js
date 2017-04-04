@@ -63,7 +63,7 @@ export default function auth(state = initialState, { type, data }) {
     }
     case ActionTypes.SET_AMOUNT: {
       state.items = insertOrUpdateItem(state.items, data.product, data.amount);
-      const newState = Object.assign({}, state)
+      const newState = Object.assign({}, state);
 
       store(ids.SHOPPING_CART, newState);
 

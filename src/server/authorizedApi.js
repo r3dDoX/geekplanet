@@ -121,6 +121,7 @@ module.exports = {
         {
           user: req.user.user_id,
           state: OrderState.STARTED,
+          date: Date.now(),
         }
       ))
         .then(() => res.sendStatus(200))

@@ -246,9 +246,9 @@ export default connect(
     selectTag(tags, item, index) {
       if (index < 0) {
         TagService.saveTag({ name: item })
-          .then(() => TagService.loadTags().then(tags => dispatch({
+          .then(() => TagService.loadTags().then(loadedTags => dispatch({
             type: ActionTypes.TAGS_LOADED,
-            data: tags,
+            data: loadedTags,
           })));
       }
       const newTags = tags.concat(item);

@@ -24,7 +24,7 @@ app.use(compression());
 app.use(mongoSanitize());
 
 const mongoURI = process.env.MONGODB_URI
-  || process.env.MONGOHQ_URI
+  || process.env.MONGOHQ_URL
   || cloudFoundryConfig.getMongoDbUri();
 mongoose.Promise = Promise;
 mongoose.connect(mongoURI);

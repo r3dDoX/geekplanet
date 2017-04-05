@@ -30,6 +30,7 @@ models.Tag = mongoose.model('Tag', {
   name: {
     type: String,
     index: true,
+    unique: true,
   },
 });
 

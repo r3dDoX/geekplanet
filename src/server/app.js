@@ -6,6 +6,7 @@ const compression = require('compression');
 const mongoose = require('mongoose');
 const mongoSanitize = require('express-mongo-sanitize');
 const cloudFoundryConfig = require('./cloudfoundry.config.js');
+const Logger = require('./logger');
 
 const app = express();
 app.use('*', (req /* : express$Request */, res /* : express$Response */, next /* : express$NextFunction */) => {
@@ -23,7 +24,7 @@ mongoose.Promise = Promise;
 mongoose.connect(mongoURI);
 
 const server = app.listen(process.env.PORT || 3000, () => {
-  console.info(`Listening on port ${server.address().port}`);
+  Logger.info(`Listening on port ${server.address().port}`);
 });
 
 app.use('/', express.static('dist/', {

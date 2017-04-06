@@ -1,3 +1,5 @@
+// @flow
+
 const mongoose = require('mongoose');
 
 const models = {};

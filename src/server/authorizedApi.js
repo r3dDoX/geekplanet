@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 const jwt = require('express-jwt');
 const shortId = require('shortid');

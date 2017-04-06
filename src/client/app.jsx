@@ -5,10 +5,7 @@ import Route from 'react-router/lib/Route';
 import IndexRoute from 'react-router/lib/IndexRoute';
 import browserHistory from 'react-router/lib/browserHistory';
 import { IntlProvider, addLocaleData } from 'react-intl';
-import en from 'react-intl/locale-data/en';
 import de from 'react-intl/locale-data/de';
-import fr from 'react-intl/locale-data/fr';
-import it from 'react-intl/locale-data/it';
 import Home from './home/home.jsx';
 import Layout from './layout/layout.jsx';
 import Forms from './admin/forms/forms.jsx';
@@ -17,14 +14,9 @@ import ActionTypes from './actionTypes';
 import AuthService from './auth/authService';
 import OrderStepper from './order/orderStepper.jsx';
 
-addLocaleData([...de, ...en, ...fr, ...it]);
-const language = (navigator.languages && navigator.languages[0])
-  || navigator.language
-  || navigator.userLanguage;
-let locale = language.toLowerCase().split(/[_-]+/)[0];
-if (['de', 'en', 'fr', 'it'].indexOf(locale) === -1) {
-  locale = 'de';
-}
+addLocaleData([...de]);
+const language = 'de-CH';
+const locale = 'de';
 
 class App extends React.Component {
 

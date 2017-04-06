@@ -1,7 +1,8 @@
 // @flow
 
-const Logger = require('./../logger');
 const pdfFiller = require('pdffiller');
+const Logger = require('./../logger');
+
 const esrTemplate = `${__dirname}/ESR_Form.pdf`;
 
 module.exports = {

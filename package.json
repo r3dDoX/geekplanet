@@ -8,7 +8,7 @@
   "scripts": {
     "predist": "npm run build",
     "dist": "bestzip geekplanet.zip dist/ src/ package.json webpack.prod.config.js",
-    "flow:install": "flow-typed install",
+    "flow:install": "flow-typed install --overwrite",
     "test": "eslint \"src/**/*.{js,jsx}\"",
     "build": "NODE_ENV='production' webpack --config webpack.prod.config.js --progress --optimize-minimize -p",
     "heroku-postbuild": "npm run build",

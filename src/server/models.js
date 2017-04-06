@@ -85,6 +85,7 @@ models.Supplier = mongoose.model('Supplier', {
 });
 
 const UserAddressSchema = mongoose.Schema(Object.assign(
+  {},
   {
     user: {
       type: String,

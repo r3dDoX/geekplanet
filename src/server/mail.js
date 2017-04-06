@@ -17,28 +17,30 @@ const transporter = nodemailer.createTransport({
 module.exports = {
   sendESR(
     orderNumber /* : string */,
-    userEmail /* : string */
+    userEmail /* : string */,
+    pdfPath /* : string */
   ) {
-    const invoicePath = `./invoices/${orderNumber}.pdf`;
-
-    transporter.sendMail({
-      from: process.env.SMTP_USER || secretConfig.SMTP_USER,
-      to: userEmail,
-      subject: 'Order Test',
-      text: 'Invoice from geekplanet',
-      html: `<h1>Order Nr. ${orderNumber}</h1>`,
-      attachments: [
-        {
-          filename: `${orderNumber}.pdf`,
-          content: fs.createReadStream(invoicePath),
-        },
-      ],
-    }, (err) => {
-      if (err) {
-        Logger.error(err);
-      }
-      fs.unlink(`./invoices/${orderNumber}.pdf`);
-    });
+    return new Promise((resolve, reject) =>
+      transporter.sendMail({
+        from: process.env.SMTP_USER || secretConfig.SMTP_USER,
+        to: userEmail,
+        subject: 'Order Test',
+        text: 'Invoice from geekplanet',
+        html: `<h1>Order Nr. ${orderNumber}</h1>`,
+        attachments: [
+          {
+            filename: `${orderNumber}.pdf`,
+            content: fs.createReadStream(pdfPath),
+          },
+        ],
+      }, (err) => {
+        if (err) {
+          Logger.error(err);
+          reject();
+        }
+        resolve();
+      })
+    );
   },
 }
 ;

@@ -34,7 +34,7 @@ const server = app.listen(process.env.PORT || 3000, () => {
 });
 
 app.use('/', express.static('dist/', {
-  maxAge: 31556926,
+  maxAge: '1y',
 }));
 
 require('./authorizedApi').registerEndpoints(app);

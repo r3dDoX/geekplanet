@@ -30,9 +30,11 @@ const authorization = jwt({
   audience: process.env.AUDIENCE || secretConfig.AUDIENCE,
 });
 
-function isAdmin(req /* : express$Request */,
-                 res /* : express$Response */,
-                 next /* : express$NextFunction */) {
+function isAdmin(
+  req /* : express$Request */,
+  res /* : express$Response */,
+  next /* : express$NextFunction */
+) {
   if (!req.user || req.user.app_metadata.roles.indexOf('admin') === -1) {
     res.sendStatus(403);
   } else {

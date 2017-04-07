@@ -48,7 +48,9 @@ class Payment extends React.Component {
         <RaisedButton
           style={styles.paymentButton}
           onClick={() => Xhr.post('/api/payment/prepayment', { shoppingCartId: shoppingCart.id })
-            .then(finishOrder, () => { /* TODO implement error handling when payment fails */ })}
+            .then(finishOrder, () => {
+              /* TODO implement error handling when order not updated */
+            })}
           label={<FormattedMessage id="ORDER.PAYMENT.PREPAYMENT" />}
           primary
         />

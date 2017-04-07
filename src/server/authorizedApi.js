@@ -50,6 +50,12 @@ function saveOrUpdate(Collection, document) {
   return new Collection(document).save();
 }
 
+function updateProductStocks(items) {
+  items.forEach(({ amount, product }) =>
+    Product.update({ _id: product._id }, { $inc: { stock: amount * -1 } }).exec()
+  );
+}
+
 module.exports = {
   registerEndpoints(app /* : express$Application */) {
     app.post('/api/products/pictures', authorization, isAdmin, multer.any(),
@@ -157,31 +163,41 @@ module.exports = {
           .catch(error => handleGenericError(error, res))
     );
 
-    app.post('/api/payment', bodyParser.json(), authorization,
+    app.post('/api/payment/cleared', bodyParser.json(), authorization,
       (req /* : express$Request */, res /* : express$Response */) => {
         const orderQuery = Order.findOne({ _id: req.body.shoppingCartId, user: req.user.user_id });
-        let items;
 
         orderQuery
-          .then((order) => {
-            items = order.items;
-            return stripe.charges.create({
+          .then(order =>
+            stripe.charges.create({
               amount: order.items.reduce(
                 (sum, { amount, product }) => sum + (amount * product.price * 100), 0
               ),
               description: order._id,
               currency: 'chf',
               source: req.body.token.id,
-            });
-          })
-          .then(() => {
-            orderQuery.update({ state: OrderState.FINISHED });
-            items.forEach(({ amount, product }) =>
-              Product.update({ _id: product._id }, { $inc: { stock: amount * -1 } }).exec()
-            );
-          })
+            })
+              .then(() => updateProductStocks(order.items))
+          )
+          .then(() => orderQuery.update({ state: OrderState.FINISHED }))
           .then(() => res.sendStatus(200))
           .catch(error => handleGenericError(error, res));
-      });
+      }
+    );
+
+    app.post('/api/payment/prepayment', bodyParser.json(), authorization,
+      (req /* : express$Request */, res /* : express$Response */) =>
+        Order.findOneAndUpdate({
+          _id: req.body.shoppingCartId,
+          user: req.user.user_id,
+        }, {
+          $set: {
+            state: OrderState.WAITING,
+          },
+        })
+          .then(({ items }) => updateProductStocks(items))
+          .then(() => res.sendStatus(200))
+          .catch(error => handleGenericError(error, res))
+    );
   },
 };

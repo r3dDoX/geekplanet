@@ -44,6 +44,7 @@ function spaceReference(reference /* : string */) {
 
 module.exports = {
   generate(
+    invoiceNumber /* : number */,
     orderNumber /* : string */,
     value /* : number */,
     address /* : any */
@@ -55,7 +56,7 @@ module.exports = {
 ${address.streetAddress}
 ${address.zip} ${address.city}`;
     const partnerNumber = '012000998';
-    const reference = generateInvoiceNumberCode(1);
+    const reference = generateInvoiceNumberCode(invoiceNumber);
 
     const formData = {
       value_1: integerValue,

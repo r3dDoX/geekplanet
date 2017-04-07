@@ -8,8 +8,10 @@ const streamifier = require('streamifier');
 const Logger = require('./logger');
 const secretConfig = require('../config/secret.config.json');
 const stripe = require('stripe')(secretConfig.PAYMENT_SECRET || process.env.PAYMENT_SECRET);
+const esrGenerator = require('./esr/esrGenerator');
 
 const {
+  Invoice,
   Order,
   OrderState,
   Producer,
@@ -17,8 +19,8 @@ const {
   ProductCategory,
   ProductPictures,
   Supplier,
-  UserAddress,
   Tag,
+  UserAddress,
 } = require('./models');
 
 const authorization = jwt({
@@ -26,11 +28,9 @@ const authorization = jwt({
   audience: process.env.AUDIENCE || secretConfig.AUDIENCE,
 });
 
-function isAdmin(
-  req /* : express$Request */,
-  res /* : express$Response */,
-  next /* : express$NextFunction */
-) {
+function isAdmin(req /* : express$Request */,
+                 res /* : express$Response */,
+                 next /* : express$NextFunction */) {
   if (!req.user || req.user.app_metadata.roles.indexOf('admin') === -1) {
     res.sendStatus(403);
   } else {
@@ -195,7 +195,19 @@ module.exports = {
             state: OrderState.WAITING,
           },
         })
-          .then(({ items }) => updateProductStocks(items))
+          .then(({ address, items }) => {
+            updateProductStocks(items);
+            return new Invoice({
+              value: items.reduce((sum, { amount, product }) => sum + (amount * product.price), 0),
+              address,
+            }).save();
+          })
+          .then(invoice => esrGenerator.generate(
+            invoice.invoiceNumber,
+            req.body.shoppingCartId,
+            invoice.value,
+            invoice.address
+          ))
           .then(() => res.sendStatus(200))
           .catch(error => handleGenericError(error, res))
     );

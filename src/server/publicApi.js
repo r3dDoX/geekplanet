@@ -16,7 +16,7 @@ module.exports = {
     app.get('/api/products/pictures/:id',
       (req /* : express$Request */, res /* : express$Response */) => {
         res.header({
-          'Cache-Control': 'public, max-age=31556926',
+          'Cache-Control': 'public, max-age=31536000',
         });
         ProductPictures.readById(req.params.id).pipe(res);
       });

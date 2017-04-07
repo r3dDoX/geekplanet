@@ -11,7 +11,7 @@ Object.keys(secretConfig).map((key) => {
 });
 
 module.exports = merge(commonConfig, {
-  devtool: 'source-map',
+  devtool: 'eval-cheap-module-source-map',
 
   entry: {
     main: [

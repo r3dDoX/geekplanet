@@ -12,7 +12,7 @@ const styles = {
 
 const Payment = ({ email, shoppingCart, startOrder, finishOrder }) => {
   const handler = StripeCheckout.configure({
-    key: PAYMENT_PUBLIC,
+    key: process.env.PAYMENT_PUBLIC,
     email,
     locale: 'auto',
     opened: startOrder,

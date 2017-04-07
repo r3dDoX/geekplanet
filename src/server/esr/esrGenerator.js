@@ -50,7 +50,8 @@ module.exports = {
     address /* : any */
   ) {
     const destinationPDF = `./invoices/${orderNumber}.pdf`;
-    const decimalValue = Math.round((value % 1) * 100);
+    const decimalString = `00${Math.round((value % 1) * 100)}`;
+    const decimalValue = decimalString.substr(decimalString.length - 2);
     const integerValue = Math.floor(value);
     const esrAddress = `${address.firstName} ${address.lastName}
 ${address.streetAddress}

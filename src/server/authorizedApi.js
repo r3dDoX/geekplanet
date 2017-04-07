@@ -9,6 +9,7 @@ const Logger = require('./logger');
 const secretConfig = require('../config/secret.config.json');
 const stripe = require('stripe')(secretConfig.PAYMENT_SECRET || process.env.PAYMENT_SECRET);
 const esrGenerator = require('./esr/esrGenerator');
+const mail = require('./mail');
 
 const {
   Invoice,
@@ -202,12 +203,15 @@ module.exports = {
               address,
             }).save();
           })
-          .then(invoice => esrGenerator.generate(
-            invoice.invoiceNumber,
-            req.body.shoppingCartId,
-            invoice.value,
-            invoice.address
-          ))
+          .then(invoice =>
+            esrGenerator.generate(
+              invoice.invoiceNumber,
+              req.body.shoppingCartId,
+              invoice.value,
+              invoice.address
+            )
+              .then(pdfPath => mail.sendESR(req.body.shoppingCartId, req.user.email, pdfPath))
+          )
           .then(() => res.sendStatus(200))
           .catch(error => handleGenericError(error, res))
     );

@@ -2,6 +2,7 @@
 
 const path = require('path');
 const express = require('express');
+const compression = require('compression');
 const mongoose = require('mongoose');
 const mongoSanitize = require('express-mongo-sanitize');
 const cloudFoundryConfig = require('./cloudfoundry.config.js');
@@ -19,11 +20,7 @@ app.use('*', (
     next();
   }
 });
-app.get('*.js', (req, res, next) => {
-  req.url = `${req.url}.gz`;
-  res.set('Content-Encoding', 'gzip');
-  next();
-});
+app.use(compression());
 app.use(mongoSanitize());
 
 const mongoURI = process.env.MONGODB_URI

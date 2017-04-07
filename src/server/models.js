@@ -107,6 +107,7 @@ const OrderItemSchema = mongoose.Schema({
 
 models.OrderState = {
   STARTED: 'STARTED',
+  WAITING: 'WAITING',
   FINISHED: 'FINISHED',
 };
 

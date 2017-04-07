@@ -1,5 +1,6 @@
 // @flow
 
+const fs = require('fs');
 const jwt = require('express-jwt');
 const shortId = require('shortid');
 const bodyParser = require('body-parser');
@@ -210,7 +211,10 @@ module.exports = {
               invoice.value,
               invoice.address
             )
-              .then(pdfPath => mail.sendESR(req.body.shoppingCartId, req.user.email, pdfPath))
+              .then(pdfPath =>
+                mail.sendESR(req.body.shoppingCartId, req.user.email, pdfPath)
+                  .then(fs.unlink(pdfPath))
+              )
           )
           .then(() => res.sendStatus(200))
           .catch(error => handleGenericError(error, res))

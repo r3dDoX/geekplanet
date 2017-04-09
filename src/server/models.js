@@ -1,6 +1,7 @@
 // @flow
 
 const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence');
 
 const models = {};
 
@@ -107,6 +108,7 @@ const OrderItemSchema = mongoose.Schema({
 
 models.OrderState = {
   STARTED: 'STARTED',
+  WAITING: 'WAITING',
   FINISHED: 'FINISHED',
 };
 
@@ -132,5 +134,17 @@ models.Order = mongoose.model('Order', {
   },
   items: [OrderItemSchema],
 });
+
+const InvoiceSchema = mongoose.Schema({
+  invoiceNumber: {
+    type: Number,
+    index: true,
+  },
+  value: Number,
+  address: UserAddressSchema,
+});
+InvoiceSchema.plugin(AutoIncrement, { inc_field: 'invoiceNumber' });
+
+models.Invoice = mongoose.model('Invoice', InvoiceSchema);
 
 module.exports = models;

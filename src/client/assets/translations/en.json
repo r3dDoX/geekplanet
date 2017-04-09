@@ -26,8 +26,9 @@
   },
   "ORDER": {
     "PAYMENT": {
-      "TITLE": "Payment",
-      "SELECT_PAYMENT_METHOD": "Select Payment Method"
+      "TITLE": "Select Payment Method",
+      "CREDIT_CARD": "Pay with Credit Card",
+      "PREPAYMENT": "Pay in advance"
     },
     "ADDRESS": {
       "TITLE": "Shipping Address",

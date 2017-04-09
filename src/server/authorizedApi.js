@@ -1,5 +1,6 @@
 // @flow
 
+const fs = require('fs');
 const jwt = require('express-jwt');
 const shortId = require('shortid');
 const bodyParser = require('body-parser');
@@ -8,8 +9,11 @@ const streamifier = require('streamifier');
 const Logger = require('./logger');
 const secretConfig = require('../config/secret.config.json');
 const stripe = require('stripe')(secretConfig.PAYMENT_SECRET || process.env.PAYMENT_SECRET);
+const esrGenerator = require('./esr/esrGenerator');
+const mail = require('./mail');
 
 const {
+  Invoice,
   Order,
   OrderState,
   Producer,
@@ -17,8 +21,8 @@ const {
   ProductCategory,
   ProductPictures,
   Supplier,
-  UserAddress,
   Tag,
+  UserAddress,
 } = require('./models');
 
 const authorization = jwt({
@@ -48,6 +52,12 @@ function saveOrUpdate(Collection, document) {
     return Collection.findOneAndUpdate({ _id: document._id }, document, { upsert: true }).exec();
   }
   return new Collection(document).save();
+}
+
+function updateProductStocks(items) {
+  items.forEach(({ amount, product }) =>
+    Product.update({ _id: product._id }, { $inc: { stock: amount * -1 } }).exec()
+  );
 }
 
 module.exports = {
@@ -157,31 +167,59 @@ module.exports = {
           .catch(error => handleGenericError(error, res))
     );
 
-    app.post('/api/payment', bodyParser.json(), authorization,
+    app.post('/api/payment/cleared', bodyParser.json(), authorization,
       (req /* : express$Request */, res /* : express$Response */) => {
         const orderQuery = Order.findOne({ _id: req.body.shoppingCartId, user: req.user.user_id });
-        let items;
 
         orderQuery
-          .then((order) => {
-            items = order.items;
-            return stripe.charges.create({
+          .then(order =>
+            stripe.charges.create({
               amount: order.items.reduce(
                 (sum, { amount, product }) => sum + (amount * product.price * 100), 0
               ),
               description: order._id,
               currency: 'chf',
               source: req.body.token.id,
-            });
-          })
-          .then(() => {
-            orderQuery.update({ state: OrderState.FINISHED });
-            items.forEach(({ amount, product }) =>
-              Product.update({ _id: product._id }, { $inc: { stock: amount * -1 } }).exec()
-            );
-          })
+            })
+              .then(() => updateProductStocks(order.items))
+          )
+          .then(() => orderQuery.update({ state: OrderState.FINISHED }))
           .then(() => res.sendStatus(200))
           .catch(error => handleGenericError(error, res));
-      });
+      }
+    );
+
+    app.post('/api/payment/prepayment', bodyParser.json(), authorization,
+      (req /* : express$Request */, res /* : express$Response */) =>
+        Order.findOneAndUpdate({
+          _id: req.body.shoppingCartId,
+          user: req.user.user_id,
+        }, {
+          $set: {
+            state: OrderState.WAITING,
+          },
+        })
+          .then(({ address, items }) => {
+            updateProductStocks(items);
+            return new Invoice({
+              value: items.reduce((sum, { amount, product }) => sum + (amount * product.price), 0),
+              address,
+            }).save();
+          })
+          .then(invoice =>
+            esrGenerator.generate(
+              invoice.invoiceNumber,
+              req.body.shoppingCartId,
+              invoice.value,
+              invoice.address
+            )
+              .then(pdfPath =>
+                mail.sendESR(req.body.shoppingCartId, req.user.email, pdfPath)
+                  .then(fs.unlink(pdfPath))
+              )
+          )
+          .then(() => res.sendStatus(200))
+          .catch(error => handleGenericError(error, res))
+    );
   },
 };

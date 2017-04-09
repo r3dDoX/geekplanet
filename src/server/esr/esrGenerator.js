@@ -44,18 +44,20 @@ function spaceReference(reference /* : string */) {
 
 module.exports = {
   generate(
+    invoiceNumber /* : number */,
     orderNumber /* : string */,
     value /* : number */,
     address /* : any */
   ) {
     const destinationPDF = `./invoices/${orderNumber}.pdf`;
-    const decimalValue = Math.round((value % 1) * 100);
+    const decimalString = `00${Math.round((value % 1) * 100)}`;
+    const decimalValue = decimalString.substr(decimalString.length - 2);
     const integerValue = Math.floor(value);
     const esrAddress = `${address.firstName} ${address.lastName}
 ${address.streetAddress}
 ${address.zip} ${address.city}`;
     const partnerNumber = '012000998';
-    const reference = generateInvoiceNumberCode(1);
+    const reference = generateInvoiceNumberCode(invoiceNumber);
 
     const formData = {
       value_1: integerValue,

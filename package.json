@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "auth0-lock": "10.14.0",
-    "babel-core": "6.24.0",
+    "babel-core": "6.24.1",
     "babel-eslint": "7.2.1",
     "babel-loader": "6.4.1",
     "babel-plugin-react-intl": "2.3.1",

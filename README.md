@@ -1,4 +1,4 @@
-# geekplanet
+# geekplanet [![Build Status](https://travis-ci.org/r3dDoX/geekplanet.svg?branch=develop)](https://travis-ci.org/r3dDoX/geekplanet)
 An online store app written in React with a backend in NodeJS using a MongoDb.
 
 # Running it

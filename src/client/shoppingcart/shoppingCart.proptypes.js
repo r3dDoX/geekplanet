@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import productPropType from '../products/product.proptypes';
 
 export const ShoppingCartItemPropType = PropTypes.shape({

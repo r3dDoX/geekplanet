@@ -4,5 +4,5 @@ services:
   - docker
 
 script:
-  - docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk npm install
+  - docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk npm install --silent
   - docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk npm test

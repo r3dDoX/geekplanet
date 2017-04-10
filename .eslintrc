@@ -12,5 +12,10 @@
     "no-param-reassign": ["error", {
       "props": false
     }]
+  },
+  "globals": {
+    "describe": false,
+    "test": false,
+    "expect": false
   }
 }

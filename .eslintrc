@@ -17,6 +17,8 @@
     "jest": false,
     "describe": false,
     "test": false,
-    "expect": false
+    "expect": false,
+    "afterAll": false,
+    "afterEach": false
   }
 }

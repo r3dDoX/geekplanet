@@ -1,11 +1,15 @@
-const underTest = require('./esrGenerator');
 const pdffiller = require('pdffiller');
+const fs = require('fs');
+const underTest = require('./esrGenerator');
 
 pdffiller.fillForm = jest.fn().mockImplementation(pdffiller.fillForm);
+const orderNumber = 'testOrderNumber';
+
 
 describe('generate', () => {
-  test('should generate 12 digit code out of price with checkdigit', () => {
-    const orderNumber = 'testOrderNumber';
+  afterEach(() => fs.unlinkSync(`./invoices/${orderNumber}.pdf`));
+
+  test('should generate 12 digit code out of price with checkdigit', (done) => {
     const price = 498.25;
     const address = {
       firstName: 'firstName',
@@ -15,7 +19,7 @@ describe('generate', () => {
       city: 'city',
     };
 
-    underTest.generate(5, orderNumber, price, address);
+    const result = underTest.generate(5, orderNumber, price, address);
 
     expect(pdffiller.fillForm.mock.calls.length).toBe(1);
     const callArguments = pdffiller.fillForm.mock.calls[0];
@@ -34,5 +38,21 @@ ${address.zip} ${address.city}`,
       value_1: 498,
       value_2: 498,
     });
+    result.then(done, done.fail);
+  });
+
+  test('should create a pdf file', (done) => {
+    const result = underTest.generate(1, orderNumber, 0, {
+      firstName: '',
+      lastName: '',
+      streetAddress: '',
+      zip: '',
+      city: '',
+    });
+
+    result.then((pdfPath) => {
+      expect(fs.existsSync(pdfPath)).toBe(true);
+      done();
+    }).catch(done.fail);
   });
 });

@@ -5,7 +5,6 @@ const express = require('express');
 const compression = require('compression');
 const mongoose = require('mongoose');
 const mongoSanitize = require('express-mongo-sanitize');
-const cloudFoundryConfig = require('./cloudfoundry.config.js');
 const Logger = require('./logger');
 
 const app = express();
@@ -23,9 +22,7 @@ app.use('*', (
 app.use(compression());
 app.use(mongoSanitize());
 
-const mongoURI = process.env.MONGODB_URI
-  || process.env.MONGOHQ_URL
-  || cloudFoundryConfig.getMongoDbUri();
+const mongoURI = process.env.MONGODB_URI || process.env.MONGOHQ_URL;
 mongoose.Promise = Promise;
 mongoose.connect(mongoURI);
 

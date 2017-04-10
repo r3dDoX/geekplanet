@@ -15,7 +15,7 @@
     "build": "NODE_ENV='production' webpack --config webpack.prod.config.js --progress --optimize-minimize -p",
     "heroku-postbuild": "npm run build",
     "start": "NODE_ENV='production' node src/server/app.js",
-    "dev": "webpack-dev-server --config webpack.dev.config.js & nodemon src/server/app.js"
+    "dev": "webpack-dev-server --color --config webpack.dev.config.js & nodemon src/server/app.js"
   },
   "author": "Patrick Walther",
   "license": "ISC",

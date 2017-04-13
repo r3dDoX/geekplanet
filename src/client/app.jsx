@@ -57,7 +57,7 @@ class App extends React.Component {
     }
 
     // TODO show something until translations are ready
-    return <div />;
+    return null;
   }
 }
 

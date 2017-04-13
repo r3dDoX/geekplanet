@@ -1,7 +1,7 @@
 import * as underTest from './priceFormatter';
 
 describe('formatPriceWithoutCurrency', () => {
-  test('should format price with two decimals in steps of five', () => {
+  it('should format price with two decimals in steps of five', () => {
     const price = 123.456;
 
     const result = underTest.formatPriceWithoutCurrency(price);
@@ -9,7 +9,7 @@ describe('formatPriceWithoutCurrency', () => {
     expect(result).toBe('123.45');
   });
 
-  test('should format price with dash when round', () => {
+  it('should format price with dash when round', () => {
     const price = 456;
 
     const result = underTest.formatPriceWithoutCurrency(price);
@@ -19,7 +19,7 @@ describe('formatPriceWithoutCurrency', () => {
 });
 
 describe('formatPriceWithCurrency', () => {
-  test('should format price with CHF in front', () => {
+  it('should format price with CHF in front', () => {
     const price = 456;
 
     const result = underTest.formatPriceWithCurrency(price);

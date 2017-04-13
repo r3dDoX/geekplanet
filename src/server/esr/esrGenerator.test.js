@@ -9,7 +9,7 @@ const orderNumber = 'testOrderNumber';
 describe('generate', () => {
   afterEach(() => fs.unlinkSync(`./invoices/${orderNumber}.pdf`));
 
-  test('should generate 12 digit code out of price with checkdigit', (done) => {
+  it('should generate 12 digit code out of price with checkdigit', (done) => {
     const price = 498.25;
     const address = {
       firstName: 'firstName',
@@ -41,7 +41,7 @@ ${address.zip} ${address.city}`,
     result.then(done, done.fail);
   });
 
-  test('should create a pdf file', (done) => {
+  it('should create a pdf file', (done) => {
     const result = underTest.generate(1, orderNumber, 0, {
       firstName: '',
       lastName: '',

@@ -1,6 +1,6 @@
-const pdffiller = require('pdffiller');
-const fs = require('fs');
-const underTest = require('./esrGenerator');
+import pdffiller from 'pdffiller';
+import fs from 'fs';
+import * as underTest from './esrGenerator';
 
 pdffiller.fillForm = jest.fn().mockImplementation(pdffiller.fillForm);
 const orderNumber = 'testOrderNumber';

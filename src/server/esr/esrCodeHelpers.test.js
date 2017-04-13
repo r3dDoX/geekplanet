@@ -1,4 +1,4 @@
-const underTest = require('./esrCodeHelpers');
+import * as underTest from './esrCodeHelpers';
 
 describe('generateValueCode', () => {
   test('should generate 12 digit code out of price with checkdigit', () => {

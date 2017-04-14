@@ -1,9 +1,11 @@
 function addDashForNonDecimalNumbers(price) {
-  if (price - Math.floor(price) === 0) {
-    return `${price}.-`;
+  const roundedPrice = Math.round(price * 20) / 20;
+
+  if (roundedPrice - Math.floor(roundedPrice) === 0) {
+    return `${roundedPrice}.-`;
   }
 
-  return Number(price).toFixed(2);
+  return Number(roundedPrice).toFixed(2);
 }
 
 export const formatPriceWithCurrency = price => `CHF ${addDashForNonDecimalNumbers(price)}`;

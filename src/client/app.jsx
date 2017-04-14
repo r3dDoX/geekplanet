@@ -1,47 +1,103 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Router from 'react-router/lib/Router';
 import Route from 'react-router/lib/Route';
+import IndexRoute from 'react-router/lib/IndexRoute';
 import browserHistory from 'react-router/lib/browserHistory';
-import { createStore, combineReducers } from 'redux';
-import { Provider } from 'react-redux';
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import { IntlProvider, addLocaleData } from 'react-intl';
+import de from 'react-intl/locale-data/de';
 import Home from './home/home.jsx';
-import ProductContainer from './products/productContainer.jsx';
+import Layout from './layout/layout.jsx';
+import Forms from './admin/forms/forms.jsx';
+import translationService from './i18n/translationService';
 import ActionTypes from './actionTypes';
-import './app.less';
+import AuthService from './auth/authService';
+import OrderStepper from './order/orderStepper.jsx';
 
-injectTapEventPlugin();
+addLocaleData([...de]);
+const language = 'de-CH';
+const locale = 'de';
 
-const initialState = {
-  selectedFiles: undefined,
+class App extends React.Component {
+
+  componentWillMount() {
+    this.props.loadTranslations(locale);
+    this.props.loadShoppingCart();
+
+    const authService = AuthService.create(locale, this.props.loggedIn);
+    this.requireAuth = (nextState, replace) => {
+      if (!authService.loggedIn()) {
+        replace({ pathname: '/' });
+        authService.login();
+      }
+    };
+
+    this.props.authServiceCreated(authService);
+    if (authService.loggedIn()) {
+      this.props.loggedIn(authService);
+    }
+  }
+
+  render() {
+    const { translations } = this.props;
+
+    if (translations) {
+      return (
+        <IntlProvider locale={language} messages={translations}>
+          <Router history={browserHistory}>
+            <Route path="/" component={Layout}>
+              <IndexRoute component={Home} />
+              <Route path="forms" component={Forms} onEnter={this.requireAuth} />
+              <Route path="order" component={OrderStepper} onEnter={this.requireAuth} />
+            </Route>
+          </Router>
+        </IntlProvider>
+      );
+    }
+
+    // TODO show something until translations are ready
+    return null;
+  }
+}
+
+App.defaultProps = {
+  translations: undefined,
 };
 
-const store = createStore(combineReducers({
-  products(state = initialState, { type, data }) {
-    switch (type) {
-      case ActionTypes.SELECT_UPLOAD_FILES:
-        return Object.assign({}, state, {
-          selectedFiles: data,
-        });
-      default:
-        return state;
-    }
-  },
-  routing: routerReducer,
-}));
+App.propTypes = {
+  translations: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  loadTranslations: PropTypes.func.isRequired,
+  loadShoppingCart: PropTypes.func.isRequired,
+  authServiceCreated: PropTypes.func.isRequired,
+  loggedIn: PropTypes.func.isRequired,
+};
 
-const history = syncHistoryWithStore(browserHistory, store);
-
-ReactDOM.render((
-  <Provider store={store}>
-    <MuiThemeProvider>
-      <Router history={history}>
-        <Route path="/" component={Home} />
-        <Route path="/products" component={ProductContainer} />
-      </Router>
-    </MuiThemeProvider>
-  </Provider>
-), document.getElementsByTagName('main')[0]);
+export default connect(
+  state => state.i18n,
+  dispatch => ({
+    loadTranslations(localeWithFallback) {
+      translationService.loadTranslations(localeWithFallback).then(translations => dispatch({
+        type: ActionTypes.TRANSLATIONS_LOADED,
+        data: translations,
+      }));
+    },
+    loadShoppingCart() {
+      dispatch({
+        type: ActionTypes.LOAD_SHOPPING_CART,
+      });
+    },
+    authServiceCreated(auth) {
+      dispatch({
+        type: ActionTypes.AUTH_SERVICE_CREATED,
+        data: auth,
+      });
+    },
+    loggedIn(authService) {
+      authService.getUserInfo().then(profile => dispatch({
+        type: ActionTypes.LOGGED_IN,
+        data: profile,
+      }));
+    },
+  })
+)(App);

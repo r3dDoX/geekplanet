@@ -2,7 +2,7 @@ version: '2'
 services:
 
   web:
-    image: node
+    image: r3ddox/node-pdftk
     volumes:
       - ./:/usr/src/app
     working_dir: /usr/src/app
@@ -19,6 +19,8 @@ services:
   mongo:
     image: mongo
     command: mongod --smallfiles
+    ports:
+      - "27017:27017"
     networks:
       - all
 

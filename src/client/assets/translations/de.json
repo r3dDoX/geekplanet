@@ -1,0 +1,61 @@
+{
+  "FOOTER": {
+    "CONTACT": "Kontakt",
+    "ABOUT_US": "Über uns",
+    "SOCIAL_MEDIA": "Social Media",
+    "IMPRINT": "Impressum",
+    "PRIVACY_POLICY": "Datenschutz"
+  },
+  "COMMON": {
+    "ORDER": "Bestellen",
+    "DELETE": "Löschen"
+  },
+  "NAVIGATION": {
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "FORMS": "Formulare"
+  },
+  "NOTIFICATION": {
+    "SHOPPING_CART_ITEM_ADDED": "Produkt zum Warenkorb hinzugefügt"
+  },
+  "SHOPPING_CART": {
+    "TITLE": "Warenkorb",
+    "PRODUCTS": "Produkte",
+    "TOTAL": "Total",
+    "CHECKOUT": "Zur Kasse"
+  },
+  "ORDER": {
+    "PAYMENT": {
+      "TITLE": "Zahlungsmethode auswählen",
+      "CREDIT_CARD": "Mit Kreditkarte bezahlen",
+      "PREPAYMENT": "Per Vorkasse bezahlen"
+    },
+    "ADDRESS": {
+      "TITLE": "Lieferadresse",
+      "FORM": {
+        "TITLE": "Anrede",
+        "MR": "Herr",
+        "MRS": "Frau",
+        "FIRST_NAME": "Vorname",
+        "LAST_NAME": "Nachname",
+        "STREET_ADDRESS": "Adresse",
+        "ZIP": "PLZ",
+        "CITY": "Stadt",
+        "COUNTRY": "Land",
+        "NEXT": "Weiter",
+        "REQUIRED": "Dieses Feld ist notwendig",
+        "REQUIRED_ZIP": "Die Postleitzahl muss zwischen 1000 und 9999 liegen",
+        "NO_ADDRESS": "Neue Adresse erfassen",
+        "RECENTLY": "Kürzlich gebraucht"
+      }
+    },
+    "CONFIRMATION": {
+      "TITLE": "Bestätigung",
+      "TEXT": "Danke für deine Bestellung. In Kürze erhälst du eine Email mit der Bestätigung."
+    }
+  },
+  "COUNTRIES": {
+    "CHE": "Schweiz",
+    "LIE": "Liechtenstein"
+  }
+}

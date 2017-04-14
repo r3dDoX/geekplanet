@@ -1,0 +1,27 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": [
+            "last 2 versions"
+          ]
+        }
+      }
+    ],
+    "react"
+  ],
+  "plugins": [
+    "transform-runtime",
+    "transform-react-jsx",
+    "transform-react-remove-prop-types",
+    [
+      "react-intl",
+      {
+        "messagesDir": "./dist/messages",
+        "enforceDescriptions": false
+      }
+    ]
+  ]
+}

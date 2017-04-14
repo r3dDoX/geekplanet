@@ -1,0 +1,61 @@
+{
+  "FOOTER": {
+    "CONTACT": "Contact",
+    "ABOUT_US": "About Us",
+    "SOCIAL_MEDIA": "Social Media",
+    "IMPRINT": "Imprint",
+    "PRIVACY_POLICY": "Privacy Policy"
+  },
+  "COMMON": {
+    "ORDER": "Order",
+    "DELETE": "Delete"
+  },
+  "NAVIGATION": {
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "FORMS": "Forms"
+  },
+  "NOTIFICATION": {
+    "SHOPPING_CART_ITEM_ADDED": "Added product to cart"
+  },
+  "SHOPPING_CART": {
+    "TITLE": "Shopping Cart",
+    "PRODUCTS": "Products",
+    "TOTAL": "Total",
+    "CHECKOUT": "Checkout"
+  },
+  "ORDER": {
+    "PAYMENT": {
+      "TITLE": "Select Payment Method",
+      "CREDIT_CARD": "Pay with Credit Card",
+      "PREPAYMENT": "Pay in advance"
+    },
+    "ADDRESS": {
+      "TITLE": "Shipping Address",
+      "FORM": {
+        "TITLE": "Title",
+        "MR": "Mr",
+        "MRS": "Mrs",
+        "FIRST_NAME": "First name",
+        "LAST_NAME": "Last name",
+        "STREET_ADDRESS": "Street address",
+        "ZIP": "ZIP",
+        "CITY": "City",
+        "COUNTRY": "Country",
+        "NEXT": "Next",
+        "REQUIRED": "This field is required",
+        "REQUIRED_ZIP": "The zip code must be between 1000 and 9999",
+        "NO_ADDRESS": "Add new address",
+        "RECENTLY": "Recently used"
+      }
+    },
+    "CONFIRMATION": {
+      "TITLE": "Confirmation",
+      "TEXT": "Thank you for your order. You should receive an email with the confirmation shortly."
+    }
+  },
+  "COUNTRIES": {
+    "CHE": "Switzerland",
+    "LIE": "Liechtenstein"
+  }
+}

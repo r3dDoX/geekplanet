@@ -1,7 +1,6 @@
-// flow-typed signature: 540efbb64c39df0f64e06608870891c2
-// flow-typed version: c72c426249/express_v4.x.x/flow_>=v0.25.x
+// flow-typed signature: 5800b9dee6b8969ab2b5fa338d02a89f
+// flow-typed version: 473c121609/express_v4.x.x/flow_>=v0.32.x
 
-// @flow
 import type { Server } from 'http';
 
 declare type express$RouterOptions = {
@@ -20,7 +19,7 @@ declare class express$Request extends http$IncomingMessage mixins express$Reques
   body: mixed;
   cookies: {[cookie: string]: string};
   fresh: boolean;
-  hostname: boolean;
+  hostname: string;
   ip: string;
   ips: Array<string>;
   method: string;
@@ -65,7 +64,7 @@ declare type express$SendFileOptions = {
   dotfiles?: 'allow' | 'deny' | 'ignore'
 };
 
-declare class express$Response extends http$ClientRequest mixins express$RequestResponseBase {
+declare class express$Response extends http$ServerResponse mixins express$RequestResponseBase {
   headersSent: boolean;
   locals: {[name: string]: mixed};
   append(field: string, value?: string): this;
@@ -84,7 +83,10 @@ declare class express$Response extends http$ClientRequest mixins express$Request
   send(body?: mixed): this;
   sendFile(path: string, options?: express$SendFileOptions, callback?: (err?: ?Error) => mixed): this;
   sendStatus(statusCode: number): this;
+  header(field: string, value?: string): this;
+  header(headers: {[name: string]: string}): this;
   set(field: string, value?: string): this;
+  set(headers: {[name: string]: string}): this;
   status(statusCode: number): this;
   type(type: string): this;
   vary(field: string): this;
@@ -98,12 +100,6 @@ declare interface express$RouteMethodType<T> {
   (middleware: express$Middleware): T;
   (...middleware: Array<express$Middleware>): T;
   (path: string|RegExp|string[], ...middleware: Array<express$Middleware>): T;
-}
-declare interface express$RouterMethodType<T> {
-  (middleware: express$Middleware): T;
-  (...middleware: Array<express$Middleware>): T;
-  (path: string|RegExp|string[], ...middleware: Array<express$Middleware>): T;
-  (path: string, router: express$Router): T;
 }
 declare class express$Route {
   all: express$RouteMethodType<this>;
@@ -139,9 +135,16 @@ declare class express$Route {
 
 declare class express$Router extends express$Route {
   constructor(options?: express$RouterOptions): void;
-  use: express$RouterMethodType<this>;
   route(path: string): express$Route;
   static (): express$Router;
+  use(middleware: express$Middleware): this;
+  use(...middleware: Array<express$Middleware>): this;
+  use(path: string|RegExp|string[], ...middleware: Array<express$Middleware>): this;
+  use(path: string, router: express$Router): this;
+  handle(req: http$IncomingMessage, res: http$ServerResponse, next: express$NextFunction): void;
+
+  // Can't use regular callable signature syntax due to https://github.com/facebook/flow/issues/3084
+  $call: (req: http$IncomingMessage, res: http$ServerResponse, next?: ?express$NextFunction) => void;
 }
 
 declare class express$Application extends express$Router mixins events$EventEmitter {
@@ -164,6 +167,7 @@ declare class express$Application extends express$Router mixins events$EventEmit
   //   get(name: string): mixed;
   set(name: string, value: mixed): mixed;
   render(name: string, optionsOrFunction: {[name: string]: mixed}, callback: express$RenderCallback): void;
+  handle(req: http$IncomingMessage, res: http$ServerResponse, next?: ?express$NextFunction): void;
 }
 
 declare module 'express' {

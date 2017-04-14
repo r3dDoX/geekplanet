@@ -8,5 +8,12 @@ node_modules
 dist/
 geekplanet.zip
 
+# testing
+jest/
+
+# secrets
+certificates/
+secret.config.json
+
 # misc
 npm-debug.log

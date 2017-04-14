@@ -1,4 +1,5 @@
 {
+  "parser": "babel-eslint",
   "extends": "../../.eslintrc",
   "env": {
     "browser": true
@@ -6,5 +7,10 @@
   "rules": {
     "import/no-extraneous-dependencies": 0,
     "import/extensions": 0
+  },
+  "globals": {
+    "AUTH": false,
+    "PAYMENT_PUBLIC": false,
+    "StripeCheckout": false
   }
 }

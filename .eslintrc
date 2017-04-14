@@ -16,9 +16,11 @@
   "globals": {
     "jest": false,
     "describe": false,
-    "test": false,
+    "it": false,
     "expect": false,
     "afterAll": false,
-    "afterEach": false
+    "beforeAll": false,
+    "afterEach": false,
+    "beforeEach": false
   }
 }

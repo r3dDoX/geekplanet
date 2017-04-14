@@ -7,6 +7,13 @@ One with a MongoDB on Port 27017 and the other with the node app running in deve
 
 Don't worry about ```npm install```. This will be run on start of the node container.
 
+# Running tests for TDD
+To have Jest running in watch mode you can also start it with a docker node since integration tests also have to run pdftk.
+
+```docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk npm run test:watch```
+
+This will not run npm install though. Either run this in the same docker container or first run it with docker-compose.
+
 # Technology Stack
 ## Backend
 * NodeJS

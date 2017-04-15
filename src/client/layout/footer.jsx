@@ -1,7 +1,7 @@
 import React from 'react';
 import { blueGrey100, grey800 } from 'material-ui/styles/colors';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 const styles = {

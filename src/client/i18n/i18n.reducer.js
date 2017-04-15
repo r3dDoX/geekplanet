@@ -2,6 +2,8 @@ import ActionTypes from '../actionTypes';
 
 const initialState = {
   translations: undefined,
+  language: 'de-CH',
+  locale: 'de',
 };
 
 export default function i18n(state = initialState, { type, data }) {

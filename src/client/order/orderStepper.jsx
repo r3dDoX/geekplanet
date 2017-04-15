@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import browserHistory from 'react-router/lib/browserHistory';
+import { withRouter } from 'react-router-dom';
 import {
   Step,
   Stepper,
@@ -52,7 +52,7 @@ const styles = {
 class OrderStepper extends React.Component {
   componentWillMount() {
     if (this.props.shoppingCart.items.length === 0) {
-      browserHistory.push('/');
+      this.props.history.push('/');
     }
     this.props.loadAddresses();
   }
@@ -150,9 +150,10 @@ OrderStepper.propTypes = {
   saveAddress: PropTypes.func.isRequired,
   selectStep: PropTypes.func.isRequired,
   order: OrderPropType.isRequired,
+  history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default connect(
+export default withRouter(connect(
   state => ({
     email: state.auth.email,
     shoppingCart: state.shoppingCart,
@@ -189,4 +190,4 @@ export default connect(
       type: ActionTypes.ORDER_FINISHED,
     }),
   })
-)(OrderStepper);
+)(OrderStepper));

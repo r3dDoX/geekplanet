@@ -88,9 +88,6 @@ export default {
       obj.setToken(authResult.idToken);
       obj.setAccessToken(authResult.accessToken);
       onLoggedIn(obj);
-
-      // navigate to the home route
-      browserHistory.replace('/');
     });
 
     return obj;

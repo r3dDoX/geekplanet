@@ -8,7 +8,7 @@ import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import ActionShoppingCart from 'material-ui/svg-icons/action/shopping-cart';
 import { FormattedMessage } from 'react-intl';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router-dom';
 import { white } from 'material-ui/styles/colors';
 import ShoppingCartItem from './shoppingCartItem.jsx';
 import formatPrice from '../products/priceFormatter';

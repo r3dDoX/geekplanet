@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
 import { FormattedMessage } from 'react-intl';
@@ -80,8 +81,12 @@ Layout.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-export default connect(
-  state => Object.assign({}, state.auth, state.layout),
+export default withRouter(connect(
+  state => Object.assign(
+    {},
+    state.auth,
+    state.layout
+  ),
   dispatch => ({
     logout() {
       dispatch({
@@ -99,4 +104,4 @@ export default connect(
       });
     },
   })
-)(Layout);
+)(Layout));

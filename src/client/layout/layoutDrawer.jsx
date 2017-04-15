@@ -5,10 +5,10 @@ import AppBar from 'material-ui/AppBar';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import Link from 'react-router/lib/Link';
+import { Link, withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDrawer }) => (
+const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDrawer, history }) => (
   <Drawer
     docked={false}
     open={drawerOpened}
@@ -39,6 +39,7 @@ const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDraw
           onClick={() => {
             toggleDrawer();
             logout();
+            history.push('/');
           }}
         />
         :
@@ -54,6 +55,7 @@ LayoutDrawer.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   drawerOpened: PropTypes.bool.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-export default LayoutDrawer;
+export default withRouter(LayoutDrawer);

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from 'material-ui/AppBar';
-import Link from 'react-router/lib/Link';
+import { Link } from 'react-router-dom';
 import ShoppingCartMenu from '../shoppingcart/shoppingCartMenu.jsx';
 
 const styles = {

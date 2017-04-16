@@ -1,24 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { IntlProvider, addLocaleData } from 'react-intl';
-import de from 'react-intl/locale-data/de';
-import CircularProgress from 'material-ui/CircularProgress';
+import { BrowserRouter, Route } from 'react-router-dom';
 import translationService from './i18n/translationService';
 import ActionTypes from './actionTypes';
 import AuthService from './auth/authService';
-import Router from './router/router.jsx';
-
-addLocaleData([...de]);
-
-const styles = {
-  spinner: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translateX(-50%) translateY(-50%)',
-  },
-};
+import Layout from './layout/layout.jsx';
+import Home from './home/home.jsx';
+import Forms from './admin/forms/forms.jsx';
+import OrderStepper from './order/orderStepper.jsx';
+import PrivateRoute from './router/privateRoute.jsx';
 
 class App extends React.Component {
 
@@ -34,36 +25,30 @@ class App extends React.Component {
   }
 
   render() {
-    const { translations, language } = this.props;
-
-    if (translations) {
-      return (
-        <IntlProvider locale={language} messages={translations}>
-          <Router />
-        </IntlProvider>
-      );
-    }
-
-    return <CircularProgress style={styles.spinner} size={80} thickness={5} />;
+    return (
+      <BrowserRouter>
+        <Layout>
+          <Route exact path="/" component={Home} />
+          <PrivateRoute path="/forms" component={Forms} />
+          <PrivateRoute path="/order" component={OrderStepper} />
+        </Layout>
+      </BrowserRouter>
+    );
   }
 }
 
-App.defaultProps = {
-  translations: undefined,
-};
-
 App.propTypes = {
-  translations: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   loadTranslations: PropTypes.func.isRequired,
   loadShoppingCart: PropTypes.func.isRequired,
   authServiceCreated: PropTypes.func.isRequired,
   loggedIn: PropTypes.func.isRequired,
-  language: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
 };
 
 export default connect(
-  state => state.i18n,
+  state => ({
+    locale: state.i18n.locale,
+  }),
   dispatch => ({
     loadTranslations(localeWithFallback) {
       translationService.loadTranslations(localeWithFallback).then(translations => dispatch({

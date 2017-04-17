@@ -87,7 +87,7 @@ const Layout = ({
   }
 
   return <CircularProgress style={styles.spinner} size={80} thickness={5} />;
-}
+};
 
 Layout.defaultProps = {
   i18n: {

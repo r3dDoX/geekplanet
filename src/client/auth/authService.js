@@ -1,5 +1,4 @@
 import Auth0Lock from 'auth0-lock';
-import { browserHistory } from 'react-router';
 import jwtDecode from 'jwt-decode';
 import * as storage from '../storage';
 import { brandSecondary } from '../theme';

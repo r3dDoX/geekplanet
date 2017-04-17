@@ -1,4 +1,7 @@
 {
+  "APP": {
+    "TITLE": "'geekplanet'"
+  },
   "AUTH": {
     "CLIENT_ID": "'xLicjjjB3JUoEH8B9OK6YYOBn9COm7aR'",
     "REDIRECT_URL": "'https://geekplanet.ch/'"

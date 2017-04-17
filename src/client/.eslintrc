@@ -9,6 +9,7 @@
     "import/extensions": 0
   },
   "globals": {
+    "APP": false,
     "AUTH": false,
     "PAYMENT_PUBLIC": false,
     "StripeCheckout": false

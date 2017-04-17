@@ -15,7 +15,7 @@ const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDraw
     onRequestChange={toggleDrawer}
   >
     <AppBar
-      title="geekplanet"
+      title={APP.TITLE}
       onLeftIconButtonTouchTap={toggleDrawer}
       iconElementLeft={<IconButton><NavigationClose /></IconButton>}
     />

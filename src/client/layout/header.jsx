@@ -19,7 +19,7 @@ const Header = ({
   toggleDrawer,
 }) => (
   <AppBar
-    title={<Link to="/" style={styles.title}>geekplanet</Link>}
+    title={<Link to="/" style={styles.title}>{APP.TITLE}</Link>}
     onLeftIconButtonTouchTap={toggleDrawer}
     iconElementRight={
       <ShoppingCartMenu />

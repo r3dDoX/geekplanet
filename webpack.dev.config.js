@@ -29,7 +29,7 @@ module.exports = merge(commonConfig, {
 
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.DefinePlugin(Object.assign(require('./src/config/local.config.json'), secretConfig)),
+    new webpack.DefinePlugin(require('./src/config/local.config.json')),
   ],
 
   devServer: {

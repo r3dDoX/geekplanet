@@ -1,4 +1,7 @@
 {
+  "APP": {
+    "TITLE": "'geekplanet-stage'"
+  },
   "AUTH": {
     "CLIENT_ID": "'sdSHdPyyD9hUsczkqZomLnMJ6CnX42Ht'",
     "REDIRECT_URL": "'https://beta.geekplanet.ch/'"

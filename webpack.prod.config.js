@@ -15,7 +15,7 @@ module.exports = merge(commonConfig, {
 
   plugins: [
     new webpack.DefinePlugin(
-      require('./src/config/heroku.config.json')
+      require(`./src/config/${process.env.NODE_ENV}.config.json`)
     ),
   ],
 });

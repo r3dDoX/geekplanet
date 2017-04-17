@@ -16,7 +16,7 @@
     "build:production": "NODE_ENV='production' npm run build",
     "build:staging": "NODE_ENV='staging' npm run build",
     "heroku-postbuild": "npm run build",
-    "start": "node src/server/app.js",
+    "start": "NODE_ENV='production' node src/server/app.js",
     "dev": "webpack-dev-server --color --config webpack.dev.config.js & nodemon src/server/app.js"
   },
   "author": "Patrick Walther",

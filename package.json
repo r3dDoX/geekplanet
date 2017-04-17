@@ -12,9 +12,9 @@
     "lint": "eslint \"src/**/*.{js,jsx}\"",
     "test": "npm run lint & jest",
     "test:watch": "jest --watch",
-    "build": "webpack --config webpack.prod.config.js --progress --optimize-minimize -p",
-    "build:production": "NODE_ENV='production' npm run build",
-    "build:staging": "NODE_ENV='staging' npm run build",
+    "build": "NODE_ENV='production' webpack --config webpack.prod.config.js --progress --optimize-minimize -p",
+    "build:production": "CONFIG='production' npm run build",
+    "build:staging": "CONFIG='staging' npm run build",
     "heroku-postbuild": "npm run build",
     "start": "NODE_ENV='production' node src/server/app.js",
     "dev": "webpack-dev-server --color --config webpack.dev.config.js & nodemon src/server/app.js"

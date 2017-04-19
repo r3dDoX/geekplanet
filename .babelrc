@@ -3,6 +3,7 @@
     [
       "env",
       {
+        "modules": false,
         "targets": {
           "browsers": [
             "last 2 versions"
@@ -23,6 +24,7 @@
         "messagesDir": "./dist/messages",
         "enforceDescriptions": false
       }
-    ]
+    ],
+    "react-hot-loader/babel"
   ]
 }

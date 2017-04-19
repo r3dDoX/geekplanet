@@ -14,6 +14,9 @@
           }
         ],
         "react"
+      ],
+      "plugins": [
+        "react-hot-loader/babel"
       ]
     },
     "production": {
@@ -35,9 +38,6 @@
       "presets": [
         "env",
         "react"
-      ],
-      "plugins": [
-        "react-hot-loader/babel"
       ]
     }
   },

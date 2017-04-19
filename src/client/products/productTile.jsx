@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardTitle, CardMedia, CardText, CardActions } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-import SvgIcon from 'material-ui/SvgIcon';
 import Badge from 'material-ui/Badge';
 import { green500, grey700 } from 'material-ui/styles/colors';
 import { FormattedMessage } from 'react-intl';
+import InStockIcon from 'material-ui/svg-icons/toggle/check-box';
+import OutOfStockIcon from 'material-ui/svg-icons/toggle/indeterminate-check-box';
 import formatPrice from './priceFormatter';
 import productPropType from './product.proptypes';
 
@@ -39,32 +40,6 @@ const styles = {
   },
 };
 
-/* eslint-disable max-len */
-const inStockIcon = (
-  <SvgIcon style={Object.assign({ fill: green500 }, styles.stockIcon)} width="24" height="24" viewBox="0 0 24 24">
-    <path d="M0 0h24v24H0z" fill="none" />
-    <path
-      d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-    />
-  </SvgIcon>
-);
-
-const outOfStockIcon = (
-  <SvgIcon style={Object.assign({ fill: grey700 }, styles.stockIcon)} width="24" height="24" viewBox="0 0 24 24">
-    <defs>
-      <path id="a" d="M0 0h24v24H0z" />
-    </defs>
-    <clipPath id="b">
-      <use xlinkHref="#a" overflow="visible" />
-    </clipPath>
-    <path
-      clipPath="url(#b)"
-      d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z"
-    />
-  </SvgIcon>
-);
-/* eslint-enable max-len */
-
 const getStockIcon = stockCount => (
   <Badge
     badgeContent={stockCount}
@@ -72,7 +47,11 @@ const getStockIcon = stockCount => (
     secondary={stockCount <= 0}
     style={styles.stockBadge}
   >
-    {stockCount > 0 ? inStockIcon : outOfStockIcon}
+    {stockCount > 0 ? (
+      <InStockIcon style={styles.stockIcon} color={green500} />
+    ) : (
+      <OutOfStockIcon style={styles.stockIcon} color={grey700} />
+    )}
   </Badge>
 );
 

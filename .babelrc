@@ -5,8 +5,8 @@
         [
           "env",
           {
+            "modules": false,
             "targets": {
-              "modules": false,
               "browsers": [
                 "last 2 versions"
               ]

@@ -1,18 +1,46 @@
 {
-  "presets": [
-    [
-      "env",
-      {
-        "modules": false,
-        "targets": {
-          "browsers": [
-            "last 2 versions"
-          ]
-        }
-      }
-    ],
-    "react"
-  ],
+  "env": {
+    "development": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": {
+              "modules": false,
+              "browsers": [
+                "last 2 versions"
+              ]
+            }
+          }
+        ],
+        "react"
+      ]
+    },
+    "production": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": {
+              "browsers": [
+                "last 2 versions"
+              ]
+            }
+          }
+        ],
+        "react"
+      ]
+    },
+    "test": {
+      "presets": [
+        "env",
+        "react"
+      ],
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
+    }
+  },
   "plugins": [
     "transform-runtime",
     "transform-object-rest-spread",
@@ -24,7 +52,6 @@
         "messagesDir": "./dist/messages",
         "enforceDescriptions": false
       }
-    ],
-    "react-hot-loader/babel"
+    ]
   ]
 }

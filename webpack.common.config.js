@@ -34,10 +34,7 @@ module.exports = {
     ]),
     new webpack.EnvironmentPlugin(Object.assign(
       {},
-      secretConfig,
-      {
-        NODE_ENV: 'development',
-      }
+      secretConfig
     )),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',

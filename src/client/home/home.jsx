@@ -31,7 +31,6 @@ export default () => (
     <div style={styles.header}>
       <div style={styles.sloganContainer}>
         <Slogan />
-        <h1>testing</h1>
       </div>
     </div>
     <ProductList />

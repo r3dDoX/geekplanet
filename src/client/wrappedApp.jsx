@@ -5,9 +5,11 @@ import App from './app.jsx';
 import geekplanetTheme from './theme';
 import setupStore from './reducers/setupStore';
 
+const store = setupStore();
+
 export default () => (
   <MuiThemeProvider muiTheme={geekplanetTheme}>
-    <Provider store={setupStore()}>
+    <Provider store={store}>
       <App />
     </Provider>
   </MuiThemeProvider>

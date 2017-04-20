@@ -9,18 +9,21 @@ const PrivateRoute = ({
   ...rest
 }) => (
   <Route
-    render={props => (
-      authService.loggedIn() ? (
-        <Component {...props} />
-      ) : (
+    render={(props) => {
+      if (authService.loggedIn()) {
+        return <Component {...props} />;
+      }
+
+      setTimeout(() => authService.login(), 1);
+      return (
         <Redirect
           to={{
             pathname: '/',
             from: props.location,
           }}
         />
-      )
-    )}
+      );
+    }}
     {...rest}
   />
 );

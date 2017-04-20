@@ -64,7 +64,6 @@ const Layout = ({
               authService.logout();
               logout();
             }}
-            login={() => authService.login()}
             loggedIn={loggedIn}
             drawerOpened={drawerOpened}
             toggleDrawer={toggleDrawer}

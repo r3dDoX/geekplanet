@@ -33,7 +33,7 @@ const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDraw
         : null
     }
     {
-      loggedIn ?
+      loggedIn ? (
         <MenuItem
           primaryText={<FormattedMessage id="NAVIGATION.LOGOUT" />}
           onClick={() => {
@@ -42,8 +42,16 @@ const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDraw
             history.push('/');
           }}
         />
-        :
-        <MenuItem primaryText={<FormattedMessage id="NAVIGATION.LOGIN" />} onClick={login} />
+      ) : (
+        <MenuItem
+          primaryText={<FormattedMessage id="NAVIGATION.LOGIN" />}
+          containerElement={
+            <Link to="/login">
+              <FormattedMessage id="NAVIGATION.LOGIN" />
+            </Link>
+          }
+        />
+      )
     }
   </Drawer>
 );

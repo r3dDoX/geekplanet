@@ -10,6 +10,7 @@ import Home from './home/home.jsx';
 import Forms from './admin/forms/forms.jsx';
 import OrderStepper from './order/orderStepper.jsx';
 import PrivateRoute from './router/privateRoute.jsx';
+import Login from './auth/login.jsx';
 
 class App extends React.Component {
 
@@ -29,6 +30,7 @@ class App extends React.Component {
       <BrowserRouter>
         <Layout>
           <Route exact path="/" component={Home} />
+          <Route path="/login" component={Login} />
           <PrivateRoute path="/forms" component={Forms} />
           <PrivateRoute path="/order" component={OrderStepper} />
         </Layout>
@@ -68,8 +70,11 @@ export default connect(
       });
     },
     loggedIn(authService) {
-      authService.getUserInfo().then(profile => dispatch({
+      dispatch({
         type: ActionTypes.LOGGED_IN,
+      });
+      authService.getUserInfo().then(profile => dispatch({
+        type: ActionTypes.PROFILE_LOADED,
         data: profile,
       }));
     },

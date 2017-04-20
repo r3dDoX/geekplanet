@@ -16,6 +16,9 @@ export default function auth(state = initialState, { type, data }) {
     case ActionTypes.LOGGED_IN:
       return Object.assign({}, state, {
         loggedIn: true,
+      });
+    case ActionTypes.PROFILE_LOADED:
+      return Object.assign({}, state, {
         email: data.email,
         roles: data.roles,
       });

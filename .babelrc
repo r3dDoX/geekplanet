@@ -42,9 +42,7 @@
     }
   },
   "plugins": [
-    "transform-runtime",
     "transform-object-rest-spread",
-    "transform-react-jsx",
     "transform-react-remove-prop-types",
     [
       "react-intl",

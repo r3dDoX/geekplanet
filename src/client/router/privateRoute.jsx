@@ -14,11 +14,10 @@ const PrivateRoute = ({
         return <Component {...props} />;
       }
 
-      setTimeout(() => authService.login(), 1);
       return (
         <Redirect
           to={{
-            pathname: '/',
+            pathname: '/login',
             from: props.location,
           }}
         />

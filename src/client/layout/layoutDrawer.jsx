@@ -8,7 +8,7 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import { Link, withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDrawer, history }) => (
+const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, history }) => (
   <Drawer
     docked={false}
     open={drawerOpened}
@@ -59,7 +59,6 @@ const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDraw
 LayoutDrawer.propTypes = {
   roles: PropTypes.arrayOf(PropTypes.string).isRequired,
   logout: PropTypes.func.isRequired,
-  login: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   drawerOpened: PropTypes.bool.isRequired,
   toggleDrawer: PropTypes.func.isRequired,

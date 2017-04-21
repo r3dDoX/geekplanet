@@ -1,16 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Provider } from 'react-redux';
 import App from './app.jsx';
 import geekplanetTheme from './theme';
-import setupStore from './reducers/setupStore';
 
-const store = setupStore();
-
-export default () => (
-  <MuiThemeProvider muiTheme={geekplanetTheme}>
-    <Provider store={store}>
+const WrappedApp = ({ store }) => (
+  <Provider store={store}>
+    <MuiThemeProvider muiTheme={geekplanetTheme}>
       <App />
-    </Provider>
-  </MuiThemeProvider>
+    </MuiThemeProvider>
+  </Provider>
 );
+
+WrappedApp.propTypes = {
+  store: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+};
+
+export default WrappedApp;

@@ -9,8 +9,7 @@ export default () => {
 
   if (module.hot) {
     module.hot.accept('./root.reducer', () => {
-      const nextRootReducer = rootReducer;
-      store.replaceReducer(nextRootReducer);
+      store.replaceReducer(rootReducer);
     });
   }
 

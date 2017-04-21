@@ -6,14 +6,16 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import { addLocaleData } from 'react-intl';
 import de from 'react-intl/locale-data/de';
 import WrappedApp from './wrappedApp.jsx';
+import setupStore from './reducers/setupStore';
 
 injectTapEventPlugin();
 addLocaleData([...de]);
+const store = setupStore();
 
 const render = (Component) => {
   ReactDOM.render(
     <AppContainer>
-      <Component />
+      <Component store={store} />
     </AppContainer>,
     document.getElementsByTagName('main')[0]
   );
@@ -26,4 +28,3 @@ if (module.hot) {
     render(WrappedApp);
   });
 }
-

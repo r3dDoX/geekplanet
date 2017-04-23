@@ -59,4 +59,28 @@ describe('Login', () => {
     expect(result.type()).toBe(Redirect);
     expect(result.props().to).toEqual({ pathname: redirectUri });
   });
+
+  it('should call login asynchronously when not logged in and not in login process', (done) => {
+    props.authService.loggedIn = () => false;
+    props.authService.login = () => done();
+
+    login();
+  });
+
+  it('should not call login when in login process', (done) => {
+    props.authService.loggedIn = () => false;
+    props.location.hash = 'test&id_token=test';
+    props.authService.login = jest.fn();
+
+    login();
+
+    setTimeout(() => {
+      try {
+        expect(props.authService.login.mock.calls.length).toBe(0);
+      } catch (e) {
+        done.fail(e);
+      }
+      done();
+    }, 1);
+  });
 });

@@ -1,14 +1,14 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Redirect } from 'react-router-dom';
-import { Login } from './login.jsx';
+import { LoginComponent } from './login.jsx';
 import { load, store, ids } from '../storage';
 import MainSpinner from '../layout/mainSpinner.jsx';
 
-describe('Login', () => {
+describe('LoginComponent', () => {
   let props;
   const login = () => shallow(
-    <Login {...props} />
+    <LoginComponent {...props} />
   );
 
   beforeEach(() => {

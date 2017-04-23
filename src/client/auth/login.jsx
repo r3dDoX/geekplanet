@@ -5,7 +5,7 @@ import { withRouter, Redirect } from 'react-router-dom';
 import { store, load, ids } from '../storage';
 import MainSpinner from '../layout/mainSpinner.jsx';
 
-const Login = ({
+export const Login = ({
   authService,
   location: {
     from,

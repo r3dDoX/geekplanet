@@ -10,10 +10,13 @@ describe('ProductTile', () => {
 
   beforeEach(() => {
     props = {
+      locale: 'de',
       product: {
-        name: 'testProduct',
+        de: {
+          name: 'testProduct',
+          shortDescription: 'testShortDescription',
+        },
         stock: 1,
-        shortDescription: 'testShortDescription',
         price: 30.25,
         files: [],
       },

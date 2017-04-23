@@ -5,7 +5,7 @@ import { withRouter, Redirect } from 'react-router-dom';
 import { store, load, ids } from '../storage';
 import MainSpinner from '../layout/mainSpinner.jsx';
 
-export const Login = ({
+export const LoginComponent = ({
   authService,
   location: {
     from,
@@ -32,7 +32,7 @@ export const Login = ({
   return <MainSpinner />;
 };
 
-Login.propTypes = {
+LoginComponent.propTypes = {
   authService: PropTypes.shape({
     login: PropTypes.func.isRequired,
   }).isRequired,
@@ -49,4 +49,4 @@ export default withRouter(connect(
     authService: state.auth.authService,
   }),
   () => ({})
-)(Login));
+)(LoginComponent));

@@ -73,7 +73,7 @@ const ProductForm = ({
         primaryText="Create new"
       />
       <Divider />
-      {products.map(({ _id, name }) => <MenuItem
+      {products.map(({ _id, de: { name } }) => <MenuItem
         key={_id}
         value={_id}
         primaryText={name}
@@ -83,7 +83,7 @@ const ProductForm = ({
 
     <Field
       component={TextField}
-      name="name"
+      name="de.name"
       label="Name"
       type="text"
     />&nbsp;
@@ -93,10 +93,10 @@ const ProductForm = ({
       label="Product Category"
       style={styles.selectFields}
     >
-      {productCategories.map(({ _id, name }) => <MenuItem
-        key={_id}
-        value={_id}
-        primaryText={name}
+      {productCategories.map(category => <MenuItem
+        key={category._id}
+        value={category._id}
+        primaryText={category.de.name}
       />)}
     </Field>
     <br />
@@ -109,7 +109,7 @@ const ProductForm = ({
     <br />
     <Field
       component={TextField}
-      name="shortDescription"
+      name="de.shortDescription"
       label="Short Description"
       type="text"
       multiLine
@@ -118,7 +118,7 @@ const ProductForm = ({
     <br />
     <Field
       component={TextField}
-      name="description"
+      name="de.description"
       label="Description"
       type="text"
       multiLine

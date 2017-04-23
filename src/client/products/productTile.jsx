@@ -55,7 +55,11 @@ const getStockIcon = stockCount => (
   </Badge>
 );
 
-const ProductTile = ({ product, addItemToShoppingCart }) => (
+const ProductTile = ({
+  locale,
+  product,
+  addItemToShoppingCart,
+}) => (
   <Card style={styles.container}>
     {(product.files.length) ? (
       <CardMedia>
@@ -63,13 +67,13 @@ const ProductTile = ({ product, addItemToShoppingCart }) => (
       </CardMedia>
     ) : null}
     <CardTitle
-      title={product.name}
+      title={product[locale].name}
       style={styles.productTitle}
     >
       {getStockIcon(product.stock)}
     </CardTitle>
     <CardText style={styles.productTileBody}>
-      {product.shortDescription}
+      {product[locale].shortDescription}
     </CardText>
     <CardActions style={styles.actionContainer}>
       <span style={styles.priceTag}>{formatPrice(product.price)}</span>
@@ -83,6 +87,7 @@ const ProductTile = ({ product, addItemToShoppingCart }) => (
 );
 
 ProductTile.propTypes = {
+  locale: PropTypes.string.isRequired,
   product: productPropType.isRequired,
   addItemToShoppingCart: PropTypes.func.isRequired,
 };

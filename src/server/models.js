@@ -21,12 +21,16 @@ const address = {
 
 const AddressSchema = mongoose.Schema(address);
 
+const ProductCategoryTranslationsSchema = {
+  name: String,
+};
+
 models.ProductCategory = mongoose.model('ProductCategory', {
-  parentCategory: String,
-  name: {
-    type: String,
-    unique: true,
-  },
+  parentCategory: mongoose.Schema.Types.Object,
+  de: ProductCategoryTranslationsSchema,
+  en: ProductCategoryTranslationsSchema,
+  fr: ProductCategoryTranslationsSchema,
+  it: ProductCategoryTranslationsSchema,
 });
 
 models.Tag = mongoose.model('Tag', {
@@ -37,14 +41,21 @@ models.Tag = mongoose.model('Tag', {
   },
 });
 
-const ProductSchema = mongoose.Schema({
+const ProductTranslationsSchema = {
   name: String,
+  shortDescription: String,
+  description: String,
+};
+
+const ProductSchema = mongoose.Schema({
   category: {
     type: mongoose.Schema.Types.ObjectId,
     index: true,
   },
-  shortDescription: String,
-  description: String,
+  de: ProductTranslationsSchema,
+  en: ProductTranslationsSchema,
+  fr: ProductTranslationsSchema,
+  it: ProductTranslationsSchema,
   price: Number,
   purchasePrice: Number,
   purchasePackageSize: Number,

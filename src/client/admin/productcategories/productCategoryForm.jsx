@@ -37,16 +37,16 @@ const ProductCategoriesForm = ({
         primaryText="Create new"
       />
       <Divider />
-      {productCategories.map(({ _id, name }) => <MenuItem
-        key={_id}
-        value={_id}
-        primaryText={name}
+      {productCategories.map(category => <MenuItem
+        key={category._id}
+        value={category._id}
+        primaryText={category.de.name}
       />)}
     </Field>
     <br />
     <Field
       component={TextField}
-      name="name"
+      name="de.name"
       label="Name"
       type="text"
     />
@@ -58,10 +58,10 @@ const ProductCategoriesForm = ({
     >
       <MenuItem value={null} primaryText="None" />
       <Divider />
-      {productCategories.map(({ name }) => <MenuItem
-        key={name}
-        value={name}
-        primaryText={name}
+      {productCategories.map(category => <MenuItem
+        key={category._id}
+        value={category._id}
+        primaryText={category.de.name}
       />)}
     </Field>
     <br />

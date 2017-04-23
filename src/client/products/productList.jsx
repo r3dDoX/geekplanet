@@ -20,12 +20,13 @@ class ProductList extends React.Component {
   }
 
   render() {
-    const { products, addItemToShoppingCart } = this.props;
+    const { locale, products, addItemToShoppingCart } = this.props;
     return (
       <div style={styles.container}>
         {products.map(product => (
           <ProductTile
             key={product._id}
+            locale={locale}
             product={product}
             addItemToShoppingCart={addItemToShoppingCart}
           />
@@ -36,6 +37,7 @@ class ProductList extends React.Component {
 }
 
 ProductList.propTypes = {
+  locale: PropTypes.string.isRequired,
   products: PropTypes.arrayOf(PropTypes.shape({
     _id: PropTypes.string,
     name: PropTypes.string,
@@ -47,7 +49,10 @@ ProductList.propTypes = {
 };
 
 export default connect(
-  state => state.products,
+  state => ({
+    products: state.products.products,
+    locale: state.i18n.locale,
+  }),
   dispatch => ({
     loadProducts() {
       ProductService.loadProducts().then(data => dispatch({

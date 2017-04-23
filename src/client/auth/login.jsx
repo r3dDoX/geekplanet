@@ -23,6 +23,8 @@ const Login = ({
   } else if (!hash.includes('id_token')) {
     if (from) {
       store(ids.REDIRECT_URI, from.pathname);
+    } else {
+      store(ids.REDIRECT_URI, '/');
     }
     setTimeout(() => authService.login(), 1);
   }

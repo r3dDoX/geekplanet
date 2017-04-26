@@ -2,7 +2,7 @@ import Xhr from '../xhr';
 
 export default {
   loadProducts() {
-    return Xhr.get('/api/products');
+    return Xhr.get('/api/completeProducts');
   },
   saveProduct(data) {
     return Xhr.put('/api/products', data);

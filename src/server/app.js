@@ -34,8 +34,8 @@ app.use('/', express.static('dist/', {
   maxAge: '1y',
 }));
 
-require('./authorizedApi').registerEndpoints(app);
-require('./publicApi').registerEndpoints(app);
+require('./api/authorizedApi').registerEndpoints(app);
+require('./api/publicApi').registerEndpoints(app);
 
 app.get('/*', (req /* : express$Request */, res /* : express$Response */) =>
   res.sendFile(path.join(__dirname, '../../dist', 'index.html'))

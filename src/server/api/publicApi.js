@@ -1,6 +1,6 @@
 /* @flow */
 
-const Logger = require('./logger');
+const Logger = require('../logger');
 
 const {
   ProductPictures,
@@ -9,7 +9,7 @@ const {
   ProductCategory,
   Supplier,
   Tag,
-} = require('./models');
+} = require('../db/models');
 
 module.exports = {
   registerEndpoints(app /* : express$Application */) {

@@ -88,6 +88,16 @@ module.exports = {
           .catch(error => handleGenericError(error, res))
     );
 
+    app.get('/api/completeProducts', authorization, isAdmin,
+      (req /* : express$Request */, res /* : express$Response */) =>
+        Product.find().sort({ name: 1 })
+          .then(products => res.send(products))
+          .catch((err) => {
+            Logger.error(err);
+            res.status(500).send('Fetching products failed!');
+          })
+    );
+
     app.put('/api/products', authorization, isAdmin, bodyParser.json(),
       (req /* : express$Request */, res /* : express$Response */) =>
         saveOrUpdate(Product, req.body)

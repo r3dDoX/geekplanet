@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ProductTile from './productTile.jsx';
 import ActionTypes from '../actionTypes';
-import ProductService from './productService';
+import Xhr from '../xhr';
 
 const styles = {
   container: {
@@ -55,7 +55,7 @@ export default connect(
   }),
   dispatch => ({
     loadProducts() {
-      ProductService.loadProducts().then(data => dispatch({
+      Xhr.get('/api/products').then(data => dispatch({
         type: ActionTypes.PRODUCTS_LOADED,
         data,
       }));

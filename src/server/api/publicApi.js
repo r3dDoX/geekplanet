@@ -33,7 +33,13 @@ module.exports = {
 
     app.get('/api/products',
       (req /* : express$Request */, res /* : express$Response */) =>
-        Product.find().sort({ name: 1 })
+        Product.find({}, {
+          purchasePrice: 0,
+          purchasePackageSize: 0,
+          minStock: 0,
+          supplierProductCode: 0,
+          remarks: 0,
+        }).sort({ name: 1 })
           .then(products => res.send(products))
           .catch((err) => {
             Logger.error(err);

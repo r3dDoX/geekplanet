@@ -6,11 +6,11 @@ const shortId = require('shortid');
 const bodyParser = require('body-parser');
 const multer = require('multer')();
 const streamifier = require('streamifier');
-const Logger = require('./logger');
-const secretConfig = require('../config/secret.config.json');
+const Logger = require('../logger');
+const secretConfig = require('../../config/secret.config.json');
 const stripe = require('stripe')(secretConfig.PAYMENT_SECRET || process.env.PAYMENT_SECRET);
-const esrGenerator = require('./esr/esrGenerator');
-const mail = require('./mail');
+const esrGenerator = require('../esr/esrGenerator');
+const mail = require('../mail');
 
 const {
   Invoice,
@@ -23,7 +23,7 @@ const {
   Supplier,
   Tag,
   UserAddress,
-} = require('./models');
+} = require('../db/models');
 
 const authorization = jwt({
   secret: process.env.SECRET || secretConfig.SECRET,

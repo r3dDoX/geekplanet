@@ -55,16 +55,10 @@ const ProductTile = ({
   <Card style={styles.container}>
     {(product.files.length) ? (
       <CardMedia style={styles.pictureContainer}>
-        <img
-          alt="Product"
-          src={`/api/products/pictures/${product.files[0]}`}
-        />
+        <img alt="Product" src={`/api/products/pictures/${product.files[0]}`} />
       </CardMedia>
     ) : null}
-    <CardTitle
-      title={product[locale].name}
-      style={styles.productTitle}
-    >
+    <CardTitle title={product[locale].name} style={styles.productTitle}>
       <Badge
         badgeContent={product.stock}
         primary={product.stock > 0}

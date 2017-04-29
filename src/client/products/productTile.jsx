@@ -38,22 +38,14 @@ const styles = {
   priceTag: {
     marginLeft: '8px',
   },
+  pictureContainer: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    maxHeight: '300px',
+    overflow: 'hidden',
+    alignItems: 'center',
+  },
 };
-
-const getStockIcon = stockCount => (
-  <Badge
-    badgeContent={stockCount}
-    primary={stockCount > 0}
-    secondary={stockCount <= 0}
-    style={styles.stockBadge}
-  >
-    {stockCount > 0 ? (
-      <InStockIcon style={styles.stockIcon} color={green500} />
-    ) : (
-      <OutOfStockIcon style={styles.stockIcon} color={grey700} />
-    )}
-  </Badge>
-);
 
 const ProductTile = ({
   locale,
@@ -62,15 +54,29 @@ const ProductTile = ({
 }) => (
   <Card style={styles.container}>
     {(product.files.length) ? (
-      <CardMedia>
-        <img alt="Product" src={`/api/products/pictures/${product.files[0]}`} />
+      <CardMedia style={styles.pictureContainer}>
+        <img
+          alt="Product"
+          src={`/api/products/pictures/${product.files[0]}`}
+        />
       </CardMedia>
     ) : null}
     <CardTitle
       title={product[locale].name}
       style={styles.productTitle}
     >
-      {getStockIcon(product.stock)}
+      <Badge
+        badgeContent={product.stock}
+        primary={product.stock > 0}
+        secondary={product.stock <= 0}
+        style={styles.stockBadge}
+      >
+        {product.stock > 0 ? (
+          <InStockIcon style={styles.stockIcon} color={green500} />
+        ) : (
+          <OutOfStockIcon style={styles.stockIcon} color={grey700} />
+        )}
+      </Badge>
     </CardTitle>
     <CardText style={styles.productTileBody}>
       {product[locale].shortDescription}

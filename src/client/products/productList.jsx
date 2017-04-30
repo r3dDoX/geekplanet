@@ -16,7 +16,9 @@ const styles = {
 
 class ProductList extends React.Component {
   componentDidMount() {
-    this.props.loadProducts();
+    if (this.props.products.length === 0) {
+      this.props.loadProducts();
+    }
   }
 
   render() {

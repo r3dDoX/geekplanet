@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { Card, CardTitle, CardMedia, CardText, CardActions } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Badge from 'material-ui/Badge';
-import { green500, grey700 } from 'material-ui/styles/colors';
 import { FormattedMessage } from 'react-intl';
-import InStockIcon from 'material-ui/svg-icons/toggle/check-box';
-import OutOfStockIcon from 'material-ui/svg-icons/toggle/indeterminate-check-box';
+import { Link } from 'react-router-dom';
+import StockIcon from './stockIcon.jsx';
 import formatPrice from './priceFormatter';
 import productPropType from './product.proptypes';
 
@@ -23,6 +22,10 @@ const styles = {
     display: 'flex',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
+  },
+  titleLinkStyle: {
+    color: 'inherit',
+    textDecoration: 'none',
   },
   stockIcon: {
     flex: 'none',
@@ -58,18 +61,17 @@ const ProductTile = ({
         <img alt="Product" src={`/api/products/pictures/${product.files[0]}`} />
       </CardMedia>
     ) : null}
-    <CardTitle title={product[locale].name} style={styles.productTitle}>
+    <CardTitle
+      title={<Link style={styles.titleLinkStyle} to={`/products/${product._id}`}>{product[locale].name}</Link>}
+      style={styles.productTitle}
+    >
       <Badge
         badgeContent={product.stock}
         primary={product.stock > 0}
         secondary={product.stock <= 0}
         style={styles.stockBadge}
       >
-        {product.stock > 0 ? (
-          <InStockIcon style={styles.stockIcon} color={green500} />
-        ) : (
-          <OutOfStockIcon style={styles.stockIcon} color={grey700} />
-        )}
+        <StockIcon stock={product.stock} />
       </Badge>
     </CardTitle>
     <CardText style={styles.productTileBody}>

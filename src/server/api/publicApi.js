@@ -31,15 +31,27 @@ module.exports = {
           })
     );
 
+    const productFilter = {
+      purchasePrice: 0,
+      purchasePackageSize: 0,
+      minStock: 0,
+      supplierProductCode: 0,
+      remarks: 0,
+    };
+
     app.get('/api/products',
       (req /* : express$Request */, res /* : express$Response */) =>
-        Product.find({}, {
-          purchasePrice: 0,
-          purchasePackageSize: 0,
-          minStock: 0,
-          supplierProductCode: 0,
-          remarks: 0,
-        }).sort({ name: 1 })
+        Product.find({}, productFilter).sort({ name: 1 })
+          .then(products => res.send(products))
+          .catch((err) => {
+            Logger.error(err);
+            res.status(500).send('Fetching products failed!');
+          })
+    );
+
+    app.get('/api/products/:id',
+      (req /* : express$Request */, res /* : express$Response */) =>
+        Product.findOne({ _id: req.params.id }, productFilter)
           .then(products => res.send(products))
           .catch((err) => {
             Logger.error(err);

@@ -57,5 +57,9 @@
   "COUNTRIES": {
     "CHE": "Switzerland",
     "LIE": "Liechtenstein"
+  },
+  "PRODUCT": {
+    "IN_STOCK": "{stock, number} {stock, plural, one {piece} other {pieces}} in stock",
+    "OUT_OF_STOCK": "This product is currently out of stock"
   }
 }

@@ -80,7 +80,7 @@ ShoppingCartMenu.propTypes = {
 export default connect(
   state => ({
     locale: state.i18n.locale,
-    shoppingCart: state.shoppingCart.items
+    shoppingCart: state.shoppingCart.items,
   }),
   dispatch => ({
     setAmount(amount, product) {

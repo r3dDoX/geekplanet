@@ -10,7 +10,7 @@
     "dist": "bestzip geekplanet.zip dist/ src/ package.json webpack.prod.config.js",
     "flow:install": "flow-typed install --overwrite",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
-    "test": "npm run lint & jest",
+    "test": "npm run lint && jest",
     "test:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk npm test",
     "test:watch": "jest --watch",
     "test:watch:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk npm run test:watch",

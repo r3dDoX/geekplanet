@@ -13,7 +13,7 @@ import LayoutDrawer from './layoutDrawer.jsx';
 
 const styles = {
   container: {
-    paddingTop: '60px',
+    paddingTop: '64px',
   },
   bodyContainer: {
     position: 'relative',

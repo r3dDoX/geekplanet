@@ -7,6 +7,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const secretConfig = require('./src/config/secret.config.json');
 
 module.exports = {
+
+  output: {
+    publicPath: "/",
+  },
+
   module: {
     rules: [
       {

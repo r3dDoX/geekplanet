@@ -80,9 +80,10 @@ class ProductDetails extends React.Component {
               <FormattedMessage id="PRODUCT.OUT_OF_STOCK" />
             )}
           </h4>
-          <p style={styles.productDescription}>
-            {product[locale].description}
-          </p>
+          <p
+            style={styles.productDescription}
+            dangerouslySetInnerHTML={{ __html: product[locale].description }}
+          />
           <RaisedButton
             onClick={() => addItemToShoppingCart(product)}
             label={<FormattedMessage id="COMMON.ORDER" />}

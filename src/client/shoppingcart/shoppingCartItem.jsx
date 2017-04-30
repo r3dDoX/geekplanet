@@ -16,9 +16,10 @@ const styles = {
 const ShoppingCartItem = ({
   shoppingCartItem,
   setAmount,
+  locale,
 }) => (
   <ListItem
-    primaryText={shoppingCartItem.product.name}
+    primaryText={shoppingCartItem.product[locale].name}
     secondaryText={<AmountAdjuster shoppingCartItem={shoppingCartItem} setAmount={setAmount} />}
     leftAvatar={<Avatar
       style={styles.avatar}
@@ -38,6 +39,7 @@ const ShoppingCartItem = ({
 ShoppingCartItem.propTypes = {
   shoppingCartItem: ShoppingCartItemPropType.isRequired,
   setAmount: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 export default ShoppingCartItem;

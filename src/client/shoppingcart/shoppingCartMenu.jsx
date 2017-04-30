@@ -18,6 +18,7 @@ import ActionTypes from '../actionTypes';
 const ShoppingCartMenu = ({
   shoppingCart,
   setAmount,
+  locale,
 }) => (
   <IconMenu
     anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
@@ -36,6 +37,7 @@ const ShoppingCartMenu = ({
       key={item.product._id}
       shoppingCartItem={item}
       setAmount={setAmount}
+      locale={locale}
     />)}
     <Divider />
     <Subheader inset>
@@ -72,10 +74,14 @@ const ShoppingCartMenu = ({
 ShoppingCartMenu.propTypes = {
   shoppingCart: ShoppingCartItemsPropType.isRequired,
   setAmount: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 export default connect(
-  state => ({ shoppingCart: state.shoppingCart.items }),
+  state => ({
+    locale: state.i18n.locale,
+    shoppingCart: state.shoppingCart.items
+  }),
   dispatch => ({
     setAmount(amount, product) {
       dispatch({

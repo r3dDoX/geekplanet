@@ -70,7 +70,7 @@ class ProductDetails extends React.Component {
             {formatPriceWithCurrency(product.price)}
           </h2>
           <h1>
-            {product[locale].name}<br />
+            {product[locale].name}
           </h1>
           <h4 style={styles.productStock}>
             <StockIcon stock={product.stock} />&nbsp;

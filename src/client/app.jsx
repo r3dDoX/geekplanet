@@ -11,6 +11,7 @@ import Forms from './admin/forms/forms.jsx';
 import OrderStepper from './order/orderStepper.jsx';
 import PrivateRoute from './router/privateRoute.jsx';
 import Login from './auth/login.jsx';
+import ProductDetails from './products/productDetails.jsx';
 
 class App extends React.Component {
 
@@ -31,6 +32,7 @@ class App extends React.Component {
         <Layout>
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
+          <Route path="/products/:id" component={ProductDetails} />
           <PrivateRoute path="/forms" component={Forms} />
           <PrivateRoute path="/order" component={OrderStepper} />
         </Layout>

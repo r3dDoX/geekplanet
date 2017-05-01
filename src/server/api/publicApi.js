@@ -49,6 +49,16 @@ module.exports = {
           })
     );
 
+    app.get('/api/products/spotlight',
+      (req /* : express$Request */, res /* : express$Response */) =>
+        Product.find({}, productFilter).skip(Math.random() * 400).limit(20)
+          .then(products => res.send(products))
+          .catch((err) => {
+            Logger.error(err);
+            res.status(500).send('Fetching products failed!');
+          })
+    );
+
     app.get('/api/products/:id',
       (req /* : express$Request */, res /* : express$Response */) =>
         Product.findOne({ _id: req.params.id }, productFilter)

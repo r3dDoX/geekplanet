@@ -1,21 +1,26 @@
 import ActionTypes from '../actionTypes';
 
 const initialState = {
+  spotlightProducts: [],
   products: [],
   selectedProduct: undefined,
 };
 
-export default function products(state = initialState, { type, data }) {
+export default (state = initialState, { type, spotlightProducts, products, selectedProduct }) => {
   switch (type) {
+    case ActionTypes.SPOTLIGHT_PRODUCTS_LOADED:
+      return Object.assign({}, state, {
+        spotlightProducts,
+      });
     case ActionTypes.PRODUCTS_LOADED:
       return Object.assign({}, state, {
-        products: data,
+        products,
       });
     case ActionTypes.PRODUCT_SELECTED:
       return Object.assign({}, state, {
-        selectedProduct: data,
+        selectedProduct,
       });
     default:
       return state;
   }
-}
+};

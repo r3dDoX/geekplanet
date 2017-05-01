@@ -81,6 +81,7 @@ class ProductDetails extends React.Component {
             )}
           </h4>
           <p
+            className="product-description"
             style={styles.productDescription}
             dangerouslySetInnerHTML={{ __html: product[locale].description }}
           />

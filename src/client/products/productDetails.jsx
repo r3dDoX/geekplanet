@@ -121,9 +121,9 @@ export default connect(
   dispatch => ({
     loadProduct(productId) {
       Xhr.get(`/api/products/${productId}`)
-        .then(product => dispatch({
+        .then(selectedProduct => dispatch({
           type: ActionTypes.PRODUCT_SELECTED,
-          data: product,
+          selectedProduct,
         }));
     },
     addItemToShoppingCart(product) {

@@ -12,6 +12,7 @@ import OrderStepper from './order/orderStepper.jsx';
 import PrivateRoute from './router/privateRoute.jsx';
 import Login from './auth/login.jsx';
 import ProductDetails from './products/productDetails.jsx';
+import Products from './products/products.jsx';
 
 class App extends React.Component {
 
@@ -33,6 +34,7 @@ class App extends React.Component {
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/products/:id" component={ProductDetails} />
+          <Route exact path="/products" component={Products} />
           <PrivateRoute path="/forms" component={Forms} />
           <PrivateRoute path="/order" component={OrderStepper} />
         </Layout>

@@ -14,29 +14,18 @@ const styles = {
   },
 };
 
-class ProductList extends React.Component {
-  componentDidMount() {
-    if (this.props.products.length === 0) {
-      this.props.loadProducts();
-    }
-  }
-
-  render() {
-    const { locale, products, addItemToShoppingCart } = this.props;
-    return (
-      <div style={styles.container}>
-        {products.map(product => (
-          <ProductTile
-            key={product._id}
-            locale={locale}
-            product={product}
-            addItemToShoppingCart={addItemToShoppingCart}
-          />
-        ))}
-      </div>
-    );
-  }
-}
+const ProductList = ({ locale, products, addItemToShoppingCart }) => (
+  <div style={styles.container}>
+    {products.map(product => (
+      <ProductTile
+        key={product._id}
+        locale={locale}
+        product={product}
+        addItemToShoppingCart={addItemToShoppingCart}
+      />
+    ))}
+  </div>
+);
 
 ProductList.propTypes = {
   locale: PropTypes.string.isRequired,
@@ -46,22 +35,14 @@ ProductList.propTypes = {
     description: PropTypes.string,
     files: PropTypes.arrayOf(PropTypes.string),
   })).isRequired,
-  loadProducts: PropTypes.func.isRequired,
   addItemToShoppingCart: PropTypes.func.isRequired,
 };
 
 export default connect(
   state => ({
-    products: state.products.products,
     locale: state.i18n.locale,
   }),
   dispatch => ({
-    loadProducts() {
-      Xhr.get('/api/products').then(data => dispatch({
-        type: ActionTypes.PRODUCTS_LOADED,
-        data,
-      }));
-    },
     addItemToShoppingCart(product) {
       dispatch({
         type: ActionTypes.ADD_ITEM_TO_SHOPPING_CART,

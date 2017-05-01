@@ -206,7 +206,7 @@ export default connect(
     loadProducts() {
       ProductService.loadProducts().then(products => dispatch({
         type: ActionTypes.PRODUCTS_LOADED,
-        data: products,
+        products,
       }));
     },
     selectProduct: (product) => {

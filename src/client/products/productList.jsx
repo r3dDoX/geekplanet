@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ProductTile from './productTile.jsx';
 import ActionTypes from '../actionTypes';
-import Xhr from '../xhr';
 
 const styles = {
   container: {

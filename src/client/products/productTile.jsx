@@ -58,7 +58,7 @@ const ProductTile = ({
   <Card style={styles.container}>
     {(product.files.length) ? (
       <CardMedia style={styles.pictureContainer}>
-        <img alt="Product" src={`/api/products/pictures/${product.files[0]}`} />
+        <img alt="Product" src={`/api/products/pictures/${product.files[0]}_s`} />
       </CardMedia>
     ) : null}
     <CardTitle

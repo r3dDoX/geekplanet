@@ -29,6 +29,9 @@ const styles = {
     flexWrap: 'nowrap',
     overflowX: 'auto',
   },
+  picture: {
+    width: '100%',
+  },
   price: {
     color: brandPrimary,
   },
@@ -61,7 +64,12 @@ class ProductDetails extends React.Component {
             <GridList style={styles.gridList} cols={2.2}>
               {product.files.map(image => (
                 <GridTile key={image}>
-                  <img key={image} alt="Product" src={`/api/products/pictures/${image}`} />
+                  <picture>
+                    <source media="(min-width: 1920px)" srcSet={`/api/products/pictures/${image}_l`} />
+                    <source media="(min-width: 800px)" srcSet={`/api/products/pictures/${image}_m`} />
+                    <source srcSet={`/api/products/pictures/${image}_s`} />
+                    <img style={styles.picture} src={`/api/products/pictures/${image}_m`} alt="Product" />
+                  </picture>
                 </GridTile>
               ))}
             </GridList>
@@ -83,6 +91,7 @@ class ProductDetails extends React.Component {
           <p
             className="product-description"
             style={styles.productDescription}
+            // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: product[locale].description }}
           />
           <RaisedButton

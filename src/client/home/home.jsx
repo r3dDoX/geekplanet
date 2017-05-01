@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { grey50 } from 'material-ui/styles/colors';
 import RaisedButton from 'material-ui/RaisedButton';
+import { FormattedMessage } from 'react-intl';
 import { backgroundColor } from '../theme';
 import ProductList from '../products/productList.jsx';
 import Slogan from '../assets/images/gpslogan.svg';
 import Xhr from '../xhr';
 import ActionTypes from '../actionTypes';
 import ProductPropType from '../products/product.proptypes';
-import { FormattedMessage } from 'react-intl';
 
 const styles = {
   container: {

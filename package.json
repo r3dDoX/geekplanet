@@ -44,7 +44,7 @@
     "auth0-lock": "10.15.1",
     "babel-core": "6.24.1",
     "babel-eslint": "7.2.3",
-    "babel-jest": "19.0.0",
+    "babel-jest": "20.0.0",
     "babel-loader": "7.0.0",
     "babel-plugin-react-intl": "2.3.1",
     "babel-plugin-transform-object-rest-spread": "6.23.0",

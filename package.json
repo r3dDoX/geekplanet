@@ -65,7 +65,7 @@
     "html-webpack-plugin": "2.28.0",
     "jest": "20.0.1",
     "jwt-decode": "2.2.0",
-    "material-ui": "0.18.0",
+    "material-ui": "0.18.1",
     "nodemon": "1.11.0",
     "prop-types": "15.5.10",
     "react": "15.5.4",

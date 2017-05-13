@@ -23,7 +23,7 @@ const ShoppingCartItem = ({
     secondaryText={<AmountAdjuster shoppingCartItem={shoppingCartItem} setAmount={setAmount} />}
     leftAvatar={<Avatar
       style={styles.avatar}
-      src={`/api/products/pictures/${shoppingCartItem.product.files[0]}`}
+      src={`/api/products/pictures/${shoppingCartItem.product.files[0]}_s`}
     />}
     rightAvatar={
       <Avatar

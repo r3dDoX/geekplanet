@@ -18,7 +18,12 @@ module.exports = {
         res.header({
           'Cache-Control': 'public, max-age=31536000',
         });
-        ProductPictures.readById(req.params.id).pipe(res);
+        ProductPictures.readById(req.params.id)
+          .on('error', (err) => {
+            res.sendStatus(404);
+            Logger.error(err);
+          })
+          .pipe(res);
       });
 
     app.get('/api/productcategories',

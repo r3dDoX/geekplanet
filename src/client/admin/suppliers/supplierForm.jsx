@@ -6,7 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import TextField from '../../formHelpers/textField.jsx';
 import SelectField from '../../formHelpers/selectField.jsx';
-import { SupplierPropType } from '../forms/forms.proptypes';
+import { SupplierPropType } from '../../propTypes';
 
 export const formName = 'supplier';
 

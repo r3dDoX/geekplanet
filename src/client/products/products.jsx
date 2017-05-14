@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ProductList from '../products/productList.jsx';
-import ProductPropType from '../products/product.proptypes';
+import { ProductPropType } from '../propTypes';
 import { createLoadProducts } from '../actions';
 
 class Products extends React.Component {

@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import { backgroundColor } from '../theme';
 import ProductList from '../products/productList.jsx';
 import Slogan from '../assets/images/gpslogan.svg';
-import ProductPropType from '../products/product.proptypes';
+import { ProductPropType } from '../propTypes';
 import { createLoadSpotlightProducts } from '../actions';
 
 const styles = {

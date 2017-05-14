@@ -1,4 +1,4 @@
-import ActionTypes from '../actionTypes';
+import { ADDRESSES_LOADED, ORDER_FINISHED, SAVE_ADDRESS, SELECT_ADDRESS, SELECT_ORDER_STEP } from '../actions';
 
 export const OrderSteps = {
   ADDRESS: 0,
@@ -15,28 +15,28 @@ const initialState = {
 
 export default function auth(state = initialState, { type, data }) {
   switch (type) {
-    case ActionTypes.SAVE_ADDRESS: {
+    case SAVE_ADDRESS: {
       return Object.assign({}, state, {
         address: data,
         step: OrderSteps.PAYMENT,
       });
     }
-    case ActionTypes.ADDRESSES_LOADED: {
+    case ADDRESSES_LOADED: {
       return Object.assign({}, state, {
         addresses: data,
       });
     }
-    case ActionTypes.SELECT_ADDRESS: {
+    case SELECT_ADDRESS: {
       return Object.assign({}, state, {
         selectedAddress: data,
       });
     }
-    case ActionTypes.ORDER_FINISHED: {
+    case ORDER_FINISHED: {
       return Object.assign({}, state, {
         step: OrderSteps.CONFIRMATION,
       });
     }
-    case ActionTypes.SELECT_ORDER_STEP: {
+    case SELECT_ORDER_STEP: {
       return Object.assign({}, state, {
         step: data,
       });

@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ProductList from '../products/productList.jsx';
-import Xhr from '../xhr';
-import ActionTypes from '../actionTypes';
 import ProductPropType from '../products/product.proptypes';
+import { createLoadProducts } from '../actions';
 
 class Products extends React.Component {
   componentWillMount() {
@@ -35,10 +34,7 @@ export default connect(
   }),
   dispatch => ({
     loadProducts() {
-      Xhr.get('/api/products').then(products => dispatch({
-        type: ActionTypes.PRODUCTS_LOADED,
-        products,
-      }));
+      dispatch(createLoadProducts());
     },
   })
 )(Products);

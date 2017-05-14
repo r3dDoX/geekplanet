@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
 import translationService from './i18n/translationService';
-import ActionTypes from './actionTypes';
 import AuthService from './auth/authService';
 import Layout from './layout/layout.jsx';
 import Home from './home/home.jsx';
@@ -13,6 +12,13 @@ import PrivateRoute from './router/privateRoute.jsx';
 import Login from './auth/login.jsx';
 import ProductDetails from './products/productDetails.jsx';
 import Products from './products/products.jsx';
+import {
+  createAuthServiceCreated,
+  createLoadShoppingCart,
+  createLoadTranslations,
+  createLoggedIn,
+  createProfileLoaded,
+} from './actions';
 
 class App extends React.Component {
 
@@ -33,8 +39,8 @@ class App extends React.Component {
         <Layout>
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
-          <Route path="/products/:id" component={ProductDetails} />
           <Route exact path="/products" component={Products} />
+          <Route path="/products/:id" component={ProductDetails} />
           <PrivateRoute path="/forms" component={Forms} />
           <PrivateRoute path="/order" component={OrderStepper} />
         </Layout>
@@ -57,30 +63,17 @@ export default connect(
   }),
   dispatch => ({
     loadTranslations(localeWithFallback) {
-      translationService.loadTranslations(localeWithFallback).then(translations => dispatch({
-        type: ActionTypes.TRANSLATIONS_LOADED,
-        data: translations,
-      }));
+      dispatch(createLoadTranslations(translationService, localeWithFallback));
     },
     loadShoppingCart() {
-      dispatch({
-        type: ActionTypes.LOAD_SHOPPING_CART,
-      });
+      dispatch(createLoadShoppingCart());
     },
     authServiceCreated(auth) {
-      dispatch({
-        type: ActionTypes.AUTH_SERVICE_CREATED,
-        data: auth,
-      });
+      dispatch(createAuthServiceCreated(auth));
     },
     loggedIn(authService) {
-      dispatch({
-        type: ActionTypes.LOGGED_IN,
-      });
-      authService.getUserInfo().then(profile => dispatch({
-        type: ActionTypes.PROFILE_LOADED,
-        data: profile,
-      }));
+      dispatch(createLoggedIn());
+      dispatch(createProfileLoaded(authService));
     },
-  })
+  }),
 )(App);

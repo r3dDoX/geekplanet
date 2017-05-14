@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ProductTile from './productTile.jsx';
-import ActionTypes from '../actionTypes';
+import { createAddItemToShoppingCart } from '../actions';
 
 const styles = {
   container: {
@@ -43,10 +43,7 @@ export default connect(
   }),
   dispatch => ({
     addItemToShoppingCart(product) {
-      dispatch({
-        type: ActionTypes.ADD_ITEM_TO_SHOPPING_CART,
-        data: product,
-      });
+      dispatch(createAddItemToShoppingCart(product));
     },
   })
 )(ProductList);

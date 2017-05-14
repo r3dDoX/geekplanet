@@ -5,11 +5,10 @@ import { GridList, GridTile } from 'material-ui/GridList';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormattedMessage } from 'react-intl';
 import ProductPropType from './product.proptypes';
-import Xhr from '../xhr';
-import ActionTypes from '../actionTypes';
 import StockIcon from './stockIcon.jsx';
 import { formatPriceWithCurrency } from './priceFormatter';
 import { brandPrimary } from '../theme';
+import { createAddItemToShoppingCart, createLoadProduct } from '../actions';
 
 const styles = {
   container: {
@@ -129,17 +128,10 @@ export default connect(
   }),
   dispatch => ({
     loadProduct(productId) {
-      Xhr.get(`/api/products/${productId}`)
-        .then(selectedProduct => dispatch({
-          type: ActionTypes.PRODUCT_SELECTED,
-          selectedProduct,
-        }));
+      dispatch(createLoadProduct(productId));
     },
     addItemToShoppingCart(product) {
-      dispatch({
-        type: ActionTypes.ADD_ITEM_TO_SHOPPING_CART,
-        data: product,
-      });
+      dispatch(createAddItemToShoppingCart(product));
     },
   })
 )(ProductDetails);

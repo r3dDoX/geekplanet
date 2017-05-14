@@ -6,10 +6,10 @@ import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
 import CircularProgress from 'material-ui/CircularProgress';
 import { IntlProvider, FormattedMessage } from 'react-intl';
-import ActionTypes from '../actionTypes';
 import Header from './header.jsx';
 import Footer from './footer.jsx';
 import LayoutDrawer from './layoutDrawer.jsx';
+import { createHideShoppingCartNotification, createLogout, createToggleDrawer } from '../actions';
 
 const styles = {
   container: {
@@ -125,19 +125,13 @@ export default withRouter(connect(
   }),
   dispatch => ({
     logout() {
-      dispatch({
-        type: ActionTypes.LOGGED_OUT,
-      });
+      dispatch(createLogout());
     },
     toggleDrawer() {
-      dispatch({
-        type: ActionTypes.TOGGLE_DRAWER,
-      });
+      dispatch(createToggleDrawer());
     },
     hideShoppingCartNotification() {
-      dispatch({
-        type: ActionTypes.HIDE_SHOPPING_CART_NOTIFICATION,
-      });
+      dispatch(createHideShoppingCartNotification());
     },
   })
 )(Layout));

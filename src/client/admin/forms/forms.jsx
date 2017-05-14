@@ -22,7 +22,6 @@ import {
 import {
   createLoadProducers,
   createLoadProductCategories,
-  createLoadProducts,
   createLoadSuppliers,
   createLoadTags,
   createRemoveFile, createRemoveTag,
@@ -31,6 +30,7 @@ import {
   createSelectProduct, createSelectTag,
   createSwitchTab,
 } from '../adminActions';
+import { createLoadProducts } from '../../actions';
 
 class Forms extends React.Component {
 

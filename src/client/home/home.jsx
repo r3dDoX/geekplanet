@@ -8,9 +8,8 @@ import { FormattedMessage } from 'react-intl';
 import { backgroundColor } from '../theme';
 import ProductList from '../products/productList.jsx';
 import Slogan from '../assets/images/gpslogan.svg';
-import Xhr from '../xhr';
-import ActionTypes from '../actionTypes';
 import ProductPropType from '../products/product.proptypes';
+import { createLoadSpotlightProducts } from '../actions';
 
 const styles = {
   container: {
@@ -77,10 +76,7 @@ export default connect(
   }),
   dispatch => ({
     loadSpotlightProducts() {
-      Xhr.get('/api/products/spotlight').then(spotlightProducts => dispatch({
-        type: ActionTypes.SPOTLIGHT_PRODUCTS_LOADED,
-        spotlightProducts,
-      }));
+      dispatch(createLoadSpotlightProducts());
     },
   })
 )(Home);

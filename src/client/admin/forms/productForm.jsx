@@ -12,7 +12,7 @@ import {
   ProducerPropType,
   SupplierPropType,
   ProductCategoryPropType,
-} from './forms.proptypes';
+} from '../../propTypes';
 import Tags from '../tags/tags.jsx';
 
 export const formName = 'products';

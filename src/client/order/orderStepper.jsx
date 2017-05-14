@@ -10,12 +10,12 @@ import {
 } from 'material-ui/Stepper';
 import { FormattedMessage } from 'react-intl';
 import { initialize } from 'redux-form';
-import { ShoppingCartPropType } from '../shoppingcart/shoppingCart.proptypes';
+import { ShoppingCartPropType } from '../propTypes';
 import AddressChooser from './addressChooser.jsx';
 import UserAddress, { formName } from './userAddress.jsx';
 import Payment from './payment.jsx';
 import Xhr from '../xhr';
-import OrderPropType from './order.proptypes';
+import { OrderPropType } from '../propTypes';
 import { OrderSteps } from './order.reducer';
 import {
   createFinishOrder, createLoadAddresses, createSaveAddress, createSelectAddress,

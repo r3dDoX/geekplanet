@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import RaisedButton from 'material-ui/RaisedButton';
 import Xhr from '../xhr';
-import { ShoppingCartPropType } from '../shoppingcart/shoppingCart.proptypes';
+import { ShoppingCartPropType } from '../propTypes';
 
 const styles = {
   container: {

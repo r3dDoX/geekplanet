@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import StockIcon from './stockIcon.jsx';
 import formatPrice from './priceFormatter';
-import productPropType from './product.proptypes';
+import { ProductPropType } from '../propTypes';
 
 const styles = {
   container: {
@@ -90,7 +90,7 @@ const ProductTile = ({
 
 ProductTile.propTypes = {
   locale: PropTypes.string.isRequired,
-  product: productPropType.isRequired,
+  product: ProductPropType.isRequired,
   addItemToShoppingCart: PropTypes.func.isRequired,
 };
 

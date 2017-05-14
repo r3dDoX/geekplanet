@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { GridList, GridTile } from 'material-ui/GridList';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormattedMessage } from 'react-intl';
-import ProductPropType from './product.proptypes';
+import { ProductPropType } from '../propTypes';
 import StockIcon from './stockIcon.jsx';
 import { formatPriceWithCurrency } from './priceFormatter';
 import { brandPrimary } from '../theme';

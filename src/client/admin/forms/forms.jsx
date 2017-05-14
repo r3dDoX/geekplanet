@@ -18,7 +18,7 @@ import {
   SupplierPropType,
   ProductCategoryPropType,
   ProductPropType,
-} from './forms.proptypes';
+} from '../../propTypes';
 import {
   createLoadProducers,
   createLoadProductCategories,

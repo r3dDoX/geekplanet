@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ListItem from 'material-ui/List/ListItem';
 import Avatar from 'material-ui/Avatar';
 import { pinkA400, transparent } from 'material-ui/styles/colors';
-import { ShoppingCartItemPropType } from './shoppingCart.proptypes';
+import { ShoppingCartItemPropType } from '../propTypes';
 import { formatPriceWithoutCurrency } from '../products/priceFormatter';
 import AmountAdjuster from './amountAdjuster.jsx';
 

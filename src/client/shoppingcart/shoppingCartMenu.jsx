@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { white } from 'material-ui/styles/colors';
 import ShoppingCartItem from './shoppingCartItem.jsx';
 import formatPrice from '../products/priceFormatter';
-import { ShoppingCartItemsPropType } from './shoppingCart.proptypes';
+import { ShoppingCartItemsPropType } from '../propTypes';
 import { createSetShoppingCartamount } from '../actions';
 
 const ShoppingCartMenu = ({

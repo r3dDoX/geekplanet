@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { initialize, change } from 'redux-form';
+import { initialize } from 'redux-form';
 import { Tabs, Tab } from 'material-ui/Tabs';
-import ActionTypes from '../../actionTypes';
 import ProductService from '../../products/productService';
 import ProductCategoryService from '../productcategories/productCategoryService';
 import ProducerService from '../producers/producerService';
@@ -20,7 +19,18 @@ import {
   ProductCategoryPropType,
   ProductPropType,
 } from './forms.proptypes';
-import TagService from '../tags/tagService';
+import {
+  createLoadProducers,
+  createLoadProductCategories,
+  createLoadProducts,
+  createLoadSuppliers,
+  createLoadTags,
+  createRemoveFile, createRemoveTag,
+  createResetSelectedFiles,
+  createSelectFiles,
+  createSelectProduct, createSelectTag,
+  createSwitchTab,
+} from '../adminActions';
 
 class Forms extends React.Component {
 
@@ -166,106 +176,48 @@ export default connect(
   state => state.forms,
   dispatch => ({
     switchTab(tabIndex) {
-      dispatch({
-        type: ActionTypes.SELECT_FORMS_TABS,
-        data: tabIndex,
-      });
+      dispatch(createSwitchTab(tabIndex));
     },
     clearForm(formName) {
       dispatch(initialize(formName));
     },
     selectFiles(selectedFiles, initialFiles) {
-      const formData = new FormData();
-      for (let i = 0; i < selectedFiles.length; i += 1) {
-        formData.append('files[]', selectedFiles[i]);
-      }
-      ProductService.savePictures(formData)
-        .then((savedFileIds) => {
-          dispatch({
-            type: ActionTypes.SELECT_UPLOAD_FILES,
-            data: savedFileIds,
-          });
-          dispatch(change(productFormName, 'files', initialFiles.concat(savedFileIds)));
-        });
+      dispatch(createSelectFiles(selectedFiles, initialFiles));
     },
     removeFile(initialFiles, fileIdToRemove) {
-      ProductService.removePicture(fileIdToRemove)
-        .then(() => {
-          dispatch({
-            type: ActionTypes.REMOVE_SELECTED_FILE,
-            data: fileIdToRemove,
-          });
-          dispatch(change(productFormName, 'files', initialFiles.filter(fileId => fileId !== fileIdToRemove)));
-        });
+      dispatch(createRemoveFile(initialFiles, fileIdToRemove));
     },
     resetSelectedFiles() {
-      dispatch({
-        type: ActionTypes.RESET_SELECTED_FILES,
-      });
+      dispatch(createResetSelectedFiles());
     },
     loadProducts() {
-      ProductService.loadProducts().then(products => dispatch({
-        type: ActionTypes.PRODUCTS_LOADED,
-        products,
-      }));
+      dispatch(createLoadProducts());
     },
     selectProduct: (product) => {
-      dispatch({
-        type: ActionTypes.SELECT_PRODUCT,
-        data: product,
-      });
+      dispatch(createSelectProduct(product));
       dispatch(initialize(productFormName, product));
     },
     selectProductCategory: productCategory =>
       dispatch(initialize(productCategoryFormName, productCategory)),
     loadProductCategories() {
-      ProductCategoryService.loadProductCategories().then(categories => dispatch({
-        type: ActionTypes.PRODUCT_CATEGORIES_LOADED,
-        data: categories,
-      }));
+      dispatch(createLoadProductCategories());
     },
     selectProducer: producer => dispatch(initialize(producerFormName, producer)),
     loadProducers() {
-      ProducerService.loadProducers().then(producers => dispatch({
-        type: ActionTypes.PRODUCERS_LOADED,
-        data: producers,
-      }));
+      dispatch(createLoadProducers());
     },
     selectSupplier: supplier => dispatch(initialize(supplierFormName, supplier)),
     loadSuppliers() {
-      SupplierService.loadSuppliers().then(suppliers => dispatch({
-        type: ActionTypes.SUPPLIERS_LOADED,
-        data: suppliers,
-      }));
+      dispatch(createLoadSuppliers());
     },
     loadTags() {
-      TagService.loadTags().then(tags => dispatch({
-        type: ActionTypes.TAGS_LOADED,
-        data: tags,
-      }));
+      dispatch(createLoadTags());
     },
     selectTag(tags, item, index) {
-      if (index < 0) {
-        TagService.saveTag({ name: item })
-          .then(() => TagService.loadTags().then(loadedTags => dispatch({
-            type: ActionTypes.TAGS_LOADED,
-            data: loadedTags,
-          })));
-      }
-      const newTags = tags.concat(item);
-      dispatch({
-        type: ActionTypes.SET_TAGS,
-        data: newTags,
-      });
-      dispatch(change(productFormName, 'tags', newTags));
+      dispatch(createSelectTag(tags, item, index));
     },
     removeTag(tags, tag) {
-      const newTags = tags.filter(actTag => actTag !== tag);
-      dispatch({
-        type: ActionTypes.SET_TAGS,
-        data: newTags,
-      });
-      dispatch(change(productFormName, 'tags', newTags));
+      dispatch(createRemoveTag(tags, tag));
     },
   }),
 )(Forms);

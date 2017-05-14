@@ -11,13 +11,16 @@ import {
 import { FormattedMessage } from 'react-intl';
 import { initialize } from 'redux-form';
 import { ShoppingCartPropType } from '../shoppingcart/shoppingCart.proptypes';
-import ActionTypes from '../actionTypes';
 import AddressChooser from './addressChooser.jsx';
 import UserAddress, { formName } from './userAddress.jsx';
 import Payment from './payment.jsx';
 import Xhr from '../xhr';
 import OrderPropType from './order.proptypes';
 import { OrderSteps } from './order.reducer';
+import {
+  createFinishOrder, createLoadAddresses, createSaveAddress, createSelectAddress,
+  createSelectStep,
+} from '../actions';
 
 const styles = {
   container: {
@@ -93,7 +96,7 @@ class OrderStepper extends React.Component {
                 selectedAddressId={order.selectedAddress && order.selectedAddress._id}
                 selectAddress={
                   addressId => selectAddress(
-                    order.addresses.find(address => address._id === addressId)
+                    order.addresses.find(address => address._id === addressId),
                   )
                 }
               />
@@ -160,34 +163,21 @@ export default withRouter(connect(
     order: state.order,
   }),
   dispatch => ({
-    loadAddresses: () => Xhr.get('/api/userAddresses')
-      .then(addresses => dispatch({
-        type: ActionTypes.ADDRESSES_LOADED,
-        data: addresses,
-      })),
+    loadAddresses() {
+      dispatch(createLoadAddresses());
+    },
     selectAddress: (address) => {
-      dispatch({
-        type: ActionTypes.SELECT_ADDRESS,
-        data: address,
-      });
+      dispatch(createSelectAddress(address));
       dispatch(initialize(formName, address));
     },
-    saveAddress: address =>
-      Xhr.put(
-        '/api/userAddress',
-        address,
-        'application/json'
-      )
-        .then(addressId => dispatch({
-          type: ActionTypes.SAVE_ADDRESS,
-          data: addressId,
-        })),
-    selectStep: step => dispatch({
-      type: ActionTypes.SELECT_ORDER_STEP,
-      data: step,
-    }),
-    finishOrder: () => dispatch({
-      type: ActionTypes.ORDER_FINISHED,
-    }),
-  })
+    saveAddress(address) {
+      dispatch(createSaveAddress(address));
+    },
+    selectStep(step) {
+      dispatch(createSelectStep(step));
+    },
+    finishOrder() {
+      dispatch(createFinishOrder());
+    },
+  }),
 )(OrderStepper));

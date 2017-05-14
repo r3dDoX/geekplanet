@@ -10,7 +10,6 @@ export const SELECT_FORMS_TABS = 'SELECT_FORMS_TABS';
 export const SELECT_UPLOAD_FILES = 'SELECT_UPLOAD_FILES';
 export const REMOVE_SELECTED_FILE = 'REMOVE_SELECTED_FILE';
 export const RESET_SELECTED_FILES = 'RESET_SELECTED_FILES';
-export const PRODUCTS_LOADED = 'PRODUCTS_LOADED';
 export const SELECT_PRODUCT = 'SELECT_PRODUCT';
 export const PRODUCT_CATEGORIES_LOADED = 'PRODUCT_CATEGORIES_LOADED';
 export const PRODUCERS_LOADED = 'PRODUCERS_LOADED';
@@ -52,12 +51,6 @@ export const createRemoveFile = (initialFiles, fileIdToRemove) => dispatch =>
 export const createResetSelectedFiles = () => ({
   type: RESET_SELECTED_FILES,
 });
-
-export const createLoadProducts = () => dispatch =>
-  ProductService.loadProducts().then(products => dispatch({
-    type: PRODUCTS_LOADED,
-    products,
-  }));
 
 export const createSelectProduct = product => ({
   type: SELECT_PRODUCT,

@@ -1,4 +1,4 @@
-import ActionTypes from '../actionTypes';
+import { PRODUCT_SELECTED, PRODUCTS_LOADED, SPOTLIGHT_PRODUCTS_LOADED } from '../actions';
 
 const initialState = {
   spotlightProducts: [],
@@ -8,15 +8,15 @@ const initialState = {
 
 export default (state = initialState, { type, spotlightProducts, products, selectedProduct }) => {
   switch (type) {
-    case ActionTypes.SPOTLIGHT_PRODUCTS_LOADED:
+    case SPOTLIGHT_PRODUCTS_LOADED:
       return Object.assign({}, state, {
         spotlightProducts,
       });
-    case ActionTypes.PRODUCTS_LOADED:
+    case PRODUCTS_LOADED:
       return Object.assign({}, state, {
         products,
       });
-    case ActionTypes.PRODUCT_SELECTED:
+    case PRODUCT_SELECTED:
       return Object.assign({}, state, {
         selectedProduct,
       });

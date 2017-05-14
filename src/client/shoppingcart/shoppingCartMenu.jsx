@@ -13,7 +13,7 @@ import { white } from 'material-ui/styles/colors';
 import ShoppingCartItem from './shoppingCartItem.jsx';
 import formatPrice from '../products/priceFormatter';
 import { ShoppingCartItemsPropType } from './shoppingCart.proptypes';
-import ActionTypes from '../actionTypes';
+import { createSetShoppingCartamount } from '../actions';
 
 const ShoppingCartMenu = ({
   shoppingCart,
@@ -84,13 +84,7 @@ export default connect(
   }),
   dispatch => ({
     setAmount(amount, product) {
-      dispatch({
-        type: ActionTypes.SET_AMOUNT,
-        data: {
-          amount,
-          product,
-        },
-      });
+      dispatch(createSetShoppingCartamount(amount, product));
     },
   })
 )(ShoppingCartMenu);

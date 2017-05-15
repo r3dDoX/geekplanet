@@ -37,11 +37,13 @@ const ProducerForm = ({
         primaryText="Create new"
       />
       <Divider />
-      {producers.map(({ _id, name }) => <MenuItem
-        key={_id}
-        value={_id}
-        primaryText={name}
-      />)}
+      {producers.map(({ _id, name }) => (
+        <MenuItem
+          key={_id}
+          value={_id}
+          primaryText={name}
+        />
+      ))}
     </Field>
     <br />
     <Field

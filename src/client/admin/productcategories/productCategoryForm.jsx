@@ -37,11 +37,13 @@ const ProductCategoriesForm = ({
         primaryText="Create new"
       />
       <Divider />
-      {productCategories.map(category => <MenuItem
-        key={category._id}
-        value={category._id}
-        primaryText={category.de.name}
-      />)}
+      {productCategories.map(category => (
+        <MenuItem
+          key={category._id}
+          value={category._id}
+          primaryText={category.de.name}
+        />
+      ))}
     </Field>
     <br />
     <Field
@@ -58,11 +60,13 @@ const ProductCategoriesForm = ({
     >
       <MenuItem value={null} primaryText="None" />
       <Divider />
-      {productCategories.map(category => <MenuItem
-        key={category._id}
-        value={category._id}
-        primaryText={category.de.name}
-      />)}
+      {productCategories.map(category => (
+        <MenuItem
+          key={category._id}
+          value={category._id}
+          primaryText={category.de.name}
+        />
+      ))}
     </Field>
     <br />
     <RaisedButton label="Save" primary type="submit" />

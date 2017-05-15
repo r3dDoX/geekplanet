@@ -33,12 +33,14 @@ const ShoppingCartMenu = ({
     <Subheader inset>
       <FormattedMessage id="SHOPPING_CART.PRODUCTS" />
     </Subheader>
-    {shoppingCart.map(item => <ShoppingCartItem
-      key={item.product._id}
-      shoppingCartItem={item}
-      setAmount={setAmount}
-      locale={locale}
-    />)}
+    {shoppingCart.map(item => (
+      <ShoppingCartItem
+        key={item.product._id}
+        shoppingCartItem={item}
+        setAmount={setAmount}
+        locale={locale}
+      />
+    ))}
     <Divider />
     <Subheader inset>
       <FormattedMessage id="SHOPPING_CART.TOTAL" />
@@ -50,8 +52,8 @@ const ShoppingCartMenu = ({
         formatPrice(
           shoppingCart.reduce(
             (sum, { amount, product }) => sum + (product.price * amount),
-            0
-          )
+            0,
+          ),
         )
       }
     />
@@ -86,5 +88,5 @@ export default connect(
     setAmount(amount, product) {
       dispatch(createSetShoppingCartamount(amount, product));
     },
-  })
+  }),
 )(ShoppingCartMenu);

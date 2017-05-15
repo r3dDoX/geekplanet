@@ -73,11 +73,13 @@ const ProductForm = ({
         primaryText="Create new"
       />
       <Divider />
-      {products.map(({ _id, de: { name } }) => <MenuItem
-        key={_id}
-        value={_id}
-        primaryText={name}
-      />)}
+      {products.map(({ _id, de: { name } }) => (
+        <MenuItem
+          key={_id}
+          value={_id}
+          primaryText={name}
+        />
+      ))}
     </Field>
     <br />
 
@@ -93,11 +95,13 @@ const ProductForm = ({
       label="Product Category"
       style={styles.selectFields}
     >
-      {productCategories.map(category => <MenuItem
-        key={category._id}
-        value={category._id}
-        primaryText={category.de.name}
-      />)}
+      {productCategories.map(category => (
+        <MenuItem
+          key={category._id}
+          value={category._id}
+          primaryText={category.de.name}
+        />
+      ))}
     </Field>
     <br />
     <Tags
@@ -165,11 +169,13 @@ const ProductForm = ({
       label="Supplier"
       style={styles.selectFields}
     >
-      {suppliers.map(({ _id, name }) => <MenuItem
-        key={_id}
-        value={_id}
-        primaryText={name}
-      />)}
+      {suppliers.map(({ _id, name }) => (
+        <MenuItem
+          key={_id}
+          value={_id}
+          primaryText={name}
+        />
+      ))}
     </Field>&nbsp;
     <Field
       component={TextField}
@@ -183,11 +189,13 @@ const ProductForm = ({
       name="producer"
       label="Producer"
     >
-      {producers.map(({ _id, name }) => <MenuItem
-        key={_id}
-        value={_id}
-        primaryText={name}
-      />)}
+      {producers.map(({ _id, name }) => (
+        <MenuItem
+          key={_id}
+          value={_id}
+          primaryText={name}
+        />
+      ))}
     </Field>
     <br />
     <Field

@@ -23,11 +23,13 @@ const AddressChooser = ({
     />
     <Divider />
     <MenuItem primaryText={<FormattedMessage id="ORDER.ADDRESS.FORM.RECENTLY" />} disabled />
-    {addresses.map(({ _id, streetAddress }) => <MenuItem
-      key={_id}
-      value={_id}
-      primaryText={streetAddress}
-    />)}
+    {addresses.map(({ _id, streetAddress }) => (
+      <MenuItem
+        key={_id}
+        value={_id}
+        primaryText={streetAddress}
+      />
+    ))}
   </SelectField>
 );
 

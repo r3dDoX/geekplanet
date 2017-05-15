@@ -37,11 +37,13 @@ const SupplierForm = ({
         primaryText="Create new"
       />
       <Divider />
-      {suppliers.map(({ _id, name }) => <MenuItem
-        key={_id}
-        value={_id}
-        primaryText={name}
-      />)}
+      {suppliers.map(({ _id, name }) => (
+        <MenuItem
+          key={_id}
+          value={_id}
+          primaryText={name}
+        />
+      ))}
     </Field>
     <br />
     <Field

@@ -1,9 +1,9 @@
 import { ADDRESSES_LOADED, ORDER_FINISHED, SAVE_ADDRESS, SELECT_ADDRESS, SELECT_ORDER_STEP } from '../actions';
 
 export const OrderSteps = {
-  ADDRESS: 0,
-  PAYMENT: 1,
-  CONFIRMATION: 2,
+  ADDRESS: 'address',
+  PAYMENT: 'payment',
+  CONFIRMATION: 'confirmation',
 };
 
 const initialState = {

@@ -10,7 +10,7 @@ const styles = {
     marginTop: '20px',
   },
   paymentButton: {
-    margin: '0 5px',
+    margin: '10px',
   },
 };
 

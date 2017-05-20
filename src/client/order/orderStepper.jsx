@@ -15,10 +15,7 @@ import AddressStepContent from './addressStepContent.jsx';
 import PaymentStepContent from './paymentStepContent.jsx';
 import ConfirmationStepContent from './confirmationStepContent.jsx';
 import { OrderSteps } from './order.reducer';
-import {
-  createLoadAddresses,
-  createSelectStep,
-} from '../actions';
+import { createSelectStep } from '../actions';
 
 const styles = {
   container: {

@@ -38,7 +38,7 @@
     "pdffiller": "0.0.10",
     "shortid": "2.2.8",
     "streamifier": "0.1.1",
-    "stripe": "4.19.1"
+    "stripe": "4.20.0"
   },
   "devDependencies": {
     "auth0-lock": "10.16.0",

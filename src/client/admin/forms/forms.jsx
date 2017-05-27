@@ -20,6 +20,7 @@ import {
   ProductPropType,
 } from '../../propTypes';
 import {
+  createLoadCompleteProducts,
   createLoadProducers,
   createLoadProductCategories,
   createLoadSuppliers,
@@ -30,7 +31,6 @@ import {
   createSelectProduct, createSelectTag,
   createSwitchTab,
 } from '../adminActions';
-import { createLoadProducts } from '../../actions';
 
 class Forms extends React.Component {
 
@@ -191,7 +191,7 @@ export default connect(
       dispatch(createResetSelectedFiles());
     },
     loadProducts() {
-      dispatch(createLoadProducts());
+      dispatch(createLoadCompleteProducts());
     },
     selectProduct: (product) => {
       dispatch(createSelectProduct(product));

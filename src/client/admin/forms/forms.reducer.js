@@ -1,10 +1,10 @@
 import {
+  COMPLETE_PRODUCTS_LOADED,
   PRODUCERS_LOADED,
   PRODUCT_CATEGORIES_LOADED,
   REMOVE_SELECTED_FILE, RESET_SELECTED_FILES, SELECT_FORMS_TABS, SELECT_PRODUCT,
   SELECT_UPLOAD_FILES, SET_TAGS, SUPPLIERS_LOADED, TAGS_LOADED,
 } from '../adminActions';
-import { PRODUCTS_LOADED } from '../../actions';
 
 const initialState = {
   selectedFiles: [],
@@ -37,7 +37,7 @@ export default function forms(state = initialState, { type, data, products }) {
         selectedFiles: (data && data.files) || initialState.selectedFiles,
         tags: (data && data.tags) || initialState.tags,
       });
-    case PRODUCTS_LOADED:
+    case COMPLETE_PRODUCTS_LOADED:
       return Object.assign({}, state, {
         products,
       });

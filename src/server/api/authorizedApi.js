@@ -6,11 +6,13 @@ const shortId = require('shortid');
 const bodyParser = require('body-parser');
 const multer = require('multer')();
 const streamifier = require('streamifier');
+const sharp = require('sharp');
 const Logger = require('../logger');
 const secretConfig = require('../../config/secret.config.json');
 const stripe = require('stripe')(secretConfig.PAYMENT_SECRET || process.env.PAYMENT_SECRET);
 const esrGenerator = require('../esr/esrGenerator');
 const mail = require('../mail');
+const mongoHelper = require('../db/mongoHelper');
 
 const {
   Invoice,
@@ -19,7 +21,7 @@ const {
   Producer,
   Product,
   ProductCategory,
-  ProductPictures,
+  ProductPicturesCollection,
   Supplier,
   Tag,
   UserAddress,
@@ -60,29 +62,68 @@ function updateProductStocks(items) {
   );
 }
 
+function saveFileInSize(id, file, sizeTag, size) {
+  return new Promise((resolve, reject) => {
+    const writestream = mongoHelper.gridfs.createWriteStream({
+      _id: `${id}_${sizeTag}`,
+      filename: `${id}_${sizeTag}.${file.originalname.split(/[. ]+/).pop()}`,
+      root: ProductPicturesCollection,
+    });
+
+    streamifier.createReadStream(file.buffer)
+      .pipe(sharp()
+        .resize(size, size)
+        .max()
+        .withoutEnlargement()
+      )
+      .pipe(writestream);
+
+    writestream.on('close', () => resolve());
+    writestream.on('error', error => reject(error));
+  });
+}
+
+function removeFile(id) {
+  return Promise.all([
+    new Promise((resolve, reject) =>
+      mongoHelper.gridfs.remove({
+        _id: `${id}_s`,
+        root: ProductPicturesCollection,
+      }, err => (err ? reject(err) : resolve()))),
+    new Promise((resolve, reject) =>
+      mongoHelper.gridfs.remove({
+        _id: `${id}_m`,
+        root: ProductPicturesCollection,
+      }, err => (err ? reject(err) : resolve()))),
+    new Promise((resolve, reject) =>
+      mongoHelper.gridfs.remove({
+        _id: `${id}_l`,
+        root: ProductPicturesCollection,
+      }, err => (err ? reject(err) : resolve()))),
+  ]);
+}
+
 module.exports = {
   registerEndpoints(app /* : express$Application */) {
     app.post('/api/products/pictures', authorization, isAdmin, multer.any(),
       (req /* : express$Request */, res /* : express$Response */) =>
-        Promise.all(req.files.map(file =>
-          new Promise((resolve, reject) =>
-            ProductPictures.write(
-              {
-                filename: `${shortId.generate()}.${file.originalname.split(/[. ]+/).pop()}`,
-                contentType: file.mimetype,
-              },
-              streamifier.createReadStream(file.buffer),
-              (error, createdFile) => (error ? reject(error) : resolve(createdFile._id))
-            )
-          )
-        ))
+        Promise.all(req.files.map((file) => {
+          const id = shortId.generate();
+
+          return Promise.all([
+            saveFileInSize(id, file, 's', 400),
+            saveFileInSize(id, file, 'm', 800),
+            saveFileInSize(id, file, 'l', 1600),
+          ])
+            .then(() => id);
+        }))
           .then(files => res.status(200).send(JSON.stringify(files)))
           .catch(error => handleGenericError(error, res))
     );
 
     app.delete('/api/products/pictures/:id', authorization, isAdmin,
       (req /* : express$Request */, res /* : express$Response */) =>
-        ProductPictures.remove({ _id: req.params.id })
+        removeFile(req.params.id)
           .then(() => Product.update({}, { $pull: { files: req.params.id } }, { multi: true }))
           .then(() => res.sendStatus(200))
           .catch(error => handleGenericError(error, res))
@@ -90,7 +131,7 @@ module.exports = {
 
     app.get('/api/completeProducts', authorization, isAdmin,
       (req /* : express$Request */, res /* : express$Response */) =>
-        Product.find().sort({ name: 1 })
+        Product.find().sort({ 'de.name': 1 })
           .then(products => res.send(products))
           .catch((err) => {
             Logger.error(err);

@@ -5,12 +5,7 @@ const AutoIncrement = require('mongoose-sequence');
 
 const models = {};
 
-const gridfs = require('mongoose-gridfs')({
-  collection: 'productpictures',
-  model: 'ProductPictures',
-});
-
-models.ProductPictures = gridfs.model;
+models.ProductPicturesCollection = 'productpictures';
 
 const address = {
   streetAddress: String,

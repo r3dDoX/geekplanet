@@ -16,7 +16,7 @@ export default {
     return Xhr.deleteHttp(`/api/products/pictures/${pictureId}`);
   },
 
-  getPictureUrl(pictureId) {
-    return `/api/products/pictures/${pictureId}`;
+  getPictureUrl(pictureId, size = 's') {
+    return `/api/products/pictures/${pictureId}_${size}`;
   },
 };

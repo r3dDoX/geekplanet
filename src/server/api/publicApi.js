@@ -1,9 +1,10 @@
 /* @flow */
 
 const Logger = require('../logger');
+const mongoHelper = require('../db/mongoHelper');
 
 const {
-  ProductPictures,
+  ProductPicturesCollection,
   Producer,
   Product,
   ProductCategory,
@@ -18,12 +19,18 @@ module.exports = {
         res.header({
           'Cache-Control': 'public, max-age=31536000',
         });
-        ProductPictures.readById(req.params.id)
-          .on('error', (err) => {
-            res.sendStatus(404);
-            Logger.error(err);
-          })
-          .pipe(res);
+
+        const readStream = mongoHelper.gridfs.createReadStream({
+          _id: req.params.id,
+          root: ProductPicturesCollection,
+        });
+
+        readStream.on('error', (err) => {
+          res.sendStatus(404);
+          Logger.error(err);
+        });
+
+        readStream.pipe(res);
       });
 
     app.get('/api/productcategories',

@@ -5,6 +5,7 @@ import ProductCategoryService from './productcategories/productCategoryService';
 import ProducerService from './producers/producerService';
 import SupplierService from './suppliers/supplierService';
 import TagService from './tags/tagService';
+import Xhr from '../xhr';
 
 export const SELECT_FORMS_TABS = 'SELECT_FORMS_TABS';
 export const SELECT_UPLOAD_FILES = 'SELECT_UPLOAD_FILES';
@@ -16,6 +17,7 @@ export const PRODUCERS_LOADED = 'PRODUCERS_LOADED';
 export const SUPPLIERS_LOADED = 'SUPPLIERS_LOADED';
 export const TAGS_LOADED = 'TAGS_LOADED';
 export const SET_TAGS = 'SET_TAGS';
+export const COMPLETE_PRODUCTS_LOADED = 'COMPLETE_PRODUCTS_LOADED';
 
 export const createSwitchTab = tabIndex => ({
   type: SELECT_FORMS_TABS,
@@ -103,3 +105,9 @@ export const createRemoveTag = (tags, tag) => (dispatch) => {
   dispatch(createSetTags(newTags));
   dispatch(change(productFormName, 'tags', newTags));
 };
+
+export const createLoadCompleteProducts = () => dispatch =>
+  Xhr.get('/api/completeProducts').then(products => dispatch({
+    type: COMPLETE_PRODUCTS_LOADED,
+    products,
+  }));

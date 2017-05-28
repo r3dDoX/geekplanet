@@ -6,11 +6,14 @@ import { connect } from 'react-redux';
 const PrivateRoute = ({
   component: Component,
   authService,
+  roles,
+  allowedRoles,
   ...rest
 }) => (
   <Route
     render={(props) => {
-      if (authService.loggedIn()) {
+      if (authService.loggedIn() &&
+        (allowedRoles.length === 0 || allowedRoles.some(role => roles.indexOf(role) >= 0))) {
         return <Component {...props} />;
       }
 
@@ -27,15 +30,24 @@ const PrivateRoute = ({
   />
 );
 
+PrivateRoute.defaultProps = {
+  allowedRoles: [],
+};
+
 PrivateRoute.propTypes = {
   component: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   authService: PropTypes.shape({
     loggedIn: PropTypes.func.isRequired,
   }).isRequired,
+  roles: PropTypes.arrayOf(PropTypes.string).isRequired,
+  allowedRoles: PropTypes.arrayOf(PropTypes.string),
   location: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default withRouter(connect(
-  state => ({ authService: state.auth.authService }),
+  state => ({
+    authService: state.auth.authService,
+    roles: state.auth.roles,
+  }),
   () => ({})
 )(PrivateRoute));

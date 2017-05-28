@@ -19,11 +19,6 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
-      {
-        test: /\.svg$/,
-        exclude: /node_modules/,
-        loader: 'react-svg-inline-loader',
-      },
     ],
   },
 

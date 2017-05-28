@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { initialize } from 'redux-form';
 import { Tabs, Tab } from 'material-ui/Tabs';
-import ProductService from '../../products/productService';
+import * as ProductService from '../../products/productService';
 import ProductCategoryService from '../productcategories/productCategoryService';
 import ProducerService from '../producers/producerService';
 import SupplierService from '../suppliers/supplierService';

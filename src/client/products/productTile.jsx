@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import StockIcon from './stockIcon.jsx';
 import formatPrice from './priceFormatter';
 import { ProductPropType } from '../propTypes';
+import { getPictureUrl } from './productService';
 
 const styles = {
   container: {
@@ -69,7 +70,7 @@ const ProductTile = ({
   <Card style={styles.container} containerStyle={styles.cardContainer}>
     {(product.files.length) ? (
       <CardMedia style={styles.pictureContainer}>
-        <img alt="Product" src={`/api/products/pictures/${product.files[0]}_s`} />
+        <img alt="Product" src={getPictureUrl(product.files[0])} />
       </CardMedia>
     ) : null}
     <CardTitle

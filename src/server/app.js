@@ -2,7 +2,6 @@
 
 const path = require('path');
 const express = require('express');
-const compression = require('compression');
 const mongoSanitize = require('express-mongo-sanitize');
 const Logger = require('./logger');
 const mongo = require('./db/mongoHelper');
@@ -20,8 +19,18 @@ app.use('*', (
     next();
   }
 });
-app.use(compression());
 app.use(mongoSanitize());
+
+if (process.env.NODE_ENV === 'production') {
+  app.get('*.js', (req, res, next) => {
+    // TODO: this is a fix because of issue: https://github.com/webpack-contrib/compression-webpack-plugin/issues/30
+    if (!req.url.includes('manifest')) {
+      req.url += '.gz';
+      res.set('Content-Encoding', 'gzip');
+    }
+    next();
+  });
+}
 
 const server = app.listen(process.env.PORT || 3000, () => {
   Logger.info(`Listening on port ${server.address().port}`);

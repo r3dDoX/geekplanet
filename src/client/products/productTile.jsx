@@ -14,11 +14,20 @@ const styles = {
     flex: '1 1 300px',
     maxWidth: '450px',
     margin: '0 10px 10px',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cardContainer: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
   },
   productTileBody: {
+    flex: 1,
     textAlign: 'justify',
   },
   productTitle: {
+    flex: 'none',
     display: 'flex',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
@@ -34,6 +43,7 @@ const styles = {
     paddingBottom: 0,
   },
   actionContainer: {
+    flex: 'none',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -42,6 +52,7 @@ const styles = {
     marginLeft: '8px',
   },
   pictureContainer: {
+    flex: 'none',
     display: 'flex',
     justifyContent: 'space-around',
     maxHeight: '300px',
@@ -55,7 +66,7 @@ const ProductTile = ({
   product,
   addItemToShoppingCart,
 }) => (
-  <Card style={styles.container}>
+  <Card style={styles.container} containerStyle={styles.cardContainer}>
     {(product.files.length) ? (
       <CardMedia style={styles.pictureContainer}>
         <img alt="Product" src={`/api/products/pictures/${product.files[0]}_s`} />

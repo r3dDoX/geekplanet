@@ -41,4 +41,15 @@ describe('ProductTile', () => {
     expect(cardMedia.length).toBe(1);
     expect(cardMedia.find('img').props().src).toEqual(expect.stringContaining(props.product.files[0]));
   });
+
+  it('should render CardMedia with small image', () => {
+    props.product.files = [
+      'testFile',
+    ];
+
+    const cardMedia = productTile().find('CardMedia');
+
+    expect(cardMedia.length).toBe(1);
+    expect(cardMedia.find('img').props().src).toEqual(expect.stringContaining(`${props.product.files[0]}_s`));
+  });
 });

@@ -7,6 +7,8 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const commonConfig = require('./webpack.common.config');
 
 module.exports = merge(commonConfig, {
+  devtool: 'source-map',
+
   entry: './src/client/index.jsx',
 
   output: {

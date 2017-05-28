@@ -8,7 +8,7 @@ const styles = {
   container: {
     display: 'flex',
     flexWrap: 'wrap',
-    alignItems: 'flex-start',
+    alignItems: 'stretch',
     padding: '20px 10px',
   },
 };

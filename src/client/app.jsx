@@ -6,7 +6,6 @@ import translationService from './i18n/translationService';
 import AuthService from './auth/authService';
 import Layout from './layout/layout.jsx';
 import Home from './home/home.jsx';
-import Forms from './admin/forms/forms.jsx';
 import OrderStepper from './order/orderStepper.jsx';
 import PrivateRoute from './router/privateRoute.jsx';
 import Login from './auth/login.jsx';
@@ -19,6 +18,9 @@ import {
   createLoggedIn,
   createProfileLoaded,
 } from './actions';
+import asyncComponent from './router/asyncComponent.jsx';
+
+const LazyForms = asyncComponent(() => import('./admin/forms/forms.jsx').then(module => module.default));
 
 class App extends React.Component {
 
@@ -41,8 +43,8 @@ class App extends React.Component {
           <Route path="/login" component={Login} />
           <Route exact path="/products" component={Products} />
           <Route path="/products/:id" component={ProductDetails} />
-          <PrivateRoute path="/forms" component={Forms} />
           <PrivateRoute path="/order" component={OrderStepper} />
+          <PrivateRoute path="/forms" allowedRoles={['admin']} component={LazyForms} />
         </Layout>
       </BrowserRouter>
     );

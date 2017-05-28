@@ -1,5 +1,5 @@
 import { createRemoveFile, createRemoveTag, createSelectFiles, createSelectTag } from './adminActions';
-import ProductService from '../products/productService';
+import * as ProductService from '../products/productService';
 import TagService from './tags/tagService';
 
 let dispatchSpy;

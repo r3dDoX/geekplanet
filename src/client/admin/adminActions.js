@@ -1,5 +1,5 @@
 import { change } from 'redux-form';
-import ProductService from '../products/productService';
+import * as ProductService from '../products/productService';
 import { formName as productFormName } from './forms/productForm.jsx';
 import ProductCategoryService from './productcategories/productCategoryService';
 import ProducerService from './producers/producerService';

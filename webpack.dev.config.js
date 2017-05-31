@@ -30,6 +30,7 @@ module.exports = merge(commonConfig, {
   ],
 
   devServer: {
+    disableHostCheck: true,
     historyApiFallback: true,
     host: '0.0.0.0',
     port: 3001,

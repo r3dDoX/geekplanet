@@ -9,6 +9,7 @@ import StockIcon from './stockIcon.jsx';
 import { formatPriceWithCurrency } from './priceFormatter';
 import { brandPrimary } from '../theme';
 import { createAddItemToShoppingCart, createLoadProduct } from '../actions';
+import { getPictureUrl } from './productService';
 
 const styles = {
   container: {
@@ -64,10 +65,10 @@ class ProductDetails extends React.Component {
               {product.files.map(image => (
                 <GridTile key={image}>
                   <picture>
-                    <source media="(min-width: 1920px)" srcSet={`/api/products/pictures/${image}_l`} />
-                    <source media="(min-width: 800px)" srcSet={`/api/products/pictures/${image}_m`} />
-                    <source srcSet={`/api/products/pictures/${image}_s`} />
-                    <img style={styles.picture} src={`/api/products/pictures/${image}_m`} alt="Product" />
+                    <source media="(min-width: 1920px)" srcSet={getPictureUrl(image, 'l')} />
+                    <source media="(min-width: 800px)" srcSet={getPictureUrl(image, 'm')} />
+                    <source srcSet={getPictureUrl(image, 's')} />
+                    <img style={styles.picture} src={getPictureUrl(image, 'm')} alt="Product" />
                   </picture>
                 </GridTile>
               ))}

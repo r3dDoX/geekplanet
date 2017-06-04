@@ -13,10 +13,6 @@ describe('LoginComponent', () => {
 
   beforeEach(() => {
     props = {
-      authService: {
-        login: () => {},
-        loggedIn: () => {},
-      },
       location: {
         from: undefined,
         hash: '',

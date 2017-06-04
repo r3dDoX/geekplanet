@@ -5,7 +5,6 @@ export const PRODUCT_SELECTED = 'PRODUCT_SELECTED';
 export const PRODUCT_CATEGORIES_LOADED = 'PRODUCT_CATEGORIES_LOADED';
 export const SELECT_PRODUCT_CATEGORY = 'SELECT_PRODUCT_CATEGORY';
 export const TRANSLATIONS_LOADED = 'TRANSLATIONS_LOADED';
-export const AUTH_SERVICE_CREATED = 'AUTH_SERVICE_CREATED';
 export const LOGGED_IN = 'LOGGED_IN';
 export const PROFILE_LOADED = 'PROFILE_LOADED';
 export const LOGGED_OUT = 'LOGGED_OUT';
@@ -33,13 +32,12 @@ export const createLoadShoppingCart = () => ({
   type: LOAD_SHOPPING_CART,
 });
 
-export const createAuthServiceCreated = authService => ({
-  type: AUTH_SERVICE_CREATED,
-  authService,
-});
-
-export const createLoggedIn = () => ({
+export const createLoggedIn = ({ email, 'https://geekplanet.ch/roles': roles }) => ({
   type: LOGGED_IN,
+  profile: {
+    email,
+    roles,
+  },
 });
 
 export const createProfileLoaded = authService => dispatch =>

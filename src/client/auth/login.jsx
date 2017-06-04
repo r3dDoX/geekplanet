@@ -4,13 +4,15 @@ import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import { store, load, ids } from '../storage';
 import MainSpinner from '../layout/mainSpinner.jsx';
+import { createLoggedIn } from '../actions';
+import authService from './authService';
 
 export const LoginComponent = ({
-  authService,
   location: {
     from,
     hash,
   },
+  loggedIn,
 }) => {
   if (authService.loggedIn()) {
     return (
@@ -20,33 +22,36 @@ export const LoginComponent = ({
         }}
       />
     );
-  } else if (!hash.includes('id_token')) {
+  } else if (/access_token|id_token|error/.test(hash)) {
+    authService.handleAuthentication(loggedIn);
+  } else {
     if (from) {
       store(ids.REDIRECT_URI, from.pathname);
     } else {
       store(ids.REDIRECT_URI, '/');
     }
-    setTimeout(() => authService.login(), 1);
+
+    authService.login();
   }
 
   return <MainSpinner />;
 };
 
 LoginComponent.propTypes = {
-  authService: PropTypes.shape({
-    login: PropTypes.func.isRequired,
-  }).isRequired,
   location: PropTypes.shape({
     hash: PropTypes.string.isRequired,
     from: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
     }),
   }).isRequired,
+  loggedIn: PropTypes.func.isRequired,
 };
 
 export default withRouter(connect(
-  state => ({
-    authService: state.auth.authService,
+  () => ({}),
+  dispatch => ({
+    loggedIn(tokenPayload) {
+      dispatch(createLoggedIn(tokenPayload));
+    },
   }),
-  () => ({})
 )(LoginComponent));

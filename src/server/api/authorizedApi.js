@@ -29,7 +29,6 @@ const {
 
 const authorization = jwt({
   secret: process.env.SECRET || secretConfig.SECRET,
-  audience: process.env.AUDIENCE || secretConfig.AUDIENCE,
 });
 
 function isAdmin(
@@ -37,7 +36,7 @@ function isAdmin(
   res /* : express$Response */,
   next /* : express$NextFunction */
 ) {
-  if (!req.user || req.user.app_metadata.roles.indexOf('admin') === -1) {
+  if (!req.user || req.user['https://geekplanet.ch/roles'].indexOf('admin') === -1) {
     res.sendStatus(403);
   } else {
     next();
@@ -192,7 +191,7 @@ module.exports = {
         saveOrUpdate(Order, Object.assign(
           req.body,
           {
-            user: req.user.user_id,
+            user: req.user.sub,
             state: OrderState.STARTED,
             date: Date.now(),
           }
@@ -205,7 +204,7 @@ module.exports = {
       (req /* : express$Request */, res /* : express$Response */) =>
         saveOrUpdate(UserAddress, Object.assign(
           req.body,
-          { user: req.user.user_id }
+          { user: req.user.sub }
         ))
           .then(address => res.status(200).send(address._id))
           .catch(error => handleGenericError(error, res))
@@ -213,14 +212,14 @@ module.exports = {
 
     app.get('/api/userAddresses', authorization,
       (req /* : express$Request */, res /* : express$Response */) =>
-        UserAddress.find({ user: req.user.user_id }, { user: 0 })
+        UserAddress.find({ user: req.user.sub }, { user: 0 })
           .then(addresses => res.status(200).send(JSON.stringify(addresses)))
           .catch(error => handleGenericError(error, res))
     );
 
     app.post('/api/payment/cleared', bodyParser.json(), authorization,
       (req /* : express$Request */, res /* : express$Response */) => {
-        const orderQuery = Order.findOne({ _id: req.body.shoppingCartId, user: req.user.user_id });
+        const orderQuery = Order.findOne({ _id: req.body.shoppingCartId, user: req.user.sub });
 
         orderQuery
           .then(order =>
@@ -244,7 +243,7 @@ module.exports = {
       (req /* : express$Request */, res /* : express$Response */) =>
         Order.findOneAndUpdate({
           _id: req.body.shoppingCartId,
-          user: req.user.user_id,
+          user: req.user.sub,
         }, {
           $set: {
             state: OrderState.WAITING,

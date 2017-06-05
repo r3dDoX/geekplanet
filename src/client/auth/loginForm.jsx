@@ -1,29 +1,40 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import authService from './authService';
+import TextField from 'material-ui/TextField';
 import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
+import authService from './authService';
 
 const styles = {
   container: {
+    margin: '0 auto',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'stretch',
     padding: '50px',
+    maxWidth: '350px',
   },
   socialButton: {
-    margin: '10px',
+    marginBottom: '20px',
   },
   icon: {
     height: '45%',
     marginRight: '10px',
   },
   separator: {
-    margin: '30px',
-    width: '200px',
+    margin: '20px 0 30px',
+  },
+  loginButton: {
+    marginTop: '20px',
+  },
+  registerButton: {
+    marginTop: '10px',
   },
 };
 
-export default () => (
+const LoginForm = ({
+  dispatchLoggedIn,
+}) => (
   <div style={styles.container}>
     <RaisedButton
       label={<FormattedMessage id="LOGIN.FACEBOOK" />}
@@ -71,5 +82,45 @@ export default () => (
       }
     />
     <hr style={styles.separator} />
+    <form name="login">
+      <TextField
+        name="username"
+        hintText={<FormattedMessage id="LOGIN.EMAIL" />}
+        fullWidth
+      />
+      <TextField
+        name="password"
+        hintText={<FormattedMessage id="LOGIN.PASSWORD" />}
+        type="password"
+        fullWidth
+      />
+      <RaisedButton
+        label={<FormattedMessage id="LOGIN.LOGIN" />}
+        primary
+        fullWidth
+        style={styles.loginButton}
+        onClick={() => authService.login(
+          document.forms.login.username.value,
+          document.forms.login.password.value,
+          dispatchLoggedIn
+        )}
+      />
+      <RaisedButton
+        label={<FormattedMessage id="LOGIN.REGISTER" />}
+        secondary
+        fullWidth
+        style={styles.registerButton}
+        onClick={() => authService.signup(
+          document.forms.login.username.value,
+          document.forms.login.password.value
+        )}
+      />
+    </form>
   </div>
 );
+
+LoginForm.propTypes = {
+  dispatchLoggedIn: PropTypes.func.isRequired,
+};
+
+export default LoginForm;

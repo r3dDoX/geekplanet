@@ -65,6 +65,10 @@
   },
   "LOGIN": {
     "FACEBOOK": "Login with Facebook",
-    "GOOGLE": "Login with Google"
+    "GOOGLE": "Login with Google",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "LOGIN": "Login",
+    "REGISTER": "Registrieren"
   }
 }

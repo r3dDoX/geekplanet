@@ -23,7 +23,7 @@ export const LoginComponent = ({
       store(ids.REDIRECT_URI, '/');
     }
 
-    return <LoginForm />;
+    return <LoginForm dispatchLoggedIn={loggedIn} />;
   }
 
   return (

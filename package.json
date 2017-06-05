@@ -11,9 +11,9 @@
     "flow:install": "flow-typed install --overwrite",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
     "test": "npm run lint && jest",
-    "test:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk npm test",
+    "test:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk:6.10.3 npm test",
     "test:watch": "jest --watch",
-    "test:watch:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk npm run test:watch",
+    "test:watch:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk:6.10.3 npm run test:watch",
     "build": "NODE_ENV='production' webpack --config webpack.prod.config.js --progress --optimize-minimize -p",
     "build:production": "CONFIG='production' npm run build",
     "build:staging": "CONFIG='staging' npm run build",
@@ -86,6 +86,9 @@
     "webpack-merge": "4.1.0"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "./src/test/localStorage.mock.js"
+    "setupTestFrameworkScriptFile": "./src/test/localStorage.mock.js",
+    "setupFiles": [
+      "./src/test/jest.setup.js"
+    ]
   }
 }

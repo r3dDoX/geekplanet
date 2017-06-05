@@ -6,7 +6,6 @@ export const PRODUCT_CATEGORIES_LOADED = 'PRODUCT_CATEGORIES_LOADED';
 export const SELECT_PRODUCT_CATEGORY = 'SELECT_PRODUCT_CATEGORY';
 export const TRANSLATIONS_LOADED = 'TRANSLATIONS_LOADED';
 export const LOGGED_IN = 'LOGGED_IN';
-export const PROFILE_LOADED = 'PROFILE_LOADED';
 export const LOGGED_OUT = 'LOGGED_OUT';
 export const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
 export const ADD_ITEM_TO_SHOPPING_CART = 'ADD_ITEM_TO_SHOPPING_CART';
@@ -39,13 +38,6 @@ export const createLoggedIn = ({ email, 'https://geekplanet.ch/roles': roles }) 
     roles,
   },
 });
-
-export const createProfileLoaded = authService => dispatch =>
-  authService.getUserInfo()
-    .then(profile => dispatch({
-      type: PROFILE_LOADED,
-      profile,
-    }));
 
 export const createLoadSpotlightProducts = () => dispatch =>
   Xhr.get('/api/products/spotlight').then(spotlightProducts => dispatch({

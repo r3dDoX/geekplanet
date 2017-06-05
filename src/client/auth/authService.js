@@ -5,12 +5,22 @@ const clientId = AUTH.CLIENT_ID;
 const domain = 'geekplanet.eu.auth0.com';
 
 const AuthService = {
+  init() {
+    this.auth0 = new auth0.WebAuth({
+      domain,
+      clientID: clientId,
+      redirectUri: AUTH.REDIRECT_URL,
+      responseType: 'token id_token',
+      scope: 'openid email',
+    });
+  },
+
   login() {
     this.auth0.authorize();
   },
 
   loggedIn() {
-    const token = this.getToken();
+    const token = storage.load(storage.ids.ID_TOKEN);
 
     if (token) {
       if (!new Date().getTime() < storage.load(storage.ids.TOKEN_EXPIRES_AT)) {
@@ -29,32 +39,12 @@ const AuthService = {
     storage.remove(storage.ids.TOKEN_EXPIRES_AT);
   },
 
-  setToken(idToken) {
-    storage.store(storage.ids.ID_TOKEN, idToken);
-  },
-
-  getToken() {
-    return storage.load(storage.ids.ID_TOKEN);
-  },
-
   setAccessToken(accessToken) {
     storage.store(storage.ids.ACCESS_TOKEN, accessToken);
   },
 
   getAccessToken() {
     return storage.load(storage.ids.ACCESS_TOKEN);
-  },
-
-  getUserInfo() {
-    return new Promise((resolve, reject) =>
-      this.lock.getUserInfo(this.getAccessToken(), (error, profile) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(profile);
-        }
-      }),
-    );
   },
 
   handleAuthentication(dispatchLoggedIn) {
@@ -78,13 +68,5 @@ const AuthService = {
     );
   },
 };
-
-AuthService.auth0 = new auth0.WebAuth({
-  domain,
-  clientID: clientId,
-  redirectUri: AUTH.REDIRECT_URL,
-  responseType: 'token id_token',
-  scope: 'openid email',
-});
 
 export default AuthService;

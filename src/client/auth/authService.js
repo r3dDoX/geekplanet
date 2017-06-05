@@ -1,5 +1,6 @@
 import auth0 from 'auth0-js';
 import * as storage from '../storage';
+import jwtDecode from 'jwt-decode';
 
 const clientId = AUTH.CLIENT_ID;
 const domain = 'geekplanet.eu.auth0.com';
@@ -21,8 +22,34 @@ const AuthService = {
     });
   },
 
-  login() {
-    this.auth0.authorize();
+  signup(email, password) {
+    this.auth0.signup({
+      connection: 'Username-Password-Authentication',
+      email,
+      password,
+    }, (err, authResult) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(authResult);
+      }
+    });
+  },
+
+  login(username, password, dispatchLoggedIn) {
+    this.auth0.client.login({
+      realm: 'Username-Password-Authentication',
+      username,
+      password,
+    }, (err, authResult) => {
+      if (err) {
+        console.error(err);
+      } else {
+        authResult.idTokenPayload = jwtDecode(authResult.idToken);
+        this.setSession(authResult);
+        dispatchLoggedIn(authResult.idTokenPayload);
+      }
+    });
   },
 
   loggedIn() {

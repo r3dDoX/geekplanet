@@ -3,16 +3,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import { store, load, ids } from '../storage';
-import { createLoggedIn } from '../actions';
+import { createLoggedIn, createRegistrationSuccessful } from '../actions';
 import authService from './authService';
 import LoginForm from './loginForm.jsx';
 
 export const LoginComponent = ({
+  email,
   location: {
     from,
     hash,
   },
   loggedIn,
+  signedUp,
 }) => {
   if (!authService.loggedIn()) {
     if (/access_token|id_token|error/.test(hash)) {
@@ -23,7 +25,13 @@ export const LoginComponent = ({
       store(ids.REDIRECT_URI, '/');
     }
 
-    return <LoginForm dispatchLoggedIn={loggedIn} />;
+    return (
+      <LoginForm
+        email={email}
+        dispatchLoggedIn={loggedIn}
+        dispatchSignedUp={signedUp}
+      />
+    );
   }
 
   return (
@@ -36,6 +44,7 @@ export const LoginComponent = ({
 };
 
 LoginComponent.propTypes = {
+  email: PropTypes.string.isRequired,
   location: PropTypes.shape({
     hash: PropTypes.string.isRequired,
     from: PropTypes.shape({
@@ -43,13 +52,19 @@ LoginComponent.propTypes = {
     }),
   }).isRequired,
   loggedIn: PropTypes.func.isRequired,
+  signedUp: PropTypes.func.isRequired,
 };
 
 export default withRouter(connect(
-  () => ({}),
+  state => ({
+    email: state.auth.email,
+  }),
   dispatch => ({
     loggedIn(tokenPayload) {
       dispatch(createLoggedIn(tokenPayload));
+    },
+    signedUp(email) {
+      dispatch(createRegistrationSuccessful(email));
     },
   }),
 )(LoginComponent));

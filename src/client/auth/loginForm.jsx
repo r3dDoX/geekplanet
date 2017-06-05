@@ -33,7 +33,9 @@ const styles = {
 };
 
 const LoginForm = ({
+  email,
   dispatchLoggedIn,
+  dispatchSignedUp,
 }) => (
   <div style={styles.container}>
     <RaisedButton
@@ -85,6 +87,7 @@ const LoginForm = ({
     <form name="login">
       <TextField
         name="username"
+        value={email}
         hintText={<FormattedMessage id="LOGIN.EMAIL" />}
         fullWidth
       />
@@ -112,7 +115,8 @@ const LoginForm = ({
         style={styles.registerButton}
         onClick={() => authService.signup(
           document.forms.login.username.value,
-          document.forms.login.password.value
+          document.forms.login.password.value,
+          dispatchSignedUp
         )}
       />
     </form>
@@ -120,7 +124,9 @@ const LoginForm = ({
 );
 
 LoginForm.propTypes = {
+  email: PropTypes.string.isRequired,
   dispatchLoggedIn: PropTypes.func.isRequired,
+  dispatchSignedUp: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

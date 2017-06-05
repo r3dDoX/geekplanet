@@ -3,7 +3,8 @@ import { shallow } from 'enzyme';
 import { Redirect } from 'react-router-dom';
 import { LoginComponent } from './login.jsx';
 import { load, store, ids } from '../storage';
-import MainSpinner from '../layout/mainSpinner.jsx';
+import authService from './authService';
+import LoginForm from './loginForm.jsx';
 
 describe('LoginComponent', () => {
   let props;
@@ -17,11 +18,12 @@ describe('LoginComponent', () => {
         from: undefined,
         hash: '',
       },
+      loggedIn: () => {},
     };
   });
 
   it('should save last location when not logged in', () => {
-    props.authService.loggedIn = () => false;
+    authService.loggedIn = () => false;
     props.location.from = { pathname: '/testPath' };
 
     login();
@@ -30,25 +32,17 @@ describe('LoginComponent', () => {
   });
 
   it('should save home location when no from given', () => {
-    props.authService.loggedIn = () => false;
+    authService.loggedIn = () => false;
 
     login();
 
     expect(load(ids.REDIRECT_URI)).toBe('/');
   });
 
-  it('should render MainSpinner when not logged in', () => {
-    props.authService.loggedIn = () => false;
-
-    const result = login();
-
-    expect(result.type()).toBe(MainSpinner);
-  });
-
   it('should render Redirect to stored path when logged in', () => {
     const redirectUri = '/someTestPath';
     store(ids.REDIRECT_URI, redirectUri);
-    props.authService.loggedIn = () => true;
+    authService.loggedIn = () => true;
 
     const result = login();
 
@@ -56,27 +50,11 @@ describe('LoginComponent', () => {
     expect(result.props().to).toEqual({ pathname: redirectUri });
   });
 
-  it('should call login asynchronously when not logged in and not in login process', (done) => {
-    props.authService.loggedIn = () => false;
-    props.authService.login = () => done();
+  it('should render LoginForm when not logged in', () => {
+    authService.loggedIn = () => false;
 
-    login();
-  });
+    const result = login();
 
-  it('should not call login when in login process', (done) => {
-    props.authService.loggedIn = () => false;
-    props.location.hash = 'test&id_token=test';
-    props.authService.login = jest.fn();
-
-    login();
-
-    setTimeout(() => {
-      try {
-        expect(props.authService.login.mock.calls.length).toBe(0);
-      } catch (e) {
-        done.fail(e);
-      }
-      done();
-    }, 1);
+    expect(result.type()).toBe(LoginForm);
   });
 });

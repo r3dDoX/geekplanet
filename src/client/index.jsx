@@ -6,9 +6,11 @@ import { addLocaleData } from 'react-intl';
 import de from 'react-intl/locale-data/de';
 import WrappedApp from './wrappedApp.jsx';
 import setupStore from './reducers/setupStore';
+import authService from './auth/authService';
 
 injectTapEventPlugin();
 addLocaleData([...de]);
+authService.init();
 const store = setupStore();
 
 const render = (Component) => {

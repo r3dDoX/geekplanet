@@ -8,7 +8,10 @@
   },
   "COMMON": {
     "ORDER": "Bestellen",
-    "DELETE": "Löschen"
+    "DELETE": "Löschen",
+    "FORM": {
+      "REQUIRED": "Dieses Feld ist notwendig"
+    }
   },
   "NAVIGATION": {
     "LOGIN": "Login",
@@ -43,7 +46,6 @@
         "CITY": "Stadt",
         "COUNTRY": "Land",
         "NEXT": "Weiter",
-        "REQUIRED": "Dieses Feld ist notwendig",
         "REQUIRED_ZIP": "Die Postleitzahl muss zwischen 1000 und 9999 liegen",
         "NO_ADDRESS": "Neue Adresse erfassen",
         "RECENTLY": "Kürzlich gebraucht"

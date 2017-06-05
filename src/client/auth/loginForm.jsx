@@ -1,9 +1,10 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
 import { FormattedMessage } from 'react-intl';
+import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import authService from './authService';
+import TextField from '../formHelpers/textField.jsx';
 
 const styles = {
   container: {
@@ -32,10 +33,17 @@ const styles = {
   },
 };
 
+const required = (value) => {
+  if (!(value && value.length >= 1)) {
+    return <FormattedMessage id="COMMON.FORM.REQUIRED" />;
+  }
+
+  return null;
+};
+
 const LoginForm = ({
-  email,
-  dispatchLoggedIn,
-  dispatchSignedUp,
+  handleSubmit,
+  onSubmit,
 }) => (
   <div style={styles.container}>
     <RaisedButton
@@ -85,48 +93,47 @@ const LoginForm = ({
     />
     <hr style={styles.separator} />
     <form name="login">
-      <TextField
+      <Field
+        component={TextField}
+        label={<FormattedMessage id="LOGIN.EMAIL" />}
         name="username"
-        value={email}
-        hintText={<FormattedMessage id="LOGIN.EMAIL" />}
+        type="text"
         fullWidth
+        validate={required}
       />
-      <TextField
+      <Field
+        component={TextField}
+        label={<FormattedMessage id="LOGIN.PASSWORD" />}
         name="password"
-        hintText={<FormattedMessage id="LOGIN.PASSWORD" />}
-        type="password"
+        type="text"
         fullWidth
+        validate={required}
       />
       <RaisedButton
+        type="submit"
         label={<FormattedMessage id="LOGIN.LOGIN" />}
+        style={styles.loginButton}
         primary
         fullWidth
-        style={styles.loginButton}
-        onClick={() => authService.login(
-          document.forms.login.username.value,
-          document.forms.login.password.value,
-          dispatchLoggedIn
-        )}
+        onClick={handleSubmit(values => onSubmit({ ...values, submit: 'login' }))}
       />
       <RaisedButton
+        type="submit"
         label={<FormattedMessage id="LOGIN.REGISTER" />}
+        style={styles.registerButton}
         secondary
         fullWidth
-        style={styles.registerButton}
-        onClick={() => authService.signup(
-          document.forms.login.username.value,
-          document.forms.login.password.value,
-          dispatchSignedUp
-        )}
+        onClick={handleSubmit(values => onSubmit({ ...values, submit: 'register' }))}
       />
     </form>
   </div>
 );
 
 LoginForm.propTypes = {
-  email: PropTypes.string.isRequired,
-  dispatchLoggedIn: PropTypes.func.isRequired,
-  dispatchSignedUp: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
-export default LoginForm;
+export default reduxForm({
+  form: 'login',
+})(LoginForm);

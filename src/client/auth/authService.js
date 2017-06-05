@@ -1,6 +1,6 @@
 import auth0 from 'auth0-js';
-import * as storage from '../storage';
 import jwtDecode from 'jwt-decode';
+import * as storage from '../storage';
 
 const clientId = AUTH.CLIENT_ID;
 const domain = 'geekplanet.eu.auth0.com';
@@ -22,34 +22,36 @@ const AuthService = {
     });
   },
 
-  signup(email, password, dispatchSignedUp) {
-    this.auth0.signup({
-      connection: 'Username-Password-Authentication',
-      email,
-      password,
-    }, (err) => {
-      if (err) {
-        console.error(err);
-      } else {
-        dispatchSignedUp();
-      }
-    });
+  signUp(email, password) {
+    return new Promise((resolve, reject) =>
+      this.auth0.signup({
+        connection: 'Username-Password-Authentication',
+        email,
+        password,
+      }, (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      }));
   },
 
-  login(username, password, dispatchLoggedIn) {
-    this.auth0.client.login({
-      realm: 'Username-Password-Authentication',
-      username,
-      password,
-    }, (err, authResult) => {
-      if (err) {
-        console.error(err);
-      } else {
-        authResult.idTokenPayload = jwtDecode(authResult.idToken);
-        this.setSession(authResult);
-        dispatchLoggedIn(authResult.idTokenPayload);
-      }
-    });
+  login(username, password) {
+    return new Promise((resolve, reject) =>
+      this.auth0.client.login({
+        realm: 'Username-Password-Authentication',
+        username,
+        password,
+      }, (err, authResult) => {
+        if (err) {
+          reject(err);
+        } else {
+          authResult.idTokenPayload = jwtDecode(authResult.idToken);
+          this.setSession(authResult);
+          resolve(authResult.idTokenPayload);
+        }
+      }));
   },
 
   loggedIn() {

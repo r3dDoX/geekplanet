@@ -8,7 +8,6 @@ import authService from './authService';
 import LoginForm from './loginForm.jsx';
 
 export const LoginComponent = ({
-  email,
   location: {
     from,
     hash,
@@ -27,9 +26,17 @@ export const LoginComponent = ({
 
     return (
       <LoginForm
-        email={email}
-        dispatchLoggedIn={loggedIn}
-        dispatchSignedUp={signedUp}
+        onSubmit={(values) => {
+          if (values.submit === 'login') {
+            authService.login(values.username, values.password)
+              .then(loggedIn)
+              .catch(error => console.error(error));
+          } else {
+            authService.signUp(values.username, values.password)
+              .then(signedUp)
+              .catch(error => console.error(error));
+          }
+        }}
       />
     );
   }
@@ -44,7 +51,6 @@ export const LoginComponent = ({
 };
 
 LoginComponent.propTypes = {
-  email: PropTypes.string.isRequired,
   location: PropTypes.shape({
     hash: PropTypes.string.isRequired,
     from: PropTypes.shape({
@@ -56,15 +62,13 @@ LoginComponent.propTypes = {
 };
 
 export default withRouter(connect(
-  state => ({
-    email: state.auth.email,
-  }),
+  () => ({}),
   dispatch => ({
     loggedIn(tokenPayload) {
       dispatch(createLoggedIn(tokenPayload));
     },
-    signedUp(email) {
-      dispatch(createRegistrationSuccessful(email));
+    signedUp() {
+      dispatch(createRegistrationSuccessful());
     },
   }),
 )(LoginComponent));

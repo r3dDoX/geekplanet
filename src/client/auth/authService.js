@@ -15,6 +15,12 @@ const AuthService = {
     });
   },
 
+  authorize(connection) {
+    this.auth0.authorize({
+      connection,
+    });
+  },
+
   login() {
     this.auth0.authorize();
   },

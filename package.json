@@ -2,6 +2,7 @@
   "name": "geekplanet",
   "version": "1.0.0",
   "description": "A Webshop built with React/Redux, Node JS and Mongo DB",
+  "repository": "https://github.com/r3dDoX/geekplanet",
   "engines": {
     "node": ">=7.2.0"
   },

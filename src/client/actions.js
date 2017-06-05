@@ -3,7 +3,6 @@ import Xhr from './xhr';
 export const SPOTLIGHT_PRODUCTS_LOADED = 'SPOTLIGHT_PRODUCTS_LOADED';
 export const PRODUCT_SELECTED = 'PRODUCT_SELECTED';
 export const PRODUCT_CATEGORIES_LOADED = 'PRODUCT_CATEGORIES_LOADED';
-export const SELECT_PRODUCT_CATEGORY = 'SELECT_PRODUCT_CATEGORY';
 export const TRANSLATIONS_LOADED = 'TRANSLATIONS_LOADED';
 export const LOGGED_IN = 'LOGGED_IN';
 export const LOGGED_OUT = 'LOGGED_OUT';
@@ -19,6 +18,7 @@ export const ADDRESSES_LOADED = 'ADDRESSES_LOADED';
 export const SELECT_ADDRESS = 'SELECT_ADDRESS';
 export const SELECT_ORDER_STEP = 'SELECT_ORDER_STEP';
 export const PRODUCTS_LOADED = 'PRODUCTS_LOADED';
+export const REGISTRATION_SUCCESSFUL = 'REGISTRATION_SUCCESSFUL';
 
 export const createLoadTranslations = (translationService, localeWithFallback) => dispatch =>
   translationService.loadTranslations(localeWithFallback)
@@ -113,4 +113,8 @@ export const createSetShoppingCartamount = (amount, product) => ({
     amount,
     product,
   },
+});
+
+export const createRegistrationSuccessful = () => ({
+  type: REGISTRATION_SUCCESSFUL,
 });

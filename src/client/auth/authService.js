@@ -22,16 +22,16 @@ const AuthService = {
     });
   },
 
-  signup(email, password) {
+  signup(email, password, dispatchSignedUp) {
     this.auth0.signup({
       connection: 'Username-Password-Authentication',
       email,
       password,
-    }, (err, authResult) => {
+    }, (err) => {
       if (err) {
         console.error(err);
       } else {
-        console.log(authResult);
+        dispatchSignedUp();
       }
     });
   },

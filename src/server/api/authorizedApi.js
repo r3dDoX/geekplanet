@@ -66,7 +66,7 @@ function saveFileInSize(id, file, sizeTag, size) {
   return new Promise((resolve, reject) => {
     const writestream = mongoHelper.gridfs.createWriteStream({
       _id: `${id}_${sizeTag}`,
-      filename: `${id}_${sizeTag}.${file.originalname.split(/[. ]+/).pop()}`,
+      filename: `${id}_${sizeTag}.jpeg}`,
       root: ProductPicturesCollection,
     });
 

@@ -1,5 +1,5 @@
-// flow-typed signature: 2b0e172fa5655d6ae10387616943ccc3
-// flow-typed version: 4539f4f195/jest_v20.x.x/flow_>=v0.33.x
+// flow-typed signature: 4a17c39f87ff2e03571b7c8dd220d801
+// flow-typed version: fd46f49e63/jest_v20.x.x/flow_>=v0.33.x
 
 type JestMockFn = {
   (...args: Array<any>): any,
@@ -30,6 +30,14 @@ type JestMockFn = {
    * completely restore a mock back to its initial state.
    */
   mockReset(): Function,
+  /**
+   * Removes the mock and restores the initial implementation. This is useful
+   * when you want to mock functions in certain test cases and restore the
+   * original implementation in others. Beware that mockFn.mockRestore only
+   * works when mock was created with jest.spyOn. Thus you have to take care of
+   * restoration yourself when manually assigning jest.fn().
+   */
+  mockRestore(): Function,
   /**
    * Accepts a function that should be used as the implementation of the mock.
    * The mock itself will still record all calls that go into and instances
@@ -77,7 +85,7 @@ type JestCallsType = {
 type JestClockType = {
   install(): void,
   mockDate(date: Date): void,
-  tick(): void,
+  tick(milliseconds?: number): void,
   uninstall(): void
 };
 
@@ -93,12 +101,12 @@ type JestPromiseType = {
    * Use rejects to unwrap the reason of a rejected promise so any other
    * matcher can be chained. If the promise is fulfilled the assertion fails.
    */
-  rejects(): JestExpectType,
+  rejects: JestExpectType,
   /**
    * Use resolves to unwrap the value of a fulfilled promise so any other
    * matcher can be chained. If the promise is rejected the assertion fails.
    */
-  resolves(): JestExpectType
+  resolves: JestExpectType
 };
 
 type JestExpectType = {
@@ -203,6 +211,11 @@ type JestExpectType = {
    */
   toHaveBeenCalledWith(...args: Array<any>): void,
   /**
+   * Use .toHaveBeenLastCalledWith to ensure that a mock function was last called
+   * with specific arguments.
+   */
+  toHaveBeenLastCalledWith(...args: Array<any>): void,
+  /**
    * Check that an object has a .length property and it is set to a certain
    * numeric value.
    */
@@ -225,13 +238,13 @@ type JestExpectType = {
   toMatchSnapshot(name?: string): void,
   /**
    * Use .toThrow to test that a function throws when it is called.
+   * If you want to test that a specific error gets thrown, you can provide an
+   * argument to toThrow. The argument can be a string for the error message,
+   * a class for the error, or a regex that should match the error.
+   *
+   * Alias: .toThrowError
    */
-  toThrow(message?: string | Error): void,
-  /**
-   * Use .toThrowError to test that a function throws a specific error when it
-   * is called. The argument can be a string for the error message, a class for
-   * the error, or a regex that should match the error.
-   */
+  toThrow(message?: string | Error | RegExp): void,
   toThrowError(message?: string | Error | RegExp): void,
   /**
    * Use .toThrowErrorMatchingSnapshot to test that a function throws a error
@@ -307,7 +320,11 @@ type JestObjectType = {
    * The third argument can be used to create virtual mocks -- mocks of modules
    * that don't exist anywhere in the system.
    */
-  mock(moduleName: string, moduleFactory?: any): JestObjectType,
+  mock(
+    moduleName: string,
+    moduleFactory?: any,
+    options?: Object
+  ): JestObjectType,
   /**
    * Resets the module registry - the cache of all required modules. This is
    * useful to isolate modules where local state might conflict between tests.

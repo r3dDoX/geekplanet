@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A Webshop built with React/Redux, Node JS and Mongo DB",
   "engines": {
-    "node": ">=7.2.0"
+    "node": ">=8.1.0"
   },
   "scripts": {
     "predist": "npm run build",

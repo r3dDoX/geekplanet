@@ -75,6 +75,7 @@ function saveFileInSize(id, file, sizeTag, size) {
         .resize(size, size)
         .max()
         .withoutEnlargement()
+        .jpeg()
       )
       .pipe(writestream);
 

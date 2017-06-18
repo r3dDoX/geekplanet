@@ -140,7 +140,7 @@ const LoginForm = ({
 );
 
 LoginForm.propTypes = {
-  error: PropTypes.object,
+  error: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };

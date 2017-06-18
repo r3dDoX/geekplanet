@@ -10,6 +10,7 @@ import Header from './header.jsx';
 import Footer from './footer.jsx';
 import LayoutDrawer from './layoutDrawer.jsx';
 import { createHideShoppingCartNotification, createLogout, createToggleDrawer } from '../actions';
+import authService from '../auth/authService';
 
 const styles = {
   container: {
@@ -36,7 +37,6 @@ const styles = {
 
 const Layout = ({
   auth: {
-    authService,
     loggedIn,
     roles,
   },
@@ -96,10 +96,6 @@ Layout.defaultProps = {
 
 Layout.propTypes = {
   auth: PropTypes.shape({
-    authService: PropTypes.shape({
-      login: PropTypes.func.isRequired,
-      logout: PropTypes.func.isRequired,
-    }).isRequired,
     loggedIn: PropTypes.bool.isRequired,
     roles: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,

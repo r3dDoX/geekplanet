@@ -2,6 +2,7 @@
   "name": "geekplanet",
   "version": "1.0.0",
   "description": "A Webshop built with React/Redux, Node JS and Mongo DB",
+  "repository": "https://github.com/r3dDoX/geekplanet",
   "engines": {
     "node": ">=8.1.0"
   },
@@ -11,9 +12,9 @@
     "flow:install": "flow-typed install --overwrite",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
     "test": "npm run lint && jest",
-    "test:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk npm test",
+    "test:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk:6.10.3 npm test",
     "test:watch": "jest --watch",
-    "test:watch:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk npm run test:watch",
+    "test:watch:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk:6.10.3 npm run test:watch",
     "build": "NODE_ENV='production' webpack --config webpack.prod.config.js --progress --optimize-minimize -p",
     "build:production": "CONFIG='production' npm run build",
     "build:staging": "CONFIG='staging' npm run build",
@@ -41,7 +42,7 @@
     "stripe": "4.22.0"
   },
   "devDependencies": {
-    "auth0-lock": "10.17.0",
+    "auth0-js": "8.7.0",
     "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
@@ -86,6 +87,9 @@
     "webpack-merge": "4.1.0"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "./src/test/localStorage.mock.js"
+    "setupTestFrameworkScriptFile": "./src/test/localStorage.mock.js",
+    "setupFiles": [
+      "./src/test/jest.setup.js"
+    ]
   }
 }

@@ -3,11 +3,8 @@ import Xhr from './xhr';
 export const SPOTLIGHT_PRODUCTS_LOADED = 'SPOTLIGHT_PRODUCTS_LOADED';
 export const PRODUCT_SELECTED = 'PRODUCT_SELECTED';
 export const PRODUCT_CATEGORIES_LOADED = 'PRODUCT_CATEGORIES_LOADED';
-export const SELECT_PRODUCT_CATEGORY = 'SELECT_PRODUCT_CATEGORY';
 export const TRANSLATIONS_LOADED = 'TRANSLATIONS_LOADED';
-export const AUTH_SERVICE_CREATED = 'AUTH_SERVICE_CREATED';
 export const LOGGED_IN = 'LOGGED_IN';
-export const PROFILE_LOADED = 'PROFILE_LOADED';
 export const LOGGED_OUT = 'LOGGED_OUT';
 export const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
 export const ADD_ITEM_TO_SHOPPING_CART = 'ADD_ITEM_TO_SHOPPING_CART';
@@ -21,6 +18,7 @@ export const ADDRESSES_LOADED = 'ADDRESSES_LOADED';
 export const SELECT_ADDRESS = 'SELECT_ADDRESS';
 export const SELECT_ORDER_STEP = 'SELECT_ORDER_STEP';
 export const PRODUCTS_LOADED = 'PRODUCTS_LOADED';
+export const REGISTRATION_SUCCESSFUL = 'REGISTRATION_SUCCESSFUL';
 
 export const createLoadTranslations = (translationService, localeWithFallback) => dispatch =>
   translationService.loadTranslations(localeWithFallback)
@@ -33,21 +31,13 @@ export const createLoadShoppingCart = () => ({
   type: LOAD_SHOPPING_CART,
 });
 
-export const createAuthServiceCreated = authService => ({
-  type: AUTH_SERVICE_CREATED,
-  authService,
-});
-
-export const createLoggedIn = () => ({
+export const createLoggedIn = ({ email, 'https://geekplanet.ch/roles': roles }) => ({
   type: LOGGED_IN,
+  profile: {
+    email,
+    roles,
+  },
 });
-
-export const createProfileLoaded = authService => dispatch =>
-  authService.getUserInfo()
-    .then(profile => dispatch({
-      type: PROFILE_LOADED,
-      profile,
-    }));
 
 export const createLoadSpotlightProducts = () => dispatch =>
   Xhr.get('/api/products/spotlight').then(spotlightProducts => dispatch({
@@ -123,4 +113,8 @@ export const createSetShoppingCartamount = (amount, product) => ({
     amount,
     product,
   },
+});
+
+export const createRegistrationSuccessful = () => ({
+  type: REGISTRATION_SUCCESSFUL,
 });

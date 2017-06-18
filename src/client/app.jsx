@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
 import translationService from './i18n/translationService';
-import AuthService from './auth/authService';
+import authService from './auth/authService';
 import Layout from './layout/layout.jsx';
 import Home from './home/home.jsx';
 import OrderStepper from './order/orderStepper.jsx';
@@ -12,13 +12,12 @@ import Login from './auth/login.jsx';
 import ProductDetails from './products/productDetails.jsx';
 import Products from './products/products.jsx';
 import {
-  createAuthServiceCreated,
   createLoadShoppingCart,
   createLoadTranslations,
   createLoggedIn,
-  createProfileLoaded,
 } from './actions';
 import asyncComponent from './router/asyncComponent.jsx';
+import { load, ids } from './storage';
 
 const LazyForms = asyncComponent(() => import('./admin/forms/forms.jsx').then(module => module.default));
 
@@ -27,12 +26,7 @@ class App extends React.Component {
   componentWillMount() {
     this.props.loadTranslations(this.props.locale);
     this.props.loadShoppingCart();
-
-    const authService = AuthService.create(this.props.locale, this.props.loggedIn);
-    this.props.authServiceCreated(authService);
-    if (authService.loggedIn()) {
-      this.props.loggedIn(authService);
-    }
+    this.props.checkLoggedIn();
   }
 
   render() {
@@ -54,8 +48,7 @@ class App extends React.Component {
 App.propTypes = {
   loadTranslations: PropTypes.func.isRequired,
   loadShoppingCart: PropTypes.func.isRequired,
-  authServiceCreated: PropTypes.func.isRequired,
-  loggedIn: PropTypes.func.isRequired,
+  checkLoggedIn: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
 };
 
@@ -70,12 +63,10 @@ export default connect(
     loadShoppingCart() {
       dispatch(createLoadShoppingCart());
     },
-    authServiceCreated(auth) {
-      dispatch(createAuthServiceCreated(auth));
-    },
-    loggedIn(authService) {
-      dispatch(createLoggedIn());
-      dispatch(createProfileLoaded(authService));
+    checkLoggedIn() {
+      if (authService.loggedIn()) {
+        dispatch(createLoggedIn(load(ids.TOKEN_PAYLOAD)));
+      }
     },
   }),
 )(App);

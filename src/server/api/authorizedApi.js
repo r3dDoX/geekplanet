@@ -72,6 +72,8 @@ function saveFileInSize(id, file, sizeTag, size) {
     streamifier.createReadStream(file.buffer)
       .pipe(sharp()
         .resize(size, size)
+        .background({ r: 255, g: 255, b: 255, alpha: 1 })
+        .flatten()
         .max()
         .withoutEnlargement()
         .jpeg()

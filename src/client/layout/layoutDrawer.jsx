@@ -50,6 +50,7 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
               <FormattedMessage id="NAVIGATION.LOGIN" />
             </Link>
           }
+          onClick={toggleDrawer}
         />
       )
     }

@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import authService from '../auth/authService';
 
 const PrivateRoute = ({
   component: Component,
-  authService,
   roles,
   allowedRoles,
   ...rest
@@ -36,9 +36,6 @@ PrivateRoute.defaultProps = {
 
 PrivateRoute.propTypes = {
   component: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  authService: PropTypes.shape({
-    loggedIn: PropTypes.func.isRequired,
-  }).isRequired,
   roles: PropTypes.arrayOf(PropTypes.string).isRequired,
   allowedRoles: PropTypes.arrayOf(PropTypes.string),
   location: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
@@ -46,7 +43,6 @@ PrivateRoute.propTypes = {
 
 export default withRouter(connect(
   state => ({
-    authService: state.auth.authService,
     roles: state.auth.roles,
   }),
   () => ({})

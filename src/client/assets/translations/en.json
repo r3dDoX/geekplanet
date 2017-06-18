@@ -8,7 +8,10 @@
   },
   "COMMON": {
     "ORDER": "Order",
-    "DELETE": "Delete"
+    "DELETE": "Delete",
+    "FORM": {
+      "REQUIRED": "This field is required"
+    }
   },
   "NAVIGATION": {
     "LOGIN": "Login",
@@ -43,7 +46,6 @@
         "CITY": "City",
         "COUNTRY": "Country",
         "NEXT": "Next",
-        "REQUIRED": "This field is required",
         "REQUIRED_ZIP": "The zip code must be between 1000 and 9999",
         "NO_ADDRESS": "Add new address",
         "RECENTLY": "Recently used"
@@ -62,5 +64,13 @@
     "IN_STOCK": "{stock, number} {stock, plural, one {piece} other {pieces}} in stock",
     "OUT_OF_STOCK": "This product is currently out of stock",
     "TO_PRODUCTS": "To the products"
+  },
+  "LOGIN": {
+    "FACEBOOK": "Login with Facebook",
+    "GOOGLE": "Login with Google",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "LOGIN": "Login",
+    "REGISTER": "Registrieren"
   }
 }

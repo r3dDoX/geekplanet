@@ -23,7 +23,7 @@ const styles = {
 
 const required = (value) => {
   if (!(value && value.length >= 1)) {
-    return <FormattedMessage id="ORDER.ADDRESS.FORM.REQUIRED" />;
+    return <FormattedMessage id="COMMON.FORM.REQUIRED" />;
   }
 
   return null;

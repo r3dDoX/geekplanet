@@ -1,10 +1,12 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
+import Divider from 'material-ui/Divider';
 import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from 'prop-types';
 import authService from './authService';
 import TextField from '../formHelpers/textField.jsx';
+import { accent1Color } from '../theme';
 
 const styles = {
   container: {
@@ -22,14 +24,16 @@ const styles = {
     height: '45%',
     marginRight: '10px',
   },
-  separator: {
-    margin: '20px 0 30px',
-  },
   loginButton: {
     marginTop: '20px',
   },
   registerButton: {
     marginTop: '10px',
+  },
+  errorMessage: {
+    display: 'block',
+    margin: '15px 0 0',
+    color: accent1Color,
   },
 };
 
@@ -42,6 +46,7 @@ const required = (value) => {
 };
 
 const LoginForm = ({
+  error,
   handleSubmit,
   onSubmit,
 }) => (
@@ -91,8 +96,13 @@ const LoginForm = ({
         </svg>
       }
     />
-    <hr style={styles.separator} />
+    <Divider />
     <form name="login">
+      {error && (
+        <div style={styles.errorMessage}>
+          <FormattedMessage id="LOGIN.WRONG_USERNAME_PASSWORD" />
+        </div>
+      )}
       <Field
         component={TextField}
         label={<FormattedMessage id="LOGIN.EMAIL" />}
@@ -105,7 +115,7 @@ const LoginForm = ({
         component={TextField}
         label={<FormattedMessage id="LOGIN.PASSWORD" />}
         name="password"
-        type="text"
+        type="password"
         fullWidth
         validate={required}
       />
@@ -130,6 +140,7 @@ const LoginForm = ({
 );
 
 LoginForm.propTypes = {
+  error: PropTypes.object,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };

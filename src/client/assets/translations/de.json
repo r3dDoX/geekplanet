@@ -71,6 +71,7 @@
     "EMAIL": "Email",
     "PASSWORD": "Passwort",
     "LOGIN": "Anmelden",
-    "REGISTER": "Registrieren"
+    "REGISTER": "Registrieren",
+    "WRONG_USERNAME_PASSWORD": "Falscher Benutzername oder Passwort"
   }
 }

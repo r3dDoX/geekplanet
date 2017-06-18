@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { SubmissionError } from 'redux-form';
 import { withRouter, Redirect } from 'react-router-dom';
 import { store, load, ids } from '../storage';
 import { createLoggedIn, createRegistrationSuccessful } from '../actions';
@@ -28,14 +29,18 @@ export const LoginComponent = ({
       <LoginForm
         onSubmit={(values) => {
           if (values.submit === 'login') {
-            authService.login(values.username, values.password)
+            return authService.login(values.username, values.password)
               .then(loggedIn)
-              .catch(error => console.error(error));
-          } else {
-            authService.signUp(values.username, values.password)
-              .then(signedUp)
-              .catch(error => console.error(error));
+              .catch((error) => {
+                console.error(error);
+                throw new SubmissionError({
+                  _error: error,
+                });
+              });
           }
+          return authService.signUp(values.username, values.password)
+            .then(signedUp)
+            .catch(error => console.error(error));
         }}
       />
     );

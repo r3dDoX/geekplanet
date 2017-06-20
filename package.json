@@ -39,7 +39,7 @@
     "sharp": "0.18.1",
     "shortid": "2.2.8",
     "streamifier": "0.1.1",
-    "stripe": "4.22.0"
+    "stripe": "4.22.1"
   },
   "devDependencies": {
     "auth0-js": "8.7.0",

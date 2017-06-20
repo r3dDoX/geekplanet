@@ -42,7 +42,7 @@
     "stripe": "4.22.1"
   },
   "devDependencies": {
-    "auth0-js": "8.7.0",
+    "auth0-js": "8.8.0",
     "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",

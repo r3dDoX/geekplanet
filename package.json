@@ -82,7 +82,7 @@
     "redux": "3.7.0",
     "redux-form": "6.8.0",
     "redux-thunk": "2.2.0",
-    "webpack": "2.6.1",
+    "webpack": "3.0.0",
     "webpack-dev-server": "2.4.5",
     "webpack-merge": "4.1.0"
   },

@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const jwt = require('express-jwt');
+const jwksRsa = require('jwks-rsa');
 const shortId = require('shortid');
 const bodyParser = require('body-parser');
 const multer = require('multer')();
@@ -28,7 +29,12 @@ const {
 } = require('../db/models');
 
 const authorization = jwt({
-  secret: process.env.SECRET || secretConfig.SECRET,
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksUri: 'https://geekplanet.eu.auth0.com/.well-known/jwks.json',
+  }),
+  algorithms: ['RS256'],
 });
 
 function isAdmin(

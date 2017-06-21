@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardTitle, CardMedia, CardText, CardActions } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
 import Badge from 'material-ui/Badge';
-import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import StockIcon from './stockIcon.jsx';
 import formatPrice from './priceFormatter';
 import { ProductPropType } from '../propTypes';
 import { getPictureUrl } from './productService';
+import OrderButton from '../order/orderButton.jsx';
 
 const styles = {
   container: {
@@ -92,11 +91,7 @@ const ProductTile = ({
     </CardText>
     <CardActions style={styles.actionContainer}>
       <span style={styles.priceTag}>{formatPrice(product.price)}</span>
-      <RaisedButton
-        onClick={() => addItemToShoppingCart(product)}
-        label={<FormattedMessage id="COMMON.ORDER" />}
-        primary
-      />
+      <OrderButton onClick={() => addItemToShoppingCart(product)} />
     </CardActions>
   </Card>
 );

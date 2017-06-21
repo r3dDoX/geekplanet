@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import RaisedButton from 'material-ui/RaisedButton';
 import { FormattedMessage } from 'react-intl';
 import ImageGallery from 'react-image-gallery';
 import Divider from 'material-ui/Divider';
@@ -12,6 +11,7 @@ import { formatPriceWithCurrency } from './priceFormatter';
 import { accent1Color, brandPrimary } from '../theme';
 import { createAddItemToShoppingCart, createLoadProduct } from '../actions';
 import { getPictureUrl } from './productService';
+import OrderButton from '../order/orderButton.jsx';
 
 const styles = {
   container: {
@@ -96,11 +96,7 @@ class ProductDetails extends React.Component {
             <h2 style={styles.price}>
               {formatPriceWithCurrency(product.price)}
             </h2>
-            <RaisedButton
-              onClick={() => addItemToShoppingCart(product)}
-              label={<FormattedMessage id="COMMON.ORDER" />}
-              primary
-            />
+            <OrderButton onClick={() => addItemToShoppingCart(product)} />
           </div>
           <p style={styles.productStock}>
             <StockIcon stock={product.stock} />&nbsp;&nbsp;&nbsp;

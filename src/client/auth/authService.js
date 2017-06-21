@@ -54,11 +54,15 @@ const AuthService = {
       }));
   },
 
+  isExpired() {
+    return new Date().getTime() > storage.load(storage.ids.TOKEN_EXPIRES_AT);
+  },
+
   loggedIn() {
     const token = storage.load(storage.ids.ID_TOKEN);
 
     if (token) {
-      if (!new Date().getTime() < storage.load(storage.ids.TOKEN_EXPIRES_AT)) {
+      if (!this.isExpired()) {
         return true;
       }
 

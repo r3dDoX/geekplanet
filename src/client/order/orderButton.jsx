@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import ShoppingCart from 'material-ui/svg-icons/action/add-shopping-cart';
 
-
 const OrderButton = ({ onClick }) => (
   <RaisedButton
     onClick={onClick}

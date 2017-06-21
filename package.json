@@ -57,6 +57,7 @@
     "bestzip": "1.1.4",
     "compression-webpack-plugin": "0.4.0",
     "copy-webpack-plugin": "4.0.1",
+    "css-loader": "0.28.4",
     "enzyme": "2.8.2",
     "eslint": "3.19.0",
     "eslint-config-airbnb": "15.0.1",
@@ -75,6 +76,7 @@
     "react-addons-test-utils": "15.6.0",
     "react-dom": "15.6.1",
     "react-hot-loader": "3.0.0-beta.6",
+    "react-image-gallery": "0.8.2",
     "react-intl": "2.3.0",
     "react-redux": "5.0.5",
     "react-router-dom": "4.1.1",
@@ -83,6 +85,7 @@
     "redux": "3.7.0",
     "redux-form": "6.8.0",
     "redux-thunk": "2.2.0",
+    "style-loader": "0.18.2",
     "webpack": "2.6.1",
     "webpack-dev-server": "2.5.0",
     "webpack-merge": "4.1.0"

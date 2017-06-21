@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { GridList, GridTile } from 'material-ui/GridList';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormattedMessage } from 'react-intl';
+import ImageGallery from 'react-image-gallery';
 import { ProductPropType } from '../propTypes';
 import StockIcon from './stockIcon.jsx';
 import { formatPriceWithCurrency } from './priceFormatter';
@@ -61,18 +61,15 @@ class ProductDetails extends React.Component {
         {product &&
         <div style={styles.productContainer}>
           <div style={styles.gridListContainer}>
-            <GridList style={styles.gridList} cols={2.2}>
-              {product.files.map(image => (
-                <GridTile key={image}>
-                  <picture>
-                    <source media="(min-width: 1920px)" srcSet={getPictureUrl(image, 'l')} />
-                    <source media="(min-width: 800px)" srcSet={getPictureUrl(image, 'm')} />
-                    <source srcSet={getPictureUrl(image, 's')} />
-                    <img style={styles.picture} src={getPictureUrl(image, 'm')} alt="Product" />
-                  </picture>
-                </GridTile>
-              ))}
-            </GridList>
+            <ImageGallery
+              items={product.files.map(image => ({
+                original: getPictureUrl(image, 'l'),
+                thumbnail: getPictureUrl(image, 's'),
+              }))}
+              lazyLoad
+              showPlayButton={false}
+              thumbnailPosition="left"
+            />
           </div>
           <h2 style={styles.price}>
             {formatPriceWithCurrency(product.price)}

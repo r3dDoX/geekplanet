@@ -62,7 +62,7 @@
   },
   "PRODUCT": {
     "IN_STOCK": "{stock} Stück auf Lager",
-    "OUT_OF_STOCK": "Dieses Produkt ist leider momentan nicht auf Lager",
+    "OUT_OF_STOCK": "Dieses Produkt ist momentan leider nicht auf Lager.",
     "TO_PRODUCTS": "Zu den Produkten"
   },
   "LOGIN": {

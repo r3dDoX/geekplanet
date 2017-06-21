@@ -41,7 +41,8 @@ const styles = {
     flex: 'none',
   },
   stockBadge: {
-    paddingBottom: 0,
+    top: '5px',
+    right: '5px',
   },
   actionContainer: {
     flex: 'none',
@@ -81,7 +82,7 @@ const ProductTile = ({
         badgeContent={product.stock}
         primary={product.stock > 0}
         secondary={product.stock <= 0}
-        style={styles.stockBadge}
+        badgeStyle={styles.stockBadge}
       >
         <StockIcon stock={product.stock} />
       </Badge>

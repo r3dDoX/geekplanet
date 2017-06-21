@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FormattedMessage } from 'react-intl';
 import ImageGallery from 'react-image-gallery';
+import Divider from 'material-ui/Divider';
+import { green500 } from 'material-ui/styles/colors';
 import { ProductPropType } from '../propTypes';
 import StockIcon from './stockIcon.jsx';
 import { formatPriceWithCurrency } from './priceFormatter';
-import { brandPrimary } from '../theme';
+import { accent1Color, brandPrimary } from '../theme';
 import { createAddItemToShoppingCart, createLoadProduct } from '../actions';
 import { getPictureUrl } from './productService';
 
@@ -33,14 +35,29 @@ const styles = {
     width: '100%',
   },
   price: {
+    color: accent1Color,
+  },
+  title: {
     color: brandPrimary,
   },
   productStock: {
     display: 'flex',
     alignItems: 'center',
+    margin: 0,
   },
   productDescription: {
     textAlign: 'justify',
+  },
+  orderContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  divider: {
+    marginTop: '10px',
+  },
+  inStockMessage: {
+    color: green500,
   },
 };
 
@@ -71,30 +88,36 @@ class ProductDetails extends React.Component {
               thumbnailPosition="left"
             />
           </div>
-          <h2 style={styles.price}>
-            {formatPriceWithCurrency(product.price)}
-          </h2>
-          <h1>
+          <h1 style={styles.title}>
             {product[locale].name}
           </h1>
-          <h4 style={styles.productStock}>
-            <StockIcon stock={product.stock} />&nbsp;
+          <Divider style={styles.divider} />
+          <div style={styles.orderContainer}>
+            <h2 style={styles.price}>
+              {formatPriceWithCurrency(product.price)}
+            </h2>
+            <RaisedButton
+              onClick={() => addItemToShoppingCart(product)}
+              label={<FormattedMessage id="COMMON.ORDER" />}
+              primary
+            />
+          </div>
+          <p style={styles.productStock}>
+            <StockIcon stock={product.stock} />&nbsp;&nbsp;&nbsp;
             {product.stock > 0 ? (
-              <FormattedMessage id="PRODUCT.IN_STOCK" values={{ stock: product.stock }} />
+              <span style={styles.inStockMessage}>
+                <FormattedMessage id="PRODUCT.IN_STOCK" values={{ stock: product.stock }} />
+              </span>
             ) : (
               <FormattedMessage id="PRODUCT.OUT_OF_STOCK" />
             )}
-          </h4>
+          </p>
+          <Divider style={styles.divider} />
           <p
             className="product-description"
             style={styles.productDescription}
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: product[locale].description }}
-          />
-          <RaisedButton
-            onClick={() => addItemToShoppingCart(product)}
-            label={<FormattedMessage id="COMMON.ORDER" />}
-            primary
           />
         </div>
         }

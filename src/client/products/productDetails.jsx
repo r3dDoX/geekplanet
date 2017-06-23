@@ -9,7 +9,7 @@ import { ProductPropType } from '../propTypes';
 import StockIcon from './stockIcon.jsx';
 import { formatPriceWithCurrency } from './priceFormatter';
 import { accent1Color, brandPrimary } from '../theme';
-import { createAddItemToShoppingCart, createLoadProduct } from '../actions';
+import { createLoadProduct } from '../actions';
 import { getPictureUrl } from './productService';
 import OrderButton from '../order/orderButton.jsx';
 
@@ -71,7 +71,6 @@ class ProductDetails extends React.Component {
     const {
       locale,
       product,
-      addItemToShoppingCart,
     } = this.props;
     return (
       <div style={styles.container}>
@@ -96,7 +95,7 @@ class ProductDetails extends React.Component {
             <h2 style={styles.price}>
               {formatPriceWithCurrency(product.price)}
             </h2>
-            <OrderButton onClick={() => addItemToShoppingCart(product)} />
+            <OrderButton product={product} />
           </div>
           <p style={styles.productStock}>
             <StockIcon stock={product.stock} />&nbsp;&nbsp;&nbsp;
@@ -135,7 +134,6 @@ ProductDetails.propTypes = {
     }),
   }).isRequired,
   loadProduct: PropTypes.func.isRequired,
-  addItemToShoppingCart: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -146,9 +144,6 @@ export default connect(
   dispatch => ({
     loadProduct(productId) {
       dispatch(createLoadProduct(productId));
-    },
-    addItemToShoppingCart(product) {
-      dispatch(createAddItemToShoppingCart(product));
     },
   })
 )(ProductDetails);

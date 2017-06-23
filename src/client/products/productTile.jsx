@@ -65,7 +65,6 @@ const styles = {
 const ProductTile = ({
   locale,
   product,
-  addItemToShoppingCart,
 }) => (
   <Card style={styles.container} containerStyle={styles.cardContainer}>
     {(product.files.length) ? (
@@ -91,7 +90,7 @@ const ProductTile = ({
     </CardText>
     <CardActions style={styles.actionContainer}>
       <span style={styles.priceTag}>{formatPrice(product.price)}</span>
-      <OrderButton onClick={() => addItemToShoppingCart(product)} />
+      <OrderButton product={product} />
     </CardActions>
   </Card>
 );
@@ -99,7 +98,6 @@ const ProductTile = ({
 ProductTile.propTypes = {
   locale: PropTypes.string.isRequired,
   product: ProductPropType.isRequired,
-  addItemToShoppingCart: PropTypes.func.isRequired,
 };
 
 export default ProductTile;

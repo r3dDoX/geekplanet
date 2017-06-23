@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ProductTile from './productTile.jsx';
-import { createAddItemToShoppingCart } from '../actions';
 
 const styles = {
   container: {
@@ -13,14 +12,13 @@ const styles = {
   },
 };
 
-const ProductList = ({ locale, products, addItemToShoppingCart }) => (
+const ProductList = ({ locale, products }) => (
   <div style={styles.container}>
     {products.map(product => (
       <ProductTile
         key={product._id}
         locale={locale}
         product={product}
-        addItemToShoppingCart={addItemToShoppingCart}
       />
     ))}
   </div>
@@ -34,16 +32,10 @@ ProductList.propTypes = {
     description: PropTypes.string,
     files: PropTypes.arrayOf(PropTypes.string),
   })).isRequired,
-  addItemToShoppingCart: PropTypes.func.isRequired,
 };
 
 export default connect(
   state => ({
     locale: state.i18n.locale,
-  }),
-  dispatch => ({
-    addItemToShoppingCart(product) {
-      dispatch(createAddItemToShoppingCart(product));
-    },
   })
 )(ProductList);

@@ -86,7 +86,7 @@
     "redux-form": "6.8.0",
     "redux-thunk": "2.2.0",
     "style-loader": "0.18.2",
-    "webpack": "2.6.1",
+    "webpack": "3.0.0",
     "webpack-dev-server": "2.5.0",
     "webpack-merge": "4.1.0"
   },

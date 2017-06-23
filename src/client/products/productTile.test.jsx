@@ -20,7 +20,6 @@ describe('ProductTile', () => {
         price: 30.25,
         files: [],
       },
-      addItemToShoppingCart: undefined,
     };
   });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { addLocaleData } from 'react-intl';
@@ -14,19 +14,17 @@ addLocaleData([...de]);
 authService.init();
 const store = setupStore();
 
-const render = (Component) => {
-  ReactDOM.render(
+const renderApp = () => {
+  render(
     <AppContainer>
-      <Component store={store} />
+      <WrappedApp store={store} />
     </AppContainer>,
     document.getElementsByTagName('main')[0]
   );
 };
 
-render(WrappedApp);
+renderApp();
 
 if (module.hot) {
-  module.hot.accept('./wrappedApp.jsx', () => {
-    render(WrappedApp);
-  });
+  module.hot.accept('./wrappedApp.jsx', renderApp);
 }

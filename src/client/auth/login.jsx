@@ -32,7 +32,6 @@ export const LoginComponent = ({
             return authService.login(values.username, values.password)
               .then(loggedIn)
               .catch((error) => {
-                console.error(error);
                 throw new SubmissionError({
                   _error: error,
                 });

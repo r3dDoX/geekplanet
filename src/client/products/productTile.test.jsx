@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import ProductTile from './productTile.jsx';
+import { ProductTileComponent as ProductTile } from './productTile.jsx';
 
 describe('ProductTile', () => {
   let props;
@@ -19,6 +19,9 @@ describe('ProductTile', () => {
         stock: 1,
         price: 30.25,
         files: [],
+      },
+      history: {
+        push() {},
       },
     };
   });

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardTitle, CardMedia, CardText, CardActions } from 'material-ui/Card';
 import Badge from 'material-ui/Badge';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import StockIcon from './stockIcon.jsx';
 import formatPrice from './priceFormatter';
 import { ProductPropType } from '../propTypes';
@@ -59,16 +59,18 @@ const styles = {
     maxHeight: '300px',
     overflow: 'hidden',
     alignItems: 'center',
+    cursor: 'pointer',
   },
 };
 
-const ProductTile = ({
+export const ProductTileComponent = ({
   locale,
   product,
+  history,
 }) => (
   <Card style={styles.container} containerStyle={styles.cardContainer}>
     {(product.files.length) ? (
-      <CardMedia style={styles.pictureContainer}>
+      <CardMedia style={styles.pictureContainer} onClick={() => history.push(`/products/${product._id}`)}>
         <img alt="Product" src={getPictureUrl(product.files[0])} />
       </CardMedia>
     ) : null}
@@ -95,9 +97,12 @@ const ProductTile = ({
   </Card>
 );
 
-ProductTile.propTypes = {
+ProductTileComponent.propTypes = {
   locale: PropTypes.string.isRequired,
   product: ProductPropType.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
-export default ProductTile;
+export default withRouter(ProductTileComponent);

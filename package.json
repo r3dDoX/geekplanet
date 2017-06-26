@@ -83,7 +83,7 @@
     "react-router-dom": "4.1.1",
     "react-tap-event-plugin": "2.0.1",
     "react-test-renderer": "15.6.1",
-    "redux": "3.7.0",
+    "redux": "3.7.1",
     "redux-form": "6.8.0",
     "redux-thunk": "2.2.0",
     "style-loader": "0.18.2",

@@ -39,7 +39,11 @@ export const LoginComponent = ({
           }
           return authService.signUp(values.username, values.password)
             .then(signedUp)
-            .catch(error => console.error(error));
+            .catch((error) => {
+              throw new SubmissionError({
+                _error: error,
+              });
+            });
         }}
       />
     );

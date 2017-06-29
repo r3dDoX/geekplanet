@@ -9,9 +9,9 @@ env:
 
 before_install: docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk npm i --silent
 
-before_script: docker run -it -v "$(pwd)":/usr/app -w /usr/app --env TRAVIS_JOB_NUMBER=$TRAVIS_JOB_NUMBER --env TRAVIS=$TRAVIS r3ddox/node-pdftk npm run greenkeeper_update
+before_script: docker run -it -v "$(pwd)":/usr/app -w /usr/app --env-file <(env | grep TRAVIS) r3ddox/node-pdftk npm run greenkeeper_update
 
-after_script: docker run -it -v "$(pwd)":/usr/app -w /usr/app --env GH_TOKEN=$GH_TOKEN --env TRAVIS=$TRAVIS r3ddox/node-pdftk npm run greenkeeper_upload
+after_script: docker run -it -v "$(pwd)":/usr/app -w /usr/app --env GH_TOKEN=$GH_TOKEN --env-file <(env | grep TRAVIS) r3ddox/node-pdftk npm run greenkeeper_upload
 
 script:
 - docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk npm test

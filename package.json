@@ -7,6 +7,8 @@
     "node": ">=8.1.0"
   },
   "scripts": {
+    "greenkeeper_update": "greenkeeper-lockfile-update",
+    "greenkeeper_upload": "greenkeeper-lockfile-upload",
     "predist": "npm run build",
     "dist": "bestzip geekplanet.zip dist/ src/ package.json webpack.prod.config.js",
     "flow:install": "flow-typed install --overwrite",
@@ -67,6 +69,7 @@
     "eslint-plugin-react": "7.1.0",
     "flow-bin": "0.47.0",
     "flow-typed": "2.1.2",
+    "greenkeeper-lockfile": "1.7.1",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
     "jwt-decode": "2.2.0",

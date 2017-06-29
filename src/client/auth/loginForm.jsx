@@ -37,13 +37,21 @@ const styles = {
   },
 };
 
-const required = (value) => {
+function required(value) {
   if (!(value && value.length >= 1)) {
     return <FormattedMessage id="COMMON.FORM.REQUIRED" />;
   }
 
   return null;
-};
+}
+
+function getErrorMessage(error) {
+  if (error.code === 'user_exists') {
+    return <FormattedMessage id="LOGIN.USER_EXISTS" />;
+  }
+
+  return <FormattedMessage id="LOGIN.WRONG_USERNAME_PASSWORD" />;
+}
 
 const LoginForm = ({
   error,
@@ -100,7 +108,7 @@ const LoginForm = ({
     <form name="login">
       {error && (
         <div style={styles.errorMessage}>
-          <FormattedMessage id="LOGIN.WRONG_USERNAME_PASSWORD" />
+          {getErrorMessage(error)}
         </div>
       )}
       <Field

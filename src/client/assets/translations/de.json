@@ -72,6 +72,7 @@
     "PASSWORD": "Passwort",
     "LOGIN": "Anmelden",
     "REGISTER": "Registrieren",
-    "WRONG_USERNAME_PASSWORD": "Falscher Benutzername oder Passwort"
+    "WRONG_USERNAME_PASSWORD": "Falscher Benutzername oder Passwort",
+    "USER_EXISTS": "Diese Email ist bereits registriert"
   }
 }

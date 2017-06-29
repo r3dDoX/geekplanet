@@ -1,12 +1,17 @@
 sudo: required
 
 services:
-  - docker
+- docker
+
+env:
+  global:
+    secure: f6RQRRQ9SbGVXtrCLBvZ7xHgGybslFLmdSIo5zsDzJaAVjZP2rUAI+RT6XGhgvOgBOZaRgydSKfmKnKFfHOsi6J6O0mAsSjXOMy5OtLvX1bmivq8i+wOJR+NOCSQnH12Lh/Iwxrcyskq52T+Tmx0EiEPQWAJFQD8ER0LlTZxv4GZ/rXptixsknzKZeMOELG98U8jsL9jCwcJ8Hmr/6sC5v5jV0Qcl4NI8lx9pmas4nACXEYeBwKMBMJQZDqR0ODbS/C8ryL4jmb3ByX3ko4Qpm0GVRUqfNCOWQt2QegVrYmnH6FP+n3uWWBrjUJgjqeuQVhwO7tddQRrjEXpVCL5KXFkB6Cg2crWZRK87+OXADV9k9cFbxouixZny7HsHjEi8Ww3mSetTzQQO/iVBRTsAIIzPpa6cWoXmeUfXCX+2lhLSDKJy0JtyXfeRYr00oKm+HDpFYOWemFrNVNyKlPVLhlQHWeb7shnrae+sZTgcnjsxKp5vJ+eZSXkGvjhYCWkdyR0aoQltbQFJOMULPXsNzlQMtOlOE5kCwsgf1AWmf8i4y4KP1DTnxR+q5wTsD7M9SSYhayLqZd4nb/9oTIlXaSxmixuZYyqDOsgSQskarRuaBQX2neQcAVdP+PGWAhOKni81UITGbnuu5OKUkojtN1MFa1ho2TuiCu/BtNufhA=
 
 before_install: docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk npm i --silent
 
 before_script: docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk npm run greenkeeper_update
+
 after_script: docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk npm run greenkeeper_upload
 
 script:
-  - docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk npm test
+- docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk npm test

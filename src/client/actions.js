@@ -4,6 +4,8 @@ export const SPOTLIGHT_PRODUCTS_LOADED = 'SPOTLIGHT_PRODUCTS_LOADED';
 export const PRODUCT_SELECTED = 'PRODUCT_SELECTED';
 export const PRODUCT_CATEGORIES_LOADED = 'PRODUCT_CATEGORIES_LOADED';
 export const TRANSLATIONS_LOADED = 'TRANSLATIONS_LOADED';
+export const PROCESSING_AUTH = 'PROCESSING_AUTH';
+export const FINISHED_AUTH = 'FINISHED_AUTH';
 export const LOGGED_IN = 'LOGGED_IN';
 export const LOGGED_OUT = 'LOGGED_OUT';
 export const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
@@ -117,4 +119,12 @@ export const createSetShoppingCartamount = (amount, product) => ({
 
 export const createRegistrationSuccessful = () => ({
   type: REGISTRATION_SUCCESSFUL,
+});
+
+export const createProcessingAuth = () => ({
+  type: PROCESSING_AUTH,
+});
+
+export const createFinishedAuth = () => ({
+  type: FINISHED_AUTH,
 });

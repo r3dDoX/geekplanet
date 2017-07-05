@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import authService from './authService';
 import TextField from '../formHelpers/textField.jsx';
 import { accent1Color } from '../theme';
+import MainSpinner from '../layout/mainSpinner.jsx';
 
 const styles = {
   container: {
@@ -35,6 +36,9 @@ const styles = {
     margin: '15px 0 0',
     color: accent1Color,
   },
+  hidden: {
+    display: 'none',
+  },
 };
 
 function required(value) {
@@ -57,6 +61,7 @@ const LoginForm = ({
   error,
   handleSubmit,
   onSubmit,
+  isAuthenticating,
 }) => (
   <div style={styles.container}>
     <RaisedButton
@@ -105,7 +110,8 @@ const LoginForm = ({
       }
     />
     <Divider />
-    <form name="login">
+    {isAuthenticating ? <MainSpinner /> : null}
+    <form name="login" style={isAuthenticating ? styles.hidden : null}>
       {error && (
         <div style={styles.errorMessage}>
           {getErrorMessage(error)}
@@ -151,6 +157,7 @@ LoginForm.propTypes = {
   error: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  isAuthenticating: PropTypes.boolean.isRequired,
 };
 
 export default reduxForm({

@@ -20,6 +20,7 @@ export const ADDRESSES_LOADED = 'ADDRESSES_LOADED';
 export const SELECT_ADDRESS = 'SELECT_ADDRESS';
 export const SELECT_ORDER_STEP = 'SELECT_ORDER_STEP';
 export const PRODUCTS_LOADED = 'PRODUCTS_LOADED';
+export const PRODUCTS_FILTERED = 'PRODUCTS_FILTERED';
 export const REGISTRATION_SUCCESSFUL = 'REGISTRATION_SUCCESSFUL';
 
 export const createLoadTranslations = (translationService, localeWithFallback) => dispatch =>
@@ -46,6 +47,12 @@ export const createLoadSpotlightProducts = () => dispatch =>
     type: SPOTLIGHT_PRODUCTS_LOADED,
     spotlightProducts,
   }));
+
+export const createFilterProducts = (filteredProducts) => ({
+  type: PRODUCTS_FILTERED,
+  filteredProducts,
+});
+
 
 export const createLogout = () => ({
   type: LOGGED_OUT,

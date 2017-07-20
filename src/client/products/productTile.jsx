@@ -8,6 +8,7 @@ import formatPrice from './priceFormatter';
 import { ProductPropType } from '../propTypes';
 import { getPictureUrl } from './productService';
 import OrderButton from '../order/orderButton.jsx';
+import { connect } from 'react-redux';
 
 const styles = {
   container: {
@@ -105,4 +106,8 @@ ProductTileComponent.propTypes = {
   }).isRequired,
 };
 
-export default withRouter(ProductTileComponent);
+export default connect(
+  state => ({
+    locale: state.i18n.locale,
+  })
+)(withRouter(ProductTileComponent));

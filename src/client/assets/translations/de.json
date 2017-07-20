@@ -74,5 +74,8 @@
     "REGISTER": "Registrieren",
     "WRONG_USERNAME_PASSWORD": "Falscher Benutzername oder Passwort",
     "USER_EXISTS": "Diese Email ist bereits registriert"
+  },
+  "PRODUCT_FILTER": {
+    "PLACEHOLDER": "Filter..."
   }
 }

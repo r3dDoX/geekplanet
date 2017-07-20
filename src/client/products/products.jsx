@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ProductList from '../products/productList.jsx';
 import { ProductPropType } from '../propTypes';
-import { createLoadProducts } from '../actions';
+import { createFilterProducts, createLoadProducts } from '../actions';
+import ProductFilter from './productfilter/productFilter.jsx';
 
 class Products extends React.Component {
   componentWillMount() {
@@ -13,11 +14,18 @@ class Products extends React.Component {
   }
 
   render() {
-    const { products } = this.props;
+    const { products, filteredProducts, filterProducts } = this.props;
 
     return (
       <div>
-        <ProductList products={products} />
+        <ProductFilter
+          products={products}
+          filterProducts={filterProducts}
+        />
+        <ProductList
+          items={filteredProducts}
+          itemHeight={425}
+        />
       </div>
     );
   }
@@ -26,15 +34,21 @@ class Products extends React.Component {
 Products.propTypes = {
   products: PropTypes.arrayOf(ProductPropType).isRequired,
   loadProducts: PropTypes.func.isRequired,
+  filteredProducts: PropTypes.arrayOf(ProductPropType).isRequired,
+  filterProducts: PropTypes.func.isRequired,
 };
 
 export default connect(
   state => ({
     products: state.products.products,
+    filteredProducts: state.products.filteredProducts,
   }),
   dispatch => ({
     loadProducts() {
       dispatch(createLoadProducts());
+    },
+    filterProducts(filteredProducts) {
+      dispatch(createFilterProducts(filteredProducts));
     },
   })
 )(Products);

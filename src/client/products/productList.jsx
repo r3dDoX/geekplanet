@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import VirtualList from 'react-virtual-list';
 import ProductTile from './productTile.jsx';
 
 const styles = {
@@ -12,12 +12,11 @@ const styles = {
   },
 };
 
-const ProductList = ({ locale, products }) => (
+const ProductList = ({ virtual }) => (
   <div style={styles.container}>
-    {products.map(product => (
+    {virtual.items.map(product => (
       <ProductTile
         key={product._id}
-        locale={locale}
         product={product}
       />
     ))}
@@ -25,17 +24,14 @@ const ProductList = ({ locale, products }) => (
 );
 
 ProductList.propTypes = {
-  locale: PropTypes.string.isRequired,
-  products: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    description: PropTypes.string,
-    files: PropTypes.arrayOf(PropTypes.string),
-  })).isRequired,
+  virtual: {
+    items: PropTypes.arrayOf(PropTypes.shape({
+      _id: PropTypes.string,
+      name: PropTypes.string,
+      description: PropTypes.string,
+      files: PropTypes.arrayOf(PropTypes.string),
+    })).isRequired,
+  }.isRequired,
 };
 
-export default connect(
-  state => ({
-    locale: state.i18n.locale,
-  })
-)(ProductList);
+export default VirtualList()(ProductList);

@@ -47,13 +47,24 @@ module.exports = {
       purchasePrice: 0,
       purchasePackageSize: 0,
       minStock: 0,
+      supplier: 0,
       supplierProductCode: 0,
       remarks: 0,
     };
 
+    const productListFilter = Object.assign({}, productFilter, {
+      'de.description': 0,
+      'en.description': 0,
+      'fr.description': 0,
+      'it.description': 0,
+      files: {
+        $slice: 1,
+      },
+    });
+
     app.get('/api/products',
       (req /* : express$Request */, res /* : express$Response */) =>
-        Product.find({}, productFilter).sort({ name: 1 })
+        Product.find({}, productListFilter).sort({ name: 1 })
           .then(products => res.send(products))
           .catch((err) => {
             Logger.error(err);
@@ -63,7 +74,7 @@ module.exports = {
 
     app.get('/api/products/spotlight',
       (req /* : express$Request */, res /* : express$Response */) =>
-        Product.find({}, productFilter).skip(Math.random() * 400).limit(20)
+        Product.find({}, productListFilter).skip(Math.random() * 400).limit(20)
           .then(products => res.send(products))
           .catch((err) => {
             Logger.error(err);

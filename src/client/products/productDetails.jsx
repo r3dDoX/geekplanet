@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import ImageGallery from 'react-image-gallery';
 import Divider from 'material-ui/Divider';
-import { green500 } from 'material-ui/styles/colors';
+import { green500, grey300 } from 'material-ui/styles/colors';
 import { ProductPropType } from '../propTypes';
 import StockIcon from './stockIcon.jsx';
 import { formatPriceWithCurrency } from './priceFormatter';
@@ -19,7 +19,7 @@ const styles = {
     margin: '0 auto',
   },
   productContainer: {
-    padding: '10px',
+    padding: '10px 10px 50px',
   },
   gridListContainer: {
     display: 'flex',
@@ -47,6 +47,15 @@ const styles = {
   },
   productDescription: {
     textAlign: 'justify',
+  },
+  descriptionList: {
+    listStyle: 'none',
+    paddingLeft: '25px',
+    margin: '0',
+  },
+  listItem: {
+    padding: '10px',
+    borderTop: `1px solid ${grey300}`,
   },
   orderContainer: {
     display: 'flex',
@@ -108,12 +117,52 @@ class ProductDetails extends React.Component {
             )}
           </p>
           <Divider style={styles.divider} />
+          <h3>Beschreibung</h3>
           <p
-            className="product-description"
             style={styles.productDescription}
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: product[locale].description }}
           />
+          <Divider style={styles.divider} />
+          {product[locale].specifications.length ? (
+            <div>
+              <h3>Specifications</h3>
+              <ul style={styles.descriptionList}>
+                {product[locale].specifications.map(specification => (
+                  <li key={specification} style={styles.listItem}>
+                    {specification}
+                  </li>
+                ))}
+              </ul>
+              <Divider style={styles.divider} />
+            </div>
+          ) : null}
+          {product[locale].delivery.length ? (
+            <div>
+              <h3>Lieferumfang</h3>
+              <ul style={styles.descriptionList}>
+                {product[locale].delivery.map(delivery => (
+                  <li key={delivery} style={styles.listItem}>
+                    {delivery}
+                  </li>
+                ))}
+              </ul>
+              <Divider style={styles.divider} />
+            </div>
+          ) : null}
+          {product[locale].downloads.length ? (
+            <div>
+              <h3>Downloads</h3>
+              <ul style={styles.descriptionList}>
+                {product[locale].downloads.map(downloadLink => (
+                  <li key={downloadLink.text} style={styles.listItem}>
+                    <a href={downloadLink.href} target="_blank">{downloadLink.text}</a>
+                  </li>
+                ))}
+              </ul>
+              <Divider style={styles.divider} />
+            </div>
+          ) : null}
         </div>
         }
       </div>

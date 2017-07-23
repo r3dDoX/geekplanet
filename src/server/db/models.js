@@ -36,10 +36,18 @@ models.Tag = mongoose.model('Tag', {
   },
 });
 
+const DownloadLinkSchema = {
+  text: String,
+  href: String,
+};
+
 const ProductTranslationsSchema = {
   name: String,
   shortDescription: String,
   description: String,
+  specifications: [String],
+  delivery: [String],
+  downloads: [DownloadLinkSchema],
 };
 
 const ProductSchema = mongoose.Schema({

@@ -48,7 +48,7 @@ export const createLoadSpotlightProducts = () => dispatch =>
     spotlightProducts,
   }));
 
-export const createFilterProducts = (filteredProducts) => ({
+export const createFilterProducts = filteredProducts => ({
   type: PRODUCTS_FILTERED,
   filteredProducts,
 });

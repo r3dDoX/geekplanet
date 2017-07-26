@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { Card, CardTitle, CardMedia, CardText, CardActions } from 'material-ui/Card';
 import Badge from 'material-ui/Badge';
 import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import StockIcon from './stockIcon.jsx';
 import formatPrice from './priceFormatter';
 import { ProductPropType } from '../propTypes';
 import { getPictureUrl } from './productService';
 import OrderButton from '../order/orderButton.jsx';
-import { connect } from 'react-redux';
 
 const styles = {
   container: {

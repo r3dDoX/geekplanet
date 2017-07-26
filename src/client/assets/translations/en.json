@@ -63,7 +63,10 @@
   "PRODUCT": {
     "IN_STOCK": "{stock, number} {stock, plural, one {piece} other {pieces}} in stock",
     "OUT_OF_STOCK": "This product is currently out of stock",
-    "TO_PRODUCTS": "To the products"
+    "TO_PRODUCTS": "To the products",
+    "SPECIFICATIONS": "Specifications",
+    "DELIVERY": "Delivery",
+    "DOWNLOADS": "Downloads"
   },
   "LOGIN": {
     "FACEBOOK": "Login with Facebook",

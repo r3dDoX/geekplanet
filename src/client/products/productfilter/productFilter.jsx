@@ -6,13 +6,22 @@ import { FormattedMessage } from 'react-intl';
 import { ProductPropType } from '../../propTypes';
 import { accent2Color } from '../../theme';
 
-const containsCaseInsensitive = (string, filterCritera) =>
-  string.toLowerCase().includes(filterCritera.toLowerCase());
+const fieldNamesToFilter = [
+  'name',
+  'shortDescription',
+];
 
 function applyFilter(dispatchFunction, products, filterString) {
+  const splittedFilterString = filterString.toLowerCase().split(' ');
+
   dispatchFunction(products.filter(product =>
-    containsCaseInsensitive(product.de.name, filterString) ||
-    containsCaseInsensitive(product.de.shortDescription, filterString)
+    splittedFilterString.every((filterWord) => {
+      const fieldValuesToFilter = fieldNamesToFilter.map(
+        fieldName => product.de[fieldName].toLowerCase()
+      );
+
+      return fieldValuesToFilter.some(fieldValue => fieldValue.includes(filterWord));
+    })
   ));
 }
 

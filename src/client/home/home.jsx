@@ -53,7 +53,7 @@ class Home extends React.Component {
             <Slogan />
           </div>
         </div>
-        <ProductList items={spotlightProducts} />
+        <ProductList products={spotlightProducts} />
         <RaisedButton
           primary
           style={styles.productLinkButton}

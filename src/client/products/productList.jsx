@@ -28,7 +28,7 @@ class ProductList extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.updateProductArrayForPage(this.state.currentPage, nextProps.products);
+    this.updateProductArrayForPage(0, nextProps.products);
   }
 
   updateProductArrayForPage(page, products) {

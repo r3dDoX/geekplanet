@@ -126,7 +126,7 @@ class ProductDetails extends React.Component {
           <Divider style={styles.divider} />
           {product[locale].specifications.length ? (
             <div>
-              <h3>Specifications</h3>
+              <h3><FormattedMessage id="PRODUCT.SPECIFICATIONS" /></h3>
               <ul style={styles.descriptionList}>
                 {product[locale].specifications.map(specification => (
                   <li key={specification} style={styles.listItem}>
@@ -139,7 +139,7 @@ class ProductDetails extends React.Component {
           ) : null}
           {product[locale].delivery.length ? (
             <div>
-              <h3>Lieferumfang</h3>
+              <h3><FormattedMessage id="PRODUCT.DELIVERY" /></h3>
               <ul style={styles.descriptionList}>
                 {product[locale].delivery.map(delivery => (
                   <li key={delivery} style={styles.listItem}>
@@ -152,7 +152,7 @@ class ProductDetails extends React.Component {
           ) : null}
           {product[locale].downloads.length ? (
             <div>
-              <h3>Downloads</h3>
+              <h3><FormattedMessage id="PRODUCT.DOWNLOADS" /></h3>
               <ul style={styles.descriptionList}>
                 {product[locale].downloads.map(downloadLink => (
                   <li key={downloadLink.text} style={styles.listItem}>

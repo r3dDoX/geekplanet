@@ -14,7 +14,7 @@ const styles = {
   },
 };
 
-const PAGE_SIZE = 30;
+const PAGE_SIZE = 15;
 
 class ProductList extends React.Component {
 

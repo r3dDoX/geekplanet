@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import VirtualList from 'react-virtual-list';
+import InfiniteScroll from 'react-infinite-scroller';
 import ProductTile from './productTile.jsx';
+import { ProductPropType } from '../propTypes';
+import MainSpinner from '../layout/mainSpinner.jsx';
 
 const styles = {
   container: {
@@ -12,26 +14,53 @@ const styles = {
   },
 };
 
-const ProductList = ({ virtual }) => (
-  <div style={styles.container}>
-    {virtual.items.map(product => (
-      <ProductTile
-        key={product._id}
-        product={product}
-      />
-    ))}
-  </div>
-);
+const pageSize = 30;
+
+class ProductList extends React.Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      currentPage: 0,
+      loadedProducts: [],
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateProductArrayForPage(this.state.currentPage, nextProps.products);
+  }
+
+  updateProductArrayForPage(page, products) {
+    this.setState({
+      currentPage: page,
+      loadedProducts: products.slice(0, (page + 1) * pageSize),
+    });
+  }
+
+  render() {
+    return (
+      <InfiniteScroll
+        pageStart={this.state.currentPage}
+        loadMore={newPage => this.updateProductArrayForPage(newPage, this.props.products)}
+        hasMore={this.state.loadedProducts.length < this.props.products.length}
+        loader={<MainSpinner />}
+      >
+        <div style={styles.container}>
+          {this.state.loadedProducts.map(product => (
+            <ProductTile
+              key={product._id}
+              product={product}
+            />
+          ))}
+        </div>
+      </InfiniteScroll>
+    );
+  }
+}
 
 ProductList.propTypes = {
-  virtual: {
-    items: PropTypes.arrayOf(PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      description: PropTypes.string,
-      files: PropTypes.arrayOf(PropTypes.string),
-    })).isRequired,
-  }.isRequired,
+  products: PropTypes.arrayOf(ProductPropType).isRequired,
 };
 
-export default VirtualList()(ProductList);
+export default ProductList;

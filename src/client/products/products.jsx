@@ -22,10 +22,7 @@ class Products extends React.Component {
           products={products}
           filterProducts={filterProducts}
         />
-        <ProductList
-          items={filteredProducts}
-          itemHeight={425}
-        />
+        <ProductList products={filteredProducts} />
       </div>
     );
   }

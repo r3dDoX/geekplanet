@@ -41,7 +41,7 @@ class ProductList extends React.Component {
   render() {
     return (
       <InfiniteScroll
-        pageStart={this.state.currentPage}
+        pageStart={0}
         loadMore={newPage => this.updateProductArrayForPage(newPage, this.props.products)}
         hasMore={this.state.loadedProducts.length < this.props.products.length}
         loader={<MainSpinner />}

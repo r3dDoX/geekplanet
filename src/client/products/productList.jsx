@@ -14,7 +14,7 @@ const styles = {
   },
 };
 
-const pageSize = 30;
+const PAGE_SIZE = 30;
 
 class ProductList extends React.Component {
 
@@ -34,7 +34,7 @@ class ProductList extends React.Component {
   updateProductArrayForPage(page, products) {
     this.setState({
       currentPage: page,
-      loadedProducts: products.slice(0, (page + 1) * pageSize),
+      loadedProducts: products.slice(0, (page + 1) * PAGE_SIZE),
     });
   }
 

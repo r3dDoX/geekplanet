@@ -1,14 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
-import RaisedButton from 'material-ui/RaisedButton';
-import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
-import TextField from '../../formHelpers/textField.jsx';
+import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
+import { initialize, Field, reduxForm } from 'redux-form';
 import SelectField from '../../formHelpers/selectField.jsx';
+import TextField from '../../formHelpers/textField.jsx';
 import { ProductCategoryPropType } from '../../propTypes';
+import { createLoadProductCategories } from '../adminActions';
+import ProductCategoryService from './productCategoryService';
 
-export const formName = 'productcategories';
+const formName = 'productcategories';
 
 const styles = {
   container: {
@@ -30,7 +33,9 @@ const ProductCategoriesForm = ({
     <Field
       component={SelectField}
       name="_id"
-      onChange={(event, value) => selectProductCategory(value)}
+      onChange={(event, value) => selectProductCategory(
+        productCategories.find(productCategory => productCategory._id === value)
+      )}
     >
       <MenuItem
         value=""
@@ -80,7 +85,25 @@ ProductCategoriesForm.propTypes = {
   productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
 };
 
-export default reduxForm({
+export default connect(
+  state => state.forms,
+  dispatch => ({
+    clearForm() {
+      dispatch(initialize(formName));
+    },
+    selectProductCategory(productCategory) {
+      dispatch(initialize(formName, productCategory));
+    },
+    loadProductCategories() {
+      dispatch(createLoadProductCategories());
+    },
+    onSubmit(productCategory) {
+      ProductCategoryService.saveProductCategory(productCategory)
+        .then(this.loadProductCategories)
+        .then(() => this.clearForm(formName));
+    },
+  }),
+)(reduxForm({
   form: formName,
   destroyOnUnmount: false,
-})(ProductCategoriesForm);
+})(ProductCategoriesForm));

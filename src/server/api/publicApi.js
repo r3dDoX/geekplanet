@@ -74,7 +74,7 @@ module.exports = {
 
     app.get('/api/products/spotlight',
       (req /* : express$Request */, res /* : express$Response */) =>
-        Product.find({}, productListFilter).skip(Math.random() * 400).limit(20)
+        Product.find({}, productListFilter).skip(Math.random() * 400).limit(10)
           .then(products => res.send(products))
           .catch((err) => {
             Logger.error(err);

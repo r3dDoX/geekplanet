@@ -1,4 +1,5 @@
 import {
+  PRODUCT_LOADING,
   PRODUCT_SELECTED,
   PRODUCTS_FILTERED,
   PRODUCTS_LOADED,
@@ -10,6 +11,7 @@ const initialState = {
   products: [],
   filteredProducts: [],
   selectedProduct: undefined,
+  productLoading: false,
 };
 
 export default (state = initialState, {
@@ -29,10 +31,15 @@ export default (state = initialState, {
     case PRODUCT_SELECTED:
       return Object.assign({}, state, {
         selectedProduct,
+        productLoading: false,
       });
     case PRODUCTS_FILTERED:
       return Object.assign({}, state, {
         filteredProducts,
+      });
+    case PRODUCT_LOADING:
+      return Object.assign({}, state, {
+        productLoading: true,
       });
     default:
       return state;

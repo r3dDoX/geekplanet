@@ -1,6 +1,7 @@
 import Xhr from './xhr';
 
 export const SPOTLIGHT_PRODUCTS_LOADED = 'SPOTLIGHT_PRODUCTS_LOADED';
+export const PRODUCT_LOADING = 'PRODUCT_LOADING';
 export const PRODUCT_SELECTED = 'PRODUCT_SELECTED';
 export const PRODUCT_CATEGORIES_LOADED = 'PRODUCT_CATEGORIES_LOADED';
 export const TRANSLATIONS_LOADED = 'TRANSLATIONS_LOADED';
@@ -98,12 +99,17 @@ export const createFinishOrder = () => ({
   type: ORDER_FINISHED,
 });
 
-export const createLoadProduct = productId => dispatch =>
+export const createLoadProduct = productId => (dispatch) => {
+  dispatch({
+    type: PRODUCT_LOADING,
+  });
+
   Xhr.get(`/api/products/${productId}`)
     .then(selectedProduct => dispatch({
       type: PRODUCT_SELECTED,
       selectedProduct,
     }));
+}
 
 export const createAddItemToShoppingCart = product => ({
   type: ADD_ITEM_TO_SHOPPING_CART,

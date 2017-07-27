@@ -12,6 +12,7 @@ import { accent1Color, brandPrimary } from '../theme';
 import { createLoadProduct } from '../actions';
 import { getPictureUrl } from './productService';
 import OrderButton from '../order/orderButton.jsx';
+import MainSpinner from '../layout/mainSpinner.jsx';
 
 const styles = {
   container: {
@@ -80,91 +81,92 @@ class ProductDetails extends React.Component {
     const {
       locale,
       product,
+      productLoading,
     } = this.props;
     return (
       <div style={styles.container}>
-        {product &&
-        <div style={styles.productContainer}>
-          <div style={styles.gridListContainer}>
-            <ImageGallery
-              items={product.files.map(image => ({
-                original: getPictureUrl(image, 'l'),
-                thumbnail: getPictureUrl(image, 's'),
-              }))}
-              lazyLoad
-              showPlayButton={false}
-              thumbnailPosition="left"
+        {(product && !productLoading) ? (
+          <div style={styles.productContainer}>
+            <div style={styles.gridListContainer}>
+              <ImageGallery
+                items={product.files.map(image => ({
+                  original: getPictureUrl(image, 'l'),
+                  thumbnail: getPictureUrl(image, 's'),
+                }))}
+                lazyLoad
+                showPlayButton={false}
+                thumbnailPosition="left"
+              />
+            </div>
+            <h1 style={styles.title}>
+              {product[locale].name}
+            </h1>
+            <Divider style={styles.divider} />
+            <div style={styles.orderContainer}>
+              <h2 style={styles.price}>
+                {formatPriceWithCurrency(product.price)}
+              </h2>
+              <OrderButton product={product} />
+            </div>
+            <p style={styles.productStock}>
+              <StockIcon stock={product.stock} />&nbsp;&nbsp;&nbsp;
+              {product.stock > 0 ? (
+                <span style={styles.inStockMessage}>
+                  <FormattedMessage id="PRODUCT.IN_STOCK" values={{ stock: product.stock }} />
+                </span>
+              ) : (
+                <FormattedMessage id="PRODUCT.OUT_OF_STOCK" />
+              )}
+            </p>
+            <Divider style={styles.divider} />
+            <h3>Beschreibung</h3>
+            <p
+              style={styles.productDescription}
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{ __html: product[locale].description }}
             />
+            <Divider style={styles.divider} />
+            {product[locale].specifications.length ? (
+              <div>
+                <h3><FormattedMessage id="PRODUCT.SPECIFICATIONS" /></h3>
+                <ul style={styles.descriptionList}>
+                  {product[locale].specifications.map(specification => (
+                    <li key={specification} style={styles.listItem}>
+                      {specification}
+                    </li>
+                  ))}
+                </ul>
+                <Divider style={styles.divider} />
+              </div>
+            ) : null}
+            {product[locale].delivery.length ? (
+              <div>
+                <h3><FormattedMessage id="PRODUCT.DELIVERY" /></h3>
+                <ul style={styles.descriptionList}>
+                  {product[locale].delivery.map(delivery => (
+                    <li key={delivery} style={styles.listItem}>
+                      {delivery}
+                    </li>
+                  ))}
+                </ul>
+                <Divider style={styles.divider} />
+              </div>
+            ) : null}
+            {product[locale].downloads.length ? (
+              <div>
+                <h3><FormattedMessage id="PRODUCT.DOWNLOADS" /></h3>
+                <ul style={styles.descriptionList}>
+                  {product[locale].downloads.map(downloadLink => (
+                    <li key={downloadLink.text} style={styles.listItem}>
+                      <a href={downloadLink.href} target="_blank">{downloadLink.text}</a>
+                    </li>
+                  ))}
+                </ul>
+                <Divider style={styles.divider} />
+              </div>
+            ) : null}
           </div>
-          <h1 style={styles.title}>
-            {product[locale].name}
-          </h1>
-          <Divider style={styles.divider} />
-          <div style={styles.orderContainer}>
-            <h2 style={styles.price}>
-              {formatPriceWithCurrency(product.price)}
-            </h2>
-            <OrderButton product={product} />
-          </div>
-          <p style={styles.productStock}>
-            <StockIcon stock={product.stock} />&nbsp;&nbsp;&nbsp;
-            {product.stock > 0 ? (
-              <span style={styles.inStockMessage}>
-                <FormattedMessage id="PRODUCT.IN_STOCK" values={{ stock: product.stock }} />
-              </span>
-            ) : (
-              <FormattedMessage id="PRODUCT.OUT_OF_STOCK" />
-            )}
-          </p>
-          <Divider style={styles.divider} />
-          <h3>Beschreibung</h3>
-          <p
-            style={styles.productDescription}
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: product[locale].description }}
-          />
-          <Divider style={styles.divider} />
-          {product[locale].specifications.length ? (
-            <div>
-              <h3><FormattedMessage id="PRODUCT.SPECIFICATIONS" /></h3>
-              <ul style={styles.descriptionList}>
-                {product[locale].specifications.map(specification => (
-                  <li key={specification} style={styles.listItem}>
-                    {specification}
-                  </li>
-                ))}
-              </ul>
-              <Divider style={styles.divider} />
-            </div>
-          ) : null}
-          {product[locale].delivery.length ? (
-            <div>
-              <h3><FormattedMessage id="PRODUCT.DELIVERY" /></h3>
-              <ul style={styles.descriptionList}>
-                {product[locale].delivery.map(delivery => (
-                  <li key={delivery} style={styles.listItem}>
-                    {delivery}
-                  </li>
-                ))}
-              </ul>
-              <Divider style={styles.divider} />
-            </div>
-          ) : null}
-          {product[locale].downloads.length ? (
-            <div>
-              <h3><FormattedMessage id="PRODUCT.DOWNLOADS" /></h3>
-              <ul style={styles.descriptionList}>
-                {product[locale].downloads.map(downloadLink => (
-                  <li key={downloadLink.text} style={styles.listItem}>
-                    <a href={downloadLink.href} target="_blank">{downloadLink.text}</a>
-                  </li>
-                ))}
-              </ul>
-              <Divider style={styles.divider} />
-            </div>
-          ) : null}
-        </div>
-        }
+        ) : <MainSpinner />}
       </div>
     );
   }
@@ -177,6 +179,7 @@ ProductDetails.defaultProps = {
 ProductDetails.propTypes = {
   locale: PropTypes.string.isRequired,
   product: ProductPropType,
+  productLoading: PropTypes.bool.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -189,6 +192,7 @@ export default connect(
   state => ({
     locale: state.i18n.locale,
     product: state.products.selectedProduct,
+    productLoading: state.products.productLoading,
   }),
   dispatch => ({
     loadProduct(productId) {

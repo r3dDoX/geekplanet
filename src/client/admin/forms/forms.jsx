@@ -15,6 +15,8 @@ import ProducerForm from '../producers/producerForm.jsx';
 import ProductCategoryForm from '../productcategories/productCategoryForm.jsx';
 import SupplierForm from '../suppliers/supplierForm.jsx';
 import ProductForm from './productForm.jsx';
+import MainSpinner from '../../layout/mainSpinner.jsx';
+import { ProductPropType } from '../../propTypes';
 
 const paths = [
   '/forms/products',
@@ -50,11 +52,13 @@ class Forms extends React.Component {
         value={paths.find(path => this.props.location.pathname === path)}
       >
         <Tab label="Products" value={paths[0]}>
-          <PrivateRoute
-            path={paths[0]}
-            allowedRoles={allowedRoles}
-            component={ProductForm}
-          />
+          {this.props.products.length ? (
+            <PrivateRoute
+              path={`${paths[0]}/:id?`}
+              allowedRoles={allowedRoles}
+              component={ProductForm}
+            />
+          ) : <MainSpinner />}
         </Tab>
         <Tab label="Product Categories" value={paths[1]}>
           <PrivateRoute
@@ -88,6 +92,7 @@ Forms.propTypes = {
   loadProducers: PropTypes.func.isRequired,
   loadSuppliers: PropTypes.func.isRequired,
   loadTags: PropTypes.func.isRequired,
+  products: PropTypes.arrayOf(ProductPropType).isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,

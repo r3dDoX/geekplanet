@@ -1,14 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
-import RaisedButton from 'material-ui/RaisedButton';
-import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
-import TextField from '../../formHelpers/textField.jsx';
+import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
+import { initialize, Field, reduxForm } from 'redux-form';
 import SelectField from '../../formHelpers/selectField.jsx';
+import TextField from '../../formHelpers/textField.jsx';
 import { SupplierPropType } from '../../propTypes';
+import SupplierService from './supplierService';
+import { createLoadSuppliers } from '../adminActions';
 
-export const formName = 'supplier';
+const formName = 'supplier';
 
 const styles = {
   container: {
@@ -30,7 +33,9 @@ const SupplierForm = ({
     <Field
       component={SelectField}
       name="_id"
-      onChange={(event, value) => selectSupplier(value)}
+      onChange={(event, value) => selectSupplier(
+        suppliers.find(supplier => supplier._id === value)
+      )}
     >
       <MenuItem
         value=""
@@ -157,7 +162,25 @@ SupplierForm.propTypes = {
   suppliers: PropTypes.arrayOf(SupplierPropType).isRequired,
 };
 
-export default reduxForm({
+export default connect(
+  state => state.forms,
+  dispatch => ({
+    clearForm() {
+      dispatch(initialize(formName));
+    },
+    selectSupplier(supplier) {
+      dispatch(initialize(formName, supplier));
+    },
+    loadSuppliers() {
+      dispatch(createLoadSuppliers());
+    },
+    onSubmit(supplier) {
+      SupplierService.saveSupplier(supplier)
+        .then(this.loadSuppliers)
+        .then(() => this.clearForm());
+    },
+  })
+)(reduxForm({
   form: formName,
   destroyOnUnmount: false,
-})(SupplierForm);
+})(SupplierForm));

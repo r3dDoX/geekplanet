@@ -1,19 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { initialize, Field, reduxForm } from 'redux-form';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
-import UploadImagePreview from './uploadImagePreview.jsx';
-import TextField from '../../formHelpers/textField.jsx';
-import SelectField from '../../formHelpers/selectField.jsx';
 import {
-  ProductPropType,
   ProducerPropType,
   SupplierPropType,
   ProductCategoryPropType,
+  ProductPropType,
 } from '../../propTypes';
+import {
+  createLoadCompleteProducts,
+  createLoadProducers,
+  createLoadSuppliers,
+  createLoadTags,
+  createRemoveFile, createRemoveTag,
+  createResetSelectedFiles,
+  createSelectFiles,
+  createSelectProduct, createSelectTag,
+} from '../adminActions';
+import UploadImagePreview from './uploadImagePreview.jsx';
+import TextField from '../../formHelpers/textField.jsx';
+import SelectField from '../../formHelpers/selectField.jsx';
 import Tags from '../tags/tags.jsx';
+import * as ProductService from '../../products/productService';
 
 export const formName = 'products';
 
@@ -66,7 +78,9 @@ const ProductForm = ({
     <Field
       component={SelectField}
       name="_id"
-      onChange={(event, value) => selectProduct(value)}
+      onChange={(event, value) => selectProduct(
+        products.find(product => product._id === value)
+      )}
     >
       <MenuItem
         value=""
@@ -217,7 +231,7 @@ const ProductForm = ({
         accept="image/jpeg,image/png"
         multiple
         style={styles.fileUploadInput}
-        onChange={event => selectFiles(event.target.files)}
+        onChange={event => selectFiles(event.target.files, selectedFiles)}
       />
     </RaisedButton>
     <UploadImagePreview files={selectedFiles} removeFile={removeFile} />
@@ -248,7 +262,53 @@ ProductForm.propTypes = {
   removeTag: PropTypes.func.isRequired,
 };
 
-export default reduxForm({
+export default connect(
+  state => state.forms,
+  dispatch => ({
+    onSubmit(productToSubmit) {
+      ProductService.saveProduct(productToSubmit)
+        .then(this.loadProducts)
+        .then(() => {
+          this.clearForm();
+          this.resetSelectedFiles();
+        });
+    },
+    clearForm() {
+      dispatch(initialize(formName));
+    },
+    selectFiles(selectedFiles, initialFiles) {
+      dispatch(createSelectFiles(selectedFiles, initialFiles));
+    },
+    removeFile(initialFiles, fileIdToRemove) {
+      dispatch(createRemoveFile(initialFiles, fileIdToRemove));
+    },
+    resetSelectedFiles() {
+      dispatch(createResetSelectedFiles());
+    },
+    loadProducts() {
+      dispatch(createLoadCompleteProducts());
+    },
+    selectProduct(product) {
+      dispatch(createSelectProduct(product));
+      dispatch(initialize(formName, product));
+    },
+    loadProducers() {
+      dispatch(createLoadProducers());
+    },
+    loadSuppliers() {
+      dispatch(createLoadSuppliers());
+    },
+    loadTags() {
+      dispatch(createLoadTags());
+    },
+    selectTag(tags, item, index) {
+      dispatch(createSelectTag(tags, item, index));
+    },
+    removeTag(tags, tag) {
+      dispatch(createRemoveTag(tags, tag));
+    },
+  }),
+)(reduxForm({
   form: formName,
   destroyOnUnmount: false,
-})(ProductForm);
+})(ProductForm));

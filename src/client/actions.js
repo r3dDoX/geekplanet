@@ -109,7 +109,7 @@ export const createLoadProduct = productId => (dispatch) => {
       type: PRODUCT_SELECTED,
       selectedProduct,
     }));
-}
+};
 
 export const createAddItemToShoppingCart = product => ({
   type: ADD_ITEM_TO_SHOPPING_CART,

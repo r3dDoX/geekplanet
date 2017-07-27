@@ -6,25 +6,6 @@ import { FormattedMessage } from 'react-intl';
 import { ProductPropType } from '../../propTypes';
 import { accent2Color } from '../../theme';
 
-const fieldNamesToFilter = [
-  'name',
-  'shortDescription',
-];
-
-function applyFilter(dispatchFunction, products, filterString) {
-  const splittedFilterString = filterString.toLowerCase().split(' ');
-
-  dispatchFunction(products.filter(product =>
-    splittedFilterString.every((filterWord) => {
-      const fieldValuesToFilter = fieldNamesToFilter.map(
-        fieldName => product.de[fieldName].toLowerCase()
-      );
-
-      return fieldValuesToFilter.some(fieldValue => fieldValue.includes(filterWord));
-    })
-  ));
-}
-
 const styles = {
   container: {
     padding: '20px',
@@ -37,6 +18,37 @@ const styles = {
     color: grey700,
   },
 };
+
+const fieldNamesToFilter = [
+  'name',
+  'shortDescription',
+];
+
+let timeoutId;
+
+function debounce(fn, millis = 200) {
+  if (timeoutId) {
+    clearTimeout(timeoutId);
+  }
+
+  timeoutId = setTimeout(fn, millis);
+}
+
+function applyFilter(dispatchFunction, products, filterString) {
+  debounce(() => {
+    const splittedFilterString = filterString.toLowerCase().split(' ');
+
+    dispatchFunction(products.filter(product =>
+      splittedFilterString.every((filterWord) => {
+        const fieldValuesToFilter = fieldNamesToFilter.map(
+          fieldName => product.de[fieldName].toLowerCase()
+        );
+
+        return fieldValuesToFilter.some(fieldValue => fieldValue.includes(filterWord));
+      })
+    ));
+  });
+}
 
 const ProductFilter = ({
   products,

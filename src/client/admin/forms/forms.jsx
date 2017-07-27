@@ -2,7 +2,7 @@ import { Tab, Tabs } from 'material-ui/Tabs';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import PrivateRoute from '../../router/privateRoute.jsx';
 import {
   createLoadCompleteProducts,
@@ -35,6 +35,15 @@ class Forms extends React.Component {
   }
 
   render() {
+    if (this.props.location.pathname === '/forms') {
+      return (
+        <Redirect to={{
+          pathname: paths[0],
+        }}
+        />
+      );
+    }
+
     return (
       <Tabs
         onChange={path => this.props.history.push(path)}

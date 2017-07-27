@@ -14,7 +14,7 @@ const styles = {
   container: {
     flex: '1 1 300px',
     maxWidth: '450px',
-    margin: '0 10px 10px',
+    margin: '0 10px 16px',
     display: 'flex',
     flexDirection: 'column',
   },

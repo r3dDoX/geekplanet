@@ -1,14 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Card, CardTitle, CardMedia, CardText, CardActions } from 'material-ui/Card';
 import Badge from 'material-ui/Badge';
-import { Link, withRouter } from 'react-router-dom';
+import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import StockIcon from './stockIcon.jsx';
-import formatPrice from './priceFormatter';
-import { ProductPropType } from '../propTypes';
-import { getPictureUrl } from './productService';
+import { Link, withRouter } from 'react-router-dom';
 import OrderButton from '../order/orderButton.jsx';
+import { ProductPropType } from '../propTypes';
+import formatPrice from './priceFormatter';
+import { getPictureUrl } from './productService';
+import StockIcon from './stockIcon.jsx';
+import Authorized from '../auth/authorized.jsx';
 
 const styles = {
   container: {
@@ -49,6 +52,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
   },
   priceTag: {
     marginLeft: '8px',
@@ -61,6 +65,9 @@ const styles = {
     overflow: 'hidden',
     alignItems: 'center',
     cursor: 'pointer',
+  },
+  editButton: {
+    marginTop: '10px',
   },
 };
 
@@ -94,6 +101,15 @@ export const ProductTileComponent = ({
     <CardActions style={styles.actionContainer}>
       <span style={styles.priceTag}>{formatPrice(product.price)}</span>
       <OrderButton product={product} />
+      <Authorized allowedRoles={['admin']}>
+        <RaisedButton
+          style={styles.editButton}
+          label={<FormattedMessage id="COMMON.EDIT" />}
+          fullWidth
+          secondary
+          onTouchTap={() => history.push(`/forms/products/${product._id}`)}
+        />
+      </Authorized>
     </CardActions>
   </Card>
 );

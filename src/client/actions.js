@@ -23,6 +23,7 @@ export const SELECT_ORDER_STEP = 'SELECT_ORDER_STEP';
 export const PRODUCTS_LOADED = 'PRODUCTS_LOADED';
 export const FILTER_PRODUCTS = 'FILTER_PRODUCTS';
 export const REGISTRATION_SUCCESSFUL = 'REGISTRATION_SUCCESSFUL';
+export const TOGGLE_FILTER_CATEGORY = 'TOGGLE_FILTER_CATEGORY';
 
 export const createLoadTranslations = (translationService, localeWithFallback) => dispatch =>
   translationService.loadTranslations(localeWithFallback)
@@ -54,6 +55,10 @@ export const createFilterProducts = filterString => ({
   filterString,
 });
 
+export const createToggleFilterCategory = productCategory => ({
+  type: TOGGLE_FILTER_CATEGORY,
+  productCategory,
+});
 
 export const createLogout = () => ({
   type: LOGGED_OUT,
@@ -120,6 +125,12 @@ export const createLoadProducts = () => dispatch =>
   Xhr.get('/api/products').then(products => dispatch({
     type: PRODUCTS_LOADED,
     products,
+  }));
+
+export const createLoadProductCategories = () => dispatch =>
+  Xhr.get('/api/productCategories').then(productCategories => dispatch({
+    type: PRODUCT_CATEGORIES_LOADED,
+    productCategories,
   }));
 
 export const createSetShoppingCartamount = (amount, product) => ({

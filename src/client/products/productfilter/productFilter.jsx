@@ -1,3 +1,4 @@
+import { MenuItem } from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import { grey700 } from 'material-ui/styles/colors';
 import CancelIcon from 'material-ui/svg-icons/action/highlight-off';
@@ -5,11 +6,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
-import TextField from '../../formHelpers/textField.jsx';
 import SelectField from '../../formHelpers/selectField.jsx';
-import { accent2Color } from '../../theme';
-import { MenuItem } from 'material-ui';
+import TextField from '../../formHelpers/textField.jsx';
 import { ProductCategoryPropType } from '../../propTypes';
+import { accent2Color } from '../../theme';
 
 const styles = {
   container: {

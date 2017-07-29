@@ -42,6 +42,12 @@ export default (state = initialState, {
         productLoading: false,
       });
     case FILTER_PRODUCTS: {
+      if (!filterString) {
+        return Object.assign({}, state, {
+          filteredProducts: state.products,
+        });
+      }
+
       const splittedFilterString = filterString.toLowerCase().split(' ');
 
       return Object.assign({}, state, {

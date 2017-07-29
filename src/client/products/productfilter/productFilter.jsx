@@ -1,9 +1,9 @@
-import React from 'react';
-import TextField from 'material-ui/TextField';
 import { grey700 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ProductPropType } from '../../propTypes';
+import { Field, reduxForm } from 'redux-form';
+import TextField from '../../formHelpers/textField.jsx';
 import { accent2Color } from '../../theme';
 
 const styles = {
@@ -34,11 +34,13 @@ const ProductFilter = ({
 }) => (
   <div style={styles.container}>
     <div style={styles.filter}>
-      <TextField
-        id="productFilter"
-        hintText={<FormattedMessage id="PRODUCT_FILTER.PLACEHOLDER" />}
+      <Field
+        component={TextField}
+        name="filterString"
+        label={<FormattedMessage id="PRODUCT_FILTER.PLACEHOLDER" />}
         hintStyle={styles.filterHint}
         onKeyUp={({ target }) => debounce(() => filterProducts(target.value))}
+        type="text"
       />
     </div>
   </div>
@@ -48,4 +50,7 @@ ProductFilter.propTypes = {
   filterProducts: PropTypes.func.isRequired,
 };
 
-export default ProductFilter;
+export default reduxForm({
+  form: 'productFilter',
+  destroyOnUnmount: false,
+})(ProductFilter);

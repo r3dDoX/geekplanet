@@ -24,6 +24,7 @@ export const PRODUCTS_LOADED = 'PRODUCTS_LOADED';
 export const FILTER_PRODUCTS = 'FILTER_PRODUCTS';
 export const REGISTRATION_SUCCESSFUL = 'REGISTRATION_SUCCESSFUL';
 export const TOGGLE_FILTER_CATEGORY = 'TOGGLE_FILTER_CATEGORY';
+export const RESET_FILTER = 'RESET_FILTER';
 
 export const createLoadTranslations = (translationService, localeWithFallback) => dispatch =>
   translationService.loadTranslations(localeWithFallback)
@@ -151,4 +152,8 @@ export const createProcessingAuth = () => ({
 
 export const createFinishedAuth = () => ({
   type: FINISHED_AUTH,
+});
+
+export const createResetFilter = () => ({
+  type: RESET_FILTER,
 });

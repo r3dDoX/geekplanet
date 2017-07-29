@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 
 export const ProductPropType = PropTypes.shape({
   _id: PropTypes.string,
+  category: PropTypes.string,
   name: PropTypes.string,
   price: PropTypes.number,
   stock: PropTypes.number,
@@ -72,5 +73,8 @@ export const SupplierPropType = PropTypes.shape({
 
 export const ProductCategoryPropType = PropTypes.shape({
   _id: PropTypes.string,
-  name: PropTypes.string,
+  parentCategory: PropTypes.string,
+  de: {
+    name: PropTypes.string,
+  },
 });

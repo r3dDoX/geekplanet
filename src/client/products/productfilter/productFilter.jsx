@@ -19,11 +19,6 @@ const styles = {
   },
 };
 
-const fieldNamesToFilter = [
-  'name',
-  'shortDescription',
-];
-
 let timeoutId;
 
 function debounce(fn, millis = 200) {
@@ -34,24 +29,7 @@ function debounce(fn, millis = 200) {
   timeoutId = setTimeout(fn, millis);
 }
 
-function applyFilter(dispatchFunction, products, filterString) {
-  debounce(() => {
-    const splittedFilterString = filterString.toLowerCase().split(' ');
-
-    dispatchFunction(products.filter(product =>
-      splittedFilterString.every((filterWord) => {
-        const fieldValuesToFilter = fieldNamesToFilter.map(
-          fieldName => product.de[fieldName].toLowerCase()
-        );
-
-        return fieldValuesToFilter.some(fieldValue => fieldValue.includes(filterWord));
-      })
-    ));
-  });
-}
-
 const ProductFilter = ({
-  products,
   filterProducts,
 }) => (
   <div style={styles.container}>
@@ -60,14 +38,13 @@ const ProductFilter = ({
         id="productFilter"
         hintText={<FormattedMessage id="PRODUCT_FILTER.PLACEHOLDER" />}
         hintStyle={styles.filterHint}
-        onKeyUp={event => applyFilter(filterProducts, products, event.target.value)}
+        onKeyUp={({ target }) => debounce(() => filterProducts(target.value))}
       />
     </div>
   </div>
 );
 
 ProductFilter.propTypes = {
-  products: PropTypes.arrayOf(ProductPropType).isRequired,
   filterProducts: PropTypes.func.isRequired,
 };
 

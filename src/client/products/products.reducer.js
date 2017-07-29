@@ -4,7 +4,7 @@ import {
   PRODUCT_LOADING,
   PRODUCT_SELECTED,
   PRODUCTS_LOADED,
-  SPOTLIGHT_PRODUCTS_LOADED,
+  SPOTLIGHT_PRODUCTS_LOADED, RESET_FILTER,
 } from '../actions';
 
 const fieldNamesToFilter = [
@@ -93,6 +93,12 @@ export default (state = initialState, {
     case PRODUCT_LOADING:
       return Object.assign({}, state, {
         productLoading: true,
+      });
+    case RESET_FILTER:
+      return Object.assign({}, state, {
+        filterString: initialState.filterString,
+        categoriesToFilter: initialState.categoriesToFilter,
+        filteredProducts: state.products,
       });
     default:
       return state;

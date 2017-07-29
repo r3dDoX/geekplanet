@@ -43,6 +43,7 @@ const ProductFilter = ({
   productCategories,
   categoriesToFilter,
   toggleProductCategory,
+  resetFilter,
 }) => (
   <div style={styles.container}>
     <div style={styles.filter}>
@@ -72,6 +73,7 @@ const ProductFilter = ({
         ))}
       </Field>
       <RaisedButton
+        onTouchTap={resetFilter}
         label={<FormattedMessage id="PRODUCT_FILTER.RESET_FILTER" />}
         secondary
         style={styles.button}
@@ -86,6 +88,7 @@ ProductFilter.propTypes = {
   categoriesToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
   filterProducts: PropTypes.func.isRequired,
   toggleProductCategory: PropTypes.func.isRequired,
+  resetFilter: PropTypes.func.isRequired,
 };
 
 export default reduxForm({

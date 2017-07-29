@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ProductList from '../products/productList.jsx';
 import { ProductCategoryPropType, ProductPropType } from '../propTypes';
 import {
-  createFilterProducts, createLoadProductCategories, createLoadProducts,
+  createFilterProducts, createLoadProductCategories, createLoadProducts, createResetFilter,
   createToggleFilterCategory,
 } from '../actions';
 import ProductFilter from './productfilter/productFilter.jsx';
@@ -27,6 +27,7 @@ class Products extends React.Component {
       productCategories,
       categoriesToFilter,
       toggleProductCategory,
+      resetFilter,
     } = this.props;
 
     return (
@@ -36,6 +37,7 @@ class Products extends React.Component {
           productCategories={productCategories}
           categoriesToFilter={categoriesToFilter}
           toggleProductCategory={toggleProductCategory}
+          resetFilter={resetFilter}
         />
         <ProductList products={filteredProducts} />
       </div>
@@ -52,6 +54,7 @@ Products.propTypes = {
   filteredProducts: PropTypes.arrayOf(ProductPropType).isRequired,
   filterProducts: PropTypes.func.isRequired,
   toggleProductCategory: PropTypes.func.isRequired,
+  resetFilter: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -73,6 +76,9 @@ export default connect(
     },
     toggleProductCategory(category) {
       dispatch(createToggleFilterCategory(category));
+    },
+    resetFilter() {
+      dispatch(createResetFilter());
     },
   }),
 )(Products);

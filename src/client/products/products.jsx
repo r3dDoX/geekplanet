@@ -8,20 +8,20 @@ import ProductFilter from './productfilter/productFilter.jsx';
 
 class Products extends React.Component {
   componentWillMount() {
-    if (this.props.loadProducts.length === 0) {
+    if (this.props.products.length === 0) {
       this.props.loadProducts();
     }
   }
 
   render() {
-    const { products, filteredProducts, filterProducts } = this.props;
+    const {
+      filteredProducts,
+      filterProducts,
+    } = this.props;
 
     return (
       <div>
-        <ProductFilter
-          products={products}
-          filterProducts={filterProducts}
-        />
+        <ProductFilter filterProducts={filterProducts} />
         <ProductList products={filteredProducts} />
       </div>
     );
@@ -47,5 +47,5 @@ export default connect(
     filterProducts(filterString) {
       dispatch(createFilterProducts(filterString));
     },
-  })
+  }),
 )(Products);

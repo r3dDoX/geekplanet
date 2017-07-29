@@ -1,10 +1,15 @@
 import {
   PRODUCT_LOADING,
   PRODUCT_SELECTED,
-  PRODUCTS_FILTERED,
+  FILTER_PRODUCTS,
   PRODUCTS_LOADED,
   SPOTLIGHT_PRODUCTS_LOADED,
 } from '../actions';
+
+const fieldNamesToFilter = [
+  'name',
+  'shortDescription',
+];
 
 const initialState = {
   spotlightProducts: [],
@@ -15,8 +20,11 @@ const initialState = {
 };
 
 export default (state = initialState, {
-  type, spotlightProducts, products,
-  selectedProduct, filteredProducts,
+  type,
+  spotlightProducts,
+  products,
+  selectedProduct,
+  filterString,
 }) => {
   switch (type) {
     case SPOTLIGHT_PRODUCTS_LOADED:
@@ -33,10 +41,21 @@ export default (state = initialState, {
         selectedProduct,
         productLoading: false,
       });
-    case PRODUCTS_FILTERED:
+    case FILTER_PRODUCTS: {
+      const splittedFilterString = filterString.toLowerCase().split(' ');
+
       return Object.assign({}, state, {
-        filteredProducts,
+        filteredProducts: state.products.filter(product =>
+          splittedFilterString.every((filterWord) => {
+            const fieldValuesToFilter = fieldNamesToFilter.map(
+              fieldName => product.de[fieldName].toLowerCase(),
+            );
+
+            return fieldValuesToFilter.some(fieldValue => fieldValue.includes(filterWord));
+          }),
+        ),
       });
+    }
     case PRODUCT_LOADING:
       return Object.assign({}, state, {
         productLoading: true,

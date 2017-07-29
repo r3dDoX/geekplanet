@@ -44,8 +44,8 @@ export default connect(
     loadProducts() {
       dispatch(createLoadProducts());
     },
-    filterProducts(filteredProducts) {
-      dispatch(createFilterProducts(filteredProducts));
+    filterProducts(filterString) {
+      dispatch(createFilterProducts(filterString));
     },
   })
 )(Products);

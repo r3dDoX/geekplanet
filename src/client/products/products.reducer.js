@@ -24,14 +24,24 @@ const initialState = {
 };
 
 function filterProducts(products, filterString, categoriesToFilter) {
-  if (!filterString && !categoriesToFilter.length) {
-    return products;
+  let filteredProducts;
+
+  if (!categoriesToFilter.length) {
+    filteredProducts = products;
+  } else {
+    filteredProducts = products.filter(product =>
+      categoriesToFilter.some(productCategory => productCategory._id === product.category),
+    );
+  }
+
+  if (!filterString) {
+    return filteredProducts;
   }
 
   const splittedFilterString = filterString.toLowerCase().split(' ');
 
-  return products.filter(product =>
-    categoriesToFilter.includes(product.category) && splittedFilterString.every((filterWord) => {
+  return filteredProducts.filter(product =>
+    splittedFilterString.every((filterWord) => {
       const fieldValuesToFilter = fieldNamesToFilter.map(
         fieldName => product.de[fieldName].toLowerCase(),
       );
@@ -48,7 +58,6 @@ export default (state = initialState, {
   productCategories,
   selectedProduct,
   filterString,
-  productCategory,
 }) => {
   switch (type) {
     case SPOTLIGHT_PRODUCTS_LOADED:
@@ -74,22 +83,11 @@ export default (state = initialState, {
         filterString,
         filteredProducts: filterProducts(state.products, filterString, state.categoriesToFilter),
       });
-    case TOGGLE_FILTER_CATEGORY: {
-      let categoriesToFilter;
-
-      if (state.categoriesToFilter.includes(productCategory)) {
-        categoriesToFilter = state.categoriesToFilter.filter(
-          actProductCategory => productCategory !== actProductCategory,
-        );
-      } else {
-        categoriesToFilter = state.categoriesToFilter.concat(productCategory);
-      }
-
+    case TOGGLE_FILTER_CATEGORY:
       return Object.assign({}, state, {
-        categoriesToFilter,
-        filteredProducts: filterProducts(state.products, state.filterString, categoriesToFilter),
+        categoriesToFilter: productCategories,
+        filteredProducts: filterProducts(state.products, state.filterString, productCategories),
       });
-    }
     case PRODUCT_LOADING:
       return Object.assign({}, state, {
         productLoading: true,

@@ -1,4 +1,4 @@
-import { MenuItem } from 'material-ui/MenuItem';
+import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import { grey700 } from 'material-ui/styles/colors';
 import CancelIcon from 'material-ui/svg-icons/action/highlight-off';

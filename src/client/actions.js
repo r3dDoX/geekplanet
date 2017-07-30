@@ -56,9 +56,9 @@ export const createFilterProducts = filterString => ({
   filterString,
 });
 
-export const createToggleFilterCategory = productCategory => ({
+export const createToggleFilterCategory = productCategories => ({
   type: TOGGLE_FILTER_CATEGORY,
-  productCategory,
+  productCategories,
 });
 
 export const createLogout = () => ({

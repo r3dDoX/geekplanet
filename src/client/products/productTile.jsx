@@ -61,7 +61,6 @@ const styles = {
     flex: 'none',
     display: 'flex',
     justifyContent: 'space-around',
-    maxHeight: '300px',
     overflow: 'hidden',
     alignItems: 'center',
     cursor: 'pointer',

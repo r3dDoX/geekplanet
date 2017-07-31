@@ -77,10 +77,10 @@ function saveFileInSize(id, file, sizeTag, size) {
 
     streamifier.createReadStream(file.buffer)
       .pipe(sharp()
-        .resize(size, size)
+        .resize(size, Math.round(size * 0.75))
         .background({ r: 255, g: 255, b: 255, alpha: 1 })
         .flatten()
-        .max()
+        .embed()
         .withoutEnlargement()
         .jpeg()
       )
@@ -119,7 +119,7 @@ module.exports = {
           const id = shortId.generate();
 
           return Promise.all([
-            saveFileInSize(id, file, 's', 400),
+            saveFileInSize(id, file, 's', 450),
             saveFileInSize(id, file, 'm', 800),
             saveFileInSize(id, file, 'l', 1600),
           ])

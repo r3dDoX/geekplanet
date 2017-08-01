@@ -29,11 +29,15 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
-    padding: '10px 20px',
     backgroundColor: accent2Color,
+  },
+  filterItem: {
+    padding: '20px',
   },
   filterHint: {
     color: grey700,
+    borderColor: grey700,
+    fill: grey700,
   },
 };
 
@@ -67,40 +71,50 @@ class ProductFilter extends React.Component {
     return (
       <div style={styles.container}>
         <div style={styles.filter}>
-          <Field
-            component={TextField}
-            name="filterString"
-            label={<FormattedMessage id="PRODUCT_FILTER.PLACEHOLDER" />}
-            hintStyle={styles.filterHint}
-            onKeyUp={({ target }) => debounce(() => filterProducts(target.value))}
-            type="text"
-          />
-          <SelectField
-            name="categories"
-            floatingLabelText="Product Categories"
-            onChange={(event, index, values) => toggleProductCategory(values)}
-            value={categoriesToFilter}
-            multiple
-          >
-            {productCategories.map(productCategory => (
-              <MenuItem
-                key={productCategory._id}
-                value={productCategory}
-                primaryText={productCategory.de.name}
-                insetChildren
-                checked={categoriesToFilter.some(
-                  categoryToFilter => categoryToFilter._id === productCategory._id,
-                )}
-              />
-            ))}
-          </SelectField>
-          <RaisedButton
-            onTouchTap={resetFilter}
-            label={<FormattedMessage id="PRODUCT_FILTER.RESET_FILTER" />}
-            secondary
-            style={styles.button}
-            icon={<CancelIcon />}
-          />
+          <div style={styles.filterItem}>
+            <Field
+              component={TextField}
+              name="filterString"
+              label={<FormattedMessage id="PRODUCT_FILTER.PLACEHOLDER" />}
+              floatingLabelStyle={styles.filterHint}
+              underlineStyle={styles.filterHint}
+              onKeyUp={({ target }) => debounce(() => filterProducts(target.value))}
+              type="text"
+            />
+          </div>
+          <div style={styles.filterItem}>
+            <SelectField
+              name="categories"
+              floatingLabelText="Product Categories"
+              onChange={(event, index, values) => toggleProductCategory(values)}
+              floatingLabelStyle={styles.filterHint}
+              underlineStyle={styles.filterHint}
+              iconStyle={styles.filterHint}
+              value={categoriesToFilter}
+              multiple
+            >
+              {productCategories.map(productCategory => (
+                <MenuItem
+                  key={productCategory._id}
+                  value={productCategory}
+                  primaryText={productCategory.de.name}
+                  insetChildren
+                  checked={categoriesToFilter.some(
+                    categoryToFilter => categoryToFilter._id === productCategory._id,
+                  )}
+                />
+              ))}
+            </SelectField>
+          </div>
+          <div style={styles.filterItem}>
+            <RaisedButton
+              onTouchTap={resetFilter}
+              label={<FormattedMessage id="PRODUCT_FILTER.RESET_FILTER" />}
+              secondary
+              style={styles.button}
+              icon={<CancelIcon />}
+            />
+          </div>
         </div>
       </div>
     );

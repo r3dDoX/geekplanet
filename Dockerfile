@@ -5,7 +5,7 @@ WORKDIR /usr/app
 
 RUN npm install
 
-RUN adduser geekplanet
+RUN useradd -ms /bin/bash geekplanet
 USER geekplanet
 
 CMD npm start

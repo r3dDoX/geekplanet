@@ -1,18 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
-import ImageGallery from 'react-image-gallery';
 import Divider from 'material-ui/Divider';
 import { green500, grey300 } from 'material-ui/styles/colors';
-import { ProductPropType } from '../propTypes';
-import StockIcon from './stockIcon.jsx';
-import { formatPriceWithCurrency } from './priceFormatter';
-import { accent1Color, brandPrimary } from '../theme';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
 import { createLoadProduct } from '../actions';
-import { getPictureUrl } from './productService';
-import OrderButton from '../order/orderButton.jsx';
 import MainSpinner from '../layout/mainSpinner.jsx';
+import OrderButton from '../order/orderButton.jsx';
+import { ProductPropType } from '../propTypes';
+import { accent1Color, brandPrimary } from '../theme';
+import { formatPriceWithCurrency } from './priceFormatter';
+import ProductSlider from './productSlider.jsx';
+import StockIcon from './stockIcon.jsx';
 
 const styles = {
   container: {
@@ -88,15 +87,7 @@ class ProductDetails extends React.Component {
         {(product && !productLoading) ? (
           <div style={styles.productContainer}>
             <div style={styles.gridListContainer}>
-              <ImageGallery
-                items={product.files.map(image => ({
-                  original: getPictureUrl(image, 'l'),
-                  thumbnail: getPictureUrl(image, 's'),
-                }))}
-                lazyLoad
-                showPlayButton={false}
-                thumbnailPosition="left"
-              />
+              <ProductSlider product={product}/>
             </div>
             <h1 style={styles.title}>
               {product[locale].name}

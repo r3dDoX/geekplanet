@@ -7,18 +7,20 @@ import {
 } from '../propTypes';
 import Xhr from '../xhr';
 import Payment from './payment.jsx';
-import { createFinishOrder } from '../actions';
+import { createFinishOrder, createProcessingStarted } from '../actions';
 
 const PaymentStepContent = ({
   email,
   order,
   shoppingCart,
   finishOrder,
+  startProcessing,
 }) => {
   if (email) {
     return (
       <Payment
         email={email}
+        processing={order.processing}
         shoppingCart={shoppingCart}
         startOrder={() => Xhr.put('/api/orders', Object.assign({
           _id: shoppingCart.id,
@@ -26,6 +28,7 @@ const PaymentStepContent = ({
           items: shoppingCart.items,
         }))}
         finishOrder={finishOrder}
+        startProcessing={startProcessing}
       />
     );
   }
@@ -40,6 +43,7 @@ PaymentStepContent.propTypes = {
   email: PropTypes.string,
   shoppingCart: ShoppingCartPropType.isRequired,
   finishOrder: PropTypes.func.isRequired,
+  startProcessing: PropTypes.func.isRequired,
   order: OrderPropType.isRequired,
 };
 
@@ -50,6 +54,9 @@ export default connect(
     order: state.order,
   }),
   dispatch => ({
+    startProcessing() {
+      dispatch(createProcessingStarted());
+    },
     finishOrder() {
       dispatch(createFinishOrder());
     },

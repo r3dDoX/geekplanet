@@ -39,6 +39,7 @@ export const OrderPropType = PropTypes.shape({
   step: PropTypes.number.isRequired,
   addresses: UserAddressesPropType.isRequired,
   selectedAddress: UserAddressPropType,
+  processing: PropTypes.bool.isRequired,
 });
 
 export const AddressPropType = PropTypes.shape({

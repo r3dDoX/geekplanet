@@ -1,4 +1,7 @@
-import { ADDRESSES_LOADED, ORDER_FINISHED, SAVE_ADDRESS, SELECT_ADDRESS, SELECT_ORDER_STEP } from '../actions';
+import {
+  ADDRESSES_LOADED, ORDER_FINISHED, PROCESSING_STARTED, SAVE_ADDRESS, SELECT_ADDRESS,
+  SELECT_ORDER_STEP,
+} from '../actions';
 
 export const OrderSteps = {
   ADDRESS: 'address',
@@ -11,6 +14,7 @@ const initialState = {
   addresses: [],
   selectedAddress: undefined,
   step: OrderSteps.ADDRESS,
+  processing: false,
 };
 
 export default function auth(state = initialState, { type, data }) {
@@ -34,11 +38,17 @@ export default function auth(state = initialState, { type, data }) {
     case ORDER_FINISHED: {
       return Object.assign({}, state, {
         step: OrderSteps.CONFIRMATION,
+        processing: false,
       });
     }
     case SELECT_ORDER_STEP: {
       return Object.assign({}, state, {
         step: data,
+      });
+    }
+    case PROCESSING_STARTED: {
+      return Object.assign({}, state, {
+        processing: true,
       });
     }
     default: {

@@ -1,5 +1,6 @@
 /* @flow */
 
+const compression = require('compression');
 const Logger = require('../logger');
 const mongoHelper = require('../db/mongoHelper');
 
@@ -62,7 +63,7 @@ module.exports = {
       },
     });
 
-    app.get('/api/products',
+    app.get('/api/products', compression(),
       (req /* : express$Request */, res /* : express$Response */) =>
         Product.find({}, productListFilter).sort({ name: 1 })
           .then(products => res.send(products))
@@ -89,26 +90,6 @@ module.exports = {
           .catch((err) => {
             Logger.error(err);
             res.status(500).send('Fetching products failed!');
-          })
-    );
-
-    app.get('/api/suppliers',
-      (req /* : express$Request */, res /* : express$Response */) =>
-        Supplier.find().sort({ name: 1 })
-          .then(suppliers => res.send(suppliers))
-          .catch((err) => {
-            Logger.error(err);
-            res.status(500).send('Fetching suppliers failed!');
-          })
-    );
-
-    app.get('/api/producers',
-      (req /* : express$Request */, res /* : express$Response */) =>
-        Producer.find().sort({ name: 1 })
-          .then(producers => res.send(producers))
-          .catch((err) => {
-            Logger.error(err);
-            res.status(500).send('Fetching producers failed!');
           })
     );
 

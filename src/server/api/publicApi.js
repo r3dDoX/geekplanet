@@ -6,10 +6,8 @@ const mongoHelper = require('../db/mongoHelper');
 
 const {
   ProductPicturesCollection,
-  Producer,
   Product,
   ProductCategory,
-  Supplier,
   Tag,
 } = require('../db/models');
 

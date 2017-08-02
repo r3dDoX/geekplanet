@@ -68,7 +68,7 @@
     "eslint-plugin-import": "2.6.0",
     "eslint-plugin-jsx-a11y": "5.0.3",
     "eslint-plugin-react": "7.1.0",
-    "flow-bin": "0.51.1",
+    "flow-bin": "0.52.0",
     "flow-typed": "2.1.5",
     "greenkeeper-lockfile": "1.7.2",
     "html-webpack-plugin": "2.30.1",

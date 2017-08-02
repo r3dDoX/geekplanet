@@ -87,7 +87,7 @@ class ProductDetails extends React.Component {
         {(product && !productLoading) ? (
           <div style={styles.productContainer}>
             <div style={styles.gridListContainer}>
-              <ProductSlider product={product}/>
+              <ProductSlider product={product} />
             </div>
             <h1 style={styles.title}>
               {product[locale].name}

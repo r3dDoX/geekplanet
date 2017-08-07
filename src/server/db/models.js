@@ -1,7 +1,7 @@
 // @flow
 
 const mongoose = require('mongoose');
-const AutoIncrement = require('mongoose-sequence');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const models = {};
 

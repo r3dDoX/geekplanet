@@ -52,7 +52,6 @@ function debounce(fn, millis = 200) {
 }
 
 class ProductFilter extends React.Component {
-
   componentWillMount() {
     if (this.props.productCategories.length === 0) {
       this.props.loadProductCategories();

@@ -27,7 +27,6 @@ const paths = [
 const allowedRoles = ['admin'];
 
 class Forms extends React.Component {
-
   componentWillMount() {
     this.props.loadProducts();
     this.props.loadProductCategories();

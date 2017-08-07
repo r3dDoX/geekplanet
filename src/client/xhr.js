@@ -17,7 +17,7 @@ function wrapXhrPromise(path, method, data, contentType) {
         let response = request.response;
         try {
           response = JSON.parse(response);
-        } catch (e) { /* Nothing to do when no JSON returned*/ }
+        } catch (e) { /* Nothing to do when no JSON returned */ }
         resolve(response);
       } else if (request.status === 401) {
         AuthService.logout();

@@ -1,5 +1,3 @@
-// @flow
-
 const fs = require('fs');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
@@ -37,11 +35,7 @@ const authorization = jwt({
   algorithms: ['RS256'],
 });
 
-function isAdmin(
-  req /* : express$Request */,
-  res /* : express$Response */,
-  next /* : express$NextFunction */
-) {
+function isAdmin(req, res, next) {
   if (!req.user || req.user['https://geekplanet.ch/roles'].indexOf('admin') === -1) {
     res.sendStatus(403);
   } else {
@@ -111,9 +105,9 @@ function removeFile(id) {
 }
 
 module.exports = {
-  registerEndpoints(app /* : express$Application */) {
+  registerEndpoints(app) {
     app.post('/api/products/pictures', authorization, isAdmin, multer.any(),
-      (req /* : express$Request */, res /* : express$Response */) =>
+      (req, res) =>
         Promise.all(req.files.map((file) => {
           const id = shortId.generate();
 
@@ -129,7 +123,7 @@ module.exports = {
     );
 
     app.delete('/api/products/pictures/:id', authorization, isAdmin,
-      (req /* : express$Request */, res /* : express$Response */) =>
+      (req, res) =>
         removeFile(req.params.id)
           .then(() => Product.update({}, { $pull: { files: req.params.id } }, { multi: true }))
           .then(() => res.sendStatus(200))
@@ -137,7 +131,7 @@ module.exports = {
     );
 
     app.get('/api/completeProducts', authorization, isAdmin,
-      (req /* : express$Request */, res /* : express$Response */) =>
+      (req, res) =>
         Product.find().sort({ 'de.name': 1 })
           .then(products => res.send(products))
           .catch((err) => {
@@ -147,14 +141,14 @@ module.exports = {
     );
 
     app.put('/api/products', authorization, isAdmin, bodyParser.json(),
-      (req /* : express$Request */, res /* : express$Response */) =>
+      (req, res) =>
         saveOrUpdate(Product, req.body)
           .then(() => res.sendStatus(200))
           .catch(handleGenericError)
     );
 
     app.get('/api/suppliers', authorization, isAdmin,
-      (req /* : express$Request */, res /* : express$Response */) =>
+      (req, res) =>
         Supplier.find().sort({ name: 1 })
           .then(suppliers => res.send(suppliers))
           .catch((err) => {
@@ -164,7 +158,7 @@ module.exports = {
     );
 
     app.get('/api/producers', authorization, isAdmin,
-      (req /* : express$Request */, res /* : express$Response */) =>
+      (req, res) =>
         Producer.find().sort({ name: 1 })
           .then(producers => res.send(producers))
           .catch((err) => {
@@ -174,14 +168,14 @@ module.exports = {
     );
 
     app.put('/api/tags', authorization, isAdmin, bodyParser.json(),
-      (req /* : express$Request */, res /* : express$Response */) =>
+      (req, res) =>
         saveOrUpdate(Tag, req.body)
           .then(() => res.sendStatus(200))
           .catch(handleGenericError)
     );
 
     app.put('/api/productcategories', authorization, isAdmin, bodyParser.json(),
-      ({ body } /* : express$Request */, res /* : express$Response */) => {
+      ({ body }, res) => {
         const promises = [];
         if (body._id) {
           ProductCategory.findOne({ _id: body._id })
@@ -201,21 +195,21 @@ module.exports = {
       });
 
     app.put('/api/suppliers', authorization, isAdmin, bodyParser.json(),
-      (req /* : express$Request */, res /* : express$Response */) =>
+      (req, res) =>
         saveOrUpdate(Supplier, req.body)
           .then(() => res.sendStatus(200))
           .catch(error => handleGenericError(error, res))
     );
 
     app.put('/api/producers', authorization, isAdmin, bodyParser.json(),
-      (req /* : express$Request */, res /* : express$Response */) =>
+      (req, res) =>
         saveOrUpdate(Producer, req.body)
           .then(() => res.sendStatus(200))
           .catch(error => handleGenericError(error, res))
     );
 
     app.put('/api/orders', authorization, bodyParser.json(),
-      (req /* : express$Request */, res /* : express$Response */) =>
+      (req, res) =>
         saveOrUpdate(Order, Object.assign(
           req.body,
           {
@@ -229,7 +223,7 @@ module.exports = {
     );
 
     app.put('/api/userAddress', authorization, bodyParser.json(),
-      (req /* : express$Request */, res /* : express$Response */) =>
+      (req, res) =>
         saveOrUpdate(UserAddress, Object.assign(
           req.body,
           { user: req.user.sub }
@@ -239,14 +233,14 @@ module.exports = {
     );
 
     app.get('/api/userAddresses', authorization,
-      (req /* : express$Request */, res /* : express$Response */) =>
+      (req, res) =>
         UserAddress.find({ user: req.user.sub }, { user: 0 })
           .then(addresses => res.status(200).send(JSON.stringify(addresses)))
           .catch(error => handleGenericError(error, res))
     );
 
     app.post('/api/payment/cleared', bodyParser.json(), authorization,
-      (req /* : express$Request */, res /* : express$Response */) => {
+      (req, res) => {
         const orderQuery = Order.findOne({ _id: req.body.shoppingCartId, user: req.user.sub });
 
         orderQuery
@@ -268,7 +262,7 @@ module.exports = {
     );
 
     app.post('/api/payment/prepayment', bodyParser.json(), authorization,
-      (req /* : express$Request */, res /* : express$Response */) =>
+      (req, res) =>
         Order.findOneAndUpdate({
           _id: req.body.shoppingCartId,
           user: req.user.sub,

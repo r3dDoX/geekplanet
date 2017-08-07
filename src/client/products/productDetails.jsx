@@ -71,7 +71,6 @@ const styles = {
 };
 
 class ProductDetails extends React.Component {
-
   componentWillMount() {
     this.props.loadProduct(this.props.match.params.id);
   }

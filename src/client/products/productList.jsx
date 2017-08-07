@@ -17,7 +17,6 @@ const styles = {
 const PAGE_SIZE = 15;
 
 class ProductList extends React.Component {
-
   constructor() {
     super();
 

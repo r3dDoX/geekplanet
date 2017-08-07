@@ -48,7 +48,6 @@ const styles = {
 };
 
 class OrderStepper extends React.Component {
-
   componentWillMount() {
     if (this.props.shoppingCart.items.length === 0) {
       this.props.history.push('/');

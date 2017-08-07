@@ -22,7 +22,6 @@ import { load, ids } from './storage';
 const LazyForms = asyncComponent(() => import('./admin/forms/forms.jsx').then(module => module.default));
 
 class App extends React.Component {
-
   componentWillMount() {
     this.props.loadTranslations(this.props.locale);
     this.props.loadShoppingCart();

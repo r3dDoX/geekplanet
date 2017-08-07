@@ -56,7 +56,6 @@ const styles = {
 };
 
 class ProductForm extends React.Component {
-
   componentDidMount() {
     const {
       products,

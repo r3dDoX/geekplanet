@@ -4,7 +4,7 @@
   "description": "A Webshop built with React/Redux, Node JS and Mongo DB",
   "repository": "https://github.com/r3dDoX/geekplanet",
   "engines": {
-    "node": ">=8.1.0"
+    "node": "8.2.1"
   },
   "scripts": {
     "greenkeeper_update": "greenkeeper-lockfile-update",
@@ -84,7 +84,7 @@
     "react-image-gallery": "0.8.3",
     "react-infinite-scroller": "1.0.14",
     "react-intl": "2.3.0",
-    "react-redux": "5.0.5",
+    "react-redux": "5.0.6",
     "react-router-dom": "4.1.2",
     "react-tap-event-plugin": "2.0.1",
     "react-test-renderer": "15.6.1",
@@ -93,7 +93,7 @@
     "redux-thunk": "2.2.0",
     "style-loader": "0.18.2",
     "webpack": "3.5.1",
-    "webpack-dev-server": "2.6.1",
+    "webpack-dev-server": "2.7.1",
     "webpack-merge": "4.1.0"
   },
   "jest": {

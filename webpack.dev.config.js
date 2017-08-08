@@ -5,8 +5,6 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const commonConfig = require('./webpack.common.config');
 
-const localConfig = require('./src/config/local.config.json');
-
 module.exports = merge(commonConfig, {
   devtool: 'eval',
 
@@ -28,7 +26,6 @@ module.exports = merge(commonConfig, {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.DefinePlugin(localConfig),
   ],
 
   devServer: {

@@ -1,12 +1,9 @@
-/* eslint-disable import/no-extraneous-dependencies, import/no-dynamic-require */
+/* eslint-disable import/no-extraneous-dependencies */
 
 const path = require('path');
-const webpack = require('webpack');
 const merge = require('webpack-merge');
 const CompressionPlugin = require('compression-webpack-plugin');
 const commonConfig = require('./webpack.common.config');
-
-const environmentConfig = require(`./src/config/${process.env.CONFIG}.config.json`);
 
 module.exports = merge(commonConfig, {
   devtool: 'source-map',
@@ -19,7 +16,6 @@ module.exports = merge(commonConfig, {
   },
 
   plugins: [
-    new webpack.DefinePlugin(environmentConfig),
     new CompressionPlugin({
       asset: '[path].gz[query]',
       algorithm: 'gzip',

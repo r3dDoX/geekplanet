@@ -7,6 +7,20 @@ const secretConfig = require('./src/config/secret.config.json');
 
 const environmentConfig = require(`./src/config/${process.env.CONFIG || 'local'}.config.json`);
 
+function stringifyValues(obj) {
+  return Object.keys(obj).reduce((acc, key) => {
+    const value = obj[key];
+
+    if (typeof value === 'object') {
+      acc[key] = stringifyValues(value);
+    } else {
+      acc[key] = JSON.stringify(value);
+    }
+
+    return acc;
+  }, {});
+}
+
 module.exports = {
 
   output: {
@@ -28,7 +42,7 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.DefinePlugin(environmentConfig),
+    new webpack.DefinePlugin(stringifyValues(environmentConfig)),
     new HtmlWebpackPlugin({
       template: 'src/client/index.html',
     }),

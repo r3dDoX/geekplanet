@@ -93,7 +93,7 @@
     "redux-thunk": "2.2.0",
     "style-loader": "0.18.2",
     "webpack": "3.5.0",
-    "webpack-dev-server": "2.6.1",
+    "webpack-dev-server": "2.7.0",
     "webpack-merge": "4.1.0"
   },
   "jest": {

@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable import/no-extraneous-dependencies */
 
 const path = require('path');
 const webpack = require('webpack');
@@ -26,7 +26,6 @@ module.exports = merge(commonConfig, {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.DefinePlugin(require('./src/config/local.config.json')),
   ],
 
   devServer: {

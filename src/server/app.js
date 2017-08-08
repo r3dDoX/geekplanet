@@ -1,3 +1,7 @@
+require('babel-core/register')({
+  presets: ['react'],
+});
+
 const path = require('path');
 const express = require('express');
 const mongoSanitize = require('express-mongo-sanitize');

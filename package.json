@@ -23,11 +23,12 @@
     "build:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk npm run build:production",
     "heroku-postbuild": "npm run build",
     "start": "NODE_ENV='production' node src/server/app.js",
-    "dev": "NODE_ENV='development' webpack-dev-server --color --config webpack.dev.config.js & nodemon src/server/app.js"
+    "dev": "NODE_ENV='development' webpack-dev-server --color --config webpack.dev.config.js & nodemon -e js,jsx,json src/server/app.js"
   },
   "author": "Patrick Walther",
   "license": "ISC",
   "dependencies": {
+    "babel-core": "6.25.0",
     "body-parser": "1.17.2",
     "chalk": "2.1.0",
     "compression": "1.7.0",
@@ -41,6 +42,8 @@
     "multer": "1.3.0",
     "nodemailer": "4.0.1",
     "pdffiller": "0.0.10",
+    "react": "15.6.1",
+    "react-dom": "15.6.1",
     "sharp": "0.18.2",
     "shortid": "2.2.8",
     "streamifier": "0.1.1",
@@ -48,7 +51,6 @@
   },
   "devDependencies": {
     "auth0-js": "8.8.0",
-    "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-loader": "7.1.1",
@@ -77,9 +79,7 @@
     "material-ui": "0.18.7",
     "nodemon": "1.11.0",
     "prop-types": "15.5.10",
-    "react": "15.6.1",
     "react-addons-test-utils": "15.6.0",
-    "react-dom": "15.6.1",
     "react-hot-loader": "3.0.0-beta.6",
     "react-image-gallery": "0.8.3",
     "react-infinite-scroller": "1.0.14",

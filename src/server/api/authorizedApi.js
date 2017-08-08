@@ -12,6 +12,7 @@ const stripe = require('stripe')(secretConfig.PAYMENT_SECRET || process.env.PAYM
 const esrGenerator = require('../esr/esrGenerator');
 const mail = require('../mail');
 const mongoHelper = require('../db/mongoHelper');
+const renderOrderConfirmationTemplate = require('../email/orderConfirmation.jsx');
 
 const {
   Invoice,
@@ -293,5 +294,10 @@ module.exports = {
           .then(() => res.sendStatus(200))
           .catch(error => handleGenericError(error, res))
     );
+
+    app.get('/email/orderConfirmation', (req, res) => {
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.end(renderOrderConfirmationTemplate());
+    });
   },
 };

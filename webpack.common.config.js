@@ -1,6 +1,5 @@
-/* eslint-disable */
+/* eslint-disable import/no-extraneous-dependencies */
 
-const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -9,7 +8,7 @@ const secretConfig = require('./src/config/secret.config.json');
 module.exports = {
 
   output: {
-    publicPath: "/",
+    publicPath: '/',
   },
 
   module: {
@@ -21,7 +20,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
@@ -34,7 +33,7 @@ module.exports = {
       {
         from: 'src/client/assets/',
         to: 'assets/',
-      }
+      },
     ]),
     new webpack.EnvironmentPlugin(Object.assign(
       {},
@@ -42,13 +41,13 @@ module.exports = {
     )),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks: function(module) {
-        return module.context && module.context.indexOf("node_modules") !== -1;
+      minChunks(module) {
+        return module.context && module.context.indexOf('node_modules') !== -1;
       },
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
-      minChunks: Infinity
+      minChunks: Infinity,
     }),
   ],
 };

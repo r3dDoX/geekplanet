@@ -1,4 +1,4 @@
-import * as underTest from './priceFormatter';
+const underTest = require('./priceFormatter');
 
 describe('formatPriceWithoutCurrency', () => {
   it('should format price with two decimals in steps of five', () => {

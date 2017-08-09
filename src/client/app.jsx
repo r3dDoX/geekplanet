@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
-import translationService from './i18n/translationService';
 import authService from './auth/authService';
 import Layout from './layout/layout.jsx';
 import Home from './home/home.jsx';
@@ -57,7 +56,7 @@ export default connect(
   }),
   dispatch => ({
     loadTranslations(localeWithFallback) {
-      dispatch(createLoadTranslations(translationService, localeWithFallback));
+      dispatch(createLoadTranslations(localeWithFallback));
     },
     loadShoppingCart() {
       dispatch(createLoadShoppingCart());

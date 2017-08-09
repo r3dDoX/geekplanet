@@ -10,9 +10,8 @@ const Logger = require('../logger');
 const secretConfig = require('../../config/secret.config.json');
 const stripe = require('stripe')(secretConfig.PAYMENT_SECRET || process.env.PAYMENT_SECRET);
 const esrGenerator = require('../esr/esrGenerator');
-const mail = require('../mail');
+const mail = require('../email/mail');
 const mongoHelper = require('../db/mongoHelper');
-const renderOrderConfirmationTemplate = require('../email/orderConfirmation.jsx');
 
 const {
   Invoice,
@@ -272,32 +271,27 @@ module.exports = {
             state: OrderState.WAITING,
           },
         })
-          .then(({ address, items }) => {
+          .then((order) => {
+            const { address, items } = order;
             updateProductStocks(items);
-            return new Invoice({
+
+            new Invoice({
               value: items.reduce((sum, { amount, product }) => sum + (amount * product.price), 0),
               address,
-            }).save();
+            }).save()
+              .then(invoice =>
+                esrGenerator.generate(
+                  invoice.invoiceNumber,
+                  order._id,
+                  invoice.value,
+                  invoice.address,
+                ).then(pdfPath =>
+                  mail.sendESR(order, req.user.email, pdfPath).then(fs.unlink(pdfPath)),
+                ),
+              );
           })
-          .then(invoice =>
-            esrGenerator.generate(
-              invoice.invoiceNumber,
-              req.body.shoppingCartId,
-              invoice.value,
-              invoice.address
-            )
-              .then(pdfPath =>
-                mail.sendESR(req.body.shoppingCartId, req.user.email, pdfPath)
-                  .then(fs.unlink(pdfPath))
-              )
-          )
           .then(() => res.sendStatus(200))
-          .catch(error => handleGenericError(error, res))
+          .catch(error => handleGenericError(error, res)),
     );
-
-    app.get('/email/orderConfirmation', (req, res) => {
-      res.setHeader('Content-Type', 'text/html; charset=utf-8');
-      res.end(renderOrderConfirmationTemplate());
-    });
   },
 };

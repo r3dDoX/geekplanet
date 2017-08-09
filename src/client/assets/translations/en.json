@@ -12,7 +12,13 @@
     "DELETE": "Delete",
     "FORM": {
       "REQUIRED": "This field is required"
-    }
+    },
+    "PRODUCT": "Product",
+    "QUANTITY": "Quantity",
+    "AMOUNT": "Amount",
+    "TOTAL": "Total",
+    "SUBTOTAL": "Subtotal",
+    "SHIPPING_COSTS": "Shipping Costs"
   },
   "NAVIGATION": {
     "LOGIN": "Login",
@@ -82,5 +88,13 @@
   "PRODUCT_FILTER": {
     "PLACEHOLDER": "Filter...",
     "RESET_FILTER": "Reset Filter"
+  },
+  "EMAIL": {
+    "ORDER_CONFIRMATION": "Thank you for your purchase, {firstName}!",
+    "ORDER_NUMBER": "Order Number: {id}",
+    "SHIPPING_ADDRESS_TITLE": "Shipping Address",
+    "SHIPPING_ADDRESS": "{firstName} {lastName}<br />{streetAddress}<br />{zip} {city}<br />{country}",
+    "BANK_DETAILS_TITLE": "Bank Details",
+    "BANK_DETAILS": "<strong>CH14 0630 0503 9981 5467 2</strong><br /><br />geekplanet GmbH<br />Wührestrasse 2<br />5724 Dürrenäsch"
   }
 }

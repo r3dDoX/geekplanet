@@ -1,4 +1,5 @@
 import Xhr from './xhr';
+import TranslationService from '../common/translationService';
 
 export const SPOTLIGHT_PRODUCTS_LOADED = 'SPOTLIGHT_PRODUCTS_LOADED';
 export const PRODUCT_LOADING = 'PRODUCT_LOADING';
@@ -27,8 +28,9 @@ export const REGISTRATION_SUCCESSFUL = 'REGISTRATION_SUCCESSFUL';
 export const TOGGLE_FILTER_CATEGORY = 'TOGGLE_FILTER_CATEGORY';
 export const RESET_FILTER = 'RESET_FILTER';
 
-export const createLoadTranslations = (translationService, localeWithFallback) => dispatch =>
-  translationService.loadTranslations(localeWithFallback)
+export const createLoadTranslations = localeWithFallback => dispatch =>
+  Xhr.get(`/assets/translations/${localeWithFallback}.json`)
+    .then(TranslationService.transformTranslations)
     .then(translations => dispatch({
       type: TRANSLATIONS_LOADED,
       translations,

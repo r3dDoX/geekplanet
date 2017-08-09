@@ -1,8 +1,5 @@
-import Xhr from '../xhr';
-
-export default {
-  loadTranslations(locale) {
-    const translationsPromise = Xhr.get(`/assets/translations/${locale}.json`);
+module.exports = {
+  transformTranslations(translations) {
     const flattenedTranslations = {};
 
     const flattenTranslations = (translationsObject, previousKey) => (key) => {
@@ -10,18 +7,18 @@ export default {
       const value = translationsObject[key];
 
       if (typeof value === 'object') {
-        Object.getOwnPropertyNames(value)
+        Object
+          .getOwnPropertyNames(value)
           .forEach(flattenTranslations(value, concatenatedKey));
       } else {
         flattenedTranslations[concatenatedKey] = value;
       }
     };
 
-    return translationsPromise.then((translationsObject) => {
-      Object.getOwnPropertyNames(translationsObject)
-        .forEach(flattenTranslations(translationsObject));
+    Object
+      .getOwnPropertyNames(translations)
+      .forEach(flattenTranslations(translations));
 
-      return flattenedTranslations;
-    });
+    return flattenedTranslations;
   },
 };

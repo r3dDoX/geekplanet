@@ -1,9 +1,8 @@
-// @flow
-
 const fs = require('fs');
 const nodemailer = require('nodemailer');
-const secretConfig = require('../config/secret.config.json');
-const Logger = require('./logger');
+const secretConfig = require('../../config/secret.config.json');
+const Logger = require('../logger');
+const renderOrderConfirmationTemplate = require('./orderConfirmation.jsx');
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_SERVER || secretConfig.SMTP_SERVER,
@@ -16,9 +15,9 @@ const transporter = nodemailer.createTransport({
 
 module.exports = {
   sendESR(
-    orderNumber /* : string */,
-    userEmail /* : string */,
-    pdfPath /* : string */
+    order,
+    userEmail,
+    pdfPath
   ) {
     return new Promise((resolve, reject) =>
       transporter.sendMail({
@@ -26,10 +25,10 @@ module.exports = {
         to: userEmail,
         subject: 'Order Test',
         text: 'Invoice from geekplanet',
-        html: `<h1>Order Nr. ${orderNumber}</h1>`,
+        html: renderOrderConfirmationTemplate(order),
         attachments: [
           {
-            filename: `${orderNumber}.pdf`,
+            filename: `${order._id}.pdf`,
             content: fs.createReadStream(pdfPath),
           },
         ],

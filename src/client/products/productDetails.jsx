@@ -9,7 +9,7 @@ import MainSpinner from '../layout/mainSpinner.jsx';
 import OrderButton from '../order/orderButton.jsx';
 import { ProductPropType } from '../propTypes';
 import { accent1Color, brandPrimary } from '../theme';
-import { formatPriceWithCurrency } from './priceFormatter';
+import { formatPriceWithCurrency } from '../../common/priceFormatter';
 import ProductSlider from './productSlider.jsx';
 import StockIcon from './stockIcon.jsx';
 

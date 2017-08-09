@@ -4,7 +4,7 @@ import ListItem from 'material-ui/List/ListItem';
 import Avatar from 'material-ui/Avatar';
 import { pinkA400, transparent } from 'material-ui/styles/colors';
 import { ShoppingCartItemPropType } from '../propTypes';
-import { formatPriceWithoutCurrency } from '../products/priceFormatter';
+import { formatPriceWithoutCurrency } from '../../common/priceFormatter';
 import AmountAdjuster from './amountAdjuster.jsx';
 
 const styles = {

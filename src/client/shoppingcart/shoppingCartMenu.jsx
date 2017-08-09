@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { white } from 'material-ui/styles/colors';
 import ShoppingCartItem from './shoppingCartItem.jsx';
-import formatPrice from '../products/priceFormatter';
+import { formatPriceWithCurrency } from '../../common/priceFormatter';
 import { ShoppingCartItemsPropType } from '../propTypes';
 import { createSetShoppingCartamount } from '../actions';
 
@@ -49,7 +49,7 @@ const ShoppingCartMenu = ({
       disabled
       insetChildren
       primaryText={
-        formatPrice(
+        formatPriceWithCurrency(
           shoppingCart.reduce(
             (sum, { amount, product }) => sum + (product.price * amount),
             0,

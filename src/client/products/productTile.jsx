@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import OrderButton from '../order/orderButton.jsx';
 import { ProductPropType } from '../propTypes';
-import formatPrice from './priceFormatter';
+import { formatPriceWithCurrency } from '../../common/priceFormatter';
 import { getPictureUrl } from './productService';
 import StockIcon from './stockIcon.jsx';
 import Authorized from '../auth/authorized.jsx';
@@ -98,7 +98,7 @@ export const ProductTileComponent = ({
       {product[locale].shortDescription}
     </CardText>
     <CardActions style={styles.actionContainer}>
-      <span style={styles.priceTag}>{formatPrice(product.price)}</span>
+      <span style={styles.priceTag}>{formatPriceWithCurrency(product.price)}</span>
       <OrderButton product={product} />
       <Authorized allowedRoles={['admin']}>
         <RaisedButton

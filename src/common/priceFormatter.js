@@ -8,8 +8,7 @@ function addDashForNonDecimalNumbers(price) {
   return Number(roundedPrice).toFixed(2);
 }
 
-export const formatPriceWithCurrency = price => `CHF ${addDashForNonDecimalNumbers(price)}`;
-
-export const formatPriceWithoutCurrency = price => addDashForNonDecimalNumbers(price);
-
-export default formatPriceWithCurrency;
+module.exports = {
+  formatPriceWithCurrency: price => `CHF ${addDashForNonDecimalNumbers(price)}`,
+  formatPriceWithoutCurrency: price => addDashForNonDecimalNumbers(price),
+};

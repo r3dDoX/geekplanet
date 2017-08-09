@@ -8,3 +8,5 @@ USER geekplanet
 
 RUN npm install
 RUN npm run build:production
+
+CMD npm start

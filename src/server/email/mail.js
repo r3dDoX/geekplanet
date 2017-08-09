@@ -23,8 +23,8 @@ module.exports = {
       transporter.sendMail({
         from: process.env.SMTP_USER || secretConfig.SMTP_USER,
         to: userEmail,
-        subject: 'Order Test',
-        text: 'Invoice from geekplanet',
+        subject: `Bestellung ${order._id}`,
+        text: 'Bestellbestätigung und Rechnung...',
         html: renderOrderConfirmationTemplate(order),
         attachments: [
           {

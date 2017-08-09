@@ -20,8 +20,6 @@ const styles = {
     maxWidth: '800px',
     width: '100%',
     margin: '0 auto',
-  },
-  tableRuler: {
     padding: '0 10px',
   },
   tableRulerContent: {
@@ -34,9 +32,6 @@ const styles = {
   },
   brandLogo: {
     maxWidth: '200px',
-  },
-  contentPadding: {
-    padding: '10px',
   },
   title: {
     background: '#131E31',
@@ -51,21 +46,18 @@ const styles = {
     padding: '10px 0',
   },
   productCell: {
+    borderTop: '1px solid #CFD8DC',
     padding: '10px 0',
   },
   productPicture: {
     maxWidth: '100px',
   },
   totals: {
-    padding: '10px',
     textAlign: 'right',
   },
   tableFooter: {
     color: '#424242',
     backgroundColor: '#CFD8DC',
-  },
-  footerCell: {
-    padding: '10px',
   },
   textRight: {
     textAlign: 'right',
@@ -80,11 +72,19 @@ const styles = {
     width: '20px',
     marginLeft: '5px',
   },
+  contentPadding: {
+    padding: '10px 0',
+  },
 };
 
 const colCount = 4;
 
 module.exports = function renderTemplate(order) {
+  const totalAmount = order.items.reduce(
+    (sum, { amount, product }) => sum + (amount * product.price),
+    0
+  );
+
   return ReactDOMServer.renderToStaticMarkup(
     <IntlProvider locale="de" messages={messages}>
       <body style={styles.container}>
@@ -110,7 +110,7 @@ module.exports = function renderTemplate(order) {
               </td>
             </tr>
             <tr>
-              <td colSpan={colCount} style={styles.contentPadding}>
+              <td colSpan={colCount}>
                 <div style={styles.title}>
                   <FormattedMessage
                     id="EMAIL.ORDER_NUMBER"
@@ -131,13 +131,8 @@ module.exports = function renderTemplate(order) {
                 <FormattedMessage id="COMMON.AMOUNT" />
               </th>
             </tr>
-            <tr>
-              <td colSpan={colCount} style={styles.tableRuler}>
-                <div style={styles.tableRulerContent} />
-              </td>
-            </tr>
             {order.items.map(({ amount, product }) => (
-              <tr>
+              <tr key={product._id}>
                 <td style={styles.productCell}>
                   <img
                     style={styles.productPicture}
@@ -158,7 +153,7 @@ module.exports = function renderTemplate(order) {
               </tr>
             ))}
             <tr>
-              <td colSpan={colCount} style={styles.contentPadding}>
+              <td colSpan={colCount}>
                 <div style={styles.title}>
                   <strong><FormattedMessage id="COMMON.TOTAL" /></strong>
                 </div>
@@ -169,7 +164,7 @@ module.exports = function renderTemplate(order) {
                 <FormattedMessage id="COMMON.SUBTOTAL" />
               </td>
               <td colSpan={Math.ceil(colCount / 2)} style={styles.totals}>
-                7.- CHF
+                {formatPriceWithCurrency(totalAmount)}
               </td>
             </tr>
             <tr>
@@ -177,7 +172,7 @@ module.exports = function renderTemplate(order) {
                 <FormattedMessage id="COMMON.SHIPPING_COSTS" />
               </td>
               <td colSpan={Math.ceil(colCount / 2)} style={styles.totals}>
-                0.- CHF
+                CHF 0.-
               </td>
             </tr>
             <tr>
@@ -185,14 +180,14 @@ module.exports = function renderTemplate(order) {
                 <strong><FormattedMessage id="COMMON.TOTAL" /></strong>
               </td>
               <td colSpan={Math.ceil(colCount / 2)} style={styles.totals}>
-                <strong>7.- CHF</strong>
+                <strong>{formatPriceWithCurrency(totalAmount)}</strong>
               </td>
             </tr>
             <tr>
               <td colSpan={colCount}>&nbsp;</td>
             </tr>
             <tr>
-              <td colSpan={colCount} style={styles.contentPadding}>
+              <td colSpan={colCount}>
                 <div style={styles.title}>
                   <FormattedMessage id="EMAIL.SHIPPING_ADDRESS_TITLE" />
                 </div>
@@ -201,16 +196,23 @@ module.exports = function renderTemplate(order) {
             <tr>
               <td
                 colSpan={colCount}
-                style={Object.assign({}, styles.contentPadding, styles.textCenter)}
+                style={Object.assign({}, styles.textCenter, styles.contentPadding)}
               >
                 <FormattedHTMLMessage
                   id="EMAIL.SHIPPING_ADDRESS"
-                  values={order.address}
+                  values={{
+                    firstName: order.address.firstName,
+                    lastName: order.address.lastName,
+                    streetAddress: order.address.streetAddress,
+                    zip: order.address.zip,
+                    city: order.address.city,
+                    country: order.address.country,
+                  }}
                 />
               </td>
             </tr>
             <tr>
-              <td colSpan={colCount} style={styles.contentPadding}>
+              <td colSpan={colCount}>
                 <div style={styles.title}>
                   <FormattedMessage id="EMAIL.BANK_DETAILS_TITLE" />
                 </div>
@@ -219,7 +221,7 @@ module.exports = function renderTemplate(order) {
             <tr>
               <td
                 colSpan={colCount}
-                style={Object.assign({}, styles.contentPadding, styles.textCenter)}
+                style={Object.assign({}, styles.textCenter, styles.contentPadding)}
               >
                 <FormattedHTMLMessage id="EMAIL.BANK_DETAILS" />
               </td>
@@ -227,18 +229,18 @@ module.exports = function renderTemplate(order) {
           </tbody>
           <tfoot>
             <tr style={styles.tableFooter}>
-              <td colSpan={2} style={styles.footerCell}>
+              <td colSpan={2} style={styles.contentPadding}>
                 geekplanet GmbH
               </td>
-              <td colSpan={2} style={Object.assign({}, styles.footerCell, styles.textRight)}>
-                <a href="https://youtube.com" taget="_blank" style={styles.socialLink}>
+              <td colSpan={2} style={Object.assign({}, styles.textRight, styles.contentPadding)}>
+                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={styles.socialLink}>
                   <img
                     alt="Youtube"
                     style={styles.socialIcon}
                     src={`${config.APP.BASE_URL}/assets/images/youtube.png`}
                   />
                 </a>
-                <a href="https://facebook.com" taget="_blank" style={styles.socialLink}>
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={styles.socialLink}>
                   <img
                     alt="Facebook"
                     style={styles.socialIcon}
@@ -249,6 +251,7 @@ module.exports = function renderTemplate(order) {
             </tr>
           </tfoot>
         </table>
+
       </body>
     </IntlProvider>
   );

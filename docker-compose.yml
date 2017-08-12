@@ -1,8 +1,8 @@
-version: '2'
+version: '3'
 services:
 
   web:
-    image: r3ddox/node-pdftk
+    image: r3ddox/node-pdftk:8.3.0
     volumes:
       - ./:/usr/src/app
     working_dir: /usr/src/app
@@ -12,8 +12,8 @@ services:
       - "9229:9229"
     depends_on:
       - mongo
-    networks:
-      - all
+    links:
+      - mongo
     environment:
       MONGODB_URI: "mongodb://mongo:27017/geekplanet"
 
@@ -22,8 +22,3 @@ services:
     command: mongod --smallfiles
     ports:
       - "27017:27017"
-    networks:
-      - all
-
-networks:
-  all:

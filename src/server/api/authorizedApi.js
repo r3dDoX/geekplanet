@@ -241,9 +241,7 @@ module.exports = {
 
     app.post('/api/payment/cleared', bodyParser.json(), authorization,
       (req, res) => {
-        const orderQuery = Order.findOne({ _id: req.body.shoppingCartId, user: req.user.sub });
-
-        orderQuery
+        Order.findOne({ _id: req.body.shoppingCartId, user: req.user.sub })
           .then(order =>
             stripe.charges.create({
               amount: order.items.reduce(
@@ -255,7 +253,14 @@ module.exports = {
             })
               .then(() => updateProductStocks(order.items))
           )
-          .then(() => orderQuery.update({ state: OrderState.FINISHED }))
+          .then(() =>
+            Order.findOneAndUpdate(
+              { _id: req.body.shoppingCartId, user: req.user.sub },
+              { $set: { state: OrderState.FINISHED } },
+              { new: true }
+            )
+              .then(order => mail.sendConfirmation(order, req.user.email))
+          )
           .then(() => res.sendStatus(200))
           .catch(error => handleGenericError(error, res));
       }

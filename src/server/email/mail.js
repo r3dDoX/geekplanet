@@ -41,5 +41,22 @@ module.exports = {
       })
     );
   },
+  sendConfirmation(order, userEmail) {
+    return new Promise((resolve, reject) =>
+      transporter.sendMail({
+        from: process.env.SMTP_USER || secretConfig.SMTP_USER,
+        to: userEmail,
+        subject: `Bestellung ${order._id}`,
+        text: 'Bestellbestätigung...',
+        html: renderOrderConfirmationTemplate(order),
+      }, (err) => {
+        if (err) {
+          Logger.error(err);
+          reject();
+        }
+        resolve();
+      })
+    );
+  },
 }
 ;

@@ -37,6 +37,16 @@ const styles = {
     width: '12px',
     marginRight: '5px',
   },
+  socialIcon: {
+    width: '20px',
+    marginLeft: '5px',
+  },
+  socialLink: {
+    textDecoration: 'none',
+  },
+  socialLinks: {
+    flex: 'none',
+  },
 };
 
 const Footer = () => (
@@ -61,15 +71,20 @@ const Footer = () => (
         <FormattedMessage id="FOOTER.PRIVACY_POLICY" />
       </Link>
     </div>
-    <div style={styles.textContainer}>
-      <h5 style={styles.textTitle}>
-        <FormattedMessage id="FOOTER.SOCIAL_MEDIA" />
-      </h5>
-      <a href="http://www.youtube.com/geekplanet.ch/" target="_blank" rel="noopener noreferrer" style={styles.links}>
-        You Tube
+    <div style={styles.socialLinks}>
+      <a href="http://www.youtube.com/geekplanet.ch/" target="_blank" rel="noopener noreferrer" style={styles.socialLink}>
+        <img
+          alt="Youtube"
+          style={styles.socialIcon}
+          src="/assets/images/youtube.png"
+        />
       </a>
-      <a href="https://www.facebook.com/geekplanet.ch/" target="_blank" rel="noopener noreferrer" style={styles.links}>
-        Facebook
+      <a href="https://www.facebook.com/geekplanet.ch/" target="_blank" rel="noopener noreferrer" style={styles.socialLink}>
+        <img
+          alt="Facebook"
+          style={styles.socialIcon}
+          src="/assets/images/facebook.png"
+        />
       </a>
     </div>
   </div>

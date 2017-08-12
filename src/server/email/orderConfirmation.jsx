@@ -2,6 +2,7 @@ const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const { IntlProvider, FormattedMessage, FormattedHTMLMessage } = require('react-intl');
 const { formatPriceWithCurrency } = require('../../common/priceFormatter');
+const models = require('../db/models');
 
 const config = require('../../config/local.config.json');
 const TranslationService = require('../../common/translationService');
@@ -15,6 +16,14 @@ const styles = {
     fontFamily: 'Arial',
     fontSize: '12px',
   },
+  headerTable: {
+    backgroundColor: '#FFFFFF',
+    maxWidth: '800px',
+    width: '100%',
+    margin: '0 auto',
+    padding: '0 10px',
+    borderBottom: '1px solid #CFD8DC',
+  },
   table: {
     backgroundColor: '#FFFFFF',
     maxWidth: '800px',
@@ -22,13 +31,21 @@ const styles = {
     margin: '0 auto',
     padding: '0 10px',
   },
+  footerTable: {
+    color: '#424242',
+    backgroundColor: '#CFD8DC',
+    maxWidth: '800px',
+    width: '100%',
+    margin: '0 auto',
+    padding: '0 10px',
+    boxShadow: 'inset 0px 6px 3px -3px rgba(0, 0, 0, 0.12)',
+  },
   tableRulerContent: {
     backgroundColor: '#CFD8DC',
     height: '1px',
   },
   brand: {
     padding: '20px',
-    borderBottom: '1px solid #CFD8DC',
   },
   brandLogo: {
     maxWidth: '200px',
@@ -55,10 +72,6 @@ const styles = {
   totals: {
     textAlign: 'right',
   },
-  tableFooter: {
-    color: '#424242',
-    backgroundColor: '#CFD8DC',
-  },
   textRight: {
     textAlign: 'right',
   },
@@ -75,6 +88,9 @@ const styles = {
   contentPadding: {
     padding: '10px 0',
   },
+  textPadding: {
+    padding: '20px 0',
+  },
 };
 
 const colCount = 4;
@@ -88,7 +104,7 @@ module.exports = function renderTemplate(order) {
   return ReactDOMServer.renderToStaticMarkup(
     <IntlProvider locale="de" messages={messages}>
       <body style={styles.container}>
-        <table style={styles.table} cellPadding={0} cellSpacing={0}>
+        <table style={styles.headerTable} cellPadding={0} cellSpacing={0}>
           <thead>
             <tr>
               <th colSpan={colCount} style={styles.brand}>
@@ -100,13 +116,21 @@ module.exports = function renderTemplate(order) {
               </th>
             </tr>
           </thead>
+        </table>
+        <table style={styles.table} cellPadding={0} cellSpacing={0}>
           <tbody>
             <tr>
-              <td colSpan={colCount} style={styles.contentPadding}>
+              <td colSpan={colCount} style={styles.textPadding}>
                 <FormattedMessage
                   id="EMAIL.ORDER_CONFIRMATION"
                   values={{ firstName: order.address.firstName }}
                 />
+                <br /><br />
+                {(order.state === models.OrderState.WAITING) ? (
+                  <FormattedMessage id="EMAIL.ORDER_PREPAYMENT" />
+                ) : (
+                  <FormattedMessage id="EMAIL.ORDER_PAYED" />
+                )}
               </td>
             </tr>
             <tr>
@@ -227,20 +251,32 @@ module.exports = function renderTemplate(order) {
               </td>
             </tr>
           </tbody>
+        </table>
+        <table style={styles.footerTable} cellPadding={0} cellSpacing={0}>
           <tfoot>
-            <tr style={styles.tableFooter}>
+            <tr>
               <td colSpan={2} style={styles.contentPadding}>
                 geekplanet GmbH
               </td>
               <td colSpan={2} style={Object.assign({}, styles.textRight, styles.contentPadding)}>
-                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" style={styles.socialLink}>
+                <a
+                  href="http://www.youtube.com/geekplanet.ch/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={styles.socialLink}
+                >
                   <img
                     alt="Youtube"
                     style={styles.socialIcon}
                     src={`${config.APP.BASE_URL}/assets/images/youtube.png`}
                   />
                 </a>
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={styles.socialLink}>
+                <a
+                  href="https://www.facebook.com/geekplanet.ch/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={styles.socialLink}
+                >
                   <img
                     alt="Facebook"
                     style={styles.socialIcon}
@@ -251,7 +287,6 @@ module.exports = function renderTemplate(order) {
             </tr>
           </tfoot>
         </table>
-
       </body>
     </IntlProvider>
   );

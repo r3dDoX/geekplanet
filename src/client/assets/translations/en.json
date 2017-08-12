@@ -91,6 +91,8 @@
   },
   "EMAIL": {
     "ORDER_CONFIRMATION": "Thank you for your purchase, {firstName}!",
+    "ORDER_PREPAYMENT": "As soon as we receive the amount due we will ship your order if in stock. Further down in this mail you can find our bank details or attached is an orange payment order.",
+    "ORDER_PAYED": "The amount due is payed already. Your order will be shipped when in stock.",
     "ORDER_NUMBER": "Order Number: {id}",
     "SHIPPING_ADDRESS_TITLE": "Shipping Address",
     "SHIPPING_ADDRESS": "{firstName} {lastName}<br />{streetAddress}<br />{zip} {city}<br />{country}",

@@ -91,6 +91,8 @@
   },
   "EMAIL": {
     "ORDER_CONFIRMATION": "Vielen Dank für deinen Einkauf, {firstName}!",
+    "ORDER_PREPAYMENT": "Sobald du uns den fälligen Betrag überweist, versenden wir deine Waren bei gegebenem Lagerbestand. Weiter unten findest du unsere Bankdaten oder im Anhang einen orangen Einzahlungsschein.",
+    "ORDER_PAYED": "Der fällige Betrag ist schon bezahlt. Somit werden deine Waren bei gegebenem Lagerbestand versendet.",
     "ORDER_NUMBER": "Bestellnummer: {id}",
     "SHIPPING_ADDRESS_TITLE": "Versandadresse",
     "SHIPPING_ADDRESS": "{firstName} {lastName}<br />{streetAddress}<br />{zip} {city}<br />{country}",

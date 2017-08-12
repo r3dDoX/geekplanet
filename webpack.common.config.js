@@ -52,10 +52,7 @@ module.exports = {
         to: 'assets/',
       },
     ]),
-    new webpack.EnvironmentPlugin(Object.assign(
-      {},
-      secretConfig
-    )),
+    new webpack.EnvironmentPlugin(secretConfig),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks(module) {

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import OrderButton from '../order/orderButton.jsx';
 import { ProductPropType } from '../propTypes';
 import { formatPriceWithCurrency } from '../../common/priceFormatter';
@@ -73,7 +73,6 @@ const styles = {
 export const ProductTileComponent = ({
   locale,
   product,
-  history,
 }) => (
   <Card style={styles.container} containerStyle={styles.cardContainer}>
     {(product.files.length) ? (
@@ -106,7 +105,7 @@ export const ProductTileComponent = ({
           label={<FormattedMessage id="COMMON.EDIT" />}
           fullWidth
           secondary
-          onTouchTap={() => history.push(`/forms/products/${product._id}`)}
+          containerElement={<Link to={`/forms/products/${product._id}`} />}
         />
       </Authorized>
     </CardActions>
@@ -116,13 +115,10 @@ export const ProductTileComponent = ({
 ProductTileComponent.propTypes = {
   locale: PropTypes.string.isRequired,
   product: ProductPropType.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 export default connect(
   state => ({
     locale: state.i18n.locale,
   })
-)(withRouter(ProductTileComponent));
+)(ProductTileComponent);

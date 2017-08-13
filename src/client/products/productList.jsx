@@ -14,7 +14,7 @@ const styles = {
   },
 };
 
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 20;
 
 class ProductList extends React.Component {
   constructor() {
@@ -44,6 +44,7 @@ class ProductList extends React.Component {
         loadMore={newPage => this.updateProductArrayForPage(newPage, this.props.products)}
         hasMore={this.state.loadedProducts.length < this.props.products.length}
         loader={<MainSpinner />}
+        initialLoad={false}
       >
         <div style={styles.container}>
           {this.state.loadedProducts.map(product => (

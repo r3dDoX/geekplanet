@@ -10,6 +10,7 @@ import {
   createSelectAddress,
 } from '../actions';
 import { OrderPropType } from '../propTypes';
+import MainSpinner from '../layout/mainSpinner.jsx';
 
 class AddressStep extends React.Component {
   componentWillMount() {
@@ -23,20 +24,24 @@ class AddressStep extends React.Component {
       order,
     } = this.props;
 
-    return (
-      <div>
-        <AddressChooser
-          addresses={order.addresses}
-          selectedAddressId={order.selectedAddress && order.selectedAddress._id}
-          selectAddress={
-            addressId => selectAddress(
-              order.addresses.find(address => address._id === addressId),
-            )
-          }
-        />
-        <UserAddress onSubmit={saveAddress} />
-      </div>
-    );
+    if (!order.savingAddress) {
+      return (
+        <div>
+          <AddressChooser
+            addresses={order.addresses}
+            selectedAddressId={order.selectedAddress && order.selectedAddress._id}
+            selectAddress={
+              addressId => selectAddress(
+                order.addresses.find(address => address._id === addressId),
+              )
+            }
+          />
+          <UserAddress onSubmit={saveAddress} />
+        </div>
+      );
+    }
+
+    return <MainSpinner />;
   }
 }
 

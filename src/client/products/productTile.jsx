@@ -76,9 +76,11 @@ export const ProductTileComponent = ({
 }) => (
   <Card style={styles.container} containerStyle={styles.cardContainer}>
     {(product.files.length) ? (
-      <CardMedia style={styles.pictureContainer} onClick={() => history.push(`/products/${product._id}`)}>
-        <img alt="Product" src={getPictureUrl(product.files[0])} />
-      </CardMedia>
+      <Link to={`/products/${product._id}`}>
+        <CardMedia style={styles.pictureContainer}>
+          <img alt="Product" src={getPictureUrl(product.files[0])} />
+        </CardMedia>
+      </Link>
     ) : null}
     <CardTitle
       title={<Link style={styles.titleLinkStyle} to={`/products/${product._id}`}>{product[locale].name}</Link>}

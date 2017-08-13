@@ -8,7 +8,7 @@ import ProductFilter from './productfilter/productFilter.jsx';
 
 class Products extends React.Component {
   componentWillMount() {
-    if (this.props.products.length === 0) {
+    if (!this.props.products.length) {
       this.props.loadProducts();
     }
   }

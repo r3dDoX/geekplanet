@@ -4,7 +4,7 @@ const { IntlProvider, FormattedMessage, FormattedHTMLMessage } = require('react-
 const { formatPriceWithCurrency } = require('../../common/priceFormatter');
 const models = require('../db/models');
 
-const config = require('../../config/local.config.json');
+const config = require('../../config/envConfig').getEnvironmentSpecificConfig();
 const TranslationService = require('../../common/translationService');
 const messages = TranslationService.transformTranslations(require('../../client/assets/translations/de.json'));
 

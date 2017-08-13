@@ -27,6 +27,7 @@ export const FILTER_PRODUCTS = 'FILTER_PRODUCTS';
 export const REGISTRATION_SUCCESSFUL = 'REGISTRATION_SUCCESSFUL';
 export const TOGGLE_FILTER_CATEGORY = 'TOGGLE_FILTER_CATEGORY';
 export const RESET_FILTER = 'RESET_FILTER';
+export const SAVING_ADDRESS = 'SAVING_ADDRESS';
 
 export const createLoadTranslations = localeWithFallback => dispatch =>
   Xhr.get(`/assets/translations/${localeWithFallback}.json`)
@@ -76,28 +77,48 @@ export const createHideShoppingCartNotification = () => ({
   type: HIDE_SHOPPING_CART_NOTIFICATION,
 });
 
-export const createLoadAddresses = () => dispatch =>
+const loadAndDispatchAddresses = dispatch =>
   Xhr.get('/api/userAddresses')
     .then(addresses => dispatch({
       type: ADDRESSES_LOADED,
       data: addresses,
     }));
 
+export const createLoadAddresses = () => loadAndDispatchAddresses;
+
 export const createSelectAddress = address => ({
   type: SELECT_ADDRESS,
   data: address,
 });
 
-export const createSaveAddress = address => dispatch =>
+export const createSaveAddress = address => (dispatch) => {
+  dispatch({
+    type: SAVING_ADDRESS,
+  });
+
   Xhr.put(
     '/api/userAddress',
     address,
     'application/json',
   )
-    .then(addressId => dispatch({
-      type: SAVE_ADDRESS,
-      data: addressId,
-    }));
+    .then((addressId) => {
+      Xhr.get('/api/userAddresses')
+        .then((addresses) => {
+          dispatch({
+            type: ADDRESSES_LOADED,
+            data: addresses,
+          });
+          dispatch({
+            type: SELECT_ADDRESS,
+            data: addresses.find(actAddress => actAddress._id === addressId),
+          });
+          dispatch({
+            type: SAVE_ADDRESS,
+            data: addressId,
+          });
+        });
+    });
+};
 
 export const createSelectStep = step => ({
   type: SELECT_ORDER_STEP,

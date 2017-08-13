@@ -26,32 +26,32 @@ describe('ProductTile', () => {
     };
   });
 
-  it('should not render CardMedia when no files given', () => {
-    const cardMedia = productTile().find('CardMedia');
+  it('should not render product picture when no files given', () => {
+    const productPicture = productTile().find('img');
 
-    expect(cardMedia.length).toBe(0);
+    expect(productPicture.length).toBe(0);
   });
 
-  it('should render CardMedia with first image', () => {
+  it('should render product picture with first image', () => {
     props.product.files = [
       'testFile',
       'testFile2',
     ];
 
-    const cardMedia = productTile().find('CardMedia');
+    const productPicture = productTile().find('img');
 
-    expect(cardMedia.length).toBe(1);
-    expect(cardMedia.find('img').props().src).toEqual(expect.stringContaining(props.product.files[0]));
+    expect(productPicture.length).toBe(1);
+    expect(productPicture.find('img').props().src).toEqual(expect.stringContaining(props.product.files[0]));
   });
 
-  it('should render CardMedia with small image', () => {
+  it('should render product picture with small image', () => {
     props.product.files = [
       'testFile',
     ];
 
-    const cardMedia = productTile().find('CardMedia');
+    const productPicture = productTile().find('img');
 
-    expect(cardMedia.length).toBe(1);
-    expect(cardMedia.find('img').props().src).toEqual(expect.stringContaining(`${props.product.files[0]}_s`));
+    expect(productPicture.length).toBe(1);
+    expect(productPicture.find('img').props().src).toEqual(expect.stringContaining(`${props.product.files[0]}_s`));
   });
 });

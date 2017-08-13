@@ -74,7 +74,7 @@ class ProductFilter extends React.Component {
             <Field
               component={TextField}
               name="filterString"
-              label={<FormattedMessage id="PRODUCT_FILTER.PLACEHOLDER" />}
+              label={<FormattedMessage id="PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER" />}
               floatingLabelStyle={styles.filterHint}
               underlineStyle={styles.filterHint}
               onKeyUp={({ target }) => debounce(() => filterProducts(target.value))}
@@ -84,7 +84,7 @@ class ProductFilter extends React.Component {
           <div style={styles.filterItem}>
             <SelectField
               name="categories"
-              floatingLabelText="Product Categories"
+              floatingLabelText={<FormattedMessage id="PRODUCT_FILTER.PRODUCT_CATEGORIES_PLACEHOLDER" />}
               onChange={(event, index, values) => toggleProductCategory(values)}
               floatingLabelStyle={styles.filterHint}
               underlineStyle={styles.filterHint}

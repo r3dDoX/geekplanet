@@ -86,7 +86,8 @@
     "USER_EXISTS": "This email has already been registered"
   },
   "PRODUCT_FILTER": {
-    "PLACEHOLDER": "Filter...",
+    "FILTERSTRING_PLACEHOLDER": "Filter...",
+    "PRODUCT_CATEGORIES_PLACEHOLDER": "Categories",
     "RESET_FILTER": "Reset Filter"
   },
   "EMAIL": {

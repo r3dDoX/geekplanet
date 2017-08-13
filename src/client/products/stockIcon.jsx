@@ -1,26 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { green500, grey700 } from 'material-ui/styles/colors';
 import InStockIcon from 'material-ui/svg-icons/action/done';
 import OutOfStockIcon from 'material-ui/svg-icons/maps/local-shipping';
-import { green500, grey700 } from 'material-ui/styles/colors';
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components';
 
-const styles = {
-  stockIcon: {
-    flex: 'none',
-  },
-  outOfStock: {
-    transform: 'rotateY(180deg)',
-  },
-};
+const StyledInStockIcon = styled(InStockIcon)`
+  flex: none;
+`;
+
+const StyledOutOfStockIcon = styled(OutOfStockIcon)`
+  flex: none;
+  transform: rotateY(180deg);
+`;
 
 const StockIcon = ({ stock }) => {
   if (stock > 0) {
-    return <InStockIcon style={styles.stockIcon} color={green500} />;
+    return <StyledInStockIcon color={green500} />;
   }
 
   return (
-    <OutOfStockIcon
-      style={Object.assign({}, styles.stockIcon, styles.outOfStock)}
+    <StyledOutOfStockIcon
       color={grey700}
     />
   );

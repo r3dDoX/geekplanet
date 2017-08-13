@@ -6,6 +6,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import OrderButton from '../order/orderButton.jsx';
 import { ProductPropType } from '../propTypes';
 import { formatPriceWithCurrency } from '../../common/priceFormatter';
@@ -13,60 +14,65 @@ import { getPictureUrl } from './productService';
 import StockIcon from './stockIcon.jsx';
 import Authorized from '../auth/authorized.jsx';
 
+const StyledCard = styled(Card)`
+  flex: 1 1 300px;
+  max-width: 450px;
+  margin: 0 10px 16px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledCardMedia = styled(CardMedia)`
+  flex: none;
+  display: flex;
+  justify-content: space-around;
+  overflow: hidden;
+  align-items: center;
+  cursor: pointer;
+`;
+
+const StyledCardTitle = styled(CardTitle)`
+  flex none;
+  display flex;
+  align-items flex-end;
+  justify-content space-between;
+`;
+
+const StyledCardText = styled(CardText)`
+  flex: 1;
+  text-align: justify;
+`;
+
+const TitleLink = styled(Link)`
+  color: inherit;
+  text-decoration: none;
+`;
+
+const StyledCardActions = styled(CardActions)`
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`;
+
+const PriceTag = styled.span`
+  margin-left: 8px;
+`;
+
+const EditButton = styled(RaisedButton)`
+  margin-top: 10px;
+`;
+
 const styles = {
-  container: {
-    flex: '1 1 300px',
-    maxWidth: '450px',
-    margin: '0 10px 16px',
-    display: 'flex',
-    flexDirection: 'column',
-  },
   cardContainer: {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
   },
-  productTileBody: {
-    flex: 1,
-    textAlign: 'justify',
-  },
-  productTitle: {
-    flex: 'none',
-    display: 'flex',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-  },
-  titleLinkStyle: {
-    color: 'inherit',
-    textDecoration: 'none',
-  },
-  stockIcon: {
-    flex: 'none',
-  },
   stockBadge: {
     top: '5px',
     right: '5px',
-  },
-  actionContainer: {
-    flex: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-  },
-  priceTag: {
-    marginLeft: '8px',
-  },
-  pictureContainer: {
-    flex: 'none',
-    display: 'flex',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
-    alignItems: 'center',
-    cursor: 'pointer',
-  },
-  editButton: {
-    marginTop: '10px',
   },
 };
 
@@ -74,17 +80,16 @@ export const ProductTileComponent = ({
   locale,
   product,
 }) => (
-  <Card style={styles.container} containerStyle={styles.cardContainer}>
+  <StyledCard containerStyle={styles.cardContainer}>
     {(product.files.length) ? (
       <Link to={`/products/${product._id}`}>
-        <CardMedia style={styles.pictureContainer}>
+        <StyledCardMedia>
           <img alt="Product" src={getPictureUrl(product.files[0])} />
-        </CardMedia>
+        </StyledCardMedia>
       </Link>
     ) : null}
-    <CardTitle
-      title={<Link style={styles.titleLinkStyle} to={`/products/${product._id}`}>{product[locale].name}</Link>}
-      style={styles.productTitle}
+    <StyledCardTitle
+      title={<TitleLink to={`/products/${product._id}`}>{product[locale].name}</TitleLink>}
     >
       <Badge
         badgeContent={product.stock}
@@ -94,24 +99,23 @@ export const ProductTileComponent = ({
       >
         <StockIcon stock={product.stock} />
       </Badge>
-    </CardTitle>
-    <CardText style={styles.productTileBody}>
+    </StyledCardTitle>
+    <StyledCardText>
       {product[locale].shortDescription}
-    </CardText>
-    <CardActions style={styles.actionContainer}>
-      <span style={styles.priceTag}>{formatPriceWithCurrency(product.price)}</span>
+    </StyledCardText>
+    <StyledCardActions>
+      <PriceTag>{formatPriceWithCurrency(product.price)}</PriceTag>
       <OrderButton product={product} />
       <Authorized allowedRoles={['admin']}>
-        <RaisedButton
-          style={styles.editButton}
+        <EditButton
           label={<FormattedMessage id="COMMON.EDIT" />}
           fullWidth
           secondary
           containerElement={<Link to={`/forms/products/${product._id}`} />}
         />
       </Authorized>
-    </CardActions>
-  </Card>
+    </StyledCardActions>
+  </StyledCard>
 );
 
 ProductTileComponent.propTypes = {

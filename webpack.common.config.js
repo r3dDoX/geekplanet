@@ -1,11 +1,11 @@
-/* eslint-disable import/no-extraneous-dependencies, import/no-dynamic-require */
+/* eslint-disable import/no-extraneous-dependencies */
 
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const secretConfig = require('./src/config/secret.config.json');
 
-const environmentConfig = require(`./src/config/${process.env.CONFIG || 'local'}.config.json`);
+const envConfig = require('./src/config/envConfig');
 
 function stringifyValues(obj) {
   return Object.keys(obj).reduce((acc, key) => {
@@ -42,7 +42,7 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.DefinePlugin(stringifyValues(environmentConfig)),
+    new webpack.DefinePlugin(stringifyValues(envConfig.getEnvironmentSpecificConfig())),
     new HtmlWebpackPlugin({
       template: 'src/client/index.html',
     }),

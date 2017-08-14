@@ -62,6 +62,7 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.FIRST_NAME" />}
         type="text"
         validate={required}
+        autocomplete="shipping given-name"
       />&nbsp;
       <Field
         component={TextField}
@@ -69,6 +70,7 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.LAST_NAME" />}
         type="text"
         validate={required}
+        autocomplete="shipping family-name"
       />
       <br />
       <Field
@@ -77,6 +79,7 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.STREET_ADDRESS" />}
         type="text"
         validate={required}
+        autocomplete="shipping street-address"
       />
       <br />
       <Field
@@ -86,6 +89,7 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         max="9999"
         type="number"
         validate={requiredZIP}
+        autocomplete="shipping postal-code"
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.ZIP" />}
       />&nbsp;
       <Field
@@ -94,6 +98,7 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.CITY" />}
         type="text"
         validate={required}
+        autocomplete="shipping address-level2"
       />
       <br />
       <Field

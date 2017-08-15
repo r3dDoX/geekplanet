@@ -2,7 +2,6 @@ sudo: required
 
 services:
 - docker
-- heroku
 
 env:
   global:

@@ -10,6 +10,6 @@ RUN chown $user --recursive .
 USER $user
 
 RUN npm install
-RUN npm run build:production
+RUN npm run build:staging
 
 CMD npm start

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # install heroku cli
-wget -qO- https://toolbelt.heroku.com/install.sh | sh
+which heroku
 
 # build and deploy docker image
 heroku container:login --password=$1

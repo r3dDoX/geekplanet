@@ -20,6 +20,5 @@ script:
 deploy:
   provider: script
   script: scripts/deploy.sh $HEROKU_TOKEN
-  skip_cleanup: true
   on:
     branch: develop

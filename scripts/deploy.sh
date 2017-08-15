@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # install heroku cli
-which heroku
+heroku --version
 
 # build and deploy docker image
-heroku container:login --password=$1
-heroku container:push web --app geekplanet-docker
+#heroku container:login --password=$1
+#heroku container:push web --app geekplanet-docker

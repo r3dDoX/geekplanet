@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo $pwd;
+pwd
 
 # install heroku cli
 wget -qO- https://toolbelt.heroku.com/install.sh | sh

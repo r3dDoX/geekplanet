@@ -1,9 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
+import { createLoadProducts } from '../actions';
+import MainSpinner from '../layout/mainSpinner.jsx';
 import ProductList from '../products/productList.jsx';
 import { ProductPropType } from '../propTypes';
-import { createLoadProducts } from '../actions';
 import ProductFilter from './productfilter/productFilter.jsx';
 
 class Products extends React.Component {
@@ -17,7 +18,11 @@ class Products extends React.Component {
     return (
       <div>
         <ProductFilter />
-        <ProductList products={this.props.filteredProducts} />
+        {this.props.products.length ? (
+          <ProductList products={this.props.filteredProducts} />
+        ) : (
+          <MainSpinner />
+        )}
       </div>
     );
   }

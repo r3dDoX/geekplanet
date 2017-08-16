@@ -5,6 +5,7 @@ require('babel-core/register')({
 const path = require('path');
 const express = require('express');
 const mongoSanitize = require('express-mongo-sanitize');
+const mime = require('mime-types');
 const Logger = require('./logger');
 const mongo = require('./db/mongoHelper');
 
@@ -36,6 +37,13 @@ const server = app.listen(process.env.PORT || 3000, () => {
 
 app.use('/', express.static('dist/', {
   maxAge: '1y',
+  setHeaders(res, headerPath) {
+    if (mime.lookup(headerPath) === 'text/html') {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', 0);
+    }
+  },
 }));
 
 require('./api/authorizedApi').registerEndpoints(app);

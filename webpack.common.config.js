@@ -3,7 +3,6 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
 const envConfig = require('./src/config/envConfig');
 
 function stringifyValues(obj) {

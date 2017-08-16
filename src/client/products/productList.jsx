@@ -43,7 +43,6 @@ class ProductList extends React.Component {
         loadMore={newPage => this.updateProductArrayForPage(newPage, this.props.products)}
         hasMore={this.state.loadedProducts.length < this.props.products.length}
         loader={<MainSpinner />}
-        initialLoad={false}
       >
         <ProductListContainer>
           {this.state.loadedProducts.map(product => (

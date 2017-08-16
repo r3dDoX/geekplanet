@@ -3,7 +3,6 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const secretConfig = require('./src/config/secret.config.json');
 
 const envConfig = require('./src/config/envConfig');
 
@@ -52,7 +51,6 @@ module.exports = {
         to: 'assets/',
       },
     ]),
-    new webpack.EnvironmentPlugin(secretConfig),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks(module) {

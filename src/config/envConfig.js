@@ -6,7 +6,7 @@ const prodConfig = require('./production.config.json');
 let secretConfig;
 
 if (fs.existsSync('./src/config/secret.config.json')) {
-  // eslint-disable-next-line global-require
+  // eslint-disable-next-line global-require, import/no-unresolved
   secretConfig = require('./secret.config.json');
 }
 

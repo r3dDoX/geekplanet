@@ -21,6 +21,7 @@ module.exports = {
   ) {
     return new Promise((resolve, reject) =>
       transporter.sendMail({
+        bcc: process.env.ORDER_CONFIRMATION_ADDRESS || secretConfig.ORDER_CONFIRMATION_ADDRESS,
         from: process.env.SMTP_USER || secretConfig.SMTP_USER,
         to: userEmail,
         subject: `Bestellung ${order._id}`,
@@ -44,6 +45,7 @@ module.exports = {
   sendConfirmation(order, userEmail) {
     return new Promise((resolve, reject) =>
       transporter.sendMail({
+        bcc: process.env.ORDER_CONFIRMATION_ADDRESS || secretConfig.ORDER_CONFIRMATION_ADDRESS,
         from: process.env.SMTP_USER || secretConfig.SMTP_USER,
         to: userEmail,
         subject: `Bestellung ${order._id}`,

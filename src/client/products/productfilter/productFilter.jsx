@@ -62,6 +62,7 @@ class ProductFilter extends React.Component {
     const {
       filterProducts,
       productCategories,
+      filterString,
       categoriesToFilter,
       toggleProductCategory,
       resetFilter,
@@ -112,6 +113,7 @@ class ProductFilter extends React.Component {
               secondary
               style={styles.button}
               icon={<CancelIcon />}
+              disabled={filterString.length === 0 && categoriesToFilter.length === 0}
             />
           </div>
         </div>
@@ -123,6 +125,7 @@ class ProductFilter extends React.Component {
 ProductFilter.propTypes = {
   productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   categoriesToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
+  filterString: PropTypes.string.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
   filterProducts: PropTypes.func.isRequired,
   toggleProductCategory: PropTypes.func.isRequired,
@@ -134,6 +137,7 @@ export default connect(
     productCategories: state.products.productCategories,
     categoriesToFilter: state.products.categoriesToFilter,
     filteredProducts: state.products.filteredProducts,
+    filterString: state.products.filterString,
   }),
   dispatch => ({
     loadProductCategories() {

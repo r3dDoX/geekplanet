@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroller';
+import styled from 'styled-components';
 import ProductTile from './productTile.jsx';
 import { ProductPropType } from '../propTypes';
 import MainSpinner from '../layout/mainSpinner.jsx';
 
-const styles = {
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'stretch',
-    padding: '20px 10px',
-  },
-};
+const ProductListContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  padding: 20px 10px;
+`;
 
 const PAGE_SIZE = 20;
 
@@ -46,14 +45,14 @@ class ProductList extends React.Component {
         loader={<MainSpinner />}
         initialLoad={false}
       >
-        <div style={styles.container}>
+        <ProductListContainer>
           {this.state.loadedProducts.map(product => (
             <ProductTile
               key={product._id}
               product={product}
             />
           ))}
-        </div>
+        </ProductListContainer>
       </InfiniteScroll>
     );
   }

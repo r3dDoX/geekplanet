@@ -18,7 +18,7 @@ services:
       MONGODB_URI: "mongodb://mongo:27017/geekplanet"
 
   mongo:
-    image: mongo
+    image: mongo:3.0.15
     command: mongod --smallfiles
     ports:
       - "27017:27017"

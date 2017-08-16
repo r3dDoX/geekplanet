@@ -28,7 +28,7 @@ class Payment extends React.Component {
     }
 
     const stripeHandler = StripeCheckout.configure({
-      key: process.env.PAYMENT_PUBLIC,
+      key: PAYMENT.PUBLIC,
       email,
       locale: 'auto',
       token: (token) => {

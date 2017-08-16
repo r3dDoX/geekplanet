@@ -6,5 +6,8 @@
   "AUTH": {
     "CLIENT_ID": "xLicjjjB3JUoEH8B9OK6YYOBn9COm7aR",
     "REDIRECT_URL": "https://geekplanet.ch/login"
+  },
+  "PAYMENT": {
+    "PUBLIC": "pk_test_vyVGipm7QCAuNaHYwBHBLdpy"
   }
 }

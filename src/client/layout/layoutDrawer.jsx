@@ -13,6 +13,7 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
     docked={false}
     open={drawerOpened}
     onRequestChange={toggleDrawer}
+    disableSwipeToOpen
   >
     <AppBar
       title={APP.TITLE}

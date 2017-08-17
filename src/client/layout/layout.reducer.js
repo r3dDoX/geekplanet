@@ -1,8 +1,12 @@
-import { ADD_ITEM_TO_SHOPPING_CART, HIDE_SHOPPING_CART_NOTIFICATION, TOGGLE_DRAWER } from '../actions';
+import {
+  ADD_ITEM_TO_SHOPPING_CART, HIDE_SHOPPING_CART_NOTIFICATION, TOGGLE_DRAWER,
+  TOGGLE_SHOPPING_CART_DRAWER,
+} from '../actions';
 
 const initialState = {
   drawerOpened: false,
   shoppingCartNotification: false,
+  shoppingCartDrawerOpened: false,
 };
 
 export default function auth(state = initialState, { type }) {
@@ -18,6 +22,10 @@ export default function auth(state = initialState, { type }) {
     case HIDE_SHOPPING_CART_NOTIFICATION:
       return Object.assign({}, state, {
         shoppingCartNotification: false,
+      });
+    case TOGGLE_SHOPPING_CART_DRAWER:
+      return Object.assign({}, state, {
+        shoppingCartDrawerOpened: !state.shoppingCartDrawerOpened,
       });
     default:
       return state;

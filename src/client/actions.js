@@ -11,6 +11,7 @@ export const FINISHED_AUTH = 'FINISHED_AUTH';
 export const LOGGED_IN = 'LOGGED_IN';
 export const LOGGED_OUT = 'LOGGED_OUT';
 export const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
+export const TOGGLE_SHOPPING_CART_DRAWER = 'TOGGLE_SHOPPING_CART_DRAWER';
 export const ADD_ITEM_TO_SHOPPING_CART = 'ADD_ITEM_TO_SHOPPING_CART';
 export const REMOVE_ITEM_FROM_SHOPPING_CART = 'REMOVE_ITEM_FROM_SHOPPING_CART';
 export const LOAD_SHOPPING_CART = 'LOAD_SHOPPING_CART';
@@ -71,6 +72,10 @@ export const createLogout = () => ({
 
 export const createToggleDrawer = () => ({
   type: TOGGLE_DRAWER,
+});
+
+export const createToggleShoppingCartDrawer = () => ({
+  type: TOGGLE_SHOPPING_CART_DRAWER,
 });
 
 export const createHideShoppingCartNotification = () => ({

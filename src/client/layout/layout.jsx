@@ -15,7 +15,7 @@ import LayoutDrawer from './layoutDrawer.jsx';
 import MainSpinner from './mainSpinner.jsx';
 
 const Container = styled.div`
-  paddingTop: 64px;
+  padding-top: 64px;
 `;
 
 const Body = styled(Paper)`

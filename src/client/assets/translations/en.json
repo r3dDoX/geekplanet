@@ -30,7 +30,7 @@
   },
   "SHOPPING_CART": {
     "TITLE": "Shopping Cart",
-    "PRODUCTS": "Products",
+    "NO_ITEMS": "No items in shopping cart yet",
     "TOTAL": "Total",
     "CHECKOUT": "Checkout"
   },

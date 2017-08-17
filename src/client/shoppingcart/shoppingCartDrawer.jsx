@@ -35,16 +35,22 @@ const ShoppingCartDrawer = ({
       onLeftIconButtonTouchTap={toggleDrawer}
       iconElementLeft={<IconButton><NavigationClose /></IconButton>}
     />
-    <List>
-      {shoppingCart.map(item => (
-        <ShoppingCartItem
-          key={item.product._id}
-          shoppingCartItem={item}
-          setAmount={setAmount}
-          locale={locale}
-        />
-      ))}
-    </List>
+    {shoppingCart.length ? (
+      <List>
+        {shoppingCart.map(item => (
+          <ShoppingCartItem
+            key={item.product._id}
+            shoppingCartItem={item}
+            setAmount={setAmount}
+            locale={locale}
+          />
+        ))}
+      </List>
+    ) : (
+      <Subheader inset>
+        <FormattedMessage id="SHOPPING_CART.NO_ITEMS" />
+      </Subheader>
+    )}
     <Divider />
     <Subheader inset>
       <FormattedMessage id="SHOPPING_CART.TOTAL" />

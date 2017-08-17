@@ -30,7 +30,7 @@
   },
   "SHOPPING_CART": {
     "TITLE": "Warenkorb",
-    "PRODUCTS": "Produkte",
+    "NO_ITEMS": "Noch keine Produkte im Warenkorb",
     "TOTAL": "Total",
     "CHECKOUT": "Zur Kasse"
   },

@@ -1,39 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
-import CircularProgress from 'material-ui/CircularProgress';
-import { IntlProvider, FormattedMessage } from 'react-intl';
-import Header from './header.jsx';
-import Footer from './footer.jsx';
-import LayoutDrawer from './layoutDrawer.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage, IntlProvider } from 'react-intl';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
 import { createHideShoppingCartNotification, createLogout, createToggleDrawer } from '../actions';
 import authService from '../auth/authService';
+import ShoppingCartDrawer from '../shoppingcart/shoppingCartDrawer.jsx';
+import Footer from './footer.jsx';
+import Header from './header.jsx';
+import LayoutDrawer from './layoutDrawer.jsx';
+import MainSpinner from './mainSpinner.jsx';
 
-const styles = {
-  container: {
-    paddingTop: '64px',
-  },
-  bodyContainer: {
-    position: 'relative',
-  },
-  appBar: {
-    position: 'fixed',
-    top: 0,
-  },
-  title: {
-    textDecoration: 'none',
-    color: 'inherit',
-  },
-  spinner: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translateX(-50%) translateY(-50%)',
-  },
-};
+const Container = styled.div`
+  paddingTop: 64px;
+`;
+
+const Body = styled(Paper)`
+  position: relative;
+`;
 
 const Layout = ({
   auth: {
@@ -56,7 +43,7 @@ const Layout = ({
   if (translations) {
     return (
       <IntlProvider locale={language} messages={translations}>
-        <div style={styles.container}>
+        <Container>
           <Header toggleDrawer={toggleDrawer} />
           <LayoutDrawer
             roles={roles}
@@ -68,9 +55,10 @@ const Layout = ({
             drawerOpened={drawerOpened}
             toggleDrawer={toggleDrawer}
           />
-          <Paper style={styles.bodyContainer}>
+          <ShoppingCartDrawer />
+          <Body>
             {children}
-          </Paper>
+          </Body>
           <Footer />
           <Snackbar
             open={shoppingCartNotification}
@@ -80,12 +68,12 @@ const Layout = ({
             autoHideDuration={4000}
             onRequestClose={hideShoppingCartNotification}
           />
-        </div>
+        </Container>
       </IntlProvider>
     );
   }
 
-  return <CircularProgress style={styles.spinner} size={80} thickness={5} />;
+  return <MainSpinner />;
 };
 
 Layout.defaultProps = {

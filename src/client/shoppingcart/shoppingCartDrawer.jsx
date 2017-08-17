@@ -26,6 +26,7 @@ const ShoppingCartDrawer = ({
   <Drawer
     open={shoppingCartDrawerOpened}
     onRequestChange={toggleDrawer}
+    disableSwipeToOpen
     openSecondary
     width={350}
   >

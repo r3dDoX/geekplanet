@@ -14,11 +14,8 @@ import Header from './header.jsx';
 import LayoutDrawer from './layoutDrawer.jsx';
 import MainSpinner from './mainSpinner.jsx';
 
-const Container = styled.div`
-  padding-top: 64px;
-`;
-
 const Body = styled(Paper)`
+  padding-top: 64px;
   position: relative;
 `;
 
@@ -43,7 +40,7 @@ const Layout = ({
   if (translations) {
     return (
       <IntlProvider locale={language} messages={translations}>
-        <Container>
+        <div>
           <Header toggleDrawer={toggleDrawer} />
           <LayoutDrawer
             roles={roles}
@@ -68,7 +65,7 @@ const Layout = ({
             autoHideDuration={4000}
             onRequestClose={hideShoppingCartNotification}
           />
-        </Container>
+        </div>
       </IntlProvider>
     );
   }

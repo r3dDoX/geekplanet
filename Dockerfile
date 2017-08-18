@@ -1,13 +1,12 @@
 FROM r3ddox/node-pdftk:8.4.0
 
-ENV user geekplanet
-RUN groupadd --system $user && useradd --system --create-home --gid $user $user
+RUN adduser -D -u 1001 geekplanet
 
 ADD ./ /usr/app
 WORKDIR /usr/app
 
-RUN chown $user --recursive .
-USER $user
+RUN chown geekplanet --recursive .
+USER geekplanet
 
 RUN npm install
 RUN npm run build:staging

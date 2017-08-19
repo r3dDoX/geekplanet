@@ -8,8 +8,9 @@ import {
 } from '../actions';
 
 const fieldNamesToFilter = [
-  'name',
-  'shortDescription',
+  'de.name',
+  'de.shortDescription',
+  'tags',
 ];
 
 const initialState = {
@@ -21,34 +22,54 @@ const initialState = {
   categoriesToFilter: [],
   selectedProduct: undefined,
   productLoading: false,
+  productFilters: {},
 };
 
-function filterProducts(products, filterString, categoriesToFilter) {
-  let filteredProducts;
+function getPropByString(obj, prop) {
+  return prop.split('.').reduce((actObj, identifier) => actObj[identifier], obj);
+}
 
+function filterProductsByCategories(products, categoriesToFilter) {
   if (!categoriesToFilter.length) {
-    filteredProducts = products;
-  } else {
-    filteredProducts = products.filter(product =>
-      categoriesToFilter.some(productCategory => productCategory._id === product.category),
-    );
+    return products;
   }
 
+  return products.filter(product =>
+    categoriesToFilter.some(productCategory => productCategory._id === product.category),
+  );
+}
+
+function filterProductsByString(products, filterString) {
   if (!filterString) {
-    return filteredProducts;
+    return products;
   }
 
   const splittedFilterString = filterString.toLowerCase().split(' ');
 
-  return filteredProducts.filter(product =>
-    splittedFilterString.every((filterWord) => {
-      const fieldValuesToFilter = fieldNamesToFilter.map(
-        fieldName => product.de[fieldName].toLowerCase(),
-      );
+  return products.filter(product =>
+    splittedFilterString.every(filterWord =>
+      fieldNamesToFilter.map(
+        (fieldName) => {
+          let value = getPropByString(product, fieldName);
 
-      return fieldValuesToFilter.some(fieldValue => fieldValue.includes(filterWord));
-    }),
+          if (value instanceof Array) {
+            value = value.join('');
+          }
+
+          return value.toLowerCase();
+        })
+        .some(fieldValue => fieldValue.includes(filterWord))
+    ),
   );
+}
+
+function filterProducts(products, productFilters) {
+  return Object.values(productFilters)
+    .sort((a, b) => a.priority - b.priority)
+    .reduce(
+      (filteredProducts, actFilter) => actFilter(filteredProducts),
+      products
+    );
 }
 
 export default (state = initialState, {
@@ -78,16 +99,32 @@ export default (state = initialState, {
       return Object.assign({}, state, {
         productCategories,
       });
-    case FILTER_PRODUCTS:
+    case FILTER_PRODUCTS: {
+      const productFilters = Object.assign(state.productFilters, {
+        filterProductsByString: filteredProducts =>
+          filterProductsByString(filteredProducts, filterString),
+      });
+      productFilters.filterProductsByString.priority = 10;
+
       return Object.assign({}, state, {
         filterString,
-        filteredProducts: filterProducts(state.products, filterString, state.categoriesToFilter),
+        productFilters,
+        filteredProducts: filterProducts(state.products, productFilters),
       });
-    case TOGGLE_FILTER_CATEGORY:
+    }
+    case TOGGLE_FILTER_CATEGORY: {
+      const productFilters = Object.assign(state.productFilters, {
+        filterProductsByCategories: filteredProducts =>
+          filterProductsByCategories(filteredProducts, productCategories),
+      });
+      productFilters.filterProductsByCategories.priority = 1;
+
       return Object.assign({}, state, {
         categoriesToFilter: productCategories,
-        filteredProducts: filterProducts(state.products, state.filterString, productCategories),
+        productFilters,
+        filteredProducts: filterProducts(state.products, productFilters),
       });
+    }
     case PRODUCT_LOADING:
       return Object.assign({}, state, {
         productLoading: true,
@@ -97,6 +134,7 @@ export default (state = initialState, {
         filterString: initialState.filterString,
         categoriesToFilter: initialState.categoriesToFilter,
         filteredProducts: state.products,
+        productFilters: {},
       });
     default:
       return state;

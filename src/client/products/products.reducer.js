@@ -4,7 +4,7 @@ import {
   PRODUCT_LOADING,
   PRODUCT_SELECTED,
   PRODUCTS_LOADED,
-  SPOTLIGHT_PRODUCTS_LOADED, RESET_FILTER,
+  SPOTLIGHT_PRODUCTS_LOADED, RESET_FILTER, TOGGLE_FILTER_PRODUCER, PUBLIC_PRODUCERS_LOADED,
 } from '../actions';
 
 const fieldNamesToFilter = [
@@ -17,9 +17,11 @@ const initialState = {
   spotlightProducts: [],
   products: [],
   productCategories: [],
+  producers: [],
   filteredProducts: [],
   filterString: '',
   categoriesToFilter: [],
+  producersToFilter: [],
   selectedProduct: undefined,
   productLoading: false,
   productFilters: {},
@@ -36,6 +38,16 @@ function filterProductsByCategories(products, categoriesToFilter) {
 
   return products.filter(product =>
     categoriesToFilter.some(productCategory => productCategory._id === product.category),
+  );
+}
+
+function filterProductsByProducers(products, producersToFilter) {
+  if (!producersToFilter.length) {
+    return products;
+  }
+
+  return products.filter(product =>
+    producersToFilter.some(producer => producer._id === product.producer),
   );
 }
 
@@ -77,6 +89,7 @@ export default (state = initialState, {
   spotlightProducts,
   products,
   productCategories,
+  producers,
   selectedProduct,
   filterString,
 }) => {
@@ -99,6 +112,10 @@ export default (state = initialState, {
       return Object.assign({}, state, {
         productCategories,
       });
+    case PUBLIC_PRODUCERS_LOADED:
+      return Object.assign({}, state, {
+        producers,
+      });
     case FILTER_PRODUCTS: {
       const productFilters = Object.assign(state.productFilters, {
         filterProductsByString: filteredProducts =>
@@ -117,10 +134,23 @@ export default (state = initialState, {
         filterProductsByCategories: filteredProducts =>
           filterProductsByCategories(filteredProducts, productCategories),
       });
-      productFilters.filterProductsByCategories.priority = 1;
+      productFilters.filterProductsByCategories.priority = 2;
 
       return Object.assign({}, state, {
         categoriesToFilter: productCategories,
+        productFilters,
+        filteredProducts: filterProducts(state.products, productFilters),
+      });
+    }
+    case TOGGLE_FILTER_PRODUCER: {
+      const productFilters = Object.assign(state.productFilters, {
+        filterProductsByProducers: filteredProducts =>
+          filterProductsByProducers(filteredProducts, producers),
+      });
+      productFilters.filterProductsByProducers.priority = 1;
+
+      return Object.assign({}, state, {
+        producersToFilter: producers,
         productFilters,
         filteredProducts: filterProducts(state.products, productFilters),
       });
@@ -133,6 +163,7 @@ export default (state = initialState, {
       return Object.assign({}, state, {
         filterString: initialState.filterString,
         categoriesToFilter: initialState.categoriesToFilter,
+        producersToFilter: initialState.producersToFilter,
         filteredProducts: state.products,
         productFilters: {},
       });

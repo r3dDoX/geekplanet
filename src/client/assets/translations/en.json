@@ -88,7 +88,8 @@
   "PRODUCT_FILTER": {
     "FILTERSTRING_PLACEHOLDER": "Filter...",
     "PRODUCT_CATEGORIES_PLACEHOLDER": "Categories",
-    "RESET_FILTER": "Reset Filter"
+    "RESET_FILTER": "Reset Filter",
+    "PRODUCERS_PLACEHOLDER": "Producer"
   },
   "EMAIL": {
     "ORDER_CONFIRMATION": "Thank you for your purchase, {firstName}!",

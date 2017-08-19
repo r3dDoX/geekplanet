@@ -11,11 +11,12 @@ import { Field, reduxForm, reset } from 'redux-form';
 import {
   createFilterProducts,
   createLoadProductCategories,
+  createLoadPublicProducers,
   createResetFilter,
-  createToggleFilterCategory,
+  createToggleFilterCategory, createToggleFilterProducer,
 } from '../../actions';
 import TextField from '../../formHelpers/textField.jsx';
-import { ProductCategoryPropType } from '../../propTypes';
+import { ProducerPropType, ProductCategoryPropType } from '../../propTypes';
 import { accent2Color } from '../../theme';
 
 const formName = 'productFilter';
@@ -56,15 +57,22 @@ class ProductFilter extends React.Component {
     if (this.props.productCategories.length === 0) {
       this.props.loadProductCategories();
     }
+
+    if (this.props.producers.length === 0) {
+      this.props.loadPublicPorducers();
+    }
   }
 
   render() {
     const {
       filterProducts,
       productCategories,
+      producers,
       filterString,
       categoriesToFilter,
+      producersToFilter,
       toggleProductCategory,
+      toggleProducer,
       resetFilter,
     } = this.props;
 
@@ -107,6 +115,30 @@ class ProductFilter extends React.Component {
             </SelectField>
           </div>
           <div style={styles.filterItem}>
+            <SelectField
+              name="producers"
+              floatingLabelText={<FormattedMessage id="PRODUCT_FILTER.PRODUCERS_PLACEHOLDER" />}
+              onChange={(event, index, values) => toggleProducer(values)}
+              floatingLabelStyle={styles.filterHint}
+              underlineStyle={styles.filterHint}
+              iconStyle={styles.filterHint}
+              value={producersToFilter}
+              multiple
+            >
+              {producers.map(producer => (
+                <MenuItem
+                  key={producer._id}
+                  value={producer}
+                  primaryText={producer.name}
+                  insetChildren
+                  checked={producersToFilter.some(
+                    producerToFilter => producerToFilter._id === producer._id,
+                  )}
+                />
+              ))}
+            </SelectField>
+          </div>
+          <div style={styles.filterItem}>
             <RaisedButton
               onTouchTap={resetFilter}
               label={<FormattedMessage id="PRODUCT_FILTER.RESET_FILTER" />}
@@ -124,18 +156,24 @@ class ProductFilter extends React.Component {
 
 ProductFilter.propTypes = {
   productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
+  producers: PropTypes.arrayOf(ProducerPropType).isRequired,
   categoriesToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
+  producersToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
   filterString: PropTypes.string.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
+  loadPublicPorducers: PropTypes.func.isRequired,
   filterProducts: PropTypes.func.isRequired,
   toggleProductCategory: PropTypes.func.isRequired,
+  toggleProducer: PropTypes.func.isRequired,
   resetFilter: PropTypes.func.isRequired,
 };
 
 export default connect(
   state => ({
     productCategories: state.products.productCategories,
+    producers: state.products.producers,
     categoriesToFilter: state.products.categoriesToFilter,
+    producersToFilter: state.products.producersToFilter,
     filteredProducts: state.products.filteredProducts,
     filterString: state.products.filterString,
   }),
@@ -143,11 +181,17 @@ export default connect(
     loadProductCategories() {
       dispatch(createLoadProductCategories());
     },
+    loadPublicPorducers() {
+      dispatch(createLoadPublicProducers());
+    },
     filterProducts(filterString) {
       dispatch(createFilterProducts(filterString));
     },
-    toggleProductCategory(category) {
-      dispatch(createToggleFilterCategory(category));
+    toggleProductCategory(categories) {
+      dispatch(createToggleFilterCategory(categories));
+    },
+    toggleProducer(producers) {
+      dispatch(createToggleFilterProducer(producers));
     },
     resetFilter() {
       dispatch(createResetFilter());

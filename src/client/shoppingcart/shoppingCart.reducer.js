@@ -50,8 +50,8 @@ export default function auth(state = initialState, { type, data }) {
       return cart;
     }
     case ADD_ITEM_TO_SHOPPING_CART: {
-      state.items = insertOrUpdateItem(state.items, data);
       const newState = Object.assign({}, state);
+      newState.items = insertOrUpdateItem(newState.items, data);
 
       store(ids.SHOPPING_CART, newState);
 
@@ -74,7 +74,9 @@ export default function auth(state = initialState, { type, data }) {
     }
     case ORDER_FINISHED: {
       remove(ids.SHOPPING_CART);
-      return initialState;
+      return Object.assign({}, initialState, {
+        id: shortId.generate(),
+      });
     }
     default: {
       return state;

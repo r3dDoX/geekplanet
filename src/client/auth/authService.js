@@ -61,6 +61,7 @@ const AuthService = {
         email,
       }, (err) => {
         if (err) {
+          console.error(err.message);
           reject(err.message);
         } else {
           resolve();

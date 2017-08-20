@@ -4,9 +4,9 @@ import SelectField from 'material-ui/SelectField';
 import { grey700 } from 'material-ui/styles/colors';
 import CancelIcon from 'material-ui/svg-icons/action/highlight-off';
 import ArrowUp from 'material-ui/svg-icons/navigation/expand-less';
-import ArrowDown from 'material-ui/svg-icons/navigation/expand-more';
 import PropTypes from 'prop-types';
 import React from 'react';
+import AnimateHeight from 'react-animate-height';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Field, reduxForm, reset } from 'redux-form';
@@ -96,12 +96,21 @@ class ProductFilter extends React.Component {
       toggleFilterView,
     } = this.props;
 
+    const noFiltersSet = () =>
+      filterString.length === 0 &&
+      categoriesToFilter.length === 0 &&
+      producersToFilter.length === 0;
+
     return (
       <FilterContainer>
         <FilterTitle onClick={toggleFilterView}>
-          <FormattedMessage id="PRODUCT_FILTER.TITLE" /> {filterShown ? <ArrowUp /> : <ArrowDown />}
+          <FormattedMessage id="PRODUCT_FILTER.TITLE" />
+          <ArrowUp style={{ transform: filterShown ? 'rotate(0deg)' : 'rotate(180deg)' }} />
         </FilterTitle>
-        {filterShown ? (
+        <AnimateHeight
+          duration={250}
+          height={filterShown ? 'auto' : 0}
+        >
           <FilterInlay>
             <FilterItem>
               <Field
@@ -117,7 +126,9 @@ class ProductFilter extends React.Component {
             <FilterItem>
               <SelectField
                 name="categories"
-                floatingLabelText={<FormattedMessage id="PRODUCT_FILTER.PRODUCT_CATEGORIES_PLACEHOLDER" />}
+                floatingLabelText={
+                  <FormattedMessage id="PRODUCT_FILTER.PRODUCT_CATEGORIES_PLACEHOLDER" />
+                }
                 onChange={(event, index, values) => toggleProductCategory(values)}
                 floatingLabelStyle={styles.filterHint}
                 underlineStyle={styles.filterHint}
@@ -169,11 +180,11 @@ class ProductFilter extends React.Component {
                 secondary
                 style={styles.button}
                 icon={<CancelIcon />}
-                disabled={filterString.length === 0 && categoriesToFilter.length === 0}
+                disabled={noFiltersSet()}
               />
             </FilterItem>
           </FilterInlay>
-        ) : null}
+        </AnimateHeight>
       </FilterContainer>
     );
   }

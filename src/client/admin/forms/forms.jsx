@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
+import { createLoadProductCategories } from '../../actions';
+import MainSpinner from '../../layout/mainSpinner.jsx';
+import { ProductPropType } from '../../propTypes';
 import PrivateRoute from '../../router/privateRoute.jsx';
 import {
   createLoadCompleteProducts,
   createLoadProducers,
-  createLoadProductCategories,
   createLoadSuppliers,
   createLoadTags,
 } from '../adminActions';
@@ -15,8 +17,6 @@ import ProducerForm from '../producers/producerForm.jsx';
 import ProductCategoryForm from '../productcategories/productCategoryForm.jsx';
 import SupplierForm from '../suppliers/supplierForm.jsx';
 import ProductForm from './productForm.jsx';
-import MainSpinner from '../../layout/mainSpinner.jsx';
-import { ProductPropType } from '../../propTypes';
 
 const paths = [
   '/forms/products',

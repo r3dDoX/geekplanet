@@ -13,6 +13,7 @@ const Title = styled(Link)`
 
 const StyledAppBar = styled(AppBar)`
   position: fixed !important;
+  z-index: 1;
   top: 0;
 `;
 

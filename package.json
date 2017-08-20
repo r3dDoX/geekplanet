@@ -83,6 +83,7 @@
     "nodemon": "1.11.0",
     "prop-types": "15.5.10",
     "react-addons-test-utils": "15.6.0",
+    "react-animate-height": "0.10.0",
     "react-hot-loader": "3.0.0-beta.6",
     "react-image-gallery": "0.8.3",
     "react-infinite-scroller": "1.0.15",

@@ -62,6 +62,12 @@ class OrderStepper extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.props.orderStep === OrderSteps.CONFIRMATION) {
+      this.props.selectStep(OrderSteps.ADDRESS);
+    }
+  }
+
   navigateToCorrectStep() {
     switch (this.props.orderStep) {
       default:

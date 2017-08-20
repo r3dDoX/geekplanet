@@ -83,7 +83,8 @@
     "LOGIN": "Anmelden",
     "REGISTER": "Registrieren",
     "WRONG_USERNAME_PASSWORD": "Falscher Benutzername oder Passwort",
-    "USER_EXISTS": "Diese Email ist bereits registriert"
+    "USER_EXISTS": "Diese Email ist bereits registriert",
+    "FORGOT_PASSWORD": "Passwort vergessen?"
   },
   "PRODUCT_FILTER": {
     "TITLE": "Filter",

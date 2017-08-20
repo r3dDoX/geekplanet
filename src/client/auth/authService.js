@@ -54,6 +54,19 @@ const AuthService = {
       }));
   },
 
+  resetPassword(email) {
+    this.auth0.changePassword({
+      connection: 'db-conn',
+      email,
+    }, (err, resp) => {
+      if (err) {
+        console.error(err.message);
+      } else {
+        console.log(resp);
+      }
+    });
+  },
+
   isExpired() {
     return new Date().getTime() > storage.load(storage.ids.TOKEN_EXPIRES_AT);
   },

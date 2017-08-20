@@ -1,40 +1,51 @@
-import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
-import { FormattedMessage } from 'react-intl';
-import { Field, reduxForm } from 'redux-form';
+import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
-import authService from './authService';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+import { Field, reduxForm } from 'redux-form';
+import styled from 'styled-components';
 import TextField from '../formHelpers/textField.jsx';
-import { accent1Color } from '../theme';
 import MainSpinner from '../layout/mainSpinner.jsx';
+import { accent1Color } from '../theme';
+import authService from './authService';
+
+const Container = styled.div`
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 50px;
+  max-width: 350px;
+`;
+
+const SocialButton = styled(RaisedButton)`
+  margin-bottom: 20px;
+`;
+
+const LoginButton = styled(RaisedButton)`
+  margin-top: 20px;
+`;
+
+const RegisterButton = styled(RaisedButton)`
+  margin-top: 10px;
+`;
+
+const ErrorMessage = styled.div`
+  display: block;
+  margin: 15px 0 0;
+  color: ${accent1Color};
+`;
+
+const ChangePasswordLink = styled(Link)`
+  margin-top: 20px;
+`;
 
 const styles = {
-  container: {
-    margin: '0 auto',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    padding: '50px',
-    maxWidth: '350px',
-  },
-  socialButton: {
-    marginBottom: '20px',
-  },
   icon: {
     height: '45%',
     marginRight: '10px',
-  },
-  loginButton: {
-    marginTop: '20px',
-  },
-  registerButton: {
-    marginTop: '10px',
-  },
-  errorMessage: {
-    display: 'block',
-    margin: '15px 0 0',
-    color: accent1Color,
   },
   hidden: {
     display: 'none',
@@ -63,13 +74,12 @@ const LoginForm = ({
   onSubmit,
   isAuthenticating,
 }) => (
-  <div style={styles.container}>
-    <RaisedButton
+  <Container>
+    <SocialButton
       label={<FormattedMessage id="LOGIN.FACEBOOK" />}
       backgroundColor="#4267b2"
       labelColor="#FFF"
       onClick={() => authService.authorize('facebook')}
-      style={styles.socialButton}
       icon={
         <svg
           version="1.1"
@@ -88,10 +98,9 @@ const LoginForm = ({
         </svg>
       }
     />
-    <RaisedButton
+    <SocialButton
       label={<FormattedMessage id="LOGIN.GOOGLE" />}
       onClick={() => authService.authorize('google-oauth2')}
-      style={styles.socialButton}
       icon={
         <svg
           version="1.1"
@@ -113,9 +122,9 @@ const LoginForm = ({
     {isAuthenticating ? <MainSpinner /> : null}
     <form name="login" style={isAuthenticating ? styles.hidden : null}>
       {error && (
-        <div style={styles.errorMessage}>
+        <ErrorMessage>
           {getErrorMessage(error)}
-        </div>
+        </ErrorMessage>
       )}
       <Field
         component={TextField}
@@ -133,24 +142,25 @@ const LoginForm = ({
         fullWidth
         validate={required}
       />
-      <RaisedButton
+      <LoginButton
         type="submit"
         label={<FormattedMessage id="LOGIN.LOGIN" />}
-        style={styles.loginButton}
         primary
         fullWidth
         onClick={handleSubmit(values => onSubmit({ ...values, submit: 'login' }))}
       />
-      <RaisedButton
+      <RegisterButton
         type="submit"
         label={<FormattedMessage id="LOGIN.REGISTER" />}
-        style={styles.registerButton}
         secondary
         fullWidth
         onClick={handleSubmit(values => onSubmit({ ...values, submit: 'register' }))}
       />
     </form>
-  </div>
+    <ChangePasswordLink to="/changepassword">
+      <FormattedMessage id="LOGIN.FORGOT_PASSWORD" />
+    </ChangePasswordLink>
+  </Container>
 );
 
 LoginForm.propTypes = {

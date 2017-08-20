@@ -1,10 +1,15 @@
 import {
   TOGGLE_FILTER_CATEGORY,
-  FILTER_PRODUCTS, PRODUCT_CATEGORIES_LOADED,
+  FILTER_PRODUCTS,
+  PRODUCT_CATEGORIES_LOADED,
   PRODUCT_LOADING,
   PRODUCT_SELECTED,
   PRODUCTS_LOADED,
-  SPOTLIGHT_PRODUCTS_LOADED, RESET_FILTER, TOGGLE_FILTER_PRODUCER, PUBLIC_PRODUCERS_LOADED,
+  SPOTLIGHT_PRODUCTS_LOADED,
+  RESET_FILTER,
+  TOGGLE_FILTER_PRODUCER,
+  PUBLIC_PRODUCERS_LOADED,
+  TOGGLE_FILTER_VIEW,
 } from '../actions';
 
 const fieldNamesToFilter = [
@@ -25,6 +30,7 @@ const initialState = {
   selectedProduct: undefined,
   productLoading: false,
   productFilters: {},
+  filterShown: false,
 };
 
 function getPropByString(obj, prop) {
@@ -70,7 +76,7 @@ function filterProductsByString(products, filterString) {
 
           return value.toLowerCase();
         })
-        .some(fieldValue => fieldValue.includes(filterWord))
+        .some(fieldValue => fieldValue.includes(filterWord)),
     ),
   );
 }
@@ -80,7 +86,7 @@ function filterProducts(products, productFilters) {
     .sort((a, b) => a.priority - b.priority)
     .reduce(
       (filteredProducts, actFilter) => actFilter(filteredProducts),
-      products
+      products,
     );
 }
 
@@ -166,6 +172,10 @@ export default (state = initialState, {
         producersToFilter: initialState.producersToFilter,
         filteredProducts: state.products,
         productFilters: {},
+      });
+    case TOGGLE_FILTER_VIEW:
+      return Object.assign({}, state, {
+        filterShown: !state.filterShown,
       });
     default:
       return state;

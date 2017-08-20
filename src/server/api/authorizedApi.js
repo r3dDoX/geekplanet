@@ -275,13 +275,17 @@ module.exports = {
           $set: {
             state: OrderState.WAITING,
           },
-        })
+        },
+        { new: true })
           .then((order) => {
             const { address, items } = order;
             updateProductStocks(items);
 
             new Invoice({
-              value: items.reduce((sum, { amount, product }) => sum + (amount * product.price), 0),
+              value: items.reduce(
+                (sum, { amount, product }) => sum + (amount * product.price),
+                0
+              ),
               address,
             }).save()
               .then(invoice =>

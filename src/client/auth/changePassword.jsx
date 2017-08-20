@@ -60,10 +60,7 @@ class ChangePassword extends React.Component {
               onClick={handleSubmit(({ email }) =>
                 AuthService.resetPassword(email)
                   .then(() => this.setState({ showConfirmation: <FormattedMessage id="LOGIN.MAIL_SENT" /> }))
-                  .catch((error) => {
-                    console.error(error);
-                    this.setState({ showConfirmation: <FormattedMessage id="LOGIN.MAIL_NOT_SENT" /> });
-                  })
+                  .catch(() => this.setState({ showConfirmation: <FormattedMessage id="LOGIN.MAIL_NOT_SENT" /> }))
               )}
             />
           </form>

@@ -84,7 +84,10 @@
     "REGISTER": "Registrieren",
     "WRONG_USERNAME_PASSWORD": "Falscher Benutzername oder Passwort",
     "USER_EXISTS": "Diese Email ist bereits registriert",
-    "FORGOT_PASSWORD": "Passwort vergessen?"
+    "FORGOT_PASSWORD": "Passwort vergessen?",
+    "RESET_PASSWORD": "Passwort zurücksetzen",
+    "MAIL_SENT": "Eine Email wurde an die angegebene Adresse geschickt. Bitte folge den Anweisungen um dein Passwort zurückzusetzen.",
+    "MAIL_NOT_SENT": "Leider ist was schief gelaufen. Bitte überprüfe die Angaben und versuchs nochmals."
   },
   "PRODUCT_FILTER": {
     "TITLE": "Filter",

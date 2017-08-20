@@ -42,6 +42,8 @@ app.use('/', express.static('dist/', {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
       res.setHeader('Pragma', 'no-cache');
       res.setHeader('Expires', 0);
+    } else if (mime.lookup(headerPath) === 'application/json') {
+      res.setHeader('Cache-Control', 'public, must-revalidate');
     }
   },
 }));

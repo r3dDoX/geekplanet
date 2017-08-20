@@ -55,16 +55,18 @@ const AuthService = {
   },
 
   resetPassword(email) {
-    this.auth0.changePassword({
-      connection: 'db-conn',
-      email,
-    }, (err, resp) => {
-      if (err) {
-        console.error(err.message);
-      } else {
-        console.log(resp);
-      }
-    });
+    return new Promise((resolve, reject) =>
+      this.auth0.changePassword({
+        connection: 'Username-Password-Authentication',
+        email,
+      }, (err) => {
+        if (err) {
+          reject(err.message);
+        } else {
+          resolve();
+        }
+      }),
+    );
   },
 
   isExpired() {
@@ -91,14 +93,6 @@ const AuthService = {
     storage.remove(storage.ids.TOKEN_EXPIRES_AT);
   },
 
-  setAccessToken(accessToken) {
-    storage.store(storage.ids.ACCESS_TOKEN, accessToken);
-  },
-
-  getAccessToken() {
-    return storage.load(storage.ids.ACCESS_TOKEN);
-  },
-
   handleAuthentication(dispatchLoggedIn) {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
@@ -116,7 +110,7 @@ const AuthService = {
     storage.store(storage.ids.ID_TOKEN, authResult.idToken);
     storage.store(
       storage.ids.TOKEN_EXPIRES_AT,
-      (authResult.expiresIn * 1000) + new Date().getTime()
+      (authResult.expiresIn * 1000) + new Date().getTime(),
     );
   },
 };

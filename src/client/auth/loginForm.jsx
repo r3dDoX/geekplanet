@@ -42,15 +42,10 @@ const ChangePasswordLink = styled(Link)`
   margin-top: 20px;
 `;
 
-const styles = {
-  icon: {
-    height: '45%',
-    marginRight: '10px',
-  },
-  hidden: {
-    display: 'none',
-  },
-};
+const Icon = styled.svg`
+  height: 45%;
+  margin-right: 10px;
+`;
 
 function required(value) {
   if (!(value && value.length >= 1)) {
@@ -81,11 +76,10 @@ const LoginForm = ({
       labelColor="#FFF"
       onClick={() => authService.authorize('facebook')}
       icon={
-        <svg
+        <Icon
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 216 216"
-          style={styles.icon}
         >
           <path
             fill="#ffffff"
@@ -95,18 +89,17 @@ const LoginForm = ({
               15.9v20.8h32.3l-4.2 32.6h-28V216h55c6.6 0 11.9-5.3
               11.9-11.9V11.9C216 5.3 210.7 0 204.1 0z"
           />
-        </svg>
+        </Icon>
       }
     />
     <SocialButton
       label={<FormattedMessage id="LOGIN.GOOGLE" />}
       onClick={() => authService.authorize('google-oauth2')}
       icon={
-        <svg
+        <Icon
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 48 48"
-          style={styles.icon}
         >
           <g>
             <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
@@ -115,12 +108,12 @@ const LoginForm = ({
             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
             <path fill="none" d="M0 0h48v48H0z" />
           </g>
-        </svg>
+        </Icon>
       }
     />
     <Divider />
     {isAuthenticating ? <MainSpinner /> : null}
-    <form name="login" style={isAuthenticating ? styles.hidden : null}>
+    <form name="login" style={isAuthenticating ? { display: 'none' } : null}>
       {error && (
         <ErrorMessage>
           {getErrorMessage(error)}
@@ -157,7 +150,7 @@ const LoginForm = ({
         onClick={handleSubmit(values => onSubmit({ ...values, submit: 'register' }))}
       />
     </form>
-    <ChangePasswordLink to="/changepassword">
+    <ChangePasswordLink to="/login/changepassword">
       <FormattedMessage id="LOGIN.FORGOT_PASSWORD" />
     </ChangePasswordLink>
   </Container>

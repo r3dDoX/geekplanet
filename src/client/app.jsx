@@ -1,22 +1,19 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { createLoadShoppingCart, createLoadTranslations, createLoggedIn } from './actions';
 import authService from './auth/authService';
-import Layout from './layout/layout.jsx';
-import Home from './home/home.jsx';
-import OrderStepper from './order/orderStepper.jsx';
-import PrivateRoute from './router/privateRoute.jsx';
+import ChangePassword from './auth/changePassword.jsx';
 import Login from './auth/login.jsx';
+import Home from './home/home.jsx';
+import Layout from './layout/layout.jsx';
+import OrderStepper from './order/orderStepper.jsx';
 import ProductDetails from './products/productDetails.jsx';
 import Products from './products/products.jsx';
-import {
-  createLoadShoppingCart,
-  createLoadTranslations,
-  createLoggedIn,
-} from './actions';
 import asyncComponent from './router/asyncComponent.jsx';
-import { load, ids } from './storage';
+import PrivateRoute from './router/privateRoute.jsx';
+import { ids, load } from './storage';
 
 const LazyForms = asyncComponent(() => import('./admin/forms/forms.jsx').then(module => module.default));
 
@@ -32,7 +29,8 @@ class App extends React.Component {
       <BrowserRouter>
         <Layout>
           <Route exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/login/changepassword" component={ChangePassword} />
           <Route exact path="/products" component={Products} />
           <Route path="/products/:id" component={ProductDetails} />
           <PrivateRoute path="/order" component={OrderStepper} />

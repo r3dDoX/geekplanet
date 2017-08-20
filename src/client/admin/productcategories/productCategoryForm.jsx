@@ -4,11 +4,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { initialize, Field, reduxForm } from 'redux-form';
+import { Field, initialize, reduxForm } from 'redux-form';
 import SelectField from '../../formHelpers/selectField.jsx';
 import TextField from '../../formHelpers/textField.jsx';
 import { ProductCategoryPropType } from '../../propTypes';
-import { createLoadProductCategories } from '../adminActions';
+import { createLoadProductCategories } from '../../actions';
 import ProductCategoryService from './productCategoryService';
 
 const formName = 'productcategories';

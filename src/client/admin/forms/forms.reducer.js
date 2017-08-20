@@ -1,9 +1,14 @@
+import { PRODUCT_CATEGORIES_LOADED } from '../../actions';
 import {
   COMPLETE_PRODUCTS_LOADED,
   PRODUCERS_LOADED,
-  PRODUCT_CATEGORIES_LOADED,
-  REMOVE_SELECTED_FILE, RESET_SELECTED_FILES, SELECT_PRODUCT,
-  SELECT_UPLOAD_FILES, SET_TAGS, SUPPLIERS_LOADED, TAGS_LOADED,
+  REMOVE_SELECTED_FILE,
+  RESET_SELECTED_FILES,
+  SELECT_PRODUCT,
+  SELECT_UPLOAD_FILES,
+  SET_TAGS,
+  SUPPLIERS_LOADED,
+  TAGS_LOADED,
 } from '../adminActions';
 
 const initialState = {
@@ -16,7 +21,7 @@ const initialState = {
   suppliers: [],
 };
 
-export default function forms(state = initialState, { type, data, products }) {
+export default function forms(state = initialState, { type, data, products, productCategories }) {
   switch (type) {
     case SELECT_UPLOAD_FILES:
       return Object.assign({}, state, {
@@ -42,7 +47,7 @@ export default function forms(state = initialState, { type, data, products }) {
       });
     case PRODUCT_CATEGORIES_LOADED:
       return Object.assign({}, state, {
-        productCategories: data,
+        productCategories,
       });
     case PRODUCERS_LOADED:
       return Object.assign({}, state, {

@@ -1,7 +1,6 @@
 import { change } from 'redux-form';
 import * as ProductService from '../products/productService';
 import { formName as productFormName } from './forms/productForm.jsx';
-import ProductCategoryService from './productcategories/productCategoryService';
 import ProducerService from './producers/producerService';
 import SupplierService from './suppliers/supplierService';
 import TagService from './tags/tagService';
@@ -11,7 +10,6 @@ export const SELECT_UPLOAD_FILES = 'SELECT_UPLOAD_FILES';
 export const REMOVE_SELECTED_FILE = 'REMOVE_SELECTED_FILE';
 export const RESET_SELECTED_FILES = 'RESET_SELECTED_FILES';
 export const SELECT_PRODUCT = 'SELECT_PRODUCT';
-export const PRODUCT_CATEGORIES_LOADED = 'PRODUCT_CATEGORIES_LOADED';
 export const PRODUCERS_LOADED = 'PRODUCERS_LOADED';
 export const SUPPLIERS_LOADED = 'SUPPLIERS_LOADED';
 export const TAGS_LOADED = 'TAGS_LOADED';
@@ -52,12 +50,6 @@ export const createSelectProduct = product => ({
   type: SELECT_PRODUCT,
   data: product,
 });
-
-export const createLoadProductCategories = () => dispatch =>
-  ProductCategoryService.loadProductCategories().then(categories => dispatch({
-    type: PRODUCT_CATEGORIES_LOADED,
-    data: categories,
-  }));
 
 export const createLoadProducers = () => dispatch =>
   ProducerService.loadProducers().then(producers => dispatch({

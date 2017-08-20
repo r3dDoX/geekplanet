@@ -3,17 +3,22 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import { grey700 } from 'material-ui/styles/colors';
 import CancelIcon from 'material-ui/svg-icons/action/highlight-off';
+import ArrowUp from 'material-ui/svg-icons/navigation/expand-less';
+import ArrowDown from 'material-ui/svg-icons/navigation/expand-more';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Field, reduxForm, reset } from 'redux-form';
+import styled from 'styled-components';
 import {
   createFilterProducts,
   createLoadProductCategories,
   createLoadPublicProducers,
   createResetFilter,
-  createToggleFilterCategory, createToggleFilterProducer,
+  createToggleFilterCategory,
+  createToggleFilterProducer,
+  createToggleFilterView,
 } from '../../actions';
 import TextField from '../../formHelpers/textField.jsx';
 import { ProducerPropType, ProductCategoryPropType } from '../../propTypes';
@@ -21,20 +26,33 @@ import { accent2Color } from '../../theme';
 
 const formName = 'productFilter';
 
+const FilterContainer = styled.div`
+  padding: 20px;
+`;
+
+const FilterInlay = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background-color: ${accent2Color};
+`;
+
+const FilterItem = styled.div`
+  padding: 0 20px 20px;
+`;
+
+const FilterTitle = styled.h3`
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 20px;
+  font-weight: 400;
+  background-color: ${accent2Color};
+  cursor: pointer;
+`;
+
 const styles = {
-  container: {
-    padding: '20px',
-  },
-  filter: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    backgroundColor: accent2Color,
-  },
-  filterItem: {
-    padding: '20px',
-  },
   filterHint: {
     color: grey700,
     borderColor: grey700,
@@ -74,82 +92,89 @@ class ProductFilter extends React.Component {
       toggleProductCategory,
       toggleProducer,
       resetFilter,
+      filterShown,
+      toggleFilterView,
     } = this.props;
 
     return (
-      <div style={styles.container}>
-        <div style={styles.filter}>
-          <div style={styles.filterItem}>
-            <Field
-              component={TextField}
-              name="filterString"
-              label={<FormattedMessage id="PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER" />}
-              floatingLabelStyle={styles.filterHint}
-              underlineStyle={styles.filterHint}
-              onKeyUp={({ target }) => debounce(() => filterProducts(target.value))}
-              type="text"
-            />
-          </div>
-          <div style={styles.filterItem}>
-            <SelectField
-              name="categories"
-              floatingLabelText={<FormattedMessage id="PRODUCT_FILTER.PRODUCT_CATEGORIES_PLACEHOLDER" />}
-              onChange={(event, index, values) => toggleProductCategory(values)}
-              floatingLabelStyle={styles.filterHint}
-              underlineStyle={styles.filterHint}
-              iconStyle={styles.filterHint}
-              value={categoriesToFilter}
-              multiple
-            >
-              {productCategories.map(productCategory => (
-                <MenuItem
-                  key={productCategory._id}
-                  value={productCategory}
-                  primaryText={productCategory.de.name}
-                  insetChildren
-                  checked={categoriesToFilter.some(
-                    categoryToFilter => categoryToFilter._id === productCategory._id,
-                  )}
-                />
-              ))}
-            </SelectField>
-          </div>
-          <div style={styles.filterItem}>
-            <SelectField
-              name="producers"
-              floatingLabelText={<FormattedMessage id="PRODUCT_FILTER.PRODUCERS_PLACEHOLDER" />}
-              onChange={(event, index, values) => toggleProducer(values)}
-              floatingLabelStyle={styles.filterHint}
-              underlineStyle={styles.filterHint}
-              iconStyle={styles.filterHint}
-              value={producersToFilter}
-              multiple
-            >
-              {producers.map(producer => (
-                <MenuItem
-                  key={producer._id}
-                  value={producer}
-                  primaryText={producer.name}
-                  insetChildren
-                  checked={producersToFilter.some(
-                    producerToFilter => producerToFilter._id === producer._id,
-                  )}
-                />
-              ))}
-            </SelectField>
-          </div>
-          <div style={styles.filterItem}>
-            <RaisedButton
-              onTouchTap={resetFilter}
-              label={<FormattedMessage id="PRODUCT_FILTER.RESET_FILTER" />}
-              secondary
-              style={styles.button}
-              icon={<CancelIcon />}
-              disabled={filterString.length === 0 && categoriesToFilter.length === 0}
-            />
-          </div>
-        </div>
-      </div>
+      <FilterContainer>
+        <FilterTitle onClick={toggleFilterView}>
+          <FormattedMessage id="PRODUCT_FILTER.TITLE" /> {filterShown ? <ArrowUp /> : <ArrowDown />}
+        </FilterTitle>
+        {filterShown ? (
+          <FilterInlay>
+            <FilterItem>
+              <Field
+                component={TextField}
+                name="filterString"
+                label={<FormattedMessage id="PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER" />}
+                floatingLabelStyle={styles.filterHint}
+                underlineStyle={styles.filterHint}
+                onKeyUp={({ target }) => debounce(() => filterProducts(target.value))}
+                type="text"
+              />
+            </FilterItem>
+            <FilterItem>
+              <SelectField
+                name="categories"
+                floatingLabelText={<FormattedMessage id="PRODUCT_FILTER.PRODUCT_CATEGORIES_PLACEHOLDER" />}
+                onChange={(event, index, values) => toggleProductCategory(values)}
+                floatingLabelStyle={styles.filterHint}
+                underlineStyle={styles.filterHint}
+                iconStyle={styles.filterHint}
+                value={categoriesToFilter}
+                multiple
+              >
+                {productCategories.map(productCategory => (
+                  <MenuItem
+                    key={productCategory._id}
+                    value={productCategory}
+                    primaryText={productCategory.de.name}
+                    insetChildren
+                    checked={categoriesToFilter.some(
+                      categoryToFilter => categoryToFilter._id === productCategory._id,
+                    )}
+                  />
+                ))}
+              </SelectField>
+            </FilterItem>
+            <FilterItem>
+              <SelectField
+                name="producers"
+                floatingLabelText={<FormattedMessage id="PRODUCT_FILTER.PRODUCERS_PLACEHOLDER" />}
+                onChange={(event, index, values) => toggleProducer(values)}
+                floatingLabelStyle={styles.filterHint}
+                underlineStyle={styles.filterHint}
+                iconStyle={styles.filterHint}
+                value={producersToFilter}
+                multiple
+              >
+                {producers.map(producer => (
+                  <MenuItem
+                    key={producer._id}
+                    value={producer}
+                    primaryText={producer.name}
+                    insetChildren
+                    checked={producersToFilter.some(
+                      producerToFilter => producerToFilter._id === producer._id,
+                    )}
+                  />
+                ))}
+              </SelectField>
+            </FilterItem>
+            <FilterItem>
+              <RaisedButton
+                onTouchTap={resetFilter}
+                label={<FormattedMessage id="PRODUCT_FILTER.RESET_FILTER" />}
+                secondary
+                style={styles.button}
+                icon={<CancelIcon />}
+                disabled={filterString.length === 0 && categoriesToFilter.length === 0}
+              />
+            </FilterItem>
+          </FilterInlay>
+        ) : null}
+      </FilterContainer>
     );
   }
 }
@@ -160,12 +185,14 @@ ProductFilter.propTypes = {
   categoriesToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
   producersToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
   filterString: PropTypes.string.isRequired,
+  filterShown: PropTypes.bool.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
   loadPublicPorducers: PropTypes.func.isRequired,
   filterProducts: PropTypes.func.isRequired,
   toggleProductCategory: PropTypes.func.isRequired,
   toggleProducer: PropTypes.func.isRequired,
   resetFilter: PropTypes.func.isRequired,
+  toggleFilterView: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -176,6 +203,7 @@ export default connect(
     producersToFilter: state.products.producersToFilter,
     filteredProducts: state.products.filteredProducts,
     filterString: state.products.filterString,
+    filterShown: state.products.filterShown,
   }),
   dispatch => ({
     loadProductCategories() {
@@ -192,6 +220,9 @@ export default connect(
     },
     toggleProducer(producers) {
       dispatch(createToggleFilterProducer(producers));
+    },
+    toggleFilterView() {
+      dispatch(createToggleFilterView());
     },
     resetFilter() {
       dispatch(createResetFilter());

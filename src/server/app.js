@@ -8,11 +8,12 @@ const mongoSanitize = require('express-mongo-sanitize');
 const mime = require('mime-types');
 const Logger = require('./logger');
 const mongo = require('./db/mongoHelper');
+const config = require('../config/envConfig').getEnvironmentSpecificConfig();
 
 mongo.init();
 const app = express();
 app.use('*', (req, res, next) => {
-  if (process.env.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
+  if (config.USE_SSL && req.headers['x-forwarded-proto'] !== 'https') {
     res.redirect(`https://${req.hostname}${req.url}`);
   } else {
     next();

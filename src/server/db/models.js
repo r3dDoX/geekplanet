@@ -150,6 +150,10 @@ models.Order = mongoose.model('Order', {
 });
 
 const InvoiceSchema = mongoose.Schema({
+  user: {
+    type: String,
+    index: true,
+  },
   invoiceNumber: {
     type: Number,
     index: true,

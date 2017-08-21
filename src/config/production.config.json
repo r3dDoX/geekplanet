@@ -1,11 +1,11 @@
 {
   "APP": {
     "TITLE": "geekplanet",
-    "BASE_URL": "https://geekplanet.ch"
+    "BASE_URL": "https://beta.geekplanet.ch"
   },
   "AUTH": {
-    "CLIENT_ID": "xLicjjjB3JUoEH8B9OK6YYOBn9COm7aR",
-    "REDIRECT_URL": "https://geekplanet.ch/login"
+    "CLIENT_ID": "sdSHdPyyD9hUsczkqZomLnMJ6CnX42Ht",
+    "REDIRECT_URL": "https://beta.geekplanet.ch/login"
   },
   "PAYMENT": {
     "PUBLIC": "pk_test_vyVGipm7QCAuNaHYwBHBLdpy"

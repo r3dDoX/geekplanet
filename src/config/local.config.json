@@ -1,4 +1,5 @@
 {
+  "USE_SSL": false,
   "APP": {
     "TITLE": "geekplanet-local",
     "BASE_URL": "http://localhost:3001"

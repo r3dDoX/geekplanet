@@ -1,4 +1,5 @@
 {
+  "USE_SSL": false,
   "APP": {
     "TITLE": "geekplanet-stage",
     "BASE_URL": "https://beta.geekplanet.ch"

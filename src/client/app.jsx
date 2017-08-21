@@ -12,6 +12,7 @@ import OrderStepper from './order/orderStepper.jsx';
 import ProductDetails from './products/productDetails.jsx';
 import Products from './products/products.jsx';
 import asyncComponent from './router/asyncComponent.jsx';
+import GenericError from './router/genericError.jsx';
 import PrivateRoute from './router/privateRoute.jsx';
 import { ids, load } from './storage';
 
@@ -30,6 +31,7 @@ class App extends React.Component {
       <BrowserRouter>
         <Layout>
           <Route exact path="/" component={Home} />
+          <Route exact path="/error" component={GenericError} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/login/changepassword" component={ChangePassword} />
           <Route exact path="/products" component={Products} />

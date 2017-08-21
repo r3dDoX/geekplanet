@@ -35,7 +35,7 @@ export const UserAddressPropType = PropTypes.shape({
 
 export const UserAddressesPropType = PropTypes.arrayOf(UserAddressPropType);
 
-export const OrderPropType = PropTypes.shape({
+export const OrderStatePropType = PropTypes.shape({
   step: PropTypes.number.isRequired,
   addresses: UserAddressesPropType.isRequired,
   selectedAddress: UserAddressPropType,
@@ -79,3 +79,14 @@ export const ProductCategoryPropType = PropTypes.shape({
     name: PropTypes.string,
   },
 });
+
+export const OrderPropType = PropTypes.shape({
+  _id: PropTypes.string,
+  user: PropTypes.string,
+  state: PropTypes.string,
+  address: AddressPropType,
+  date: PropTypes.string,
+  items: ShoppingCartItemsPropType,
+});
+
+export const OrdersPropType = PropTypes.arrayOf(OrderPropType);

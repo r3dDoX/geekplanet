@@ -16,6 +16,7 @@ import PrivateRoute from './router/privateRoute.jsx';
 import { ids, load } from './storage';
 
 const LazyForms = asyncComponent(() => import('./admin/forms/forms.jsx').then(module => module.default));
+const LazyOrders = asyncComponent(() => import('./admin/orders/orders.jsx').then(module => module.default));
 
 class App extends React.Component {
   componentWillMount() {
@@ -34,6 +35,7 @@ class App extends React.Component {
           <Route exact path="/products" component={Products} />
           <Route path="/products/:id" component={ProductDetails} />
           <PrivateRoute path="/order" component={OrderStepper} />
+          <PrivateRoute path="/orders" allowedRoles={['admin']} component={LazyOrders} />
           <PrivateRoute path="/forms" allowedRoles={['admin']} component={LazyForms} />
         </Layout>
       </BrowserRouter>

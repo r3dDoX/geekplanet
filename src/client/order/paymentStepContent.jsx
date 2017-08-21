@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   ShoppingCartPropType,
-  OrderPropType,
+  OrderStatePropType,
 } from '../propTypes';
 import Xhr from '../xhr';
 import Payment from './payment.jsx';
@@ -44,7 +44,7 @@ PaymentStepContent.propTypes = {
   shoppingCart: ShoppingCartPropType.isRequired,
   finishOrder: PropTypes.func.isRequired,
   startProcessing: PropTypes.func.isRequired,
-  order: OrderPropType.isRequired,
+  order: OrderStatePropType.isRequired,
 };
 
 export default connect(

@@ -23,10 +23,23 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
     {
       roles.includes('admin') ?
         <MenuItem
-          primaryText="Forms"
+          primaryText={<FormattedMessage id="NAVIGATION.FORMS" />}
           containerElement={
             <Link to="/forms">
               <FormattedMessage id="NAVIGATION.FORMS" />
+            </Link>
+          }
+          onClick={toggleDrawer}
+        />
+        : null
+    }
+    {
+      roles.includes('admin') ?
+        <MenuItem
+          primaryText={<FormattedMessage id="NAVIGATION.ORDERS" />}
+          containerElement={
+            <Link to="/orders">
+              <FormattedMessage id="NAVIGATION.ORDERS" />
             </Link>
           }
           onClick={toggleDrawer}

@@ -23,7 +23,8 @@
   "NAVIGATION": {
     "LOGIN": "Login",
     "LOGOUT": "Logout",
-    "FORMS": "Formulare"
+    "FORMS": "Formulare",
+    "ORDERS": "Bestellungen"
   },
   "NOTIFICATION": {
     "SHOPPING_CART_ITEM_ADDED": "Produkt zum Warenkorb hinzugefügt"

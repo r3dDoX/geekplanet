@@ -2,11 +2,11 @@
   "USE_SSL": false,
   "APP": {
     "TITLE": "geekplanet-stage",
-    "BASE_URL": "https://beta.geekplanet.ch"
+    "BASE_URL": "http://staging.geekplanet.ch"
   },
   "AUTH": {
     "CLIENT_ID": "sdSHdPyyD9hUsczkqZomLnMJ6CnX42Ht",
-    "REDIRECT_URL": "https://beta.geekplanet.ch/login"
+    "REDIRECT_URL": "http://staging.geekplanet.ch/login"
   },
   "PAYMENT": {
     "PUBLIC": "pk_test_vyVGipm7QCAuNaHYwBHBLdpy"

@@ -106,5 +106,10 @@
     "SHIPPING_ADDRESS": "{firstName} {lastName}<br />{streetAddress}<br />{zip} {city}<br />{country}",
     "BANK_DETAILS_TITLE": "Bank Details",
     "BANK_DETAILS": "<strong>CH14 0630 0503 9981 5467 2</strong><br /><br />geekplanet GmbH<br />Wührestrasse 2<br />5724 Dürrenäsch"
+  },
+  "ERROR": {
+    "TITLE": "Oops! Something went wrong...",
+    "TEXT": "Please try again later or contact us.",
+    "PROTIP": "If you're familiar with it, please file an issue on our <a href=\"https://github.com/r3dDoX/geekplanet\" target=\"_blank\">Github Repository</a>. Your feedback is important to us!"
   }
 }

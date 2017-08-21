@@ -19,8 +19,13 @@ script:
 - docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk:8.4.0 npm test
 
 deploy:
-  provider: script
-  script: scripts/deploy.sh $HEROKU_TOKEN
-  skip_cleanup: true
-  on:
-    branch: develop
+  - provider: script
+    script: scripts/deploy-staging.sh $HEROKU_TOKEN
+    skip_cleanup: true
+    on:
+      branch: develop
+  - provider: script
+    script: scripts/deploy.sh $HEROKU_TOKEN
+    skip_cleanup: true
+    on:
+      branch: master

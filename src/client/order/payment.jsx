@@ -35,7 +35,7 @@ class Payment extends React.Component {
         startProcessing();
 
         Xhr.post('/api/payment/cleared', { token, shoppingCartId: shoppingCart.id })
-          .then(finishOrder, () => { /* TODO implement error handling when payment fails */ });
+          .then(finishOrder, () => window.location.assign('/error'));
       },
     });
 
@@ -61,9 +61,7 @@ class Payment extends React.Component {
             startProcessing();
 
             Xhr.post('/api/payment/prepayment', { shoppingCartId: shoppingCart.id })
-              .then(finishOrder, () => {
-                /* TODO implement error handling when order not updated */
-              });
+              .then(finishOrder, () => () => window.location.assign('/error'));
           }}
           label={<FormattedMessage id="ORDER.PAYMENT.PREPAYMENT" />}
           primary

@@ -167,6 +167,16 @@ module.exports = {
           })
     );
 
+    app.get('/api/orders', authorization, isAdmin,
+      (req, res) =>
+        Order.find().sort({ date: 1 })
+          .then(orders => res.send(orders))
+          .catch((err) => {
+            Logger.error(err);
+            res.status(500).send('Fetching orders failed!');
+          })
+    );
+
     app.put('/api/tags', authorization, isAdmin, bodyParser.json(),
       (req, res) =>
         saveOrUpdate(Tag, req.body)

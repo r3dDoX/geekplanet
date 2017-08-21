@@ -9,7 +9,7 @@ import {
   createSaveAddress,
   createSelectAddress,
 } from '../actions';
-import { OrderPropType } from '../propTypes';
+import { OrderStatePropType } from '../propTypes';
 import MainSpinner from '../layout/mainSpinner.jsx';
 
 class AddressStep extends React.Component {
@@ -49,7 +49,7 @@ AddressStep.propTypes = {
   loadAddresses: PropTypes.func.isRequired,
   selectAddress: PropTypes.func.isRequired,
   saveAddress: PropTypes.func.isRequired,
-  order: OrderPropType.isRequired,
+  order: OrderStatePropType.isRequired,
 };
 
 export default connect(

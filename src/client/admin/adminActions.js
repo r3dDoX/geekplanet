@@ -15,6 +15,7 @@ export const SUPPLIERS_LOADED = 'SUPPLIERS_LOADED';
 export const TAGS_LOADED = 'TAGS_LOADED';
 export const SET_TAGS = 'SET_TAGS';
 export const COMPLETE_PRODUCTS_LOADED = 'COMPLETE_PRODUCTS_LOADED';
+export const ORDERS_LOADED = 'ORDERS_LOADED';
 
 export function createSelectFiles(selectedFiles, initialFiles) {
   const formData = new FormData();
@@ -96,4 +97,10 @@ export const createLoadCompleteProducts = () => dispatch =>
   Xhr.get('/api/completeProducts').then(products => dispatch({
     type: COMPLETE_PRODUCTS_LOADED,
     products,
+  }));
+
+export const createLoadOrders = () => dispatch =>
+  Xhr.get('/api/orders').then(orders => dispatch({
+    type: ORDERS_LOADED,
+    orders,
   }));

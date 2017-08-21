@@ -282,6 +282,7 @@ module.exports = {
             updateProductStocks(items);
 
             new Invoice({
+              user: req.user.sub,
               value: items.reduce(
                 (sum, { amount, product }) => sum + (amount * product.price),
                 0

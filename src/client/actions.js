@@ -32,6 +32,16 @@ export const TOGGLE_FILTER_PRODUCER = 'TOGGLE_FILTER_PRODUCER';
 export const TOGGLE_FILTER_VIEW = 'TOGGLE_FILTER_VIEW';
 export const RESET_FILTER = 'RESET_FILTER';
 export const SAVING_ADDRESS = 'SAVING_ADDRESS';
+export const SELECT_UPLOAD_FILES = 'SELECT_UPLOAD_FILES';
+export const REMOVE_SELECTED_FILE = 'REMOVE_SELECTED_FILE';
+export const RESET_SELECTED_FILES = 'RESET_SELECTED_FILES';
+export const SELECT_PRODUCT = 'SELECT_PRODUCT';
+export const PRODUCERS_LOADED = 'PRODUCERS_LOADED';
+export const SUPPLIERS_LOADED = 'SUPPLIERS_LOADED';
+export const TAGS_LOADED = 'TAGS_LOADED';
+export const SET_TAGS = 'SET_TAGS';
+export const COMPLETE_PRODUCTS_LOADED = 'COMPLETE_PRODUCTS_LOADED';
+export const ORDERS_LOADED = 'ORDERS_LOADED';
 
 export const createLoadTranslations = localeWithFallback => dispatch =>
   Xhr.get(`/assets/translations/${localeWithFallback}.json`)

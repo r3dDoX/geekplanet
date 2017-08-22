@@ -111,5 +111,12 @@
     "TITLE": "Oops! Something went wrong...",
     "TEXT": "Please try again later or contact us.",
     "PROTIP": "If you're familiar with it, please file an issue on our <a href=\"https://github.com/r3dDoX/geekplanet\" target=\"_blank\">Github Repository</a>. Your feedback is important to us!"
+  },
+  "ORDERS": {
+    "ID": "Order nr.",
+    "STATUS": "Status",
+    "ITEMS": "Items",
+    "TOTAL": "Total",
+    "ADDRESS": "Address"
   }
 }

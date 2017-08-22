@@ -19,10 +19,10 @@ import SupplierForm from '../suppliers/supplierForm.jsx';
 import ProductForm from './productForm.jsx';
 
 const paths = [
-  '/forms/products',
-  '/forms/productcategories',
-  '/forms/suppliers',
-  '/forms/producers',
+  '/admin/forms/products',
+  '/admin/forms/productcategories',
+  '/admin/forms/suppliers',
+  '/admin/forms/producers',
 ];
 const allowedRoles = ['admin'];
 
@@ -36,7 +36,7 @@ class Forms extends React.Component {
   }
 
   render() {
-    if (this.props.location.pathname === '/forms') {
+    if (this.props.location.pathname.endsWith('/admin/forms')) {
       return (
         <Redirect to={{
           pathname: paths[0],

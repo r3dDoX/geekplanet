@@ -1,34 +1,35 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { initialize, Field, reduxForm } from 'redux-form';
-import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
+import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Field, initialize, reduxForm } from 'redux-form';
+import SelectField from '../../formHelpers/selectField.jsx';
+import TextField from '../../formHelpers/textField.jsx';
+import * as ProductService from '../../products/productService';
 import {
   ProducerPropType,
-  SupplierPropType,
   ProductCategoryPropType,
   ProductPropType,
+  SupplierPropType,
 } from '../../propTypes';
 import {
   createLoadCompleteProducts,
   createLoadProducers,
   createLoadSuppliers,
   createLoadTags,
-  createRemoveFile, createRemoveTag,
+  createRemoveFile,
+  createRemoveTag,
   createResetSelectedFiles,
   createSelectFiles,
-  createSelectProduct, createSelectTag,
+  createSelectProduct,
+  createSelectTag,
+  productFormName,
 } from '../adminActions';
-import UploadImagePreview from './uploadImagePreview.jsx';
-import TextField from '../../formHelpers/textField.jsx';
-import SelectField from '../../formHelpers/selectField.jsx';
 import Tags from '../tags/tags.jsx';
-import * as ProductService from '../../products/productService';
-
-export const formName = 'products';
+import UploadImagePreview from './uploadImagePreview.jsx';
 
 const styles = {
   container: {
@@ -91,7 +92,7 @@ class ProductForm extends React.Component {
     return (
       <form
         style={styles.container}
-        name={formName}
+        name={productFormName}
         onSubmit={handleSubmit(onSubmit)}
       >
         <Field
@@ -99,7 +100,7 @@ class ProductForm extends React.Component {
           name="_id"
           onChange={(event, value) => {
             selectProduct(products.find(product => product._id === value));
-            history.push(`/forms/products/${value}`);
+            history.push(`/admin/forms/products/${value}`);
           }}
           selectedValue={match.params.id || ''}
         >
@@ -305,7 +306,7 @@ export default connect(
         });
     },
     clearForm() {
-      dispatch(initialize(formName));
+      dispatch(initialize(productFormName));
     },
     selectFiles(selectedFiles, initialFiles) {
       dispatch(createSelectFiles(selectedFiles, initialFiles));
@@ -321,7 +322,7 @@ export default connect(
     },
     selectProduct(product) {
       dispatch(createSelectProduct(product));
-      dispatch(initialize(formName, product));
+      dispatch(initialize(productFormName, product));
     },
     loadProducers() {
       dispatch(createLoadProducers());
@@ -340,6 +341,6 @@ export default connect(
     },
   }),
 )(reduxForm({
-  form: formName,
+  form: productFormName,
   destroyOnUnmount: false,
 })(withRouter(ProductForm)));

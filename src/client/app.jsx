@@ -1,92 +1,72 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
-import { IntlProvider, addLocaleData } from 'react-intl';
-import de from 'react-intl/locale-data/de';
-import CircularProgress from 'material-ui/CircularProgress';
-import translationService from './i18n/translationService';
-import ActionTypes from './actionTypes';
-import AuthService from './auth/authService';
-import Router from './router/router.jsx';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { createLoadShoppingCart, createLoadTranslations, createLoggedIn } from './actions';
+import authService from './auth/authService';
+import ChangePassword from './auth/changePassword.jsx';
+import Login from './auth/login.jsx';
+import Home from './home/home.jsx';
+import Layout from './layout/layout.jsx';
+import OrderStepper from './order/orderStepper.jsx';
+import ProductDetails from './products/productDetails.jsx';
+import Products from './products/products.jsx';
+import asyncComponent from './router/asyncComponent.jsx';
+import GenericError from './router/genericError.jsx';
+import PrivateRoute from './router/privateRoute.jsx';
+import { ids, load } from './storage';
 
-addLocaleData([...de]);
-
-const styles = {
-  spinner: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translateX(-50%) translateY(-50%)',
-  },
-};
+const LazyForms = asyncComponent(() => import('./admin/forms/forms.jsx').then(module => module.default));
+const LazyOrders = asyncComponent(() => import('./admin/orders/orders.jsx').then(module => module.default));
 
 class App extends React.Component {
-
   componentWillMount() {
     this.props.loadTranslations(this.props.locale);
     this.props.loadShoppingCart();
-
-    const authService = AuthService.create(this.props.locale, this.props.loggedIn);
-    this.props.authServiceCreated(authService);
-    if (authService.loggedIn()) {
-      this.props.loggedIn(authService);
-    }
+    this.props.checkLoggedIn();
   }
 
   render() {
-    const { translations, language } = this.props;
-
-    if (translations) {
-      return (
-        <IntlProvider locale={language} messages={translations}>
-          <Router />
-        </IntlProvider>
-      );
-    }
-
-    return <CircularProgress style={styles.spinner} size={80} thickness={5} />;
+    return (
+      <BrowserRouter>
+        <Layout>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/error" component={GenericError} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/login/changepassword" component={ChangePassword} />
+          <Route exact path="/products" component={Products} />
+          <Route path="/products/:id" component={ProductDetails} />
+          <PrivateRoute path="/order" component={OrderStepper} />
+          <PrivateRoute path="/orders" allowedRoles={['admin']} component={LazyOrders} />
+          <PrivateRoute path="/forms" allowedRoles={['admin']} component={LazyForms} />
+        </Layout>
+      </BrowserRouter>
+    );
   }
 }
 
-App.defaultProps = {
-  translations: undefined,
-};
-
 App.propTypes = {
-  translations: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   loadTranslations: PropTypes.func.isRequired,
   loadShoppingCart: PropTypes.func.isRequired,
-  authServiceCreated: PropTypes.func.isRequired,
-  loggedIn: PropTypes.func.isRequired,
-  language: PropTypes.string.isRequired,
+  checkLoggedIn: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
 };
 
 export default connect(
-  state => state.i18n,
+  state => ({
+    locale: state.i18n.locale,
+  }),
   dispatch => ({
     loadTranslations(localeWithFallback) {
-      translationService.loadTranslations(localeWithFallback).then(translations => dispatch({
-        type: ActionTypes.TRANSLATIONS_LOADED,
-        data: translations,
-      }));
+      dispatch(createLoadTranslations(localeWithFallback));
     },
     loadShoppingCart() {
-      dispatch({
-        type: ActionTypes.LOAD_SHOPPING_CART,
-      });
+      dispatch(createLoadShoppingCart());
     },
-    authServiceCreated(auth) {
-      dispatch({
-        type: ActionTypes.AUTH_SERVICE_CREATED,
-        data: auth,
-      });
+    checkLoggedIn() {
+      if (authService.loggedIn()) {
+        dispatch(createLoggedIn(load(ids.TOKEN_PAYLOAD)));
+      }
     },
-    loggedIn(authService) {
-      authService.getUserInfo().then(profile => dispatch({
-        type: ActionTypes.LOGGED_IN,
-        data: profile,
-      }));
-    },
-  })
+  }),
 )(App);

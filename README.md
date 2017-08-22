@@ -10,9 +10,15 @@ Don't worry about ```npm install```. This will be run on start of the node conta
 # Running tests for TDD
 To have Jest running in watch mode you can also start it with a docker node since integration tests also have to run pdftk.
 
-```docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk npm run test:watch```
+```docker run --rm -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk npm run test:watch```
 
-This will not run npm install though. Either run this in the same docker container or first run it with docker-compose.
+Or run the already set up npm task for this:
+
+```npm run test:watch:docker```
+
+Be aware that this setup uses the ":cached" flag for mounting the volume because of docker for mac issue: https://github.com/docker/for-mac/issues/77. This flag is not supported in the stable version yet.
+
+Running tests like this will not run npm install though. Either run ```npm install``` in the same docker container or first run it with docker-compose.
 
 # Technology Stack
 ## Backend

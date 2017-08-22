@@ -8,21 +8,22 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import { Link, withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDrawer, history }) => (
+const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, history }) => (
   <Drawer
     docked={false}
     open={drawerOpened}
     onRequestChange={toggleDrawer}
+    disableSwipeToOpen
   >
     <AppBar
-      title="geekplanet"
+      title={APP.TITLE}
       onLeftIconButtonTouchTap={toggleDrawer}
       iconElementLeft={<IconButton><NavigationClose /></IconButton>}
     />
     {
       roles.includes('admin') ?
         <MenuItem
-          primaryText="Forms"
+          primaryText={<FormattedMessage id="NAVIGATION.FORMS" />}
           containerElement={
             <Link to="/forms">
               <FormattedMessage id="NAVIGATION.FORMS" />
@@ -33,7 +34,20 @@ const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDraw
         : null
     }
     {
-      loggedIn ?
+      roles.includes('admin') ?
+        <MenuItem
+          primaryText={<FormattedMessage id="NAVIGATION.ORDERS" />}
+          containerElement={
+            <Link to="/orders">
+              <FormattedMessage id="NAVIGATION.ORDERS" />
+            </Link>
+          }
+          onClick={toggleDrawer}
+        />
+        : null
+    }
+    {
+      loggedIn ? (
         <MenuItem
           primaryText={<FormattedMessage id="NAVIGATION.LOGOUT" />}
           onClick={() => {
@@ -42,8 +56,17 @@ const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDraw
             history.push('/');
           }}
         />
-        :
-        <MenuItem primaryText={<FormattedMessage id="NAVIGATION.LOGIN" />} onClick={login} />
+      ) : (
+        <MenuItem
+          primaryText={<FormattedMessage id="NAVIGATION.LOGIN" />}
+          containerElement={
+            <Link to="/login">
+              <FormattedMessage id="NAVIGATION.LOGIN" />
+            </Link>
+          }
+          onClick={toggleDrawer}
+        />
+      )
     }
   </Drawer>
 );
@@ -51,7 +74,6 @@ const LayoutDrawer = ({ roles, logout, login, loggedIn, drawerOpened, toggleDraw
 LayoutDrawer.propTypes = {
   roles: PropTypes.arrayOf(PropTypes.string).isRequired,
   logout: PropTypes.func.isRequired,
-  login: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   drawerOpened: PropTypes.bool.isRequired,
   toggleDrawer: PropTypes.func.isRequired,

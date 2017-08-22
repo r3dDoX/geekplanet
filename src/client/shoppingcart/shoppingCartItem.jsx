@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import ListItem from 'material-ui/List/ListItem';
 import Avatar from 'material-ui/Avatar';
 import { pinkA400, transparent } from 'material-ui/styles/colors';
-import { ShoppingCartItemPropType } from './shoppingCart.proptypes';
-import { formatPriceWithoutCurrency } from '../products/priceFormatter';
+import { ShoppingCartItemPropType } from '../propTypes';
+import { formatPriceWithoutCurrency } from '../../common/priceFormatter';
 import AmountAdjuster from './amountAdjuster.jsx';
 
 const styles = {
@@ -16,13 +16,14 @@ const styles = {
 const ShoppingCartItem = ({
   shoppingCartItem,
   setAmount,
+  locale,
 }) => (
   <ListItem
-    primaryText={shoppingCartItem.product.name}
+    primaryText={shoppingCartItem.product[locale].name}
     secondaryText={<AmountAdjuster shoppingCartItem={shoppingCartItem} setAmount={setAmount} />}
     leftAvatar={<Avatar
       style={styles.avatar}
-      src={`/api/products/pictures/${shoppingCartItem.product.files[0]}`}
+      src={`/api/products/pictures/${shoppingCartItem.product.files[0]}_s`}
     />}
     rightAvatar={
       <Avatar
@@ -38,6 +39,7 @@ const ShoppingCartItem = ({
 ShoppingCartItem.propTypes = {
   shoppingCartItem: ShoppingCartItemPropType.isRequired,
   setAmount: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 export default ShoppingCartItem;

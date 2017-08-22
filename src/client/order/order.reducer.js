@@ -1,9 +1,16 @@
-import ActionTypes from '../actionTypes';
+import {
+  ADDRESSES_LOADED,
+  ORDER_FINISHED,
+  PROCESSING_STARTED,
+  SAVE_ADDRESS, SAVING_ADDRESS,
+  SELECT_ADDRESS,
+  SELECT_ORDER_STEP,
+} from '../actions';
 
 export const OrderSteps = {
-  ADDRESS: 0,
-  PAYMENT: 1,
-  CONFIRMATION: 2,
+  ADDRESS: 'address',
+  PAYMENT: 'payment',
+  CONFIRMATION: 'confirmation',
 };
 
 const initialState = {
@@ -11,38 +18,44 @@ const initialState = {
   addresses: [],
   selectedAddress: undefined,
   step: OrderSteps.ADDRESS,
+  processing: false,
+  savingAddress: false,
 };
 
 export default function auth(state = initialState, { type, data }) {
   switch (type) {
-    case ActionTypes.SAVE_ADDRESS: {
+    case SAVING_ADDRESS:
+      return Object.assign({}, state, {
+        savingAddress: true,
+      });
+    case SAVE_ADDRESS:
       return Object.assign({}, state, {
         address: data,
         step: OrderSteps.PAYMENT,
+        savingAddress: false,
       });
-    }
-    case ActionTypes.ADDRESSES_LOADED: {
+    case ADDRESSES_LOADED:
       return Object.assign({}, state, {
         addresses: data,
       });
-    }
-    case ActionTypes.SELECT_ADDRESS: {
+    case SELECT_ADDRESS:
       return Object.assign({}, state, {
         selectedAddress: data,
       });
-    }
-    case ActionTypes.ORDER_FINISHED: {
+    case ORDER_FINISHED:
       return Object.assign({}, state, {
         step: OrderSteps.CONFIRMATION,
+        processing: false,
       });
-    }
-    case ActionTypes.SELECT_ORDER_STEP: {
+    case SELECT_ORDER_STEP:
       return Object.assign({}, state, {
         step: data,
       });
-    }
-    default: {
+    case PROCESSING_STARTED:
+      return Object.assign({}, state, {
+        processing: true,
+      });
+    default:
       return state;
-    }
   }
 }

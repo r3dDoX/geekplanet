@@ -1,21 +1,49 @@
 {
-  "presets": [
-    [
-      "env",
-      {
-        "targets": {
-          "browsers": [
-            "last 2 versions"
-          ]
-        }
-      }
-    ],
-    "react"
-  ],
+  "env": {
+    "development": {
+      "presets": [
+        [
+          "env",
+          {
+            "modules": false,
+            "targets": {
+              "browsers": [
+                "last 2 versions"
+              ]
+            }
+          }
+        ],
+        "react"
+      ],
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
+    },
+    "production": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": {
+              "browsers": [
+                "last 2 versions"
+              ]
+            }
+          }
+        ],
+        "react"
+      ]
+    },
+    "test": {
+      "presets": [
+        "env",
+        "react"
+      ]
+    }
+  },
   "plugins": [
-    "transform-runtime",
+    "syntax-dynamic-import",
     "transform-object-rest-spread",
-    "transform-react-jsx",
     "transform-react-remove-prop-types",
     [
       "react-intl",

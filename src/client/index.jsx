@@ -1,23 +1,30 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { render } from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import App from './app.jsx';
-import geekplanetTheme from './theme';
-import reducers from './reducers';
+import { addLocaleData } from 'react-intl';
+import de from 'react-intl/locale-data/de';
+import 'react-image-gallery/styles/css/image-gallery.css';
+import WrappedApp from './wrappedApp.jsx';
+import setupStore from './reducers/setupStore';
+import authService from './auth/authService';
 
 injectTapEventPlugin();
-const store = createStore(
-  reducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+addLocaleData([...de]);
+authService.init();
+const store = setupStore();
 
-ReactDOM.render((
-  <MuiThemeProvider muiTheme={geekplanetTheme}>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </MuiThemeProvider>
-), document.getElementsByTagName('main')[0]);
+const renderApp = () => {
+  render(
+    <AppContainer>
+      <WrappedApp store={store} />
+    </AppContainer>,
+    document.getElementsByTagName('main')[0]
+  );
+};
+
+renderApp();
+
+if (module.hot) {
+  module.hot.accept('./wrappedApp.jsx', renderApp);
+}

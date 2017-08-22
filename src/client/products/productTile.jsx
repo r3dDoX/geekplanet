@@ -1,111 +1,130 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Card, CardTitle, CardMedia, CardText, CardActions } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
-import SvgIcon from 'material-ui/SvgIcon';
 import Badge from 'material-ui/Badge';
-import { green500, grey700 } from 'material-ui/styles/colors';
+import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import formatPrice from './priceFormatter';
-import productPropType from './product.proptypes';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import OrderButton from '../order/orderButton.jsx';
+import { ProductPropType } from '../propTypes';
+import { formatPriceWithCurrency } from '../../common/priceFormatter';
+import { getPictureUrl } from './productService';
+import StockIcon from './stockIcon.jsx';
+import Authorized from '../auth/authorized.jsx';
+
+const StyledCard = styled(Card)`
+  flex: 1 1 300px;
+  max-width: 450px;
+  margin: 0 10px 16px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledCardMedia = styled(CardMedia)`
+  flex: none;
+  display: flex;
+  justify-content: space-around;
+  overflow: hidden;
+  align-items: center;
+  cursor: pointer;
+`;
+
+const StyledCardTitle = styled(CardTitle)`
+  flex none;
+  display flex;
+  align-items flex-end;
+  justify-content space-between;
+`;
+
+const StyledCardText = styled(CardText)`
+  flex: 1;
+  text-align: justify;
+`;
+
+const TitleLink = styled(Link)`
+  color: inherit;
+  text-decoration: none;
+`;
+
+const StyledCardActions = styled(CardActions)`
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`;
+
+const PriceTag = styled.span`
+  margin-left: 8px;
+`;
+
+const EditButton = styled(RaisedButton)`
+  margin-top: 10px;
+`;
 
 const styles = {
-  container: {
-    flex: '1 1 300px',
-    maxWidth: '450px',
-    margin: '0 10px 10px',
-  },
-  productTileBody: {
-    textAlign: 'justify',
-  },
-  productTitle: {
+  cardContainer: {
+    flex: 1,
     display: 'flex',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-  },
-  stockIcon: {
-    flex: 'none',
+    flexDirection: 'column',
   },
   stockBadge: {
-    paddingBottom: 0,
-  },
-  actionContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  priceTag: {
-    marginLeft: '8px',
+    top: '5px',
+    right: '5px',
   },
 };
 
-/* eslint-disable max-len */
-const inStockIcon = (
-  <SvgIcon style={Object.assign({ fill: green500 }, styles.stockIcon)} width="24" height="24" viewBox="0 0 24 24">
-    <path d="M0 0h24v24H0z" fill="none" />
-    <path
-      d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-    />
-  </SvgIcon>
-);
-
-const outOfStockIcon = (
-  <SvgIcon style={Object.assign({ fill: grey700 }, styles.stockIcon)} width="24" height="24" viewBox="0 0 24 24">
-    <defs>
-      <path id="a" d="M0 0h24v24H0z" />
-    </defs>
-    <clipPath id="b">
-      <use xlinkHref="#a" overflow="visible" />
-    </clipPath>
-    <path
-      clipPath="url(#b)"
-      d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z"
-    />
-  </SvgIcon>
-);
-/* eslint-enable max-len */
-
-const getStockIcon = stockCount => (
-  <Badge
-    badgeContent={stockCount}
-    primary={stockCount > 0}
-    secondary={stockCount <= 0}
-    style={styles.stockBadge}
-  >
-    {stockCount > 0 ? inStockIcon : outOfStockIcon}
-  </Badge>
-);
-
-const ProductTile = ({ product, addItemToShoppingCart }) => (
-  <Card style={styles.container}>
+export const ProductTileComponent = ({
+  locale,
+  product,
+}) => (
+  <StyledCard containerStyle={styles.cardContainer}>
     {(product.files.length) ? (
-      <CardMedia>
-        <img alt="Product" src={`/api/products/pictures/${product.files[0]}`} />
-      </CardMedia>
+      <Link to={`/products/${product._id}`}>
+        <StyledCardMedia>
+          <img alt="Product" src={getPictureUrl(product.files[0])} />
+        </StyledCardMedia>
+      </Link>
     ) : null}
-    <CardTitle
-      title={product.name}
-      style={styles.productTitle}
+    <StyledCardTitle
+      title={<TitleLink to={`/products/${product._id}`}>{product[locale].name}</TitleLink>}
     >
-      {getStockIcon(product.stock)}
-    </CardTitle>
-    <CardText style={styles.productTileBody}>
-      {product.shortDescription}
-    </CardText>
-    <CardActions style={styles.actionContainer}>
-      <span style={styles.priceTag}>{formatPrice(product.price)}</span>
-      <RaisedButton
-        onClick={() => addItemToShoppingCart(product)}
-        label={<FormattedMessage id="COMMON.ORDER" />}
-        primary
-      />
-    </CardActions>
-  </Card>
+      <Badge
+        badgeContent={product.stock}
+        primary={product.stock > 0}
+        secondary={product.stock <= 0}
+        badgeStyle={styles.stockBadge}
+      >
+        <StockIcon stock={product.stock} />
+      </Badge>
+    </StyledCardTitle>
+    <StyledCardText>
+      {product[locale].shortDescription}
+    </StyledCardText>
+    <StyledCardActions>
+      <PriceTag>{formatPriceWithCurrency(product.price)}</PriceTag>
+      <OrderButton product={product} />
+      <Authorized allowedRoles={['admin']}>
+        <EditButton
+          label={<FormattedMessage id="COMMON.EDIT" />}
+          fullWidth
+          secondary
+          containerElement={<Link to={`/forms/products/${product._id}`} />}
+        />
+      </Authorized>
+    </StyledCardActions>
+  </StyledCard>
 );
 
-ProductTile.propTypes = {
-  product: productPropType.isRequired,
-  addItemToShoppingCart: PropTypes.func.isRequired,
+ProductTileComponent.propTypes = {
+  locale: PropTypes.string.isRequired,
+  product: ProductPropType.isRequired,
 };
 
-export default ProductTile;
+export default connect(
+  state => ({
+    locale: state.i18n.locale,
+  })
+)(ProductTileComponent);

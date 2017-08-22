@@ -1,0 +1,14 @@
+{
+  "USE_SSL": true,
+  "APP": {
+    "TITLE": "geekplanet",
+    "BASE_URL": "https://beta.geekplanet.ch"
+  },
+  "AUTH": {
+    "CLIENT_ID": "sdSHdPyyD9hUsczkqZomLnMJ6CnX42Ht",
+    "REDIRECT_URL": "https://beta.geekplanet.ch/login"
+  },
+  "PAYMENT": {
+    "PUBLIC": "pk_test_vyVGipm7QCAuNaHYwBHBLdpy"
+  }
+}

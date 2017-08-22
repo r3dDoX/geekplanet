@@ -1,29 +1,42 @@
-import ActionTypes from '../actionTypes';
+import { FINISHED_AUTH, LOGGED_IN, LOGGED_OUT, PROCESSING_AUTH, REGISTRATION_SUCCESSFUL } from '../actions';
 
 const initialState = {
-  loggedIn: false,
+  registrationSuccessful: undefined,
   email: undefined,
+  loggedIn: false,
   roles: [],
-  authService: undefined,
+  isAuthenticating: false,
 };
 
-export default function auth(state = initialState, { type, data }) {
+export default function auth(state = initialState, { type, profile }) {
   switch (type) {
-    case ActionTypes.AUTH_SERVICE_CREATED:
+    case PROCESSING_AUTH:
       return Object.assign({}, state, {
-        authService: data,
+        isAuthenticating: true,
       });
-    case ActionTypes.LOGGED_IN:
+    case FINISHED_AUTH:
+      return Object.assign({}, state, {
+        isAuthenticating: false,
+      });
+    case LOGGED_IN:
       return Object.assign({}, state, {
         loggedIn: true,
-        email: data.email,
-        roles: data.roles,
+        email: profile.email,
+        roles: profile.roles,
+        registrationSuccessful: undefined,
+        isAuthenticating: false,
       });
-    case ActionTypes.LOGGED_OUT:
+    case LOGGED_OUT:
       return Object.assign({}, state, {
         loggedIn: false,
         email: initialState.email,
         roles: initialState.roles,
+        registrationSuccessful: undefined,
+      });
+    case REGISTRATION_SUCCESSFUL:
+      return Object.assign({}, state, {
+        registrationSuccessful: true,
+        isAuthenticating: false,
       });
     default:
       return state;

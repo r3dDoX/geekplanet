@@ -1,107 +1,118 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
-import { FormattedMessage } from 'react-intl';
-import ActionTypes from '../actionTypes';
-import Header from './header.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage, IntlProvider } from 'react-intl';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import styled from 'styled-components';
+import { createHideShoppingCartNotification, createLogout, createToggleDrawer } from '../actions';
+import authService from '../auth/authService';
+import ShoppingCartDrawer from '../shoppingcart/shoppingCartDrawer.jsx';
 import Footer from './footer.jsx';
+import Header from './header.jsx';
 import LayoutDrawer from './layoutDrawer.jsx';
+import MainSpinner from './mainSpinner.jsx';
 
-const styles = {
-  container: {
-    paddingTop: '60px',
+const Body = styled(Paper)`
+  padding-top: 64px;
+  position: relative;
+`;
+
+const Layout = ({
+  auth: {
+    loggedIn,
+    roles,
   },
-  bodyContainer: {
-    position: 'relative',
+  layout: {
+    drawerOpened,
+    shoppingCartNotification,
   },
-  appBar: {
-    position: 'fixed',
-    top: 0,
+  i18n: {
+    language,
+    translations,
   },
-  title: {
-    textDecoration: 'none',
-    color: 'inherit',
+  logout,
+  toggleDrawer,
+  hideShoppingCartNotification,
+  children,
+}) => {
+  if (translations) {
+    return (
+      <IntlProvider locale={language} messages={translations}>
+        <div>
+          <Header toggleDrawer={toggleDrawer} />
+          <LayoutDrawer
+            roles={roles}
+            logout={() => {
+              authService.logout();
+              logout();
+            }}
+            loggedIn={loggedIn}
+            drawerOpened={drawerOpened}
+            toggleDrawer={toggleDrawer}
+          />
+          <ShoppingCartDrawer />
+          <Body>
+            {children}
+          </Body>
+          <Footer />
+          <Snackbar
+            open={shoppingCartNotification}
+            message={
+              <FormattedMessage id="NOTIFICATION.SHOPPING_CART_ITEM_ADDED" />
+            }
+            autoHideDuration={4000}
+            onRequestClose={hideShoppingCartNotification}
+          />
+        </div>
+      </IntlProvider>
+    );
+  }
+
+  return <MainSpinner />;
+};
+
+Layout.defaultProps = {
+  i18n: {
+    translations: undefined,
   },
 };
 
-const Layout = ({
-  authService,
-  loggedIn,
-  drawerOpened,
-  roles,
-  logout,
-  toggleDrawer,
-  shoppingCartNotification,
-  hideShoppingCartNotification,
-  children,
-}) => (
-  <div style={styles.container}>
-    <Header toggleDrawer={toggleDrawer} />
-    <LayoutDrawer
-      roles={roles}
-      logout={() => {
-        authService.logout();
-        logout();
-      }}
-      login={() => authService.login()}
-      loggedIn={loggedIn}
-      drawerOpened={drawerOpened}
-      toggleDrawer={toggleDrawer}
-    />
-    <Paper style={styles.bodyContainer}>
-      {children}
-    </Paper>
-    <Footer />
-    <Snackbar
-      open={shoppingCartNotification}
-      message={
-        <FormattedMessage id="NOTIFICATION.SHOPPING_CART_ITEM_ADDED" />
-      }
-      autoHideDuration={4000}
-      onRequestClose={hideShoppingCartNotification}
-    />
-  </div>
-);
-
 Layout.propTypes = {
+  auth: PropTypes.shape({
+    loggedIn: PropTypes.bool.isRequired,
+    roles: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
+  layout: PropTypes.shape({
+    drawerOpened: PropTypes.bool.isRequired,
+    shoppingCartNotification: PropTypes.bool.isRequired,
+  }).isRequired,
+  i18n: PropTypes.shape({
+    language: PropTypes.string.isRequired,
+    translations: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  }).isRequired,
   logout: PropTypes.func.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
-  drawerOpened: PropTypes.bool.isRequired,
-  loggedIn: PropTypes.bool.isRequired,
-  roles: PropTypes.arrayOf(PropTypes.string).isRequired,
-  authService: PropTypes.shape({
-    login: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired,
-  }).isRequired,
-  shoppingCartNotification: PropTypes.bool.isRequired,
   hideShoppingCartNotification: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
 };
 
 export default withRouter(connect(
-  state => Object.assign(
-    {},
-    state.auth,
-    state.layout
-  ),
+  state => ({
+    auth: state.auth,
+    layout: state.layout,
+    i18n: state.i18n,
+  }),
   dispatch => ({
     logout() {
-      dispatch({
-        type: ActionTypes.LOGGED_OUT,
-      });
+      dispatch(createLogout());
     },
     toggleDrawer() {
-      dispatch({
-        type: ActionTypes.TOGGLE_DRAWER,
-      });
+      dispatch(createToggleDrawer());
     },
     hideShoppingCartNotification() {
-      dispatch({
-        type: ActionTypes.HIDE_SHOPPING_CART_NOTIFICATION,
-      });
+      dispatch(createHideShoppingCartNotification());
     },
   })
 )(Layout));

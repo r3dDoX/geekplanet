@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import ProductTile from './productTile.jsx';
+import { ProductTileComponent as ProductTile } from './productTile.jsx';
 
 describe('ProductTile', () => {
   let props;
@@ -10,32 +10,48 @@ describe('ProductTile', () => {
 
   beforeEach(() => {
     props = {
+      locale: 'de',
       product: {
-        name: 'testProduct',
+        de: {
+          name: 'testProduct',
+          shortDescription: 'testShortDescription',
+        },
         stock: 1,
-        shortDescription: 'testShortDescription',
         price: 30.25,
         files: [],
       },
-      addItemToShoppingCart: undefined,
+      history: {
+        push() {},
+      },
     };
   });
 
-  it('should not render CardMedia when no files given', () => {
-    const cardMedia = productTile().find('CardMedia');
+  it('should not render product picture when no files given', () => {
+    const productPicture = productTile().find('img');
 
-    expect(cardMedia.length).toBe(0);
+    expect(productPicture.length).toBe(0);
   });
 
-  it('should render CardMedia with first image', () => {
+  it('should render product picture with first image', () => {
     props.product.files = [
       'testFile',
       'testFile2',
     ];
 
-    const cardMedia = productTile().find('CardMedia');
+    const productPicture = productTile().find('img');
 
-    expect(cardMedia.length).toBe(1);
-    expect(cardMedia.find('img').props().src).toEqual(expect.stringContaining(props.product.files[0]));
+    expect(productPicture.length).toBe(1);
+    expect(productPicture.find('img').props().src).toEqual(expect.stringContaining(props.product.files[0]));
+  });
+
+  it('should render product picture with small image', () => {
+    props.product.files = [
+      'testFile',
+    ];
+
+    const productPicture = productTile().find('img');
+
+    expect(productPicture.length).toBe(1);
+    expect(productPicture.find('img').props().src).toEqual(expect.stringContaining(`${props.product.files[0]}_s`));
   });
 });

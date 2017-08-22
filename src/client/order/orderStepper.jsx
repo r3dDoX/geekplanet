@@ -9,15 +9,13 @@ import {
   StepContent,
 } from 'material-ui/Stepper';
 import { FormattedMessage } from 'react-intl';
-import { initialize } from 'redux-form';
-import { ShoppingCartPropType } from '../shoppingcart/shoppingCart.proptypes';
-import ActionTypes from '../actionTypes';
-import AddressChooser from './addressChooser.jsx';
-import UserAddress, { formName } from './userAddress.jsx';
-import Payment from './payment.jsx';
-import Xhr from '../xhr';
-import OrderPropType from './order.proptypes';
+import { ShoppingCartPropType } from '../propTypes';
+import PrivateRoute from '../router/privateRoute.jsx';
+import AddressStepContent from './addressStepContent.jsx';
+import PaymentStepContent from './paymentStepContent.jsx';
+import ConfirmationStepContent from './confirmationStepContent.jsx';
 import { OrderSteps } from './order.reducer';
+import { createSelectStep } from '../actions';
 
 const styles = {
   container: {
@@ -53,86 +51,88 @@ class OrderStepper extends React.Component {
   componentWillMount() {
     if (this.props.shoppingCart.items.length === 0) {
       this.props.history.push('/');
+    } else {
+      this.navigateToCorrectStep();
     }
-    this.props.loadAddresses();
+  }
+
+  componentDidUpdate() {
+    if (!this.props.history.location.pathname.includes(this.props.orderStep)) {
+      this.navigateToCorrectStep();
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.props.orderStep === OrderSteps.CONFIRMATION) {
+      this.props.selectStep(OrderSteps.ADDRESS);
+    }
+  }
+
+  navigateToCorrectStep() {
+    switch (this.props.orderStep) {
+      default:
+        this.props.history.push(`${this.props.match.url}/address`);
+        break;
+      case OrderSteps.PAYMENT:
+        this.props.history.push(`${this.props.match.url}/payment`);
+        break;
+      case OrderSteps.CONFIRMATION:
+        this.props.history.push(`${this.props.match.url}/confirmation`);
+        break;
+    }
   }
 
   render() {
     const {
-      email,
-      shoppingCart,
-      finishOrder,
-      selectAddress,
-      saveAddress,
-      order,
+      match,
+      orderStep,
       selectStep,
     } = this.props;
 
     return (
-      <div style={styles.container}>
-        <Stepper
-          activeStep={order.step}
-          linear={false}
-          orientation="vertical"
+      <Stepper
+        linear={false}
+        orientation="vertical"
+        style={styles.container}
+      >
+        <Step
+          onClick={() => orderStep !== OrderSteps.CONFIRMATION && selectStep(OrderSteps.ADDRESS)}
+          completed={orderStep !== OrderSteps.ADDRESS}
+          disabled={orderStep === OrderSteps.CONFIRMATION}
+          active={orderStep === OrderSteps.ADDRESS}
         >
-          <Step
-            onClick={() => {
-              if (order.step !== OrderSteps.CONFIRMATION) {
-                selectStep(OrderSteps.ADDRESS);
-              }
-            }}
-            completed={order.step > OrderSteps.ADDRESS}
-            disabled={order.step === OrderSteps.CONFIRMATION}
-          >
-            <StepButton>
-              <FormattedMessage id="ORDER.ADDRESS.TITLE" />
-            </StepButton>
-            <StepContent>
-              <AddressChooser
-                addresses={order.addresses}
-                selectedAddressId={order.selectedAddress && order.selectedAddress._id}
-                selectAddress={
-                  addressId => selectAddress(
-                    order.addresses.find(address => address._id === addressId)
-                  )
-                }
-              />
-              <UserAddress onSubmit={saveAddress} />
-            </StepContent>
-          </Step>
-          <Step
-            completed={order.step > OrderSteps.PAYMENT}
-            disabled={order.step !== OrderSteps.PAYMENT}
-          >
-            <StepButton>
-              <FormattedMessage id="ORDER.PAYMENT.TITLE" />
-            </StepButton>
-            <StepContent>
-              {email && <Payment
-                email={email}
-                shoppingCart={shoppingCart}
-                startOrder={() => Xhr.put('/api/orders', Object.assign({
-                  _id: shoppingCart.id,
-                  address: order.selectedAddress,
-                  items: shoppingCart.items,
-                }))}
-                finishOrder={finishOrder}
-              />}
-            </StepContent>
-          </Step>
-          <Step
-            completed={order.step === OrderSteps.CONFIRMATION}
-            disabled={order.step !== OrderSteps.CONFIRMATION}
-          >
-            <StepButton>
-              <FormattedMessage id="ORDER.CONFIRMATION.TITLE" />
-            </StepButton>
-            <StepContent>
-              <p><FormattedMessage id="ORDER.CONFIRMATION.TEXT" /></p>
-            </StepContent>
-          </Step>
-        </Stepper>
-      </div>
+          <StepButton>
+            <FormattedMessage id="ORDER.ADDRESS.TITLE" />
+          </StepButton>
+          <StepContent>
+            <PrivateRoute path={`${match.url}/${OrderSteps.ADDRESS}`} component={AddressStepContent} />
+          </StepContent>
+        </Step>
+        <Step
+          completed={orderStep === OrderSteps.CONFIRMATION}
+          disabled={orderStep !== OrderSteps.PAYMENT}
+          active={orderStep === OrderSteps.PAYMENT}
+        >
+          <StepButton>
+            <FormattedMessage id="ORDER.PAYMENT.TITLE" />
+          </StepButton>
+          <StepContent>
+            <PrivateRoute path={`${match.url}/${OrderSteps.PAYMENT}`} component={PaymentStepContent} />
+          </StepContent>
+        </Step>
+        <Step
+          completed={orderStep === OrderSteps.CONFIRMATION}
+          disabled={orderStep !== OrderSteps.CONFIRMATION}
+          active={orderStep === OrderSteps.CONFIRMATION}
+        >
+          <StepButton>
+            <FormattedMessage id="ORDER.CONFIRMATION.TITLE" />
+          </StepButton>
+          <StepContent>
+            <PrivateRoute path={`${match.url}/${OrderSteps.CONFIRMATION}`} component={ConfirmationStepContent} />
+          </StepContent>
+        </Step>
+      </Stepper>
     );
   }
 }
@@ -142,52 +142,23 @@ OrderStepper.defaultProps = {
 };
 
 OrderStepper.propTypes = {
-  email: PropTypes.string,
+  match: PropTypes.shape({
+    url: PropTypes.string,
+  }).isRequired,
   shoppingCart: ShoppingCartPropType.isRequired,
-  finishOrder: PropTypes.func.isRequired,
-  loadAddresses: PropTypes.func.isRequired,
-  selectAddress: PropTypes.func.isRequired,
-  saveAddress: PropTypes.func.isRequired,
+  orderStep: PropTypes.string.isRequired,
   selectStep: PropTypes.func.isRequired,
-  order: OrderPropType.isRequired,
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default withRouter(connect(
   state => ({
-    email: state.auth.email,
     shoppingCart: state.shoppingCart,
-    order: state.order,
+    orderStep: state.order.step,
   }),
   dispatch => ({
-    loadAddresses: () => Xhr.get('/api/userAddresses')
-      .then(addresses => dispatch({
-        type: ActionTypes.ADDRESSES_LOADED,
-        data: addresses,
-      })),
-    selectAddress: (address) => {
-      dispatch({
-        type: ActionTypes.SELECT_ADDRESS,
-        data: address,
-      });
-      dispatch(initialize(formName, address));
+    selectStep(step) {
+      dispatch(createSelectStep(step));
     },
-    saveAddress: address =>
-      Xhr.put(
-        '/api/userAddress',
-        address,
-        'application/json'
-      )
-        .then(addressId => dispatch({
-          type: ActionTypes.SAVE_ADDRESS,
-          data: addressId,
-        })),
-    selectStep: step => dispatch({
-      type: ActionTypes.SELECT_ORDER_STEP,
-      data: step,
-    }),
-    finishOrder: () => dispatch({
-      type: ActionTypes.ORDER_FINISHED,
-    }),
-  })
+  }),
 )(OrderStepper));

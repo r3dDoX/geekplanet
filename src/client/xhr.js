@@ -1,4 +1,5 @@
 import * as storage from './storage';
+import AuthService from './auth/authService';
 
 function setAuthHeader(req) {
   const jwtToken = storage.load(storage.ids.ID_TOKEN);
@@ -16,8 +17,11 @@ function wrapXhrPromise(path, method, data, contentType) {
         let response = request.response;
         try {
           response = JSON.parse(response);
-        } catch (e) { /* Nothing to do when no JSON returned*/ }
+        } catch (e) { /* Nothing to do when no JSON returned */ }
         resolve(response);
+      } else if (request.status === 401) {
+        AuthService.logout();
+        window.location.assign('/login');
       } else {
         reject();
       }

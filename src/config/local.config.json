@@ -1,6 +1,14 @@
 {
+  "USE_SSL": false,
+  "APP": {
+    "TITLE": "geekplanet-local",
+    "BASE_URL": "http://localhost:3001"
+  },
   "AUTH": {
-    "CLIENT_ID": "'XqZ2GTewejUuMTBPaiHJUuyOYlNwcaXV'",
-    "REDIRECT_URL": "'http://localhost:3001/'"
+    "CLIENT_ID": "XqZ2GTewejUuMTBPaiHJUuyOYlNwcaXV",
+    "REDIRECT_URL": "http://localhost:3001/login"
+  },
+  "PAYMENT": {
+    "PUBLIC": "pk_test_vyVGipm7QCAuNaHYwBHBLdpy"
   }
 }

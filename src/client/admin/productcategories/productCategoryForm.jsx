@@ -1,14 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
-import RaisedButton from 'material-ui/RaisedButton';
-import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
-import TextField from '../../formHelpers/textField.jsx';
+import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
+import { Field, initialize, reduxForm } from 'redux-form';
 import SelectField from '../../formHelpers/selectField.jsx';
-import { ProductCategoryPropType } from '../forms/forms.proptypes';
+import TextField from '../../formHelpers/textField.jsx';
+import { ProductCategoryPropType } from '../../propTypes';
+import { createLoadProductCategories } from '../../actions';
+import ProductCategoryService from './productCategoryService';
 
-export const formName = 'productcategories';
+const formName = 'productcategories';
 
 const styles = {
   container: {
@@ -30,23 +33,27 @@ const ProductCategoriesForm = ({
     <Field
       component={SelectField}
       name="_id"
-      onChange={(event, value) => selectProductCategory(value)}
+      onChange={(event, value) => selectProductCategory(
+        productCategories.find(productCategory => productCategory._id === value)
+      )}
     >
       <MenuItem
         value=""
         primaryText="Create new"
       />
       <Divider />
-      {productCategories.map(({ _id, name }) => <MenuItem
-        key={_id}
-        value={_id}
-        primaryText={name}
-      />)}
+      {productCategories.map(category => (
+        <MenuItem
+          key={category._id}
+          value={category._id}
+          primaryText={category.de.name}
+        />
+      ))}
     </Field>
     <br />
     <Field
       component={TextField}
-      name="name"
+      name="de.name"
       label="Name"
       type="text"
     />
@@ -58,11 +65,13 @@ const ProductCategoriesForm = ({
     >
       <MenuItem value={null} primaryText="None" />
       <Divider />
-      {productCategories.map(({ name }) => <MenuItem
-        key={name}
-        value={name}
-        primaryText={name}
-      />)}
+      {productCategories.map(category => (
+        <MenuItem
+          key={category._id}
+          value={category._id}
+          primaryText={category.de.name}
+        />
+      ))}
     </Field>
     <br />
     <RaisedButton label="Save" primary type="submit" />
@@ -76,7 +85,25 @@ ProductCategoriesForm.propTypes = {
   productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
 };
 
-export default reduxForm({
+export default connect(
+  state => state.forms,
+  dispatch => ({
+    clearForm() {
+      dispatch(initialize(formName));
+    },
+    selectProductCategory(productCategory) {
+      dispatch(initialize(formName, productCategory));
+    },
+    loadProductCategories() {
+      dispatch(createLoadProductCategories());
+    },
+    onSubmit(productCategory) {
+      ProductCategoryService.saveProductCategory(productCategory)
+        .then(this.loadProductCategories)
+        .then(() => this.clearForm(formName));
+    },
+  }),
+)(reduxForm({
   form: formName,
   destroyOnUnmount: false,
-})(ProductCategoriesForm);
+})(ProductCategoriesForm));

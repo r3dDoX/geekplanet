@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import FlatButton from 'material-ui/FlatButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/remove';
-import { ShoppingCartItemPropType } from './shoppingCart.proptypes';
+import { ShoppingCartItemPropType } from '../propTypes';
 
 const styles = {
   container: {

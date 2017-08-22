@@ -9,7 +9,7 @@ dist/
 geekplanet.zip
 
 # testing
-jest/
+jest*/
 
 # secrets
 certificates/

@@ -23,7 +23,7 @@ const Tags = ({ savedTags, tags, selectTag, removeTag }) => (
     />
     <br />
     <div style={styles.container}>
-      {tags.map(tag =>
+      {tags.map(tag => (
         <Chip
           key={tag}
           onRequestDelete={() => removeTag(tags, tag)}
@@ -31,7 +31,7 @@ const Tags = ({ savedTags, tags, selectTag, removeTag }) => (
         >
           {tag}
         </Chip>
-      )}
+      ))}
     </div>
   </div>
 );

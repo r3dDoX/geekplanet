@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
-import { UserAddressesPropType } from './order.proptypes';
+import { UserAddressesPropType } from '../propTypes';
 
 const AddressChooser = ({
   addresses,
@@ -23,11 +23,13 @@ const AddressChooser = ({
     />
     <Divider />
     <MenuItem primaryText={<FormattedMessage id="ORDER.ADDRESS.FORM.RECENTLY" />} disabled />
-    {addresses.map(({ _id, streetAddress }) => <MenuItem
-      key={_id}
-      value={_id}
-      primaryText={streetAddress}
-    />)}
+    {addresses.map(({ _id, streetAddress }) => (
+      <MenuItem
+        key={_id}
+        value={_id}
+        primaryText={streetAddress}
+      />
+    ))}
   </SelectField>
 );
 

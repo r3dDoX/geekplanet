@@ -7,20 +7,31 @@
     "PRIVACY_POLICY": "Datenschutz"
   },
   "COMMON": {
+    "EDIT": "Bearbeiten",
     "ORDER": "Bestellen",
-    "DELETE": "Löschen"
+    "DELETE": "Löschen",
+    "FORM": {
+      "REQUIRED": "Dieses Feld ist notwendig"
+    },
+    "PRODUCT": "Produkt",
+    "QUANTITY": "Menge",
+    "AMOUNT": "Preis",
+    "TOTAL": "Total",
+    "SUBTOTAL": "Zwischentotal",
+    "SHIPPING_COSTS": "Versandkosten"
   },
   "NAVIGATION": {
     "LOGIN": "Login",
     "LOGOUT": "Logout",
-    "FORMS": "Formulare"
+    "FORMS": "Formulare",
+    "ORDERS": "Bestellungen"
   },
   "NOTIFICATION": {
     "SHOPPING_CART_ITEM_ADDED": "Produkt zum Warenkorb hinzugefügt"
   },
   "SHOPPING_CART": {
     "TITLE": "Warenkorb",
-    "PRODUCTS": "Produkte",
+    "NO_ITEMS": "Noch keine Produkte im Warenkorb",
     "TOTAL": "Total",
     "CHECKOUT": "Zur Kasse"
   },
@@ -43,7 +54,6 @@
         "CITY": "Stadt",
         "COUNTRY": "Land",
         "NEXT": "Weiter",
-        "REQUIRED": "Dieses Feld ist notwendig",
         "REQUIRED_ZIP": "Die Postleitzahl muss zwischen 1000 und 9999 liegen",
         "NO_ADDRESS": "Neue Adresse erfassen",
         "RECENTLY": "Kürzlich gebraucht"
@@ -57,5 +67,49 @@
   "COUNTRIES": {
     "CHE": "Schweiz",
     "LIE": "Liechtenstein"
+  },
+  "PRODUCT": {
+    "IN_STOCK": "{stock} Stück auf Lager",
+    "OUT_OF_STOCK": "Dieses Produkt ist momentan leider nicht auf Lager.",
+    "TO_PRODUCTS": "Zu den Produkten",
+    "SPECIFICATIONS": "Spezifikationen",
+    "DELIVERY": "Lieferumfang",
+    "DOWNLOADS": "Downloads"
+  },
+  "LOGIN": {
+    "FACEBOOK": "Mit Facebook einloggen",
+    "GOOGLE": "Mit Google einloggen",
+    "EMAIL": "Email",
+    "PASSWORD": "Passwort",
+    "LOGIN": "Anmelden",
+    "REGISTER": "Registrieren",
+    "WRONG_USERNAME_PASSWORD": "Falscher Benutzername oder Passwort",
+    "USER_EXISTS": "Diese Email ist bereits registriert",
+    "FORGOT_PASSWORD": "Passwort vergessen?",
+    "RESET_PASSWORD": "Passwort zurücksetzen",
+    "MAIL_SENT": "Eine Email wurde an die angegebene Adresse geschickt. Bitte folge den Anweisungen um dein Passwort zurückzusetzen.",
+    "MAIL_NOT_SENT": "Leider ist was schief gelaufen. Bitte überprüfe die Angaben und versuchs nochmals."
+  },
+  "PRODUCT_FILTER": {
+    "TITLE": "Filter",
+    "FILTERSTRING_PLACEHOLDER": "Filter...",
+    "PRODUCT_CATEGORIES_PLACEHOLDER": "Kategorien",
+    "RESET_FILTER": "Filter zurücksetzen",
+    "PRODUCERS_PLACEHOLDER": "Hersteller"
+  },
+  "EMAIL": {
+    "ORDER_CONFIRMATION": "Vielen Dank für deinen Einkauf, {firstName}!",
+    "ORDER_PREPAYMENT": "Sobald du uns den fälligen Betrag überweist, versenden wir deine Waren bei gegebenem Lagerbestand. Weiter unten findest du unsere Bankdaten oder im Anhang einen orangen Einzahlungsschein.",
+    "ORDER_PAYED": "Der fällige Betrag ist schon bezahlt. Somit werden deine Waren bei gegebenem Lagerbestand versendet.",
+    "ORDER_NUMBER": "Bestellnummer: {id}",
+    "SHIPPING_ADDRESS_TITLE": "Versandadresse",
+    "SHIPPING_ADDRESS": "{firstName} {lastName}<br />{streetAddress}<br />{zip} {city}<br />{country}",
+    "BANK_DETAILS_TITLE": "Bankdaten",
+    "BANK_DETAILS": "<strong>CH14 0630 0503 9981 5467 2</strong><br /><br />geekplanet GmbH<br />Wührestrasse 2<br />5724 Dürrenäsch"
+  },
+  "ERROR": {
+    "TITLE": "Oops! Da ist was schief gelaufen...",
+    "TEXT": "Bitte versuch es später nochmal oder melde dich bei uns.",
+    "PROTIP": "Wenn du dich damit auskennst, darfst du gerne ein Issue auf unserem <a href=\"https://github.com/r3dDoX/geekplanet\" target=\"_blank\">Github Repository</a> eröffnen. Dein Feedback ist uns wichtig!"
   }
 }

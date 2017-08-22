@@ -1,6 +1,9 @@
 import shortId from 'shortid';
-import ActionTypes from '../actionTypes';
 import { load, store, remove, ids } from '../storage';
+import {
+  ADD_ITEM_TO_SHOPPING_CART, LOAD_SHOPPING_CART, ORDER_FINISHED, REMOVE_ITEM_FROM_SHOPPING_CART,
+  SET_SHOPPING_CART_AMOUNT,
+} from '../actions';
 
 const initialState = {
   id: shortId.generate(),
@@ -36,7 +39,7 @@ function insertOrUpdateItem(items, product, amount) {
 
 export default function auth(state = initialState, { type, data }) {
   switch (type) {
-    case ActionTypes.LOAD_SHOPPING_CART: {
+    case LOAD_SHOPPING_CART: {
       const cart = load(ids.SHOPPING_CART) || state;
 
       if (!shortId.isValid(cart.id)) {
@@ -46,22 +49,22 @@ export default function auth(state = initialState, { type, data }) {
 
       return cart;
     }
-    case ActionTypes.ADD_ITEM_TO_SHOPPING_CART: {
-      state.items = insertOrUpdateItem(state.items, data);
+    case ADD_ITEM_TO_SHOPPING_CART: {
       const newState = Object.assign({}, state);
+      newState.items = insertOrUpdateItem(newState.items, data);
 
       store(ids.SHOPPING_CART, newState);
 
       return newState;
     }
-    case ActionTypes.REMOVE_ITEM_FROM_SHOPPING_CART: {
+    case REMOVE_ITEM_FROM_SHOPPING_CART: {
       const filteredItems = state.items.filter(item => item.product._id !== data._id);
 
       store(ids.SHOPPING_CART, filteredItems);
 
       return filteredItems;
     }
-    case ActionTypes.SET_AMOUNT: {
+    case SET_SHOPPING_CART_AMOUNT: {
       state.items = insertOrUpdateItem(state.items, data.product, data.amount);
       const newState = Object.assign({}, state);
 
@@ -69,9 +72,11 @@ export default function auth(state = initialState, { type, data }) {
 
       return newState;
     }
-    case ActionTypes.ORDER_FINISHED: {
+    case ORDER_FINISHED: {
       remove(ids.SHOPPING_CART);
-      return initialState;
+      return Object.assign({}, initialState, {
+        id: shortId.generate(),
+      });
     }
     default: {
       return state;

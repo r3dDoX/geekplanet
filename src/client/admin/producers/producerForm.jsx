@@ -1,14 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
-import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import MenuItem from 'material-ui/MenuItem';
-import TextField from '../../formHelpers/textField.jsx';
+import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
+import { initialize, Field, reduxForm } from 'redux-form';
 import SelectField from '../../formHelpers/selectField.jsx';
-import { ProducerPropType } from '../forms/forms.proptypes';
+import TextField from '../../formHelpers/textField.jsx';
+import { ProducerPropType } from '../../propTypes';
+import { createLoadProducers } from '../adminActions';
+import ProducerService from './producerService';
 
-export const formName = 'producer';
+const formName = 'producer';
 
 const styles = {
   container: {
@@ -30,18 +33,22 @@ const ProducerForm = ({
     <Field
       component={SelectField}
       name="_id"
-      onChange={(event, value) => selectProducer(value)}
+      onChange={(event, value) => selectProducer(
+        producers.find(producer => producer._id === value)
+      )}
     >
       <MenuItem
         value=""
         primaryText="Create new"
       />
       <Divider />
-      {producers.map(({ _id, name }) => <MenuItem
-        key={_id}
-        value={_id}
-        primaryText={name}
-      />)}
+      {producers.map(({ _id, name }) => (
+        <MenuItem
+          key={_id}
+          value={_id}
+          primaryText={name}
+        />
+      ))}
     </Field>
     <br />
     <Field
@@ -122,7 +129,25 @@ ProducerForm.propTypes = {
   producers: PropTypes.arrayOf(ProducerPropType).isRequired,
 };
 
-export default reduxForm({
+export default connect(
+  state => state.forms,
+  dispatch => ({
+    clearForm() {
+      dispatch(initialize(formName));
+    },
+    selectProducer(producer) {
+      dispatch(initialize(formName, producer));
+    },
+    loadProducers() {
+      dispatch(createLoadProducers());
+    },
+    onSubmit(producer) {
+      ProducerService.saveProducer(producer)
+        .then(this.loadProducers)
+        .then(() => this.clearForm());
+    },
+  }),
+)(reduxForm({
   form: formName,
   destroyOnUnmount: false,
-})(ProducerForm);
+})(ProducerForm));

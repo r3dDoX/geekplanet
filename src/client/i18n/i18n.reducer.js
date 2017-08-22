@@ -1,4 +1,4 @@
-import ActionTypes from '../actionTypes';
+import { TRANSLATIONS_LOADED } from '../actions';
 
 const initialState = {
   translations: undefined,
@@ -6,12 +6,10 @@ const initialState = {
   locale: 'de',
 };
 
-export default function i18n(state = initialState, { type, data }) {
+export default function i18n(state = initialState, { type, translations }) {
   switch (type) {
-    case ActionTypes.TRANSLATIONS_LOADED:
-      return Object.assign({}, state, {
-        translations: data,
-      });
+    case TRANSLATIONS_LOADED:
+      return Object.assign({}, state, { translations });
     default:
       return state;
   }

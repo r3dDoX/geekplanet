@@ -1,28 +1,24 @@
-version: '2'
+version: '3'
 services:
 
   web:
-    image: r3ddox/node-pdftk
+    image: r3ddox/node-pdftk:8.4.0
     volumes:
       - ./:/usr/src/app
     working_dir: /usr/src/app
-    command: bash -c "npm install && npm run dev"
+    command: sh -c "npm install && npm run dev"
     ports:
       - "3000-3001:3000-3001"
+      - "9229:9229"
     depends_on:
       - mongo
-    networks:
-      - all
+    links:
+      - mongo
     environment:
       MONGODB_URI: "mongodb://mongo:27017/geekplanet"
 
   mongo:
-    image: mongo
+    image: mongo:3.0.15
     command: mongod --smallfiles
     ports:
       - "27017:27017"
-    networks:
-      - all
-
-networks:
-  all:

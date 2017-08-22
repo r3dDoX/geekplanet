@@ -1,65 +1,64 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import InfiniteScroll from 'react-infinite-scroller';
+import styled from 'styled-components';
 import ProductTile from './productTile.jsx';
-import ActionTypes from '../actionTypes';
-import ProductService from './productService';
+import { ProductPropType } from '../propTypes';
+import MainSpinner from '../layout/mainSpinner.jsx';
 
-const styles = {
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    padding: '20px 10px',
-  },
-};
+const ProductListContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  padding: 20px 10px;
+`;
+
+const PAGE_SIZE = 20;
 
 class ProductList extends React.Component {
-  componentDidMount() {
-    this.props.loadProducts();
+  constructor() {
+    super();
+
+    this.state = {
+      currentPage: 0,
+      loadedProducts: [],
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateProductArrayForPage(0, nextProps.products);
+  }
+
+  updateProductArrayForPage(page, products) {
+    this.setState({
+      currentPage: page,
+      loadedProducts: products.slice(0, (page + 1) * PAGE_SIZE),
+    });
   }
 
   render() {
-    const { products, addItemToShoppingCart } = this.props;
     return (
-      <div style={styles.container}>
-        {products.map(product => (
-          <ProductTile
-            key={product._id}
-            product={product}
-            addItemToShoppingCart={addItemToShoppingCart}
-          />
-        ))}
-      </div>
+      <InfiniteScroll
+        pageStart={0}
+        loadMore={newPage => this.updateProductArrayForPage(newPage, this.props.products)}
+        hasMore={this.state.loadedProducts.length < this.props.products.length}
+        loader={<MainSpinner />}
+      >
+        <ProductListContainer>
+          {this.state.loadedProducts.map(product => (
+            <ProductTile
+              key={product._id}
+              product={product}
+            />
+          ))}
+        </ProductListContainer>
+      </InfiniteScroll>
     );
   }
 }
 
 ProductList.propTypes = {
-  products: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string,
-    name: PropTypes.string,
-    description: PropTypes.string,
-    files: PropTypes.arrayOf(PropTypes.string),
-  })).isRequired,
-  loadProducts: PropTypes.func.isRequired,
-  addItemToShoppingCart: PropTypes.func.isRequired,
+  products: PropTypes.arrayOf(ProductPropType).isRequired,
 };
 
-export default connect(
-  state => state.products,
-  dispatch => ({
-    loadProducts() {
-      ProductService.loadProducts().then(data => dispatch({
-        type: ActionTypes.PRODUCTS_LOADED,
-        data,
-      }));
-    },
-    addItemToShoppingCart(product) {
-      dispatch({
-        type: ActionTypes.ADD_ITEM_TO_SHOPPING_CART,
-        data: product,
-      });
-    },
-  })
-)(ProductList);
+export default ProductList;

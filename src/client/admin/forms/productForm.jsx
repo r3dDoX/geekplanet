@@ -1,19 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { initialize, Field, reduxForm } from 'redux-form';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
-import UploadImagePreview from './uploadImagePreview.jsx';
-import TextField from '../../formHelpers/textField.jsx';
-import SelectField from '../../formHelpers/selectField.jsx';
+import { withRouter } from 'react-router-dom';
 import {
-  ProductPropType,
   ProducerPropType,
   SupplierPropType,
   ProductCategoryPropType,
-} from './forms.proptypes';
+  ProductPropType,
+} from '../../propTypes';
+import {
+  createLoadCompleteProducts,
+  createLoadProducers,
+  createLoadSuppliers,
+  createLoadTags,
+  createRemoveFile, createRemoveTag,
+  createResetSelectedFiles,
+  createSelectFiles,
+  createSelectProduct, createSelectTag,
+} from '../adminActions';
+import UploadImagePreview from './uploadImagePreview.jsx';
+import TextField from '../../formHelpers/textField.jsx';
+import SelectField from '../../formHelpers/selectField.jsx';
 import Tags from '../tags/tags.jsx';
+import * as ProductService from '../../products/productService';
 
 export const formName = 'products';
 
@@ -42,180 +55,212 @@ const styles = {
   },
 };
 
-const ProductForm = ({
-  handleSubmit,
-  onSubmit,
-  products,
-  selectProduct,
-  suppliers,
-  producers,
-  productCategories,
-  selectedFiles,
-  selectFiles,
-  removeFile,
-  tags,
-  savedTags,
-  selectTag,
-  removeTag,
-}) => (
-  <form
-    style={styles.container}
-    name={formName}
-    onSubmit={handleSubmit(onSubmit)}
-  >
-    <Field
-      component={SelectField}
-      name="_id"
-      onChange={(event, value) => selectProduct(value)}
-    >
-      <MenuItem
-        value=""
-        primaryText="Create new"
-      />
-      <Divider />
-      {products.map(({ _id, name }) => <MenuItem
-        key={_id}
-        value={_id}
-        primaryText={name}
-      />)}
-    </Field>
-    <br />
+class ProductForm extends React.Component {
+  componentDidMount() {
+    const {
+      products,
+      selectProduct,
+      match,
+    } = this.props;
 
-    <Field
-      component={TextField}
-      name="name"
-      label="Name"
-      type="text"
-    />&nbsp;
-    <Field
-      component={SelectField}
-      name="category"
-      label="Product Category"
-      style={styles.selectFields}
-    >
-      {productCategories.map(({ _id, name }) => <MenuItem
-        key={_id}
-        value={_id}
-        primaryText={name}
-      />)}
-    </Field>
-    <br />
-    <Tags
-      savedTags={savedTags}
-      tags={tags}
-      selectTag={selectTag}
-      removeTag={removeTag}
-    />
-    <br />
-    <Field
-      component={TextField}
-      name="shortDescription"
-      label="Short Description"
-      type="text"
-      multiLine
-      rows={3}
-    />
-    <br />
-    <Field
-      component={TextField}
-      name="description"
-      label="Description"
-      type="text"
-      multiLine
-      rows={5}
-    />
-    <br />
-    <Field
-      component={TextField}
-      name="price"
-      label="Price"
-      type="number"
-      step="any"
-    />&nbsp;
-    <Field
-      component={TextField}
-      name="purchasePrice"
-      label="Purchase Price"
-      type="number"
-      step="any"
-    />&nbsp;
-    <Field
-      component={TextField}
-      name="purchasePackageSize"
-      label="Purchase Package Size"
-      type="number"
-    />
-    <br />
-    <Field
-      component={TextField}
-      name="stock"
-      label="Stock"
-      type="number"
-    />&nbsp;
-    <Field
-      component={TextField}
-      name="minStock"
-      label="Stock Minimum"
-      type="number"
-    />
-    <br />
-    <Field
-      component={SelectField}
-      name="supplier"
-      label="Supplier"
-      style={styles.selectFields}
-    >
-      {suppliers.map(({ _id, name }) => <MenuItem
-        key={_id}
-        value={_id}
-        primaryText={name}
-      />)}
-    </Field>&nbsp;
-    <Field
-      component={TextField}
-      name="supplierProductCode"
-      label="Supplier Product Code"
-      type="text"
-    />
-    <br />
-    <Field
-      component={SelectField}
-      name="producer"
-      label="Producer"
-    >
-      {producers.map(({ _id, name }) => <MenuItem
-        key={_id}
-        value={_id}
-        primaryText={name}
-      />)}
-    </Field>
-    <br />
-    <Field
-      component={TextField}
-      name="remarks"
-      label="Remarks"
-      type="text"
-      multiLine
-    />
-    <br />
-    <RaisedButton
-      label="Choose images"
-      labelPosition="before"
-      containerElement="label"
-      style={styles.uploadButton}
-    >
-      <input
-        type="file"
-        accept="image/jpeg,image/png"
-        multiple
-        style={styles.fileUploadInput}
-        onChange={event => selectFiles(event.target.files)}
-      />
-    </RaisedButton>
-    <UploadImagePreview files={selectedFiles} removeFile={removeFile} />
-    <RaisedButton label="Save" type="submit" primary />
-  </form>
-);
+    if (match.params.id) {
+      selectProduct(products.find(product => product._id === match.params.id));
+    }
+  }
+
+  render() {
+    const {
+      handleSubmit,
+      onSubmit,
+      products,
+      selectProduct,
+      suppliers,
+      producers,
+      productCategories,
+      selectedFiles,
+      selectFiles,
+      removeFile,
+      tags,
+      savedTags,
+      selectTag,
+      removeTag,
+      match,
+      history,
+    } = this.props;
+
+    return (
+      <form
+        style={styles.container}
+        name={formName}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Field
+          component={SelectField}
+          name="_id"
+          onChange={(event, value) => {
+            selectProduct(products.find(product => product._id === value));
+            history.push(`/forms/products/${value}`);
+          }}
+          selectedValue={match.params.id || ''}
+        >
+          <MenuItem
+            value=""
+            primaryText="Create new"
+          />
+          <Divider />
+          {products.map(({ _id, de: { name } }) => (
+            <MenuItem
+              key={_id}
+              value={_id}
+              primaryText={name}
+            />
+          ))}
+        </Field>
+        <br />
+
+        <Field
+          component={TextField}
+          name="de.name"
+          label="Name"
+          type="text"
+        />&nbsp;
+        <Field
+          component={SelectField}
+          name="category"
+          label="Product Category"
+          style={styles.selectFields}
+        >
+          {productCategories.map(category => (
+            <MenuItem
+              key={category._id}
+              value={category._id}
+              primaryText={category.de.name}
+            />
+          ))}
+        </Field>
+        <br />
+        <Tags
+          savedTags={savedTags}
+          tags={tags}
+          selectTag={selectTag}
+          removeTag={removeTag}
+        />
+        <br />
+        <Field
+          component={TextField}
+          name="de.shortDescription"
+          label="Short Description"
+          type="text"
+          multiLine
+          rows={3}
+        />
+        <br />
+        <Field
+          component={TextField}
+          name="de.description"
+          label="Description"
+          type="text"
+          multiLine
+          rows={5}
+        />
+        <br />
+        <Field
+          component={TextField}
+          name="price"
+          label="Price"
+          type="number"
+          step="any"
+        />&nbsp;
+        <Field
+          component={TextField}
+          name="purchasePrice"
+          label="Purchase Price"
+          type="number"
+          step="any"
+        />&nbsp;
+        <Field
+          component={TextField}
+          name="purchasePackageSize"
+          label="Purchase Package Size"
+          type="number"
+        />
+        <br />
+        <Field
+          component={TextField}
+          name="stock"
+          label="Stock"
+          type="number"
+        />&nbsp;
+        <Field
+          component={TextField}
+          name="minStock"
+          label="Stock Minimum"
+          type="number"
+        />
+        <br />
+        <Field
+          component={SelectField}
+          name="supplier"
+          label="Supplier"
+          style={styles.selectFields}
+        >
+          {suppliers.map(({ _id, name }) => (
+            <MenuItem
+              key={_id}
+              value={_id}
+              primaryText={name}
+            />
+          ))}
+        </Field>&nbsp;
+        <Field
+          component={TextField}
+          name="supplierProductCode"
+          label="Supplier Product Code"
+          type="text"
+        />
+        <br />
+        <Field
+          component={SelectField}
+          name="producer"
+          label="Producer"
+        >
+          {producers.map(({ _id, name }) => (
+            <MenuItem
+              key={_id}
+              value={_id}
+              primaryText={name}
+            />
+          ))}
+        </Field>
+        <br />
+        <Field
+          component={TextField}
+          name="remarks"
+          label="Remarks"
+          type="text"
+          multiLine
+        />
+        <br />
+        <RaisedButton
+          label="Choose images"
+          labelPosition="before"
+          containerElement="label"
+          style={styles.uploadButton}
+        >
+          <input
+            type="file"
+            accept="image/jpeg,image/png"
+            multiple
+            style={styles.fileUploadInput}
+            onChange={event => selectFiles(event.target.files, selectedFiles)}
+          />
+        </RaisedButton>
+        <UploadImagePreview files={selectedFiles} removeFile={removeFile} />
+        <RaisedButton label="Save" type="submit" primary />
+      </form>
+    );
+  }
+}
 
 ProductForm.defaultProps = {
   selectedProductProductCategory: undefined,
@@ -238,9 +283,63 @@ ProductForm.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectTag: PropTypes.func.isRequired,
   removeTag: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
-export default reduxForm({
+export default connect(
+  state => state.forms,
+  dispatch => ({
+    onSubmit(productToSubmit) {
+      ProductService.saveProduct(productToSubmit)
+        .then(this.loadProducts)
+        .then(() => {
+          this.clearForm();
+          this.resetSelectedFiles();
+        });
+    },
+    clearForm() {
+      dispatch(initialize(formName));
+    },
+    selectFiles(selectedFiles, initialFiles) {
+      dispatch(createSelectFiles(selectedFiles, initialFiles));
+    },
+    removeFile(initialFiles, fileIdToRemove) {
+      dispatch(createRemoveFile(initialFiles, fileIdToRemove));
+    },
+    resetSelectedFiles() {
+      dispatch(createResetSelectedFiles());
+    },
+    loadProducts() {
+      dispatch(createLoadCompleteProducts());
+    },
+    selectProduct(product) {
+      dispatch(createSelectProduct(product));
+      dispatch(initialize(formName, product));
+    },
+    loadProducers() {
+      dispatch(createLoadProducers());
+    },
+    loadSuppliers() {
+      dispatch(createLoadSuppliers());
+    },
+    loadTags() {
+      dispatch(createLoadTags());
+    },
+    selectTag(tags, item, index) {
+      dispatch(createSelectTag(tags, item, index));
+    },
+    removeTag(tags, tag) {
+      dispatch(createRemoveTag(tags, tag));
+    },
+  }),
+)(reduxForm({
   form: formName,
   destroyOnUnmount: false,
-})(ProductForm);
+})(withRouter(ProductForm)));

@@ -1,30 +1,54 @@
-import React from 'react';
 import { blueGrey100, grey800 } from 'material-ui/styles/colors';
 import EmailIcon from 'material-ui/svg-icons/communication/email';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  display: flex;
+  align-items: flex-start;
+  padding: 24px;
+  background-color: ${blueGrey100};
+`;
+
+const TextContainer = styled.div`
+  flex: 1;
+  text-align: center;
+`;
+
+const TextTitle = styled.h5`
+  margin-top: 0;
+  font-weight: 300;
+  margin-bottom: 5px;
+`;
+
+const Logo = styled.img`
+  flex: none;
+  max-width: 60px;
+  max-height: 60px;
+`;
+
+const SocialLink = styled.a`
+  text-decoration: none;
+`;
+
+const SocialLinks = styled.div`
+  flex: none;
+`;
+
+const SocialIcon = styled.img`
+  width: 20px;
+  margin-left: 5px;
+`;
+
+const StyledEmailIcon = styled(EmailIcon)`
+  height: 12px !important;
+  width: 12px !important;
+  margin-right: 5px;
+`;
 
 const styles = {
-  container: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    padding: '24px',
-    backgroundColor: blueGrey100,
-  },
-  logo: {
-    flex: 'none',
-    maxWidth: '60px',
-    maxHeight: '60px',
-  },
-  textContainer: {
-    flex: 1,
-    textAlign: 'center',
-  },
-  textTitle: {
-    marginTop: 0,
-    fontWeight: '300',
-    marginBottom: '5px',
-  },
   links: {
     display: 'flex',
     alignItems: 'center',
@@ -32,49 +56,45 @@ const styles = {
     fontSize: '12px',
     color: grey800,
   },
-  emailIcon: {
-    height: '12px',
-    width: '12px',
-    marginRight: '5px',
-  },
 };
 
 const Footer = () => (
-  <div style={styles.container}>
-    <img src="/assets/images/logo.svg" alt="geekplanet Logo" style={styles.logo} />
-    <div style={styles.textContainer}>
-      <h5 style={styles.textTitle}>
+  <Container>
+    <Logo src="/assets/images/logo.svg" alt="geekplanet Logo" />
+    <TextContainer>
+      <TextTitle>
         <FormattedMessage id="FOOTER.CONTACT" />
-      </h5>
+      </TextTitle>
       <a style={styles.links} href="mailto:info@geekplanet.ch">
-        <EmailIcon style={styles.emailIcon} /> info@geekplanet.ch
+        <StyledEmailIcon />info@geekplanet.ch
       </a>
-    </div>
-    <div style={styles.textContainer}>
-      <h5 style={styles.textTitle}>
+    </TextContainer>
+    <TextContainer>
+      <TextTitle>
         <FormattedMessage id="FOOTER.ABOUT_US" />
-      </h5>
+      </TextTitle>
       <Link to="/imprint" style={styles.links}>
         <FormattedMessage id="FOOTER.IMPRINT" />
       </Link>
       <Link to="/privacy" style={styles.links}>
         <FormattedMessage id="FOOTER.PRIVACY_POLICY" />
       </Link>
-    </div>
-    <div style={styles.textContainer}>
-      <h5 style={styles.textTitle}>
-        <FormattedMessage id="FOOTER.SOCIAL_MEDIA" />
-      </h5>
-      <a href="http://www.youtube.com/geekplanet.ch/" target="_blank" rel="noopener noreferrer" style={styles.links}>
-        You Tube
-      </a>
-      <a href="https://www.facebook.com/geekplanet.ch/" target="_blank" rel="noopener noreferrer" style={styles.links}>
-        Facebook
-      </a>
-    </div>
-  </div>
+    </TextContainer>
+    <SocialLinks>
+      <SocialLink href="http://www.youtube.com/geekplanet.ch/" target="_blank" rel="noopener noreferrer">
+        <SocialIcon
+          alt="Youtube"
+          src="/assets/images/youtube.png"
+        />
+      </SocialLink>
+      <SocialLink href="https://www.facebook.com/geekplanet.ch/" target="_blank" rel="noopener noreferrer">
+        <SocialIcon
+          alt="Facebook"
+          src="/assets/images/facebook.png"
+        />
+      </SocialLink>
+    </SocialLinks>
+  </Container>
 );
-
-Footer.propTypes = {};
 
 export default Footer;

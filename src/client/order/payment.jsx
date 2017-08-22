@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import RaisedButton from 'material-ui/RaisedButton';
 import Xhr from '../xhr';
-import { ShoppingCartPropType } from '../shoppingcart/shoppingCart.proptypes';
+import { ShoppingCartPropType } from '../propTypes';
+import MainSpinner from '../layout/mainSpinner.jsx';
 
 const styles = {
   container: {
     marginTop: '20px',
   },
   paymentButton: {
-    margin: '0 5px',
+    margin: '10px',
   },
 };
 
@@ -20,14 +21,22 @@ class Payment extends React.Component {
   }
 
   render() {
-    const { email, shoppingCart, finishOrder } = this.props;
+    const { email, shoppingCart, finishOrder, startProcessing, processing } = this.props;
+
+    if (processing) {
+      return <MainSpinner />;
+    }
 
     const stripeHandler = StripeCheckout.configure({
-      key: process.env.PAYMENT_PUBLIC,
+      key: PAYMENT.PUBLIC,
       email,
       locale: 'auto',
-      token: token => Xhr.post('/api/payment/cleared', { token, shoppingCartId: shoppingCart.id })
-        .then(finishOrder, () => { /* TODO implement error handling when payment fails */ }),
+      token: (token) => {
+        startProcessing();
+
+        Xhr.post('/api/payment/cleared', { token, shoppingCartId: shoppingCart.id })
+          .then(finishOrder, () => window.location.assign('/error'));
+      },
     });
 
     return (
@@ -40,7 +49,7 @@ class Payment extends React.Component {
             currency: 'chf',
             amount: shoppingCart.items.reduce(
               (sum, { amount, product }) => (amount * product.price * 100) + sum,
-              0
+              0,
             ),
           })}
           label={<FormattedMessage id="ORDER.PAYMENT.CREDIT_CARD" />}
@@ -48,10 +57,12 @@ class Payment extends React.Component {
         />
         <RaisedButton
           style={styles.paymentButton}
-          onClick={() => Xhr.post('/api/payment/prepayment', { shoppingCartId: shoppingCart.id })
-            .then(finishOrder, () => {
-              /* TODO implement error handling when order not updated */
-            })}
+          onClick={() => {
+            startProcessing();
+
+            Xhr.post('/api/payment/prepayment', { shoppingCartId: shoppingCart.id })
+              .then(finishOrder, () => () => window.location.assign('/error'));
+          }}
           label={<FormattedMessage id="ORDER.PAYMENT.PREPAYMENT" />}
           primary
         />
@@ -62,9 +73,11 @@ class Payment extends React.Component {
 
 Payment.propTypes = {
   email: PropTypes.string.isRequired,
+  processing: PropTypes.bool.isRequired,
   shoppingCart: ShoppingCartPropType.isRequired,
   startOrder: PropTypes.func.isRequired,
   finishOrder: PropTypes.func.isRequired,
+  startProcessing: PropTypes.func.isRequired,
 };
 
 export default Payment;

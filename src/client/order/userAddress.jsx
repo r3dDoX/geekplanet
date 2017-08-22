@@ -23,7 +23,7 @@ const styles = {
 
 const required = (value) => {
   if (!(value && value.length >= 1)) {
-    return <FormattedMessage id="ORDER.ADDRESS.FORM.REQUIRED" />;
+    return <FormattedMessage id="COMMON.FORM.REQUIRED" />;
   }
 
   return null;
@@ -62,6 +62,7 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.FIRST_NAME" />}
         type="text"
         validate={required}
+        autoComplete="shipping given-name"
       />&nbsp;
       <Field
         component={TextField}
@@ -69,6 +70,7 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.LAST_NAME" />}
         type="text"
         validate={required}
+        autoComplete="shipping family-name"
       />
       <br />
       <Field
@@ -77,6 +79,7 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.STREET_ADDRESS" />}
         type="text"
         validate={required}
+        autoComplete="shipping street-address"
       />
       <br />
       <Field
@@ -86,6 +89,7 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         max="9999"
         type="number"
         validate={requiredZIP}
+        autoComplete="shipping postal-code"
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.ZIP" />}
       />&nbsp;
       <Field
@@ -94,6 +98,7 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.CITY" />}
         type="text"
         validate={required}
+        autoComplete="shipping address-level2"
       />
       <br />
       <Field

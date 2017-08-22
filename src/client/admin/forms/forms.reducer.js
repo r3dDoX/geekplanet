@@ -1,4 +1,15 @@
-import ActionTypes from '../../actionTypes';
+import { PRODUCT_CATEGORIES_LOADED } from '../../actions';
+import {
+  COMPLETE_PRODUCTS_LOADED,
+  PRODUCERS_LOADED,
+  REMOVE_SELECTED_FILE,
+  RESET_SELECTED_FILES,
+  SELECT_PRODUCT,
+  SELECT_UPLOAD_FILES,
+  SET_TAGS,
+  SUPPLIERS_LOADED,
+  TAGS_LOADED,
+} from '../adminActions';
 
 const initialState = {
   selectedFiles: [],
@@ -8,54 +19,49 @@ const initialState = {
   productCategories: [],
   producers: [],
   suppliers: [],
-  selectedTab: '0',
 };
 
-export default function forms(state = initialState, { type, data }) {
+export default function forms(state = initialState, { type, data, products, productCategories }) {
   switch (type) {
-    case ActionTypes.SELECT_UPLOAD_FILES:
+    case SELECT_UPLOAD_FILES:
       return Object.assign({}, state, {
         selectedFiles: data.concat(state.selectedFiles),
       });
-    case ActionTypes.RESET_SELECTED_FILES:
+    case RESET_SELECTED_FILES:
       return Object.assign({}, state, {
         selectedFiles: initialState.selectedFiles,
         tags: initialState.tags,
       });
-    case ActionTypes.REMOVE_SELECTED_FILE:
+    case REMOVE_SELECTED_FILE:
       return Object.assign({}, state, {
         selectedFiles: state.selectedFiles.filter(fileId => fileId !== data),
       });
-    case ActionTypes.SELECT_PRODUCT:
+    case SELECT_PRODUCT:
       return Object.assign({}, state, {
         selectedFiles: (data && data.files) || initialState.selectedFiles,
         tags: (data && data.tags) || initialState.tags,
       });
-    case ActionTypes.PRODUCTS_LOADED:
+    case COMPLETE_PRODUCTS_LOADED:
       return Object.assign({}, state, {
-        products: data,
+        products,
       });
-    case ActionTypes.PRODUCT_CATEGORIES_LOADED:
+    case PRODUCT_CATEGORIES_LOADED:
       return Object.assign({}, state, {
-        productCategories: data,
+        productCategories,
       });
-    case ActionTypes.PRODUCERS_LOADED:
+    case PRODUCERS_LOADED:
       return Object.assign({}, state, {
         producers: data,
       });
-    case ActionTypes.SUPPLIERS_LOADED:
+    case SUPPLIERS_LOADED:
       return Object.assign({}, state, {
         suppliers: data,
       });
-    case ActionTypes.SELECT_FORMS_TABS:
-      return Object.assign({}, state, {
-        selectedTab: data,
-      });
-    case ActionTypes.TAGS_LOADED:
+    case TAGS_LOADED:
       return Object.assign({}, state, {
         savedTags: data.map(tag => tag.name),
       });
-    case ActionTypes.SET_TAGS:
+    case SET_TAGS:
       return Object.assign({}, state, {
         tags: data,
       });

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { GridList, GridTile } from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import Delete from 'material-ui/svg-icons/action/delete';
-import ProductService from '../../products/productService';
+import { getPictureUrl } from '../../products/productService';
 
 const styles = {
   root: {
@@ -34,7 +34,7 @@ const UploadImagePreview = ({ files, removeFile }) => (
               </IconButton>
             }
           >
-            <img alt="Product" src={ProductService.getPictureUrl(file)} />
+            <img alt="Product" src={getPictureUrl(file)} />
           </GridTile>
         ))}
       </GridList>

@@ -22,67 +22,83 @@ const ShoppingCartDrawer = ({
   locale,
   toggleDrawer,
   shoppingCartDrawerOpened,
-}) => (
-  <Drawer
-    open={shoppingCartDrawerOpened}
-    onRequestChange={toggleDrawer}
-    disableSwipeToOpen
-    openSecondary
-    width={350}
-  >
-    <AppBar
-      title={<FormattedMessage id="SHOPPING_CART.TITLE" />}
-      onLeftIconButtonTouchTap={toggleDrawer}
-      iconElementLeft={<IconButton><NavigationClose /></IconButton>}
-    />
-    {shoppingCart.length ? (
-      <List>
-        {shoppingCart.map(item => (
-          <ShoppingCartItem
-            key={item.product._id}
-            shoppingCartItem={item}
-            setAmount={setAmount}
-            locale={locale}
-          />
-        ))}
-      </List>
-    ) : (
+}) => {
+  const shoppingCartTotal = shoppingCart.reduce(
+    (sum, { amount, product }) => sum + (product.price * amount),
+    0
+  );
+  return (
+    <Drawer
+      open={shoppingCartDrawerOpened}
+      onRequestChange={toggleDrawer}
+      disableSwipeToOpen
+      openSecondary
+      width={350}
+    >
+      <AppBar
+        title={<FormattedMessage id="SHOPPING_CART.TITLE" />}
+        onLeftIconButtonTouchTap={toggleDrawer}
+        iconElementLeft={<IconButton><NavigationClose /></IconButton>}
+      />
+      {shoppingCart.length ? (
+        <List>
+          {shoppingCart.map(item => (
+            <ShoppingCartItem
+              key={item.product._id}
+              shoppingCartItem={item}
+              setAmount={setAmount}
+              locale={locale}
+            />
+          ))}
+        </List>
+      ) : (
+        <Subheader inset>
+          <FormattedMessage id="SHOPPING_CART.NO_ITEMS" />
+        </Subheader>
+      )}
+      <Divider />
+      {shoppingCartTotal < ORDER.MIN_PRICE_SHIPPING ? (
+        <Subheader inset>
+          <FormattedMessage id="SHOPPING_CART.SHIPPING_COST" />
+        </Subheader>
+      ) : null}
+      {shoppingCartTotal < ORDER.MIN_PRICE_SHIPPING ? (
+        <MenuItem
+          disabled
+          insetChildren
+          primaryText={formatPriceWithCurrency(ORDER.SHIPPING_COST)}
+        />
+      ) : null}
+      <Divider />
       <Subheader inset>
-        <FormattedMessage id="SHOPPING_CART.NO_ITEMS" />
+        <FormattedMessage id="SHOPPING_CART.TOTAL" />
       </Subheader>
-    )}
-    <Divider />
-    <Subheader inset>
-      <FormattedMessage id="SHOPPING_CART.TOTAL" />
-    </Subheader>
-    <MenuItem
-      disabled
-      insetChildren
-      primaryText={
-        formatPriceWithCurrency(
-          shoppingCart.reduce(
-            (sum, { amount, product }) => sum + (product.price * amount),
-            0,
-          ),
-        )
-      }
-    />
-    <Divider />
-    <MenuItem
-      insetChildren
-      disabled={shoppingCart.length === 0}
-      containerElement={
-        <Link to="/order">
+      <MenuItem
+        disabled
+        insetChildren
+        primaryText={formatPriceWithCurrency(
+          shoppingCartTotal < ORDER.MIN_PRICE_SHIPPING ?
+            shoppingCartTotal + ORDER.SHIPPING_COST :
+            shoppingCartTotal
+        )}
+      />
+      <Divider />
+      <MenuItem
+        insetChildren
+        disabled={shoppingCart.length === 0}
+        containerElement={
+          <Link to="/order">
+            <FormattedMessage id="SHOPPING_CART.CHECKOUT" />
+          </Link>
+        }
+        primaryText={
           <FormattedMessage id="SHOPPING_CART.CHECKOUT" />
-        </Link>
-      }
-      primaryText={
-        <FormattedMessage id="SHOPPING_CART.CHECKOUT" />
-      }
-      onClick={toggleDrawer}
-    />
-  </Drawer>
-);
+        }
+        onClick={toggleDrawer}
+      />
+    </Drawer>
+  );
+};
 
 ShoppingCartDrawer.propTypes = {
   shoppingCart: ShoppingCartItemsPropType.isRequired,

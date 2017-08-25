@@ -20,6 +20,9 @@ export const ShoppingCartItemsPropType = PropTypes.arrayOf(ShoppingCartItemPropT
 export const ShoppingCartPropType = PropTypes.shape({
   id: PropTypes.string,
   items: ShoppingCartItemsPropType,
+  itemTotal: PropTypes.number,
+  total: PropTypes.number,
+  hasShippingCosts: PropTypes.bool,
 });
 
 export const UserAddressPropType = PropTypes.shape({

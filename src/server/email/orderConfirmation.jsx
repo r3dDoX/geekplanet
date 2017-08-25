@@ -96,11 +96,6 @@ const styles = {
 const colCount = 4;
 
 module.exports = function renderTemplate(order) {
-  const totalAmount = order.items.reduce(
-    (sum, { amount, product }) => sum + (amount * product.price),
-    0
-  );
-
   return ReactDOMServer.renderToStaticMarkup(
     <IntlProvider locale="de" messages={messages}>
       <body style={styles.container}>
@@ -188,7 +183,7 @@ module.exports = function renderTemplate(order) {
                 <FormattedMessage id="COMMON.SUBTOTAL" />
               </td>
               <td colSpan={Math.ceil(colCount / 2)} style={styles.totals}>
-                {formatPriceWithCurrency(totalAmount)}
+                {formatPriceWithCurrency(order.itemTotal)}
               </td>
             </tr>
             <tr>
@@ -196,7 +191,11 @@ module.exports = function renderTemplate(order) {
                 <FormattedMessage id="COMMON.SHIPPING_COSTS" />
               </td>
               <td colSpan={Math.ceil(colCount / 2)} style={styles.totals}>
-                CHF 0.-
+                {formatPriceWithCurrency(
+                  order.itemTotal < config.ORDER.MIN_PRICE_SHIPPING ?
+                    config.ORDER.SHIPPING_COST :
+                    0
+                )}
               </td>
             </tr>
             <tr>
@@ -204,7 +203,11 @@ module.exports = function renderTemplate(order) {
                 <strong><FormattedMessage id="COMMON.TOTAL" /></strong>
               </td>
               <td colSpan={Math.ceil(colCount / 2)} style={styles.totals}>
-                <strong>{formatPriceWithCurrency(totalAmount)}</strong>
+                <strong>{formatPriceWithCurrency(
+                  order.itemTotal < config.ORDER.MIN_PRICE_SHIPPING ?
+                    order.total :
+                    order.itemTotal
+                )}</strong>
               </td>
             </tr>
             <tr>

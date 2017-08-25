@@ -5,4 +5,4 @@ window.AUTH = {
 window.ORDER = {
   MIN_PRICE_SHIPPING: 50,
   SHIPPING_COST: 9,
-}
+};

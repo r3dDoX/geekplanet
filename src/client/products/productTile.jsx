@@ -111,7 +111,7 @@ export const ProductTileComponent = ({
           label={<FormattedMessage id="COMMON.EDIT" />}
           fullWidth
           secondary
-          containerElement={<Link to={`/forms/products/${product._id}`} />}
+          containerElement={<Link to={`/admin/forms/products/${product._id}`} />}
         />
       </Authorized>
     </StyledCardActions>

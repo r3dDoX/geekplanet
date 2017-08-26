@@ -28,4 +28,4 @@ deploy:
     script: scripts/deploy.sh $HEROKU_TOKEN
     skip_cleanup: true
     on:
-      branch: master
+      tags: true

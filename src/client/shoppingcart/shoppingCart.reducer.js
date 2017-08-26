@@ -47,16 +47,16 @@ function calculateItemTotal(items) {
   );
 }
 
+function isInShippingCostRange(price) {
+  return price > 0 && price < ORDER.MIN_PRICE_SHIPPING;
+}
+
 function calculateGrandTotal(itemTotal) {
-  if (itemTotal < ORDER.MIN_PRICE_SHIPPING) {
+  if (isInShippingCostRange(itemTotal)) {
     return itemTotal + ORDER.SHIPPING_COST;
   }
 
   return itemTotal;
-}
-
-function hasShippingCosts(itemTotal) {
-  return itemTotal < ORDER.MIN_PRICE_SHIPPING;
 }
 
 export default function auth(state = initialState, { type, data }) {
@@ -78,7 +78,7 @@ export default function auth(state = initialState, { type, data }) {
         items,
         itemTotal,
         total: calculateGrandTotal(itemTotal),
-        hasShippingCosts: hasShippingCosts(itemTotal),
+        hasShippingCosts: isInShippingCostRange(itemTotal),
       });
 
       store(ids.SHOPPING_CART, newState);
@@ -92,7 +92,7 @@ export default function auth(state = initialState, { type, data }) {
         items,
         itemTotal,
         total: calculateGrandTotal(itemTotal),
-        hasShippingCosts: hasShippingCosts(itemTotal),
+        hasShippingCosts: isInShippingCostRange(itemTotal),
       });
 
       store(ids.SHOPPING_CART, newState);

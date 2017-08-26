@@ -1,21 +1,23 @@
 import { change } from 'redux-form';
+import {
+  COMPLETE_PRODUCTS_LOADED,
+  ORDERS_LOADED,
+  PRODUCERS_LOADED,
+  REMOVE_SELECTED_FILE,
+  RESET_SELECTED_FILES,
+  SELECT_PRODUCT,
+  SELECT_UPLOAD_FILES,
+  SET_TAGS,
+  SUPPLIERS_LOADED,
+  TAGS_LOADED,
+} from '../actions';
 import * as ProductService from '../products/productService';
-import { formName as productFormName } from './forms/productForm.jsx';
+import Xhr from '../xhr';
 import ProducerService from './producers/producerService';
 import SupplierService from './suppliers/supplierService';
 import TagService from './tags/tagService';
-import Xhr from '../xhr';
 
-export const SELECT_UPLOAD_FILES = 'SELECT_UPLOAD_FILES';
-export const REMOVE_SELECTED_FILE = 'REMOVE_SELECTED_FILE';
-export const RESET_SELECTED_FILES = 'RESET_SELECTED_FILES';
-export const SELECT_PRODUCT = 'SELECT_PRODUCT';
-export const PRODUCERS_LOADED = 'PRODUCERS_LOADED';
-export const SUPPLIERS_LOADED = 'SUPPLIERS_LOADED';
-export const TAGS_LOADED = 'TAGS_LOADED';
-export const SET_TAGS = 'SET_TAGS';
-export const COMPLETE_PRODUCTS_LOADED = 'COMPLETE_PRODUCTS_LOADED';
-export const ORDERS_LOADED = 'ORDERS_LOADED';
+export const productFormName = 'productForm';
 
 export function createSelectFiles(selectedFiles, initialFiles) {
   const formData = new FormData();

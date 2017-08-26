@@ -47,10 +47,7 @@ class Payment extends React.Component {
             name: 'geekplanet GmbH',
             image: '/assets/images/icon.png',
             currency: 'chf',
-            amount: shoppingCart.items.reduce(
-              (sum, { amount, product }) => (amount * product.price * 100) + sum,
-              0,
-            ),
+            amount: shoppingCart.total * 100,
           })}
           label={<FormattedMessage id="ORDER.PAYMENT.CREDIT_CARD" />}
           primary

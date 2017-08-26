@@ -22,6 +22,8 @@ const ShoppingCartDrawer = ({
   locale,
   toggleDrawer,
   shoppingCartDrawerOpened,
+  hasShippingCosts,
+  shoppingCartTotal,
 }) => (
   <Drawer
     open={shoppingCartDrawerOpened}
@@ -52,20 +54,26 @@ const ShoppingCartDrawer = ({
       </Subheader>
     )}
     <Divider />
+    {hasShippingCosts ? (
+      <Subheader inset>
+        <FormattedMessage id="SHOPPING_CART.SHIPPING_COST" />
+      </Subheader>
+    ) : null}
+    {hasShippingCosts ? (
+      <MenuItem
+        disabled
+        insetChildren
+        primaryText={formatPriceWithCurrency(ORDER.SHIPPING_COST)}
+      />
+    ) : null}
+    <Divider />
     <Subheader inset>
       <FormattedMessage id="SHOPPING_CART.TOTAL" />
     </Subheader>
     <MenuItem
       disabled
       insetChildren
-      primaryText={
-        formatPriceWithCurrency(
-          shoppingCart.reduce(
-            (sum, { amount, product }) => sum + (product.price * amount),
-            0,
-          ),
-        )
-      }
+      primaryText={formatPriceWithCurrency(shoppingCartTotal)}
     />
     <Divider />
     <MenuItem
@@ -90,6 +98,8 @@ ShoppingCartDrawer.propTypes = {
   setAmount: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
+  hasShippingCosts: PropTypes.bool.isRequired,
+  shoppingCartTotal: PropTypes.number.isRequired,
 };
 
 export default connect(
@@ -97,6 +107,8 @@ export default connect(
     locale: state.i18n.locale,
     shoppingCart: state.shoppingCart.items,
     shoppingCartDrawerOpened: state.layout.shoppingCartDrawerOpened,
+    hasShippingCosts: state.shoppingCart.hasShippingCosts,
+    shoppingCartTotal: state.shoppingCart.total,
   }),
   dispatch => ({
     setAmount(amount, product) {

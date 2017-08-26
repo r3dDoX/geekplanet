@@ -33,7 +33,7 @@ module.exports = {
 
     app.get('/api/productcategories',
       (req, res) =>
-        ProductCategory.find().sort({ name: 1 })
+        ProductCategory.find().sort({ 'de.name': 1 })
           .then(categories => res.send(categories))
           .catch((err) => {
             Logger.error(err);

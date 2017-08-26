@@ -33,6 +33,10 @@ const ShoppingCartItem = ({
         {formatPriceWithoutCurrency(shoppingCartItem.product.price * shoppingCartItem.amount)}
       </Avatar>
     }
+    innerDivStyle={{
+      paddingRight: '80px',
+      textAlign: 'justify',
+    }}
   />
 );
 

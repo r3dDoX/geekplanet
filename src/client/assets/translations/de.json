@@ -34,7 +34,8 @@
     "NO_ITEMS": "Noch keine Produkte im Warenkorb",
     "TOTAL": "Total",
     "CHECKOUT": "Zur Kasse",
-    "SHIPPING_COST": "Versandkosten"
+    "SHIPPING_COST": "Versandkosten",
+    "NOT_IN_STOCK": "Dieses Produkt ist gerade nicht an Lager. Deshalb verzögert sich der Versand etwas."
   },
   "ORDER": {
     "PAYMENT": {

@@ -34,7 +34,8 @@
     "NO_ITEMS": "No items in shopping cart yet",
     "TOTAL": "Total",
     "CHECKOUT": "Checkout",
-    "SHIPPING_COST": "Shipping Costs"
+    "SHIPPING_COST": "Shipping Costs",
+    "NOT_IN_STOCK": "This product is currently not in stock. Therefore shipping is delayed."
   },
   "ORDER": {
     "PAYMENT": {

@@ -10,7 +10,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-around',
-    margin: '8px 0',
+    margin: '8px 0 0',
   },
 };
 

@@ -1,15 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import ListItem from 'material-ui/List/ListItem';
 import Avatar from 'material-ui/Avatar';
+import ListItem from 'material-ui/List/ListItem';
 import { pinkA400, transparent } from 'material-ui/styles/colors';
-import { ShoppingCartItemPropType } from '../propTypes';
+import Subheader from 'material-ui/Subheader';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { formatPriceWithoutCurrency } from '../../common/priceFormatter';
+import { ShoppingCartItemPropType } from '../propTypes';
 import AmountAdjuster from './amountAdjuster.jsx';
 
 const styles = {
   avatar: {
     objectFit: 'cover',
+  },
+  productName: {
+    paddingRight: '80px',
+    textAlign: 'justify',
+  },
+  notInStockMessage: {
+    lineHeight: 'initial',
   },
 };
 
@@ -18,26 +27,30 @@ const ShoppingCartItem = ({
   setAmount,
   locale,
 }) => (
-  <ListItem
-    primaryText={shoppingCartItem.product[locale].name}
-    secondaryText={<AmountAdjuster shoppingCartItem={shoppingCartItem} setAmount={setAmount} />}
-    leftAvatar={<Avatar
-      style={styles.avatar}
-      src={`/api/products/pictures/${shoppingCartItem.product.files[0]}_s`}
-    />}
-    rightAvatar={
-      <Avatar
-        color={pinkA400}
-        backgroundColor={transparent}
-      >
-        {formatPriceWithoutCurrency(shoppingCartItem.product.price * shoppingCartItem.amount)}
-      </Avatar>
-    }
-    innerDivStyle={{
-      paddingRight: '80px',
-      textAlign: 'justify',
-    }}
-  />
+  <div>
+    <ListItem
+      primaryText={shoppingCartItem.product[locale].name}
+      secondaryText={<AmountAdjuster shoppingCartItem={shoppingCartItem} setAmount={setAmount} />}
+      leftAvatar={<Avatar
+        style={styles.avatar}
+        src={`/api/products/pictures/${shoppingCartItem.product.files[0]}_s`}
+      />}
+      rightAvatar={
+        <Avatar
+          color={pinkA400}
+          backgroundColor={transparent}
+        >
+          {formatPriceWithoutCurrency(shoppingCartItem.product.price * shoppingCartItem.amount)}
+        </Avatar>
+      }
+      innerDivStyle={styles.productName}
+    />
+    {shoppingCartItem.product.stock <= 0 ? (
+      <Subheader inset style={styles.notInStockMessage}>
+        <FormattedMessage id="SHOPPING_CART.NOT_IN_STOCK" />
+      </Subheader>
+    ) : null}
+  </div>
 );
 
 ShoppingCartItem.propTypes = {

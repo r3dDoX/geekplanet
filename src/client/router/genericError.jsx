@@ -7,6 +7,7 @@ import { grey600 } from 'material-ui/styles/colors';
 const Container = styled.div`
   margin: 0 auto;
   max-width: 450px;
+  padding: 20px;
 `;
 
 const StyledSentimentNeutral = styled(SentimentNeutral)`

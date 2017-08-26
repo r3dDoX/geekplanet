@@ -1,4 +1,4 @@
-import { ORDERS_LOADED } from './adminActions';
+import { ORDERS_LOADED } from '../actions';
 
 const initialState = {
   orders: [],

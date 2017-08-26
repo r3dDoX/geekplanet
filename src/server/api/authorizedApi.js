@@ -13,6 +13,8 @@ const esrGenerator = require('../esr/esrGenerator');
 const mail = require('../email/mail');
 const mongoHelper = require('../db/mongoHelper');
 
+const orderConfig = envConfig.getEnvironmentSpecificConfig().ORDER;
+
 const {
   Invoice,
   Order,
@@ -219,17 +221,38 @@ module.exports = {
     );
 
     app.put('/api/orders', authorization, bodyParser.json(),
-      (req, res) =>
-        saveOrUpdate(Order, Object.assign(
-          req.body,
-          {
-            user: req.user.sub,
-            state: OrderState.STARTED,
-            date: Date.now(),
-          }
-        ))
-          .then(() => res.sendStatus(200))
-          .catch(error => handleGenericError(error, res))
+      (req, res) => {
+        const itemPromises = req.body.items.map(
+          item => Product.findOne({ _id: item.product._id })
+            .then(product => ({
+              amount: item.amount,
+              product,
+            }))
+        );
+
+        Promise.all(itemPromises).then((items) => {
+          const itemTotal = items.reduce(
+            (sum, { amount, product }) => ((sum * 100) + ((amount * product.price) * 100)) / 100,
+            0
+          );
+
+          saveOrUpdate(Order, Object.assign(
+            req.body,
+            {
+              user: req.user.sub,
+              state: OrderState.STARTED,
+              date: Date.now(),
+              items,
+              itemTotal,
+              total: itemTotal < orderConfig.MIN_PRICE_SHIPPING ?
+                itemTotal + orderConfig.SHIPPING_COST :
+                itemTotal,
+            }
+          ))
+            .then(() => res.sendStatus(200))
+            .catch(error => handleGenericError(error, res));
+        });
+      }
     );
 
     app.put('/api/userAddress', authorization, bodyParser.json(),
@@ -254,9 +277,7 @@ module.exports = {
         Order.findOne({ _id: req.body.shoppingCartId, user: req.user.sub })
           .then(order =>
             stripe.charges.create({
-              amount: order.items.reduce(
-                (sum, { amount, product }) => sum + (amount * product.price * 100), 0
-              ),
+              amount: order.total * 100,
               description: order._id,
               currency: 'chf',
               source: req.body.token.id,
@@ -288,15 +309,12 @@ module.exports = {
         },
         { new: true })
           .then((order) => {
-            const { address, items } = order;
+            const { address, items, total } = order;
             updateProductStocks(items);
 
             new Invoice({
               user: req.user.sub,
-              value: items.reduce(
-                (sum, { amount, product }) => sum + (amount * product.price),
-                0
-              ),
+              value: total,
               address,
             }).save()
               .then(invoice =>

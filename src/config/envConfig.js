@@ -2,6 +2,7 @@ const fs = require('fs');
 const localConfig = require('./local.config.json');
 const stagingConfig = require('./staging.config.json');
 const prodConfig = require('./production.config.json');
+const defaultConfig = require('./default.config.json');
 
 let secretConfig;
 
@@ -14,11 +15,11 @@ module.exports = {
   getEnvironmentSpecificConfig() {
     switch (process.env.CONFIG) {
       case 'staging':
-        return stagingConfig;
+        return Object.assign(defaultConfig, stagingConfig);
       case 'production':
-        return prodConfig;
+        return Object.assign(defaultConfig, prodConfig);
       default:
-        return localConfig;
+        return Object.assign(defaultConfig, localConfig);
     }
   },
   getSecretKey(key) {

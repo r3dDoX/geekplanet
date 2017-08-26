@@ -1,13 +1,16 @@
 import shortId from 'shortid';
 import { load, store, remove, ids } from '../storage';
 import {
-  ADD_ITEM_TO_SHOPPING_CART, LOAD_SHOPPING_CART, ORDER_FINISHED, REMOVE_ITEM_FROM_SHOPPING_CART,
+  ADD_ITEM_TO_SHOPPING_CART, LOAD_SHOPPING_CART, ORDER_FINISHED,
   SET_SHOPPING_CART_AMOUNT,
 } from '../actions';
 
 const initialState = {
   id: shortId.generate(),
   items: [],
+  itemTotal: 0,
+  total: 0,
+  hasShippingCosts: false,
 };
 
 function updateItem(item, id, amount) {
@@ -37,6 +40,25 @@ function insertOrUpdateItem(items, product, amount) {
   });
 }
 
+function calculateItemTotal(items) {
+  return items.reduce(
+    (sum, { amount, product }) => ((sum * 100) + (product.price * amount * 100)) / 100,
+    0
+  );
+}
+
+function isInShippingCostRange(price) {
+  return price > 0 && price < ORDER.MIN_PRICE_SHIPPING;
+}
+
+function calculateGrandTotal(itemTotal) {
+  if (isInShippingCostRange(itemTotal)) {
+    return itemTotal + ORDER.SHIPPING_COST;
+  }
+
+  return itemTotal;
+}
+
 export default function auth(state = initialState, { type, data }) {
   switch (type) {
     case LOAD_SHOPPING_CART: {
@@ -50,23 +72,28 @@ export default function auth(state = initialState, { type, data }) {
       return cart;
     }
     case ADD_ITEM_TO_SHOPPING_CART: {
-      const newState = Object.assign({}, state);
-      newState.items = insertOrUpdateItem(newState.items, data);
+      const items = insertOrUpdateItem(state.items, data);
+      const itemTotal = calculateItemTotal(items);
+      const newState = Object.assign({}, state, {
+        items,
+        itemTotal,
+        total: calculateGrandTotal(itemTotal),
+        hasShippingCosts: isInShippingCostRange(itemTotal),
+      });
 
       store(ids.SHOPPING_CART, newState);
 
       return newState;
     }
-    case REMOVE_ITEM_FROM_SHOPPING_CART: {
-      const filteredItems = state.items.filter(item => item.product._id !== data._id);
-
-      store(ids.SHOPPING_CART, filteredItems);
-
-      return filteredItems;
-    }
     case SET_SHOPPING_CART_AMOUNT: {
-      state.items = insertOrUpdateItem(state.items, data.product, data.amount);
-      const newState = Object.assign({}, state);
+      const items = insertOrUpdateItem(state.items, data.product, data.amount);
+      const itemTotal = calculateItemTotal(items);
+      const newState = Object.assign({}, state, {
+        items,
+        itemTotal,
+        total: calculateGrandTotal(itemTotal),
+        hasShippingCosts: isInShippingCostRange(itemTotal),
+      });
 
       store(ids.SHOPPING_CART, newState);
 

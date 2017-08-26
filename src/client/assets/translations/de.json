@@ -33,7 +33,8 @@
     "TITLE": "Warenkorb",
     "NO_ITEMS": "Noch keine Produkte im Warenkorb",
     "TOTAL": "Total",
-    "CHECKOUT": "Zur Kasse"
+    "CHECKOUT": "Zur Kasse",
+    "SHIPPING_COST": "Versandkosten"
   },
   "ORDER": {
     "PAYMENT": {
@@ -111,5 +112,12 @@
     "TITLE": "Oops! Da ist was schief gelaufen...",
     "TEXT": "Bitte versuch es später nochmal oder melde dich bei uns.",
     "PROTIP": "Wenn du dich damit auskennst, darfst du gerne ein Issue auf unserem <a href=\"https://github.com/r3dDoX/geekplanet\" target=\"_blank\">Github Repository</a> eröffnen. Dein Feedback ist uns wichtig!"
+  },
+  "ORDERS": {
+    "ID": "Bestellnr.",
+    "STATUS": "Status",
+    "ITEMS": "Produkte",
+    "TOTAL": "Total",
+    "ADDRESS": "Adresse"
   }
 }

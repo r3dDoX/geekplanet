@@ -1,7 +1,7 @@
-import { PRODUCT_CATEGORIES_LOADED } from '../../actions';
 import {
   COMPLETE_PRODUCTS_LOADED,
   PRODUCERS_LOADED,
+  PRODUCT_CATEGORIES_LOADED,
   REMOVE_SELECTED_FILE,
   RESET_SELECTED_FILES,
   SELECT_PRODUCT,
@@ -9,7 +9,7 @@ import {
   SET_TAGS,
   SUPPLIERS_LOADED,
   TAGS_LOADED,
-} from '../adminActions';
+} from '../../actions';
 
 const initialState = {
   selectedFiles: [],

@@ -25,7 +25,7 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
         <MenuItem
           primaryText={<FormattedMessage id="NAVIGATION.FORMS" />}
           containerElement={
-            <Link to="/forms">
+            <Link to="/admin/forms">
               <FormattedMessage id="NAVIGATION.FORMS" />
             </Link>
           }
@@ -38,7 +38,7 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
         <MenuItem
           primaryText={<FormattedMessage id="NAVIGATION.ORDERS" />}
           containerElement={
-            <Link to="/orders">
+            <Link to="/admin/orders">
               <FormattedMessage id="NAVIGATION.ORDERS" />
             </Link>
           }

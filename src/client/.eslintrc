@@ -12,6 +12,7 @@
     "APP": false,
     "AUTH": false,
     "PAYMENT": false,
+    "ORDER": false,
     "StripeCheckout": false
   }
 }

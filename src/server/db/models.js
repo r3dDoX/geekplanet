@@ -1,5 +1,3 @@
-// @flow
-
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
@@ -147,6 +145,12 @@ models.Order = mongoose.model('Order', {
     index: true,
   },
   items: [OrderItemSchema],
+  itemTotal: {
+    type: Number,
+  },
+  total: {
+    type: Number,
+  },
 });
 
 const InvoiceSchema = mongoose.Schema({

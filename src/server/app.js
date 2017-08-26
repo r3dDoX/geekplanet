@@ -9,6 +9,7 @@ const mime = require('mime-types');
 const Logger = require('./logger');
 const mongo = require('./db/mongoHelper');
 const config = require('../config/envConfig').getEnvironmentSpecificConfig();
+const api = require('./api');
 
 mongo.init();
 const app = express();
@@ -45,8 +46,7 @@ app.use('/', express.static('dist/', {
   },
 }));
 
-require('./api/authorizedApi').registerEndpoints(app);
-require('./api/publicApi').registerEndpoints(app);
+api.registerEndpoints(app);
 
 app.get('/*', (req /* : express$Request */, res /* : express$Response */) =>
   res.sendFile(path.join(__dirname, '../../dist', 'index.html'))

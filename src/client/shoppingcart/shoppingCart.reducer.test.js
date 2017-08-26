@@ -187,5 +187,38 @@ describe('ShoppingCart Reducer', () => {
       expect(result.total).toBe(50);
       expect(result.hasShippingCosts).toBe(false);
     });
+
+    it('should not add shipping cost when not items', () => {
+      const state = {
+        items: [
+          {
+            amount: 1,
+            product: {
+              _id: 'product1',
+              price: 12.5,
+            },
+          },
+        ],
+        itemTotal: 12.5,
+        total: 21.5,
+        hasShippingCosts: true,
+      };
+
+      const action = {
+        type: SET_SHOPPING_CART_AMOUNT,
+        data: {
+          product: {
+            _id: 'product1',
+          },
+          amount: 0,
+        },
+      };
+
+      const result = underTest(state, action);
+
+      expect(result.itemTotal).toBe(0);
+      expect(result.total).toBe(0);
+      expect(result.hasShippingCosts).toBe(false);
+    });
   });
 });

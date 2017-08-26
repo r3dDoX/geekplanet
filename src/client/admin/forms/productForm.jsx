@@ -296,50 +296,57 @@ ProductForm.propTypes = {
 
 export default connect(
   state => state.forms,
-  dispatch => ({
-    onSubmit(productToSubmit) {
-      ProductService.saveProduct(productToSubmit)
-        .then(this.loadProducts)
-        .then(() => {
-          this.clearForm();
-          this.resetSelectedFiles();
-        });
-    },
-    clearForm() {
-      dispatch(initialize(productFormName));
-    },
-    selectFiles(selectedFiles, initialFiles) {
-      dispatch(createSelectFiles(selectedFiles, initialFiles));
-    },
-    removeFile(initialFiles, fileIdToRemove) {
-      dispatch(createRemoveFile(initialFiles, fileIdToRemove));
-    },
-    resetSelectedFiles() {
-      dispatch(createResetSelectedFiles());
-    },
-    loadProducts() {
+  (dispatch) => {
+    function loadProducts() {
       dispatch(createLoadCompleteProducts());
-    },
-    selectProduct(product) {
-      dispatch(createSelectProduct(product));
-      dispatch(initialize(productFormName, product));
-    },
-    loadProducers() {
-      dispatch(createLoadProducers());
-    },
-    loadSuppliers() {
-      dispatch(createLoadSuppliers());
-    },
-    loadTags() {
-      dispatch(createLoadTags());
-    },
-    selectTag(tags, item, index) {
-      dispatch(createSelectTag(tags, item, index));
-    },
-    removeTag(tags, tag) {
-      dispatch(createRemoveTag(tags, tag));
-    },
-  }),
+    }
+
+    function clearForm() {
+      dispatch(initialize(productFormName));
+    }
+
+    function resetSelectedFiles() {
+      dispatch(createResetSelectedFiles());
+    }
+
+    return {
+      onSubmit(productToSubmit) {
+        ProductService.saveProduct(productToSubmit)
+          .then(loadProducts)
+          .then(() => {
+            clearForm();
+            resetSelectedFiles();
+          });
+      },
+      clearForm,
+      selectFiles(selectedFiles, initialFiles) {
+        dispatch(createSelectFiles(selectedFiles, initialFiles));
+      },
+      removeFile(initialFiles, fileIdToRemove) {
+        dispatch(createRemoveFile(initialFiles, fileIdToRemove));
+      },
+      loadProducts,
+      selectProduct(product) {
+        dispatch(createSelectProduct(product));
+        dispatch(initialize(productFormName, product));
+      },
+      loadProducers() {
+        dispatch(createLoadProducers());
+      },
+      loadSuppliers() {
+        dispatch(createLoadSuppliers());
+      },
+      loadTags() {
+        dispatch(createLoadTags());
+      },
+      selectTag(tags, item, index) {
+        dispatch(createSelectTag(tags, item, index));
+      },
+      removeTag(tags, tag) {
+        dispatch(createRemoveTag(tags, tag));
+      },
+    };
+  },
 )(reduxForm({
   form: productFormName,
   destroyOnUnmount: false,

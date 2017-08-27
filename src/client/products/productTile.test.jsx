@@ -26,10 +26,10 @@ describe('ProductTile', () => {
     };
   });
 
-  it('should not render product picture when no files given', () => {
+  it('should render notFound picture when no files given', () => {
     const productPicture = productTile().find('img');
 
-    expect(productPicture.length).toBe(0);
+    expect(productPicture.props().src).toBe('/assets/images/notFound.jpg');
   });
 
   it('should render product picture with first image', () => {

@@ -24,7 +24,8 @@
     "LOGIN": "Login",
     "LOGOUT": "Logout",
     "FORMS": "Formulare",
-    "ORDERS": "Bestellungen"
+    "ORDERS": "Bestellungen",
+    "PRODUCTS": "Produkte"
   },
   "NOTIFICATION": {
     "SHOPPING_CART_ITEM_ADDED": "Produkt zum Warenkorb hinzugefügt"

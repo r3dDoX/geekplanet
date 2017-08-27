@@ -6,6 +6,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Field, initialize, reduxForm } from 'redux-form';
+import { createLoadProducts } from '../../actions';
 import SelectField from '../../formHelpers/selectField.jsx';
 import TextField from '../../formHelpers/textField.jsx';
 import * as ProductService from '../../products/productService';
@@ -314,6 +315,7 @@ export default connect(
         ProductService.saveProduct(productToSubmit)
           .then(loadProducts)
           .then(() => {
+            dispatch(createLoadProducts());
             clearForm();
             resetSelectedFiles();
           });

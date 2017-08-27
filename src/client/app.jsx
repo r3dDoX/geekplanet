@@ -33,7 +33,7 @@ class App extends React.Component {
           <Route exact path="/error" component={GenericError} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/login/changepassword" component={ChangePassword} />
-          <Route exact path="/products" component={Products} />
+          <Route exact path="/products/" component={Products} />
           <Route path="/products/:id" component={ProductDetails} />
           <PrivateRoute path="/order" component={OrderStepper} />
 

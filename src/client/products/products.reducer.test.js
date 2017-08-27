@@ -1,8 +1,8 @@
 import underTest from './products.reducer';
-import { FILTER_PRODUCTS, TOGGLE_FILTER_CATEGORY } from '../actions';
+import { FILTER_PRODUCTS, PRODUCTS_LOADED, TOGGLE_FILTER_CATEGORY } from '../actions';
 
 describe('Products Reducer', () => {
-  describe('FILTER_PRODUCTS', () => {
+  describe(FILTER_PRODUCTS, () => {
     it('should filter products by german name', () => {
       const state = {
         categoriesToFilter: [],
@@ -153,7 +153,45 @@ describe('Products Reducer', () => {
     });
   });
 
-  describe('TOGGLE_FILTER_CATEGORY', () => {
+  describe(TOGGLE_FILTER_CATEGORY, () => {
+    it('should set filterShown to true when setting filter categories', () => {
+      const state = {
+        categoriesToFilter: [],
+        productFilters: {},
+        products: [],
+        filterShown: false,
+      };
+      const action = {
+        type: TOGGLE_FILTER_CATEGORY,
+        productCategories: [
+          {
+            _id: 'categoryId1',
+          },
+        ],
+      };
+
+      const newState = underTest(state, action);
+
+      expect(newState.filterShown).toBe(true);
+    });
+
+    it('should set filterShown to false when setting filter categories empty', () => {
+      const state = {
+        categoriesToFilter: [],
+        productFilters: {},
+        products: [],
+        filterShown: true,
+      };
+      const action = {
+        type: TOGGLE_FILTER_CATEGORY,
+        productCategories: [],
+      };
+
+      const newState = underTest(state, action);
+
+      expect(newState.filterShown).toBe(false);
+    });
+
     it('should filter products by category ids', () => {
       const state = {
         categoriesToFilter: [],
@@ -224,6 +262,71 @@ describe('Products Reducer', () => {
       expect(newState.filteredProducts).toHaveLength(2);
       expect(newState.filteredProducts[0].category).toBe('categoryId0');
       expect(newState.filteredProducts[1].category).toBe('categoryId1');
+    });
+  });
+
+  describe(PRODUCTS_LOADED, () => {
+    it('should set loaded products in state', () => {
+      const state = {
+        categoriesToFilter: [],
+        productFilters: {},
+        products: [],
+      };
+      const action = {
+        type: PRODUCTS_LOADED,
+        products: [
+          {
+            de: {
+              name: 'Product Blubb',
+              shortDescription: 'shortDescription',
+            },
+            tags: [],
+          },
+        ],
+      };
+
+      const result = underTest(state, action);
+
+      expect(result.products).toBe(action.products);
+      expect(result.filteredProducts).toHaveLength(1);
+    });
+
+    it('should apply set filters to filteredProducts', () => {
+      const state = {
+        categoriesToFilter: [],
+        productFilters: {},
+        products: [],
+      };
+      const filterAction = {
+        type: FILTER_PRODUCTS,
+        filterString: 'blubb',
+      };
+      const intermediateState = underTest(state, filterAction);
+      const action = {
+        type: PRODUCTS_LOADED,
+        products: [
+          {
+            de: {
+              name: 'Product Blubb',
+              shortDescription: 'shortDescription',
+            },
+            tags: [],
+          },
+          {
+            de: {
+              name: 'name',
+              shortDescription: 'shortDescription',
+            },
+            tags: [],
+          },
+        ],
+      };
+
+      const result = underTest(intermediateState, action);
+
+      expect(result.products).toBe(action.products);
+      expect(result.filteredProducts).toHaveLength(1);
+      expect(result.filteredProducts[0].de.name).toBe('Product Blubb');
     });
   });
 });

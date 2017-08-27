@@ -27,7 +27,7 @@ const Tile = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-width: 300px;
+  min-width: 280px;
   max-width: 400px;
   margin: 5px;
   box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.3);

@@ -108,6 +108,7 @@
     "SHIPPING_ADDRESS_TITLE": "Versandadresse",
     "SHIPPING_ADDRESS": "{firstName} {lastName}<br />{streetAddress}<br />{zip} {city}<br />{country}",
     "BANK_DETAILS_TITLE": "Bankdaten",
+    "BANK_DETAILS_HINT": "Bitte vermerke beim Zahlungszweck die Bestellnummer: {id}.",
     "BANK_DETAILS": "<strong>CH14 0630 0503 9981 5467 2</strong><br /><br />geekplanet GmbH<br />Wührestrasse 2<br />5724 Dürrenäsch"
   },
   "ERROR": {

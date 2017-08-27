@@ -46,6 +46,14 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
         />
         : null
     }
+    <MenuItem
+      primaryText={<FormattedMessage id="NAVIGATION.PRODUCTS" />}
+      onClick={() => {
+        toggleDrawer();
+        logout();
+        history.push('/products');
+      }}
+    />
     {
       loggedIn ? (
         <MenuItem

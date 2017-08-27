@@ -175,6 +175,23 @@ describe('Products Reducer', () => {
       expect(newState.filterShown).toBe(true);
     });
 
+    it('should set filterShown to false when setting filter categories empty', () => {
+      const state = {
+        categoriesToFilter: [],
+        productFilters: {},
+        products: [],
+        filterShown: true,
+      };
+      const action = {
+        type: TOGGLE_FILTER_CATEGORY,
+        productCategories: [],
+      };
+
+      const newState = underTest(state, action);
+
+      expect(newState.filterShown).toBe(false);
+    });
+
     it('should filter products by category ids', () => {
       const state = {
         categoriesToFilter: [],

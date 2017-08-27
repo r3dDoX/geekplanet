@@ -139,7 +139,7 @@ export default (state = initialState, {
         categoriesToFilter: productCategories,
         productFilters,
         filteredProducts: filterProducts(state.products, productFilters),
-        filterShown: true,
+        filterShown: !!productCategories.length,
       });
     }
     case TOGGLE_FILTER_PRODUCER: {

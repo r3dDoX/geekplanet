@@ -43,7 +43,8 @@ const ChangePasswordLink = styled(Link)`
 `;
 
 const Icon = styled.svg`
-  height: 45%;
+  height: 16px;
+  width: 16px;
   margin-right: 10px;
 `;
 

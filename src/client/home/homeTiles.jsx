@@ -58,29 +58,53 @@ class HomeTiles extends React.Component {
 
     return (
       <TileContainer>
-        <Tile>
-          <TileImage src="/api/products/pictures/BkNMZCJUlfdW_m" />
+        <Tile
+          onClick={() => {
+            toggleFilterCategories([
+              productCategories.find(category => category._id === '59a2f657edd42108a67ed01a'),
+            ]);
+            history.push('/products');
+          }}
+        >
+          <TileImage src="/api/products/pictures/Hyl6GgDIdeFZ_m" />
           <TileTitle>
             Blood Bowl
           </TileTitle>
         </Tile>
         <Tile
           onClick={() => {
-            toggleFilterCategories([
-              productCategories.find(category => category._id === '599475e53c965b2ea8aca542'),
-            ]);
+            toggleFilterCategories(
+              productCategories.filter(category =>
+                category._id === '59a2f657edd42108a67ed018'
+                || category._id === '59a2f657edd42108a67ecffb'
+                || category._id === '59a2f657edd42108a67ecffc'
+                || category._id === '59a2f657edd42108a67ecffe'
+              )
+            );
             history.push('/products');
           }}
         >
-          <TileImage src="/api/products/pictures/rJqkxCkIlMOZ_m" />
+          <TileImage src="/api/products/pictures/r1YogwUOxtW_m" />
           <TileTitle>
-            Spielmatten
+            Airbrush Farben
           </TileTitle>
         </Tile>
-        <Tile>
-          <TileImage src="/api/products/pictures/rypD61IeMuW_m" />
+        <Tile
+          onClick={() => {
+            toggleFilterCategories(
+              productCategories.filter(category =>
+                category._id === '59a2f657edd42108a67ed01d'
+                || category._id === '59a2f657edd42108a67ed01e'
+                || category._id === '59a2f657edd42108a67ed01b'
+                || category._id === '59a2f657edd42108a67ed01c'
+              )
+            );
+            history.push('/products');
+          }}
+        >
+          <TileImage src="/api/products/pictures/ryH-Xgw8_ltW_m" />
           <TileTitle>
-            Farben
+            Warhammer
           </TileTitle>
         </Tile>
       </TileContainer>

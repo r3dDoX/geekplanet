@@ -66,7 +66,7 @@ class HomeTiles extends React.Component {
             history.push('/products');
           }}
         >
-          <TileImage src="/api/products/pictures/Hyl6GgDIdeFZ_m" />
+          <TileImage src="/api/products/pictures/Hyl6GgDIdeFZ_s" />
           <TileTitle>
             Blood Bowl
           </TileTitle>
@@ -84,7 +84,7 @@ class HomeTiles extends React.Component {
             history.push('/products');
           }}
         >
-          <TileImage src="/api/products/pictures/r1YogwUOxtW_m" />
+          <TileImage src="/api/products/pictures/r1YogwUOxtW_s" />
           <TileTitle>
             Airbrush Farben
           </TileTitle>
@@ -102,9 +102,46 @@ class HomeTiles extends React.Component {
             history.push('/products');
           }}
         >
-          <TileImage src="/api/products/pictures/ryH-Xgw8_ltW_m" />
+          <TileImage src="/api/products/pictures/ryH-Xgw8_ltW_s" />
           <TileTitle>
             Warhammer
+          </TileTitle>
+        </Tile>
+        <Tile
+          onClick={() => {
+            toggleFilterCategories([
+              productCategories.find(category => category._id === '59a2f657edd42108a67ed00f'),
+            ]);
+            history.push('/products');
+          }}
+        >
+          <TileImage src="/api/products/pictures/BkqTWgPUdlKZ_s" />
+          <TileTitle>
+            Gebäude
+          </TileTitle>
+        </Tile>
+        <Tile
+          onClick={() => {
+            toggleFilterCategories([
+              productCategories.find(category => category._id === '59a2f657edd42108a67ed00b'),
+            ]);
+            history.push('/products');
+          }}
+        >
+          <TileImage src="/api/products/pictures/r1HkblPU_gK-_s" />
+          <TileTitle>
+            Fertiggelände
+          </TileTitle>
+        </Tile>
+        <Tile
+          onClick={() => {
+            toggleFilterCategories([]);
+            history.push('/products');
+          }}
+        >
+          <TileImage src="/api/products/pictures/BkyfelvU_eFZ_s" />
+          <TileTitle>
+            Alle Produkte
           </TileTitle>
         </Tile>
       </TileContainer>

@@ -154,6 +154,27 @@ describe('Products Reducer', () => {
   });
 
   describe(TOGGLE_FILTER_CATEGORY, () => {
+    it('should set filterShown to true when setting filter categories', () => {
+      const state = {
+        categoriesToFilter: [],
+        productFilters: {},
+        products: [],
+        filterShown: false,
+      };
+      const action = {
+        type: TOGGLE_FILTER_CATEGORY,
+        productCategories: [
+          {
+            _id: 'categoryId1',
+          },
+        ],
+      };
+
+      const newState = underTest(state, action);
+
+      expect(newState.filterShown).toBe(true);
+    });
+
     it('should filter products by category ids', () => {
       const state = {
         categoriesToFilter: [],

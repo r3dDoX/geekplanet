@@ -250,6 +250,8 @@ module.exports = function renderTemplate(order) {
                 colSpan={colCount}
                 style={Object.assign({}, styles.textCenter, styles.contentPadding)}
               >
+                <FormattedHTMLMessage id="EMAIL.BANK_DETAILS_HINT" values={{ id: order._id }} />
+                <br /><br />
                 <FormattedHTMLMessage id="EMAIL.BANK_DETAILS" />
               </td>
             </tr>

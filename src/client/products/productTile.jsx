@@ -66,7 +66,7 @@ const EditButton = styled(RaisedButton)`
 
 const styles = {
   cardContainer: {
-    flex: 1,
+    flex: '1 1 auto',
     display: 'flex',
     flexDirection: 'column',
   },

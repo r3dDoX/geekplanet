@@ -1,11 +1,10 @@
 import NavigationLeft from 'material-ui/svg-icons/navigation/chevron-left';
 import NavigationRight from 'material-ui/svg-icons/navigation/chevron-right';
-import Fullscreen from 'material-ui/svg-icons/navigation/fullscreen';
 import React from 'react';
 import ImageGallery from 'react-image-gallery';
-import { getPictureUrl } from './productService';
-import { backgroundColor } from '../theme';
 import { ProductPropType } from '../propTypes';
+import { backgroundColor } from '../theme';
+import { getPictureUrl } from './productService';
 
 const arrowContainerStyle = {
   position: 'absolute',
@@ -44,11 +43,13 @@ const styles = {
 const ProductSlider = ({ product }) => (
   <ImageGallery
     items={product.files.map(image => ({
-      original: getPictureUrl(image, 'l'),
+      original: (screen.availWidth > 800) ? getPictureUrl(image, 'l') : getPictureUrl(image, 'm'),
       thumbnail: getPictureUrl(image, 's'),
     }))}
+    defaultImage="/assets/images/notFound.jpg"
     lazyLoad
     showPlayButton={false}
+    showThumbnails={product.files.length > 1}
     thumbnailPosition="left"
     renderLeftNav={(onClick, disabled) => {
       if (!disabled) {
@@ -82,16 +83,8 @@ const ProductSlider = ({ product }) => (
 
       return null;
     }}
-    renderFullscreenButton={onClick => (
-      <a
-        onClick={onClick}
-        style={styles.fullscreenContainer}
-        role="button"
-        tabIndex={0}
-      >
-        <Fullscreen style={styles.icons} />
-      </a>
-    )}
+    showFullscreenButton={false}
+    onClick={event => window.location.assign(event.target.src)}
   />
 );
 

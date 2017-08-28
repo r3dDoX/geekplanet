@@ -4,17 +4,23 @@ import Drawer from 'material-ui/Drawer';
 import IconButton from 'material-ui/IconButton';
 import List from 'material-ui/List';
 import MenuItem from 'material-ui/MenuItem';
+import { grey900 } from 'material-ui/styles/colors';
 import Subheader from 'material-ui/Subheader';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import Link from 'react-router-dom/Link';
+import styled from 'styled-components';
 import { formatPriceWithCurrency } from '../../common/priceFormatter';
 import { createSetShoppingCartamount, createToggleShoppingCartDrawer } from '../actions';
 import { ShoppingCartItemsPropType } from '../propTypes';
 import ShoppingCartItem from './shoppingCartItem.jsx';
+
+const HighlightMenuItem = styled(MenuItem)`
+  color: ${grey900} !important;
+`;
 
 const ShoppingCartDrawer = ({
   shoppingCart,
@@ -60,7 +66,7 @@ const ShoppingCartDrawer = ({
       </Subheader>
     ) : null}
     {hasShippingCosts ? (
-      <MenuItem
+      <HighlightMenuItem
         disabled
         insetChildren
         primaryText={formatPriceWithCurrency(ORDER.SHIPPING_COST)}
@@ -70,7 +76,7 @@ const ShoppingCartDrawer = ({
     <Subheader inset>
       <FormattedMessage id="SHOPPING_CART.TOTAL" />
     </Subheader>
-    <MenuItem
+    <HighlightMenuItem
       disabled
       insetChildren
       primaryText={formatPriceWithCurrency(shoppingCartTotal)}

@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter, Route } from 'react-router-dom';
+import BrowserRouter from 'react-router-dom/BrowserRouter';
+import Route from 'react-router-dom/Route';
 import { createLoadShoppingCart, createLoadTranslations, createLoggedIn } from './actions';
 import authService from './auth/authService';
 import ChangePassword from './auth/changePassword.jsx';

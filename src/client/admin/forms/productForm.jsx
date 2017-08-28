@@ -4,7 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import withRouter from 'react-router-dom/withRouter';
 import { Field, initialize, reduxForm } from 'redux-form';
 import { createLoadProducts } from '../../actions';
 import SelectField from '../../formHelpers/selectField.jsx';

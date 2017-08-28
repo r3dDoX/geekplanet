@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import Link from 'react-router-dom/Link';
 import styled from 'styled-components';
 import OrderButton from '../order/orderButton.jsx';
 import { ProductPropType } from '../propTypes';
@@ -17,7 +17,7 @@ import Authorized from '../auth/authorized.jsx';
 const StyledCard = styled(Card)`
   flex: 1 1 300px;
   max-width: 450px;
-  margin: 0 10px 16px;
+  margin: 0 5px 10px;
   display: flex;
   flex-direction: column;
 `;

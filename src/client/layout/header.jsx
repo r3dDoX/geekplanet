@@ -1,7 +1,7 @@
 import AppBar from 'material-ui/AppBar';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'react-router-dom/Link';
 import styled from 'styled-components';
 import ShoppingCartIcon from '../shoppingcart/shoppingCartIcon.jsx';
 

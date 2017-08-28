@@ -17,7 +17,7 @@ import Authorized from '../auth/authorized.jsx';
 const StyledCard = styled(Card)`
   flex: 1 1 300px;
   max-width: 450px;
-  margin: 0 10px 16px;
+  margin: 0 5px 10px;
   display: flex;
   flex-direction: column;
 `;

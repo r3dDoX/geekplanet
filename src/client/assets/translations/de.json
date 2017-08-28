@@ -8,7 +8,7 @@
   },
   "COMMON": {
     "EDIT": "Bearbeiten",
-    "ORDER": "Bestellen",
+    "ADD": "Hinzufügen",
     "DELETE": "Löschen",
     "FORM": {
       "REQUIRED": "Dieses Feld ist notwendig"

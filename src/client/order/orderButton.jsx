@@ -10,7 +10,7 @@ import { ProductPropType } from '../propTypes';
 const OrderButton = ({ product, addItemToShoppingCart }) => (
   <RaisedButton
     onClick={() => addItemToShoppingCart(product)}
-    label={<span>&nbsp;&nbsp;&nbsp;<FormattedMessage id="COMMON.ORDER" /></span>}
+    label={<span>&nbsp;&nbsp;&nbsp;<FormattedMessage id="COMMON.ADD" /></span>}
     icon={<ShoppingCart />}
     primary
   />

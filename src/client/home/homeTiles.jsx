@@ -26,7 +26,7 @@ const TileTitle = styled.h1`
 const Tile = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 1 1 0;
   min-width: 280px;
   max-width: 400px;
   margin: 5px;

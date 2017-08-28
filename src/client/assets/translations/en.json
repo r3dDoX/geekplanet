@@ -8,7 +8,7 @@
   },
   "COMMON": {
     "EDIT": "Edit",
-    "ORDER": "Order",
+    "ADD": "Add",
     "DELETE": "Delete",
     "FORM": {
       "REQUIRED": "This field is required"

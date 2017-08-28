@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route, Redirect, withRouter } from 'react-router-dom';
+import Route from 'react-router-dom/Route';
+import Redirect from 'react-router-dom/Redirect';
+import withRouter from 'react-router-dom/withRouter';
 import { connect } from 'react-redux';
 import authService from '../auth/authService';
 

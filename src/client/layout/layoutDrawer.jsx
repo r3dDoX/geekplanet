@@ -5,7 +5,8 @@ import AppBar from 'material-ui/AppBar';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import { Link, withRouter } from 'react-router-dom';
+import Link from 'react-router-dom/Link';
+import withRouter from 'react-router-dom/withRouter';
 import { FormattedMessage } from 'react-intl';
 
 const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, history }) => (

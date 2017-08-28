@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import Link from 'react-router-dom/Link';
 import styled from 'styled-components';
 import OrderButton from '../order/orderButton.jsx';
 import { ProductPropType } from '../propTypes';

@@ -3,7 +3,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import withRouter from 'react-router-dom/withRouter';
 import styled from 'styled-components';
-import { createLoadProductCategories, createToggleFilterCategory } from '../actions';
+import {
+  createLoadProductCategories, createResetFilter,
+  createToggleFilterCategory
+} from '../actions';
 import { ProductCategoryPropType } from '../propTypes';
 import { backgroundColor } from '../theme';
 
@@ -53,6 +56,7 @@ class HomeTiles extends React.Component {
     const {
       productCategories,
       toggleFilterCategories,
+      resetFilter,
       history,
     } = this.props;
 
@@ -60,6 +64,7 @@ class HomeTiles extends React.Component {
       <TileContainer>
         <Tile
           onClick={() => {
+            resetFilter();
             toggleFilterCategories([
               productCategories.find(category => category._id === '59a2f657edd42108a67ed01a'),
             ]);
@@ -73,6 +78,7 @@ class HomeTiles extends React.Component {
         </Tile>
         <Tile
           onClick={() => {
+            resetFilter();
             toggleFilterCategories(
               productCategories.filter(category =>
                 category._id === '59a2f657edd42108a67ed018'
@@ -91,6 +97,7 @@ class HomeTiles extends React.Component {
         </Tile>
         <Tile
           onClick={() => {
+            resetFilter();
             toggleFilterCategories(
               productCategories.filter(category =>
                 category._id === '59a2f657edd42108a67ed01d'
@@ -109,6 +116,7 @@ class HomeTiles extends React.Component {
         </Tile>
         <Tile
           onClick={() => {
+            resetFilter();
             toggleFilterCategories([
               productCategories.find(category => category._id === '59a2f657edd42108a67ed00f'),
             ]);
@@ -122,6 +130,7 @@ class HomeTiles extends React.Component {
         </Tile>
         <Tile
           onClick={() => {
+            resetFilter();
             toggleFilterCategories([
               productCategories.find(category => category._id === '59a2f657edd42108a67ed00b'),
             ]);
@@ -135,7 +144,7 @@ class HomeTiles extends React.Component {
         </Tile>
         <Tile
           onClick={() => {
-            toggleFilterCategories([]);
+            resetFilter();
             history.push('/products');
           }}
         >
@@ -151,6 +160,7 @@ class HomeTiles extends React.Component {
 
 HomeTiles.propTypes = {
   productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
+  resetFilter: PropTypes.func.isRequired,
   toggleFilterCategories: PropTypes.func.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
@@ -161,6 +171,9 @@ export default connect(
     productCategories: state.products.productCategories,
   }),
   dispatch => ({
+    resetFilter() {
+      dispatch(createResetFilter());
+    },
     toggleFilterCategories(category) {
       dispatch(createToggleFilterCategory(category));
     },

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Redirect } from 'react-router-dom';
+import Redirect from 'react-router-dom/Redirect';
 import { LoginComponent } from './login.jsx';
 import { load, store, ids } from '../storage';
 import authService from './authService';

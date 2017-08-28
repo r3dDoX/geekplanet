@@ -2,6 +2,7 @@ import Divider from 'material-ui/Divider';
 import { green500, grey300 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
 import React from 'react';
+import CountUp from 'react-countup';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { createLoadProduct } from '../actions';
@@ -9,7 +10,6 @@ import MainSpinner from '../layout/mainSpinner.jsx';
 import OrderButton from '../order/orderButton.jsx';
 import { ProductPropType } from '../propTypes';
 import { accent1Color, brandPrimary } from '../theme';
-import { formatPriceWithCurrency } from '../../common/priceFormatter';
 import ProductSlider from './productSlider.jsx';
 import StockIcon from './stockIcon.jsx';
 
@@ -94,7 +94,12 @@ class ProductDetails extends React.Component {
             <Divider style={styles.divider} />
             <div style={styles.orderContainer}>
               <h2 style={styles.price}>
-                {formatPriceWithCurrency(product.price)}
+                <CountUp
+                  start={0}
+                  end={product.price}
+                  decimals={2}
+                  prefix="CHF "
+                />
               </h2>
               <OrderButton product={product} />
             </div>

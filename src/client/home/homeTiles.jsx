@@ -1,13 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import withRouter from 'react-router-dom/withRouter';
 import styled from 'styled-components';
-import { createLoadProductCategories, createToggleFilterCategory } from '../actions';
+import {
+  createLoadProductCategories,
+  createResetFilter,
+  createToggleFilterCategory,
+} from '../actions';
 import { ProductCategoryPropType } from '../propTypes';
 import { backgroundColor } from '../theme';
 
-const TileContainer = styled.div`
+const TilesContainer = styled.div`
   padding: 20px 15px;
   display: flex;
   flex-wrap: wrap;
@@ -20,21 +24,32 @@ const TileTitle = styled.h1`
   font-weight: 400;
   background-color: ${backgroundColor};
   color: #FFF;
-  transition: background-color .450s cubic-bezier(0.23, 1, 0.32, 1);
 `;
 
 const Tile = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 1 1 0;
   min-width: 280px;
   max-width: 400px;
   margin: 5px;
   box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   
-  &:hover ${TileTitle} {
-    background-color: rgb(113, 120, 131);
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    transition: background-color .45s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  &:hover::before {
+    background-color: rgba(255, 255, 255, 0.4);
   }
 `;
 
@@ -53,13 +68,15 @@ class HomeTiles extends React.Component {
     const {
       productCategories,
       toggleFilterCategories,
+      resetFilter,
       history,
     } = this.props;
 
     return (
-      <TileContainer>
+      <TilesContainer>
         <Tile
           onClick={() => {
+            resetFilter();
             toggleFilterCategories([
               productCategories.find(category => category._id === '59a2f657edd42108a67ed01a'),
             ]);
@@ -73,6 +90,7 @@ class HomeTiles extends React.Component {
         </Tile>
         <Tile
           onClick={() => {
+            resetFilter();
             toggleFilterCategories(
               productCategories.filter(category =>
                 category._id === '59a2f657edd42108a67ed018'
@@ -91,6 +109,7 @@ class HomeTiles extends React.Component {
         </Tile>
         <Tile
           onClick={() => {
+            resetFilter();
             toggleFilterCategories(
               productCategories.filter(category =>
                 category._id === '59a2f657edd42108a67ed01d'
@@ -109,6 +128,7 @@ class HomeTiles extends React.Component {
         </Tile>
         <Tile
           onClick={() => {
+            resetFilter();
             toggleFilterCategories([
               productCategories.find(category => category._id === '59a2f657edd42108a67ed00f'),
             ]);
@@ -122,6 +142,7 @@ class HomeTiles extends React.Component {
         </Tile>
         <Tile
           onClick={() => {
+            resetFilter();
             toggleFilterCategories([
               productCategories.find(category => category._id === '59a2f657edd42108a67ed00b'),
             ]);
@@ -135,7 +156,7 @@ class HomeTiles extends React.Component {
         </Tile>
         <Tile
           onClick={() => {
-            toggleFilterCategories([]);
+            resetFilter();
             history.push('/products');
           }}
         >
@@ -144,13 +165,14 @@ class HomeTiles extends React.Component {
             Alle Produkte
           </TileTitle>
         </Tile>
-      </TileContainer>
+      </TilesContainer>
     );
   }
 }
 
 HomeTiles.propTypes = {
   productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
+  resetFilter: PropTypes.func.isRequired,
   toggleFilterCategories: PropTypes.func.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
@@ -161,6 +183,9 @@ export default connect(
     productCategories: state.products.productCategories,
   }),
   dispatch => ({
+    resetFilter() {
+      dispatch(createResetFilter());
+    },
     toggleFilterCategories(category) {
       dispatch(createToggleFilterCategory(category));
     },

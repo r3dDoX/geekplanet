@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, IntlProvider } from 'react-intl';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import withRouter from 'react-router-dom/withRouter';
 import styled from 'styled-components';
 import { createHideShoppingCartNotification, createLogout, createToggleDrawer } from '../actions';
 import authService from '../auth/authService';

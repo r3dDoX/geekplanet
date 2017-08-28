@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import withRouter from 'react-router-dom/withRouter';
 import styled from 'styled-components';
 import {
-  createLoadProductCategories, createResetFilter,
-  createToggleFilterCategory
+  createLoadProductCategories,
+  createResetFilter,
+  createToggleFilterCategory,
 } from '../actions';
 import { ProductCategoryPropType } from '../propTypes';
 import { backgroundColor } from '../theme';

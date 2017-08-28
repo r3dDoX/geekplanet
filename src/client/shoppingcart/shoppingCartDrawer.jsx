@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import Link from 'react-router-dom/Link';
 import { formatPriceWithCurrency } from '../../common/priceFormatter';
 import { createSetShoppingCartamount, createToggleShoppingCartDrawer } from '../actions';
 import { ShoppingCartItemsPropType } from '../propTypes';

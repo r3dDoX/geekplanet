@@ -3,7 +3,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
+import Link from 'react-router-dom/Link';
 import { Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import TextField from '../formHelpers/textField.jsx';

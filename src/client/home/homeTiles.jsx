@@ -11,7 +11,7 @@ import {
 import { ProductCategoryPropType } from '../propTypes';
 import { backgroundColor } from '../theme';
 
-const TileContainer = styled.div`
+const TilesContainer = styled.div`
   padding: 20px 15px;
   display: flex;
   flex-wrap: wrap;
@@ -24,10 +24,10 @@ const TileTitle = styled.h1`
   font-weight: 400;
   background-color: ${backgroundColor};
   color: #FFF;
-  transition: background-color .450s cubic-bezier(0.23, 1, 0.32, 1);
 `;
 
 const Tile = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: 1 1 0;
@@ -37,8 +37,19 @@ const Tile = styled.div`
   box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   
-  &:hover ${TileTitle} {
-    background-color: rgb(113, 120, 131);
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    transition: background-color .45s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  &:hover::before {
+    background-color: rgba(255, 255, 255, 0.4);
   }
 `;
 
@@ -62,7 +73,7 @@ class HomeTiles extends React.Component {
     } = this.props;
 
     return (
-      <TileContainer>
+      <TilesContainer>
         <Tile
           onClick={() => {
             resetFilter();
@@ -154,7 +165,7 @@ class HomeTiles extends React.Component {
             Alle Produkte
           </TileTitle>
         </Tile>
-      </TileContainer>
+      </TilesContainer>
     );
   }
 }

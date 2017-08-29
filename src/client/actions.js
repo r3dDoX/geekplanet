@@ -1,5 +1,7 @@
-import Xhr from './xhr';
+import { reset } from 'redux-form';
 import TranslationService from '../common/translationService';
+import { formName as productFilterFormName } from './products/productfilter/productFilter.jsx';
+import Xhr from './xhr';
 
 export const PRODUCT_LOADING = 'PRODUCT_LOADING';
 export const PRODUCT_SELECTED = 'PRODUCT_SELECTED';
@@ -207,6 +209,9 @@ export const createFinishedAuth = () => ({
   type: FINISHED_AUTH,
 });
 
-export const createResetFilter = () => ({
-  type: RESET_FILTER,
-});
+export const createResetFilter = () => (dispatch) => {
+  dispatch(reset(productFilterFormName));
+  dispatch({
+    type: RESET_FILTER,
+  });
+};

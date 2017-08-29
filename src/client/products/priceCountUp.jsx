@@ -8,7 +8,7 @@ const PriceCountUp = ({ price }) => (
     end={price}
     decimals={2}
     prefix="CHF "
-    duration={2}
+    duration={1.25}
   />
 );
 

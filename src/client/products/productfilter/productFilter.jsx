@@ -9,7 +9,7 @@ import React from 'react';
 import AnimateHeight from 'react-animate-height';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { Field, reduxForm, reset } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import {
   createFilterProducts,
@@ -24,7 +24,7 @@ import TextField from '../../formHelpers/textField.jsx';
 import { ProducerPropType, ProductCategoryPropType } from '../../propTypes';
 import { accent2Color } from '../../theme';
 
-const formName = 'productFilter';
+export const formName = 'productFilter';
 
 const FilterContainer = styled.div`
   padding: 20px;
@@ -237,7 +237,6 @@ export default connect(
     },
     resetFilter() {
       dispatch(createResetFilter());
-      dispatch(reset(formName));
     },
   }),
 )(reduxForm({

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { backgroundColor } from '../theme';
+import HomeSearch from './homeSearch.jsx';
 import HomeTiles from './homeTiles.jsx';
 import Slogan from './slogan.jsx';
 
@@ -25,6 +26,7 @@ export default () => (
         <Slogan />
       </SloganContainer>
     </Header>
+    <HomeSearch />
     <HomeTiles />
   </div>
 );

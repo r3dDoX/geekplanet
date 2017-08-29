@@ -16,10 +16,15 @@ import styled from 'styled-components';
 import { formatPriceWithCurrency } from '../../common/priceFormatter';
 import { createSetShoppingCartamount, createToggleShoppingCartDrawer } from '../actions';
 import { ShoppingCartItemsPropType } from '../propTypes';
+import { accent1Color } from '../theme';
 import ShoppingCartItem from './shoppingCartItem.jsx';
 
-const HighlightMenuItem = styled(MenuItem)`
+const ShippingCost = styled(MenuItem)`
   color: ${grey900} !important;
+`;
+
+const Total = styled(MenuItem)`
+  color: ${accent1Color} !important;
 `;
 
 const ShoppingCartDrawer = ({
@@ -66,7 +71,7 @@ const ShoppingCartDrawer = ({
       </Subheader>
     ) : null}
     {hasShippingCosts ? (
-      <HighlightMenuItem
+      <ShippingCost
         disabled
         insetChildren
         primaryText={formatPriceWithCurrency(ORDER.SHIPPING_COST)}
@@ -76,7 +81,7 @@ const ShoppingCartDrawer = ({
     <Subheader inset>
       <FormattedMessage id="SHOPPING_CART.TOTAL" />
     </Subheader>
-    <HighlightMenuItem
+    <Total
       disabled
       insetChildren
       primaryText={formatPriceWithCurrency(shoppingCartTotal)}

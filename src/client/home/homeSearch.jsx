@@ -65,7 +65,7 @@ const HomeSearch = ({
             }
           }}
         />
-        <SearchButton type="submit" onClick={() => submitFilterString()}>
+        <SearchButton type="submit" onClick={submitFilterString}>
           <SearchIcon color="white" />
         </SearchButton>
       </SearchInlay>

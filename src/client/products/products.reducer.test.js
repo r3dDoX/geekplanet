@@ -3,6 +3,23 @@ import { FILTER_PRODUCTS, PRODUCTS_LOADED, TOGGLE_FILTER_CATEGORY } from '../act
 
 describe('Products Reducer', () => {
   describe(FILTER_PRODUCTS, () => {
+    it('should set filterShown to true', () => {
+      const state = {
+        categoriesToFilter: [],
+        productFilters: {},
+        products: [],
+        filterShown: false,
+      };
+      const action = {
+        type: FILTER_PRODUCTS,
+        filterString: 'abc',
+      };
+
+      const newState = underTest(state, action);
+
+      expect(newState.filterShown).toBe(true);
+    });
+
     it('should filter products by german name', () => {
       const state = {
         categoriesToFilter: [],

@@ -18,7 +18,8 @@
     "AMOUNT": "Preis",
     "TOTAL": "Total",
     "SUBTOTAL": "Zwischentotal",
-    "SHIPPING_COSTS": "Versandkosten"
+    "SHIPPING_COSTS": "Versandkosten",
+    "SEARCH": "Suchen"
   },
   "NAVIGATION": {
     "LOGIN": "Login",

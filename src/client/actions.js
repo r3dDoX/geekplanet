@@ -210,8 +210,8 @@ export const createFinishedAuth = () => ({
 });
 
 export const createResetFilter = () => (dispatch) => {
-  dispatch(reset(productFilterFormName));
   dispatch({
     type: RESET_FILTER,
   });
+  dispatch(reset(productFilterFormName));
 };

@@ -18,7 +18,8 @@
     "AMOUNT": "Amount",
     "TOTAL": "Total",
     "SUBTOTAL": "Subtotal",
-    "SHIPPING_COSTS": "Shipping Costs"
+    "SHIPPING_COSTS": "Shipping Costs",
+    "SEARCH": "Search"
   },
   "NAVIGATION": {
     "LOGIN": "Login",

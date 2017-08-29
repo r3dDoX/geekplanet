@@ -18,7 +18,7 @@ const SearchBar = styled.div`
   padding: 5px 20px;
 `;
 
-const SearchForm = styled.form`
+const SearchInlay = styled.div`
   display: flex;
   align-items: center;
   flex: 1 1 auto;
@@ -46,34 +46,32 @@ const HomeSearch = ({
   history,
   filterProducts,
   intl,
-}) => (
-  <SearchBar>
-    <iframe
-      title="rememberHelper"
-      name="remember"
-      style={{ display: 'none' }}
-      src="about:blank"
-    />
-    <SearchForm
-      name="searchForm"
-      target="remember"
-      action="about:blank"
-      onSubmit={() => {
-        filterProducts(document.forms.searchForm.search.value);
-        history.push('/products');
-      }}
-    >
-      <SearchInput
-        name="search"
-        placeholder={intl.formatMessage({ id: 'COMMON.SEARCH' })}
-        type="search"
-      />
-      <SearchButton type="submit">
-        <SearchIcon color="white" />
-      </SearchButton>
-    </SearchForm>
-  </SearchBar>
-);
+}) => {
+  function submitFilterString() {
+    filterProducts(document.getElementById('search').value);
+    history.push('/products');
+  }
+
+  return (
+    <SearchBar>
+      <SearchInlay>
+        <SearchInput
+          id="search"
+          placeholder={intl.formatMessage({ id: 'COMMON.SEARCH' })}
+          type="search"
+          onKeyDown={(event) => {
+            if (event.keyCode === 13) {
+              submitFilterString();
+            }
+          }}
+        />
+        <SearchButton type="submit" onClick={() => submitFilterString()}>
+          <SearchIcon color="white" />
+        </SearchButton>
+      </SearchInlay>
+    </SearchBar>
+  );
+};
 
 HomeSearch.propTypes = {
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types

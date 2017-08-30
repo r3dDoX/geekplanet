@@ -238,23 +238,27 @@ module.exports = function renderTemplate(order) {
                 />
               </td>
             </tr>
-            <tr>
-              <td colSpan={colCount}>
-                <div style={styles.title}>
-                  <FormattedMessage id="EMAIL.BANK_DETAILS_TITLE" />
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td
-                colSpan={colCount}
-                style={Object.assign({}, styles.textCenter, styles.contentPadding)}
-              >
-                <FormattedHTMLMessage id="EMAIL.BANK_DETAILS_HINT" values={{ id: order._id }} />
-                <br /><br />
-                <FormattedHTMLMessage id="EMAIL.BANK_DETAILS" />
-              </td>
-            </tr>
+            {(order.state === models.OrderState.WAITING) ? (
+              <tr>
+                <td colSpan={colCount}>
+                  <div style={styles.title}>
+                    <FormattedMessage id="EMAIL.BANK_DETAILS_TITLE" />
+                  </div>
+                </td>
+              </tr>
+            ) : null}
+            {(order.state === models.OrderState.WAITING) ? (
+              <tr>
+                <td
+                  colSpan={colCount}
+                  style={Object.assign({}, styles.textCenter, styles.contentPadding)}
+                >
+                  <FormattedHTMLMessage id="EMAIL.BANK_DETAILS_HINT" values={{ id: order._id }} />
+                  <br /><br />
+                  <FormattedHTMLMessage id="EMAIL.BANK_DETAILS" />
+                </td>
+              </tr>
+            ) : null}
           </tbody>
         </table>
         <table style={styles.footerTable} cellPadding={0} cellSpacing={0}>

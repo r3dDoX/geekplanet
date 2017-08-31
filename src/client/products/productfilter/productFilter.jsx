@@ -1,12 +1,10 @@
+import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
+import Popover from 'material-ui/Popover';
 import RaisedButton from 'material-ui/RaisedButton';
-import SelectField from 'material-ui/SelectField';
 import { grey700 } from 'material-ui/styles/colors';
-import CancelIcon from 'material-ui/svg-icons/action/highlight-off';
-import ArrowUp from 'material-ui/svg-icons/navigation/expand-less';
 import PropTypes from 'prop-types';
 import React from 'react';
-import AnimateHeight from 'react-animate-height';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
@@ -22,7 +20,6 @@ import {
 } from '../../actions';
 import TextField from '../../formHelpers/textField.jsx';
 import { ProducerPropType, ProductCategoryPropType } from '../../propTypes';
-import { accent2Color } from '../../theme';
 
 export const formName = 'productFilter';
 
@@ -30,26 +27,8 @@ const FilterContainer = styled.div`
   padding: 20px;
 `;
 
-const FilterInlay = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  background-color: ${accent2Color};
-`;
-
-const FilterItem = styled.div`
-  padding: 0 20px 20px;
-`;
-
-const FilterTitle = styled.h3`
-  display: flex;
-  justify-content: space-between;
-  margin: 0;
-  padding: 20px;
-  font-weight: 400;
-  background-color: ${accent2Color};
-  cursor: pointer;
+const FilterButton = styled(RaisedButton)`
+  margin-left: 20px;
 `;
 
 const styles = {
@@ -71,6 +50,14 @@ function debounce(fn, millis = 200) {
 }
 
 class ProductFilter extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      open: false,
+    };
+  }
+
   componentWillMount() {
     if (this.props.productCategories.length === 0) {
       this.props.loadProductCategories();
@@ -81,110 +68,47 @@ class ProductFilter extends React.Component {
     }
   }
 
+  handleButtonClick(event) {
+    this.setState({
+      anchorElement: event.currentTarget,
+      open: !this.state.open,
+    });
+  }
+
   render() {
     const {
       filterProducts,
-      productCategories,
-      producers,
-      filterString,
-      categoriesToFilter,
-      producersToFilter,
-      toggleProductCategory,
-      toggleProducer,
-      resetFilter,
-      filterShown,
-      toggleFilterView,
     } = this.props;
-
-    const noFiltersSet = () =>
-      filterString.length === 0 &&
-      categoriesToFilter.length === 0 &&
-      producersToFilter.length === 0;
 
     return (
       <FilterContainer>
-        <FilterTitle onClick={toggleFilterView}>
-          <FormattedMessage id="PRODUCT_FILTER.TITLE" />
-          <ArrowUp style={{ transform: filterShown ? 'rotate(0deg)' : 'rotate(180deg)' }} />
-        </FilterTitle>
-        <AnimateHeight
-          duration={250}
-          height={filterShown ? 'auto' : 0}
+        <Field
+          component={TextField}
+          name="filterString"
+          label={<FormattedMessage id="PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER" />}
+          floatingLabelStyle={styles.filterHint}
+          underlineStyle={styles.filterHint}
+          onKeyUp={({ target }) => debounce(() => filterProducts(target.value))}
+          type="text"
+        />
+        <FilterButton
+          onClick={event => this.handleButtonClick(event)}
+          label="Weitere Filter"
+        />
+        <Popover
+          open={this.state.open}
+          anchorEl={this.state.anchorElement}
+          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+          targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+          onRequestClose={this.handleRequestClose}
         >
-          <FilterInlay>
-            <FilterItem>
-              <Field
-                component={TextField}
-                name="filterString"
-                label={<FormattedMessage id="PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER" />}
-                floatingLabelStyle={styles.filterHint}
-                underlineStyle={styles.filterHint}
-                onKeyUp={({ target }) => debounce(() => filterProducts(target.value))}
-                type="text"
-              />
-            </FilterItem>
-            <FilterItem>
-              <SelectField
-                name="categories"
-                floatingLabelText={
-                  <FormattedMessage id="PRODUCT_FILTER.PRODUCT_CATEGORIES_PLACEHOLDER" />
-                }
-                onChange={(event, index, values) => toggleProductCategory(values)}
-                floatingLabelStyle={styles.filterHint}
-                underlineStyle={styles.filterHint}
-                iconStyle={styles.filterHint}
-                value={categoriesToFilter}
-                multiple
-              >
-                {productCategories.map(productCategory => (
-                  <MenuItem
-                    key={productCategory._id}
-                    value={productCategory}
-                    primaryText={productCategory.de.name}
-                    insetChildren
-                    checked={categoriesToFilter.some(
-                      categoryToFilter => categoryToFilter._id === productCategory._id,
-                    )}
-                  />
-                ))}
-              </SelectField>
-            </FilterItem>
-            <FilterItem>
-              <SelectField
-                name="producers"
-                floatingLabelText={<FormattedMessage id="PRODUCT_FILTER.PRODUCERS_PLACEHOLDER" />}
-                onChange={(event, index, values) => toggleProducer(values)}
-                floatingLabelStyle={styles.filterHint}
-                underlineStyle={styles.filterHint}
-                iconStyle={styles.filterHint}
-                value={producersToFilter}
-                multiple
-              >
-                {producers.map(producer => (
-                  <MenuItem
-                    key={producer._id}
-                    value={producer}
-                    primaryText={producer.name}
-                    insetChildren
-                    checked={producersToFilter.some(
-                      producerToFilter => producerToFilter._id === producer._id,
-                    )}
-                  />
-                ))}
-              </SelectField>
-            </FilterItem>
-            <FilterItem>
-              <RaisedButton
-                onTouchTap={resetFilter}
-                label={<FormattedMessage id="PRODUCT_FILTER.RESET_FILTER" />}
-                secondary
-                style={styles.button}
-                icon={<CancelIcon />}
-                disabled={noFiltersSet()}
-              />
-            </FilterItem>
-          </FilterInlay>
-        </AnimateHeight>
+          <Menu>
+            <MenuItem primaryText="Refresh" />
+            <MenuItem primaryText="Help &amp; feedback" />
+            <MenuItem primaryText="Settings" />
+            <MenuItem primaryText="Sign out" />
+          </Menu>
+        </Popover>
       </FilterContainer>
     );
   }

@@ -14,7 +14,7 @@ const api = require('./api');
 mongo.init();
 const app = express();
 app.use('*', (req, res, next) => {
-  if (config.USE_SSL && req.headers.referer.startsWith('http://')) {
+  if (config.USE_SSL && req.headers['x-forwarded-proto'] !== 'https') {
     res.redirect(`https://${req.hostname}${req.url}`);
   } else {
     next();

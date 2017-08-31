@@ -20,6 +20,7 @@ const fieldNamesToFilter = [
 const initialState = {
   products: [],
   productCategories: [],
+  groupedProductCategories: [],
   producers: [],
   filteredProducts: [],
   filterString: '',
@@ -88,6 +89,14 @@ function filterProducts(products, productFilters) {
     );
 }
 
+function recursivelyMapSubCategories(category, categories) {
+  return Object.assign({}, category, {
+    subCategories: categories
+      .filter(subCategory => subCategory.parentCategory === category._id)
+      .map(subCategory => recursivelyMapSubCategories(subCategory, categories)),
+  });
+}
+
 export default (state = initialState, {
   type,
   products,
@@ -110,6 +119,9 @@ export default (state = initialState, {
     case PRODUCT_CATEGORIES_LOADED:
       return Object.assign({}, state, {
         productCategories,
+        groupedProductCategories: productCategories
+          .filter(productCategory => !productCategory.parentCategory)
+          .map(productCategory => recursivelyMapSubCategories(productCategory, productCategories)),
       });
     case PUBLIC_PRODUCERS_LOADED:
       return Object.assign({}, state, {

@@ -1,3 +1,4 @@
+import Chip from 'material-ui/Chip';
 import Popover from 'material-ui/Popover';
 import RaisedButton from 'material-ui/RaisedButton';
 import { grey700 } from 'material-ui/styles/colors';
@@ -20,6 +21,7 @@ import {
 import TextField from '../../formHelpers/textField.jsx';
 import { ExtendedProductCategoryPropType, ProducerPropType } from '../../propTypes';
 import ProductCategories from './productCategories.jsx';
+import { accent1Color } from '../../theme';
 
 export const formName = 'productFilter';
 
@@ -31,6 +33,15 @@ const FilterButton = styled(RaisedButton)`
   margin-left: 20px;
 `;
 
+const FilterButtonLabel = styled.span`
+  display: flex;
+  align-items: center;
+`;
+
+const FilterChip = styled(Chip)`
+  margin-left: 10px !important;
+`;
+
 const FilterPopover = styled(Popover)`
   width: 400px;
 `;
@@ -40,6 +51,13 @@ const styles = {
     color: grey700,
     borderColor: grey700,
     fill: grey700,
+  },
+  filterButton: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  filterChip: {
+    lineHeight: '24px',
   },
 };
 
@@ -58,7 +76,7 @@ class ProductFilter extends React.Component {
     super();
 
     this.state = {
-      open: true,
+      open: false,
     };
   }
 
@@ -98,9 +116,20 @@ class ProductFilter extends React.Component {
         />
         <FilterButton
           onClick={event => this.handleButtonClick(event)}
-          label="Weitere Filter"
+          label={
+            <FilterButtonLabel>
+              Weitere Filter
+              <FilterChip
+                labelStyle={styles.filterChip}
+                labelColor="#FFF"
+                backgroundColor={accent1Color}
+              >
+                3
+              </FilterChip>
+            </FilterButtonLabel>}
           labelPosition="before"
           icon={<ArrowDown />}
+          overlayStyle={styles.filterButton}
         />
         <FilterPopover
           open={this.state.open}

@@ -131,22 +131,26 @@ ProducerForm.propTypes = {
 
 export default connect(
   state => state.forms,
-  dispatch => ({
-    clearForm() {
+  (dispatch) => {
+    function clearForm() {
       dispatch(initialize(formName));
-    },
-    selectProducer(producer) {
-      dispatch(initialize(formName, producer));
-    },
-    loadProducers() {
+    }
+
+    function loadProducers() {
       dispatch(createLoadProducers());
-    },
-    onSubmit(producer) {
-      ProducerService.saveProducer(producer)
-        .then(this.loadProducers)
-        .then(() => this.clearForm());
-    },
-  }),
+    }
+
+    return {
+      selectProducer(producer) {
+        dispatch(initialize(formName, producer));
+      },
+      onSubmit(producer) {
+        ProducerService.saveProducer(producer)
+          .then(loadProducers)
+          .then(clearForm);
+      },
+    };
+  },
 )(reduxForm({
   form: formName,
   destroyOnUnmount: false,

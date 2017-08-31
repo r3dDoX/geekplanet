@@ -1,6 +1,6 @@
 {
   "name": "geekplanet",
-  "version": "1.0.0-beta.10",
+  "version": "1.0.0-beta.11",
   "description": "A Webshop built with React/Redux, Node JS and Mongo DB",
   "repository": "https://github.com/r3dDoX/geekplanet",
   "engines": {
@@ -66,7 +66,7 @@
     "bestzip": "1.1.4",
     "compression-webpack-plugin": "1.0.0",
     "copy-webpack-plugin": "4.0.1",
-    "css-loader": "0.28.6",
+    "css-loader": "0.28.7",
     "enzyme": "2.9.1",
     "eslint": "4.5.0",
     "eslint-config-airbnb": "15.1.0",

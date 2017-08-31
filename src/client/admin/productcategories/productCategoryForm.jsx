@@ -87,22 +87,26 @@ ProductCategoriesForm.propTypes = {
 
 export default connect(
   state => state.forms,
-  dispatch => ({
-    clearForm() {
-      dispatch(initialize(formName));
-    },
-    selectProductCategory(productCategory) {
-      dispatch(initialize(formName, productCategory));
-    },
-    loadProductCategories() {
+  (dispatch) => {
+    function loadProductCategories() {
       dispatch(createLoadProductCategories());
-    },
-    onSubmit(productCategory) {
-      ProductCategoryService.saveProductCategory(productCategory)
-        .then(this.loadProductCategories)
-        .then(() => this.clearForm(formName));
-    },
-  }),
+    }
+
+    function clearForm() {
+      dispatch(initialize(formName));
+    }
+
+    return {
+      selectProductCategory(productCategory) {
+        dispatch(initialize(formName, productCategory));
+      },
+      onSubmit(productCategory) {
+        ProductCategoryService.saveProductCategory(productCategory)
+          .then(loadProductCategories)
+          .then(() => clearForm(formName));
+      },
+    };
+  },
 )(reduxForm({
   form: formName,
   destroyOnUnmount: false,

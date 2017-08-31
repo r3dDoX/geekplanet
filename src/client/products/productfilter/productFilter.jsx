@@ -1,8 +1,7 @@
-import Menu from 'material-ui/Menu';
-import MenuItem from 'material-ui/MenuItem';
 import Popover from 'material-ui/Popover';
 import RaisedButton from 'material-ui/RaisedButton';
 import { grey700 } from 'material-ui/styles/colors';
+import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -19,7 +18,8 @@ import {
   createToggleFilterView,
 } from '../../actions';
 import TextField from '../../formHelpers/textField.jsx';
-import { ProducerPropType, ProductCategoryPropType } from '../../propTypes';
+import { ExtendedProductCategoryPropType, ProducerPropType } from '../../propTypes';
+import ProductCategories from './productCategories.jsx';
 
 export const formName = 'productFilter';
 
@@ -29,6 +29,10 @@ const FilterContainer = styled.div`
 
 const FilterButton = styled(RaisedButton)`
   margin-left: 20px;
+`;
+
+const FilterPopover = styled(Popover)`
+  width: 400px;
 `;
 
 const styles = {
@@ -54,12 +58,12 @@ class ProductFilter extends React.Component {
     super();
 
     this.state = {
-      open: false,
+      open: true,
     };
   }
 
   componentWillMount() {
-    if (this.props.productCategories.length === 0) {
+    if (this.props.groupedProductCategories.length === 0) {
       this.props.loadProductCategories();
     }
 
@@ -78,6 +82,7 @@ class ProductFilter extends React.Component {
   render() {
     const {
       filterProducts,
+      groupedProductCategories,
     } = this.props;
 
     return (
@@ -94,28 +99,25 @@ class ProductFilter extends React.Component {
         <FilterButton
           onClick={event => this.handleButtonClick(event)}
           label="Weitere Filter"
+          labelPosition="before"
+          icon={<ArrowDown />}
         />
-        <Popover
+        <FilterPopover
           open={this.state.open}
           anchorEl={this.state.anchorElement}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-          onRequestClose={this.handleRequestClose}
+          onRequestClose={() => this.setState({ open: false })}
         >
-          <Menu>
-            <MenuItem primaryText="Refresh" />
-            <MenuItem primaryText="Help &amp; feedback" />
-            <MenuItem primaryText="Settings" />
-            <MenuItem primaryText="Sign out" />
-          </Menu>
-        </Popover>
+          <ProductCategories productCategories={groupedProductCategories} />
+        </FilterPopover>
       </FilterContainer>
     );
   }
 }
 
 ProductFilter.propTypes = {
-  productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
+  groupedProductCategories: PropTypes.arrayOf(ExtendedProductCategoryPropType).isRequired,
   producers: PropTypes.arrayOf(ProducerPropType).isRequired,
   categoriesToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
   producersToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -132,7 +134,7 @@ ProductFilter.propTypes = {
 
 export default connect(
   state => ({
-    productCategories: state.products.productCategories,
+    groupedProductCategories: state.products.groupedProductCategories,
     producers: state.products.producers,
     categoriesToFilter: state.products.categoriesToFilter,
     producersToFilter: state.products.producersToFilter,

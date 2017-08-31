@@ -1,5 +1,5 @@
 import underTest from './products.reducer';
-import { FILTER_PRODUCTS, PRODUCTS_LOADED, TOGGLE_FILTER_CATEGORY } from '../actions';
+import { FILTER_PRODUCTS, PRODUCT_CATEGORIES_LOADED, PRODUCTS_LOADED, TOGGLE_FILTER_CATEGORY } from '../actions';
 
 describe('Products Reducer', () => {
   describe(FILTER_PRODUCTS, () => {
@@ -344,6 +344,41 @@ describe('Products Reducer', () => {
       expect(result.products).toBe(action.products);
       expect(result.filteredProducts).toHaveLength(1);
       expect(result.filteredProducts[0].de.name).toBe('Product Blubb');
+    });
+  });
+
+  describe(PRODUCT_CATEGORIES_LOADED, () => {
+    it('should map loaded categories to tree structure', () => {
+      const productCategories = [
+        {
+          _id: 'parentProduct',
+          de: { name: 'some Parent Product' },
+        },
+        {
+          _id: 'someOtherParentProduct',
+          de: { name: 'some other Parent Product' },
+        },
+        {
+          _id: 'childProduct',
+          de: { name: 'some Child Product' },
+          parentCategory: 'parentProduct',
+        },
+        {
+          _id: 'childChildProduct',
+          de: { name: 'some Child Child Product' },
+          parentCategory: 'childProduct',
+        },
+      ];
+      const action = {
+        type: PRODUCT_CATEGORIES_LOADED,
+        productCategories,
+      };
+
+      const result = underTest(undefined, action);
+
+      expect(result.groupedProductCategories).toHaveLength(2);
+      expect(result.groupedProductCategories[0].subCategories).toHaveLength(1);
+      expect(result.groupedProductCategories[0].subCategories[0].subCategories).toHaveLength(1);
     });
   });
 });

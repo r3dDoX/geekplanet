@@ -1,7 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
+import Checkbox from 'material-ui/Checkbox';
 import { grey200, grey800 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components';
 import { ExtendedProductCategoryPropType } from '../../propTypes';
 
 const FilterHeader = styled.h2`
@@ -11,6 +12,20 @@ const FilterHeader = styled.h2`
   color: ${grey800};
 `;
 
+const CategoryRow = styled.div`
+  padding: 10px 10px 10px 40px;
+`;
+
+function RecursiveCategoryRow(productCategory) {
+  return (
+    <CategoryRow key={productCategory._id}>
+      <Checkbox label={productCategory.de.name} />
+      {productCategory.subCategories.length ?
+        productCategory.subCategories.map(RecursiveCategoryRow) : null}
+    </CategoryRow>
+  );
+}
+
 const ProductCategories = ({
   productCategories,
 }) => (
@@ -18,11 +33,7 @@ const ProductCategories = ({
     <FilterHeader>
       Categories
     </FilterHeader>
-    {productCategories.map(productCategory => (
-      <div>
-        {productCategory.de.name}
-      </div>
-    ))}
+    {productCategories.map(RecursiveCategoryRow)}
   </div>
 );
 

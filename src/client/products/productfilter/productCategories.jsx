@@ -1,6 +1,6 @@
 import flatten from 'lodash.flatten';
 import Checkbox from 'material-ui/Checkbox';
-import { grey100, grey500 } from 'material-ui/styles/colors';
+import { grey100 } from 'material-ui/styles/colors';
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -8,12 +8,6 @@ import AnimateHeight from 'react-animate-height';
 import styled from 'styled-components';
 import { ExtendedProductCategoryPropType } from '../../propTypes';
 import { backgroundColor } from '../../theme';
-
-const FilterHeader = styled.h2`
-  margin: 0;
-  padding: 10px;
-  color: ${grey500};
-`;
 
 const CategoryRow = styled.div`
   padding-left: 40px;
@@ -148,9 +142,6 @@ class ProductCategories extends React.Component {
 
     return (
       <div>
-        <FilterHeader>
-          Categories
-        </FilterHeader>
         {productCategories.map((...args) => this.recursiveCategoryRow(...args))}
       </div>
     );

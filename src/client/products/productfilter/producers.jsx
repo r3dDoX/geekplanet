@@ -18,7 +18,7 @@ const Producers = ({
 }) => (
   <div>
     {producers.map(producer => (
-      <ProducerRow>
+      <ProducerRow key={producer._id}>
         <Checkbox
           label={producer.name}
           checked={!!producersToFilter.find(

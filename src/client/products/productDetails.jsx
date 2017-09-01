@@ -6,10 +6,10 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { createLoadProduct } from '../actions';
 import MainSpinner from '../layout/mainSpinner.jsx';
-import PriceCountUp from './priceCountUp.jsx';
 import OrderButton from '../order/orderButton.jsx';
-import { ProductPropType } from '../propTypes';
+import { CompleteProductPropType } from '../propTypes';
 import { accent1Color, brandPrimary } from '../theme';
+import PriceCountUp from './priceCountUp.jsx';
 import ProductSlider from './productSlider.jsx';
 import StockIcon from './stockIcon.jsx';
 
@@ -72,7 +72,9 @@ const styles = {
 
 class ProductDetails extends React.Component {
   componentWillMount() {
-    this.props.loadProduct(this.props.match.params.id);
+    if (this.props.product._id !== this.props.match.params.id) {
+      this.props.loadProduct(this.props.match.params.id);
+    }
   }
 
   render() {
@@ -168,7 +170,7 @@ ProductDetails.defaultProps = {
 
 ProductDetails.propTypes = {
   locale: PropTypes.string.isRequired,
-  product: ProductPropType,
+  product: CompleteProductPropType,
   productLoading: PropTypes.bool.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({

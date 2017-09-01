@@ -72,7 +72,7 @@ const styles = {
 
 class ProductDetails extends React.Component {
   componentWillMount() {
-    if (this.props.product._id !== this.props.match.params.id) {
+    if (!this.props.product || this.props.product._id !== this.props.match.params.id) {
       this.props.loadProduct(this.props.match.params.id);
     }
   }

@@ -67,15 +67,19 @@ const productFilter = {
   remarks: 0,
 };
 
-const productListFilter = Object.assign({}, productFilter, {
-  'de.description': 0,
-  'en.description': 0,
-  'fr.description': 0,
-  'it.description': 0,
+const productListFilter = {
+  _id: 1,
+  category: 1,
+  producer: 1,
+  tags: 1,
+  'de.name': 1,
+  'de.shortDescription': 1,
+  price: 1,
+  stock: 1,
   files: {
     $slice: 1,
   },
-});
+};
 
 module.exports = {
   registerEndpoints(app) {

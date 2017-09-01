@@ -4,9 +4,8 @@ import styled from 'styled-components';
 
 const Popover = styled.div`
   position: fixed;
-  padding: 20px;
   z-index: 2;
-  background-color: #FFF;
+  background-color: rgba(255, 255, 255, 0.8);
   overflow-y: auto;
   left: 0;
   width: 100%;
@@ -20,7 +19,8 @@ const Popover = styled.div`
 `;
 
 const PopoverInlay = styled.div`
-
+  padding: 20px;
+  background-color: #FFF;
 `;
 
 
@@ -35,7 +35,7 @@ const FilterPopover = ({
   >
     <PopoverInlay
       style={{
-        maxWidth: `${anchorElementRect.left + anchorElementRect.width}px`,
+        maxWidth: `${anchorElementRect.left + anchorElementRect.width + 5}px`,
       }}
     >
       {children}

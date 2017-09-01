@@ -1,6 +1,6 @@
 import Chip from 'material-ui/Chip';
 import RaisedButton from 'material-ui/RaisedButton';
-import { grey700 } from 'material-ui/styles/colors';
+import { grey500, grey700 } from 'material-ui/styles/colors';
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -21,6 +21,7 @@ import TextField from '../../formHelpers/textField.jsx';
 import { ExtendedProductCategoryPropType, ProducerPropType } from '../../propTypes';
 import { accent1Color } from '../../theme';
 import FilterPopover from './filterPopover.jsx';
+import Producers from './producers.jsx';
 import ProductCategories from './productCategories.jsx';
 
 export const formName = 'productFilter';
@@ -40,6 +41,12 @@ const FilterButtonLabel = styled.span`
 
 const FilterChip = styled(Chip)`
   margin-left: 10px !important;
+`;
+
+const FilterHeader = styled.h2`
+  margin: 0;
+  padding: 10px;
+  color: ${grey500};
 `;
 
 const styles = {
@@ -100,6 +107,9 @@ class ProductFilter extends React.Component {
       filterShown,
       categoriesToFilter,
       toggleFilterProductCategories,
+      producersToFilter,
+      toggleProducer,
+      producers,
     } = this.props;
 
     return (
@@ -132,10 +142,21 @@ class ProductFilter extends React.Component {
         />
         {filterShown ? (
           <FilterPopover anchorElementRect={this.state.anchorElement.getBoundingClientRect()}>
+            <FilterHeader>
+              Categories
+            </FilterHeader>
             <ProductCategories
               productCategories={groupedProductCategories}
               categoriesToFilter={categoriesToFilter}
               toggleFilterProductCategories={toggleFilterProductCategories}
+            />
+            <FilterHeader>
+              Producers
+            </FilterHeader>
+            <Producers
+              producersToFilter={producersToFilter}
+              producers={producers}
+              toggleProducer={toggleProducer}
             />
           </FilterPopover>
         ) : null}

@@ -1,5 +1,4 @@
 import Chip from 'material-ui/Chip';
-import Popover from 'material-ui/Popover';
 import RaisedButton from 'material-ui/RaisedButton';
 import { grey700 } from 'material-ui/styles/colors';
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
@@ -42,7 +41,7 @@ const FilterChip = styled(Chip)`
   margin-left: 10px !important;
 `;
 
-const FilterPopover = styled(Popover)`
+const FilterPopover = styled.div`
   width: 400px;
 `;
 
@@ -131,13 +130,7 @@ class ProductFilter extends React.Component {
           icon={<ArrowDown />}
           overlayStyle={styles.filterButton}
         />
-        <FilterPopover
-          open={this.state.open}
-          anchorEl={this.state.anchorElement}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-          targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-          onRequestClose={() => this.setState({ open: false })}
-        >
+        <FilterPopover>
           <ProductCategories productCategories={groupedProductCategories} />
         </FilterPopover>
       </FilterContainer>

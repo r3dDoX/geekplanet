@@ -33,9 +33,9 @@ const StyledCardMedia = styled(CardMedia)`
 
 const StyledCardTitle = styled(CardTitle)`
   flex none;
-  display flex;
-  align-items flex-end;
-  justify-content space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const StyledCardText = styled(CardText)`

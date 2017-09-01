@@ -164,22 +164,26 @@ SupplierForm.propTypes = {
 
 export default connect(
   state => state.forms,
-  dispatch => ({
-    clearForm() {
+  (dispatch) => {
+    function clearForm() {
       dispatch(initialize(formName));
-    },
-    selectSupplier(supplier) {
-      dispatch(initialize(formName, supplier));
-    },
-    loadSuppliers() {
+    }
+
+    function loadSuppliers() {
       dispatch(createLoadSuppliers());
-    },
-    onSubmit(supplier) {
-      SupplierService.saveSupplier(supplier)
-        .then(this.loadSuppliers)
-        .then(() => this.clearForm());
-    },
-  })
+    }
+
+    return {
+      selectSupplier(supplier) {
+        dispatch(initialize(formName, supplier));
+      },
+      onSubmit(supplier) {
+        SupplierService.saveSupplier(supplier)
+          .then(loadSuppliers)
+          .then(clearForm);
+      },
+    };
+  }
 )(reduxForm({
   form: formName,
   destroyOnUnmount: false,

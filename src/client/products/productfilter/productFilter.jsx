@@ -19,8 +19,9 @@ import {
 } from '../../actions';
 import TextField from '../../formHelpers/textField.jsx';
 import { ExtendedProductCategoryPropType, ProducerPropType } from '../../propTypes';
-import ProductCategories from './productCategories.jsx';
 import { accent1Color } from '../../theme';
+import FilterPopover from './filterPopover.jsx';
+import ProductCategories from './productCategories.jsx';
 
 export const formName = 'productFilter';
 
@@ -39,10 +40,6 @@ const FilterButtonLabel = styled.span`
 
 const FilterChip = styled(Chip)`
   margin-left: 10px !important;
-`;
-
-const FilterPopover = styled.div`
-  width: 400px;
 `;
 
 const styles = {
@@ -75,7 +72,7 @@ class ProductFilter extends React.Component {
     super();
 
     this.state = {
-      open: false,
+      anchorElement: undefined,
     };
   }
 
@@ -92,14 +89,17 @@ class ProductFilter extends React.Component {
   handleButtonClick(event) {
     this.setState({
       anchorElement: event.currentTarget,
-      open: !this.state.open,
     });
+    this.props.toggleFilterView();
   }
 
   render() {
     const {
       filterProducts,
       groupedProductCategories,
+      filterShown,
+      categoriesToFilter,
+      toggleFilterProductCategories,
     } = this.props;
 
     return (
@@ -130,9 +130,15 @@ class ProductFilter extends React.Component {
           icon={<ArrowDown />}
           overlayStyle={styles.filterButton}
         />
-        <FilterPopover>
-          <ProductCategories productCategories={groupedProductCategories} />
-        </FilterPopover>
+        {filterShown ? (
+          <FilterPopover anchorElementRect={this.state.anchorElement.getBoundingClientRect()}>
+            <ProductCategories
+              productCategories={groupedProductCategories}
+              categoriesToFilter={categoriesToFilter}
+              toggleFilterProductCategories={toggleFilterProductCategories}
+            />
+          </FilterPopover>
+        ) : null}
       </FilterContainer>
     );
   }
@@ -148,7 +154,7 @@ ProductFilter.propTypes = {
   loadProductCategories: PropTypes.func.isRequired,
   loadPublicPorducers: PropTypes.func.isRequired,
   filterProducts: PropTypes.func.isRequired,
-  toggleProductCategory: PropTypes.func.isRequired,
+  toggleFilterProductCategories: PropTypes.func.isRequired,
   toggleProducer: PropTypes.func.isRequired,
   resetFilter: PropTypes.func.isRequired,
   toggleFilterView: PropTypes.func.isRequired,
@@ -174,7 +180,7 @@ export default connect(
     filterProducts(filterString) {
       dispatch(createFilterProducts(filterString));
     },
-    toggleProductCategory(categories) {
+    toggleFilterProductCategories(categories) {
       dispatch(createToggleFilterCategory(categories));
     },
     toggleProducer(producers) {

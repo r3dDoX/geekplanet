@@ -138,7 +138,6 @@ export default (state = initialState, {
         filterString,
         productFilters,
         filteredProducts: filterProducts(state.products, productFilters),
-        filterShown: true,
       });
     }
     case TOGGLE_FILTER_CATEGORY: {
@@ -152,7 +151,6 @@ export default (state = initialState, {
         categoriesToFilter: productCategories,
         productFilters,
         filteredProducts: filterProducts(state.products, productFilters),
-        filterShown: !!productCategories.length,
       });
     }
     case TOGGLE_FILTER_PRODUCER: {

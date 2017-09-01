@@ -6,7 +6,32 @@ export const ProductPropType = PropTypes.shape({
   name: PropTypes.string,
   price: PropTypes.number,
   stock: PropTypes.number,
-  description: PropTypes.string,
+  de: PropTypes.shape({
+    name: PropTypes.string,
+    shortDescription: PropTypes.string,
+  }),
+  tags: PropTypes.arrayOf(PropTypes.string),
+  files: PropTypes.arrayOf(PropTypes.string),
+});
+
+export const CompleteProductPropType = PropTypes.shape({
+  _id: PropTypes.string,
+  category: PropTypes.string,
+  name: PropTypes.string,
+  price: PropTypes.number,
+  stock: PropTypes.number,
+  de: PropTypes.shape({
+    name: PropTypes.string,
+    shortDescription: PropTypes.string,
+    description: PropTypes.string,
+    specifications: PropTypes.arrayOf(PropTypes.string),
+    delivery: PropTypes.arrayOf(PropTypes.string),
+    downloads: PropTypes.arrayOf(PropTypes.shape({
+      text: PropTypes.string,
+      href: PropTypes.string,
+    })),
+  }),
+  tags: PropTypes.arrayOf(PropTypes.string),
   files: PropTypes.arrayOf(PropTypes.string),
 });
 

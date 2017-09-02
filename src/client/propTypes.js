@@ -1,5 +1,12 @@
 import PropTypes from 'prop-types';
 
+// for nested proptypes
+function lazyFunction(f) {
+  return function () { // eslint-disable-line func-names
+    return f().apply(this, arguments); // eslint-disable-line prefer-rest-params
+  };
+}
+
 export const ProductPropType = PropTypes.shape({
   _id: PropTypes.string,
   category: PropTypes.string,
@@ -106,6 +113,7 @@ export const ProductCategoryPropType = PropTypes.shape({
   de: {
     name: PropTypes.string,
   },
+  subCategories: PropTypes.arrayOf(lazyFunction(() => ProductCategoryPropType)),
 });
 
 export const OrderPropType = PropTypes.shape({

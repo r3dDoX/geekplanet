@@ -2,7 +2,7 @@ import underTest from './products.reducer';
 import {
   FILTER_PRODUCTS,
   PRODUCT_CATEGORIES_LOADED,
-  PRODUCTS_LOADED,
+  PRODUCTS_LOADED, RESET_FILTER,
   TOGGLE_FILTER_CATEGORY,
   TOGGLE_FILTER_PRODUCER,
 } from '../actions';
@@ -397,6 +397,23 @@ describe('Products Reducer', () => {
       expect(result.groupedProductCategories).toHaveLength(2);
       expect(result.groupedProductCategories[0].subCategories).toHaveLength(1);
       expect(result.groupedProductCategories[0].subCategories[0].subCategories).toHaveLength(1);
+    });
+  });
+
+  describe(RESET_FILTER, () => {
+    it('should reset filter count', () => {
+      const state = {
+        products: [],
+        productFilters: {},
+        moreFiltersCount: 15,
+      };
+      const action = {
+        type: FILTER_PRODUCTS,
+      };
+
+      const result = underTest(state, action);
+
+      expect(result.moreFiltersCount).toBe(0);
     });
   });
 });

@@ -1,4 +1,3 @@
-import Chip from 'material-ui/Chip';
 import RaisedButton from 'material-ui/RaisedButton';
 import { grey200, grey700, grey800 } from 'material-ui/styles/colors';
 import FilterIcon from 'material-ui/svg-icons/image/tune';
@@ -20,11 +19,11 @@ import {
 } from '../../actions';
 import SmallTextField from '../../formHelpers/smallTextField.jsx';
 import { ExtendedProductCategoryPropType, ProducerPropType } from '../../propTypes';
-import { accent1Color, backgroundColor, mdMinSize, xsMaxSize } from '../../theme';
+import { backgroundColor, mdMinSize, xsMaxSize } from '../../theme';
+import FilterBadge from './filterBadge.jsx';
 import FilterPopover from './filterPopover.jsx';
 import Producers from './producers.jsx';
 import ProductCategories from './productCategories.jsx';
-import FilterBadge from './filterBadge.jsx';
 
 export const formName = 'productFilter';
 
@@ -155,6 +154,8 @@ class ProductFilter extends React.Component {
       toggleProducer,
       producers,
       moreFiltersCount,
+      toggleFilterView,
+      resetFilter,
     } = this.props;
 
     return (
@@ -194,7 +195,8 @@ class ProductFilter extends React.Component {
         {filterShown ? (
           <FilterPopover
             top={this.state.top}
-            toggleFilterView={this.props.toggleFilterView}
+            toggleFilterView={toggleFilterView}
+            resetFilter={resetFilter}
           >
             <FilterHeader>
               <FormattedMessage id="PRODUCT_FILTER.PRODUCT_CATEGORIES_TITLE" />
@@ -224,7 +226,6 @@ ProductFilter.propTypes = {
   producers: PropTypes.arrayOf(ProducerPropType).isRequired,
   categoriesToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
   producersToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
-  filterString: PropTypes.string.isRequired,
   filterShown: PropTypes.bool.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
   loadPublicPorducers: PropTypes.func.isRequired,

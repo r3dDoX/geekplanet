@@ -3,9 +3,9 @@ import { grey200, grey800 } from 'material-ui/styles/colors';
 import CloseIcon from 'material-ui/svg-icons/content/clear';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import { mdMinSize, xsMaxSize } from '../../theme';
-import { FormattedMessage } from 'react-intl';
 
 const Popover = styled.div`
   position: fixed;
@@ -92,9 +92,14 @@ const FilterButton = styled(RaisedButton)`
   margin-right: 20px;
 `;
 
+const ResetButton = styled(RaisedButton)`
+  margin-right: px;
+`;
+
 const FilterPopover = ({
   children,
   toggleFilterView,
+  resetFilter,
   top,
 }) => (
   <Popover
@@ -113,6 +118,14 @@ const FilterPopover = ({
     <PopoverInlay>
       {children}
       <FilterButtonContainer>
+        <ResetButton
+          secondary
+          label={<FormattedMessage id="PRODUCT_FILTER.RESET_FILTER" />}
+          onClick={() => {
+            resetFilter();
+            toggleFilterView();
+          }}
+        />
         <FilterButton
           primary
           label={<FormattedMessage id="PRODUCT_FILTER.BACK" />}
@@ -127,6 +140,7 @@ FilterPopover.propTypes = {
   top: PropTypes.number.isRequired,
   children: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
   toggleFilterView: PropTypes.func.isRequired,
+  resetFilter: PropTypes.func.isRequired,
 };
 
 export default FilterPopover;

@@ -1,6 +1,6 @@
 import Chip from 'material-ui/Chip';
 import RaisedButton from 'material-ui/RaisedButton';
-import { grey500, grey700 } from 'material-ui/styles/colors';
+import { grey700 } from 'material-ui/styles/colors';
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -40,7 +40,7 @@ const FilterContainer = styled.div`
 const FilterButton = styled(RaisedButton)`
   margin-left: 20px;
   
-  @media (max-width: 659px) {
+  @media screen and (max-width: 659px) {
     display: none !important;
   }
 `;
@@ -152,7 +152,10 @@ class ProductFilter extends React.Component {
           overlayStyle={styles.filterButton}
         />
         {filterShown ? (
-          <FilterPopover anchorElementRect={this.state.anchorElement.getBoundingClientRect()}>
+          <FilterPopover
+            anchorElementRect={this.state.anchorElement.getBoundingClientRect()}
+            toggleFilterView={this.props.toggleFilterView}
+          >
             <FilterHeader>
               Categories
             </FilterHeader>

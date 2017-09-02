@@ -54,6 +54,7 @@ const FilterButton = styled(RaisedButton)`
 const FilterPopover = ({
   anchorElementRect,
   children,
+  toggleFilterView,
 }) => (
   <Popover
     style={{
@@ -66,6 +67,7 @@ const FilterPopover = ({
         <FilterButton
           primary
           label="Filter speichern"
+          onClick={toggleFilterView}
         />
       </FilterButtonContainer>
     </PopoverInlay>
@@ -80,6 +82,7 @@ FilterPopover.propTypes = {
     height: PropTypes.number,
   }).isRequired,
   children: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
+  toggleFilterView: PropTypes.func.isRequired,
 };
 
 export default FilterPopover;

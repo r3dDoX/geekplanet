@@ -1,25 +1,14 @@
 import underTest from './products.reducer';
-import { FILTER_PRODUCTS, PRODUCTS_LOADED, TOGGLE_FILTER_CATEGORY } from '../actions';
+import {
+  FILTER_PRODUCTS,
+  PRODUCT_CATEGORIES_LOADED,
+  PRODUCTS_LOADED, RESET_FILTER,
+  TOGGLE_FILTER_CATEGORY,
+  TOGGLE_FILTER_PRODUCER,
+} from '../actions';
 
 describe('Products Reducer', () => {
   describe(FILTER_PRODUCTS, () => {
-    it('should set filterShown to true', () => {
-      const state = {
-        categoriesToFilter: [],
-        productFilters: {},
-        products: [],
-        filterShown: false,
-      };
-      const action = {
-        type: FILTER_PRODUCTS,
-        filterString: 'abc',
-      };
-
-      const newState = underTest(state, action);
-
-      expect(newState.filterShown).toBe(true);
-    });
-
     it('should filter products by german name', () => {
       const state = {
         categoriesToFilter: [],
@@ -171,46 +160,24 @@ describe('Products Reducer', () => {
   });
 
   describe(TOGGLE_FILTER_CATEGORY, () => {
-    it('should set filterShown to true when setting filter categories', () => {
-      const state = {
-        categoriesToFilter: [],
-        productFilters: {},
-        products: [],
-        filterShown: false,
-      };
+    it('should count categories filtered', () => {
       const action = {
         type: TOGGLE_FILTER_CATEGORY,
-        productCategories: [
-          {
-            _id: 'categoryId1',
-          },
-        ],
+        productCategory: {
+          _id: 'categoryId1',
+          subCategories: [],
+        },
+        productCategoryAdded: true,
       };
 
-      const newState = underTest(state, action);
+      const newState = underTest(undefined, action);
 
-      expect(newState.filterShown).toBe(true);
-    });
-
-    it('should set filterShown to false when setting filter categories empty', () => {
-      const state = {
-        categoriesToFilter: [],
-        productFilters: {},
-        products: [],
-        filterShown: true,
-      };
-      const action = {
-        type: TOGGLE_FILTER_CATEGORY,
-        productCategories: [],
-      };
-
-      const newState = underTest(state, action);
-
-      expect(newState.filterShown).toBe(false);
+      expect(newState.moreFiltersCount).toBe(1);
     });
 
     it('should filter products by category ids', () => {
       const state = {
+        producersToFilter: [],
         categoriesToFilter: [],
         productFilters: {},
         products: [
@@ -224,11 +191,11 @@ describe('Products Reducer', () => {
       };
       const action = {
         type: TOGGLE_FILTER_CATEGORY,
-        productCategories: [
-          {
-            _id: 'categoryId1',
-          },
-        ],
+        productCategory: {
+          _id: 'categoryId1',
+          subCategories: [],
+        },
+        productCategoryAdded: true,
       };
 
       const newState = underTest(state, action);
@@ -237,48 +204,144 @@ describe('Products Reducer', () => {
       expect(newState.filteredProducts[0].category).toBe('categoryId1');
     });
 
-    it('should update filter on second action', () => {
+    it('should filter products by categories and subcategories', () => {
       const state = {
+        producersToFilter: [],
         categoriesToFilter: [],
         productFilters: {},
         products: [
           {
-            category: 'categoryId0',
+            category: 'categoryId',
           },
           {
-            category: 'categoryId1',
+            category: 'subCategoryId',
           },
           {
-            category: 'categoryId2',
+            category: 'otherParentId',
           },
         ],
       };
       const action = {
         type: TOGGLE_FILTER_CATEGORY,
-        productCategories: [
-          {
-            _id: 'categoryId1',
-          },
-        ],
-      };
-      const action2 = {
-        type: TOGGLE_FILTER_CATEGORY,
-        productCategories: [
-          {
-            _id: 'categoryId1',
-          },
-          {
-            _id: 'categoryId0',
-          },
-        ],
+        productCategory: {
+          _id: 'categoryId',
+          subCategories: [
+            {
+              _id: 'someOtherId',
+              subCategories: [
+                {
+                  _id: 'subCategoryId',
+                  subCategories: [],
+                },
+              ],
+            },
+          ],
+        },
+        productCategoryAdded: true,
       };
 
-      const intermediateState = underTest(state, action);
-      const newState = underTest(intermediateState, action2);
+      const newState = underTest(state, action);
 
       expect(newState.filteredProducts).toHaveLength(2);
-      expect(newState.filteredProducts[0].category).toBe('categoryId0');
-      expect(newState.filteredProducts[1].category).toBe('categoryId1');
+      expect(newState.filteredProducts[0].category).toBe('categoryId');
+      expect(newState.filteredProducts[1].category).toBe('subCategoryId');
+    });
+
+    it('should remove filterd subcategories when parentcategory removed', () => {
+      const state = {
+        producersToFilter: [],
+        categoriesToFilter: [],
+        productFilters: {},
+        products: [
+          {
+            category: 'categoryId',
+          },
+          {
+            category: 'subCategoryId',
+          },
+          {
+            category: 'otherParentId',
+          },
+        ],
+      };
+      const actionAdd = {
+        type: TOGGLE_FILTER_CATEGORY,
+        productCategory: {
+          _id: 'subCategoryId',
+          subCategories: [],
+        },
+        productCategoryAdded: true,
+      };
+      const actionRemove = {
+        type: TOGGLE_FILTER_CATEGORY,
+        productCategory: {
+          _id: 'categoryId',
+          subCategories: [
+            {
+              _id: 'someOtherId',
+              subCategories: [
+                {
+                  _id: 'subCategoryId',
+                  subCategories: [],
+                },
+              ],
+            },
+          ],
+        },
+        productCategoryAdded: false,
+      };
+
+      const intermediateState = underTest(state, actionAdd);
+      const newState = underTest(intermediateState, actionRemove);
+
+      expect(newState.filteredProducts).toHaveLength(3);
+    });
+  });
+
+  describe(TOGGLE_FILTER_PRODUCER, () => {
+    it('should count producers filtered', () => {
+      const action = {
+        type: TOGGLE_FILTER_PRODUCER,
+        producers: [
+          {
+            _id: 'producerId1',
+          },
+          {
+            _id: 'producerId',
+          },
+        ],
+      };
+
+      const newState = underTest(undefined, action);
+
+      expect(newState.moreFiltersCount).toBe(2);
+    });
+
+    it('should add count to moreFiltersCount', () => {
+      const categoryAction = {
+        type: TOGGLE_FILTER_CATEGORY,
+        productCategory: {
+          _id: 'someId',
+          subCategories: [],
+        },
+        productCategoryAdded: true,
+      };
+      const action = {
+        type: TOGGLE_FILTER_PRODUCER,
+        producers: [
+          {
+            _id: 'producerId1',
+          },
+          {
+            _id: 'producerId',
+          },
+        ],
+      };
+
+      const intermediateState = underTest(undefined, categoryAction);
+      const result = underTest(intermediateState, action);
+
+      expect(result.moreFiltersCount).toBe(3);
     });
   });
 
@@ -344,6 +407,73 @@ describe('Products Reducer', () => {
       expect(result.products).toBe(action.products);
       expect(result.filteredProducts).toHaveLength(1);
       expect(result.filteredProducts[0].de.name).toBe('Product Blubb');
+    });
+  });
+
+  describe(PRODUCT_CATEGORIES_LOADED, () => {
+    it('should map loaded categories to tree structure', () => {
+      const productCategories = [
+        {
+          _id: 'parentProduct',
+          de: { name: 'some Parent Product' },
+        },
+        {
+          _id: 'someOtherParentProduct',
+          de: { name: 'some other Parent Product' },
+        },
+        {
+          _id: 'childProduct',
+          de: { name: 'some Child Product' },
+          parentCategory: 'parentProduct',
+        },
+        {
+          _id: 'childChildProduct',
+          de: { name: 'some Child Child Product' },
+          parentCategory: 'childProduct',
+        },
+      ];
+      const action = {
+        type: PRODUCT_CATEGORIES_LOADED,
+        productCategories,
+      };
+
+      const result = underTest(undefined, action);
+
+      expect(result.groupedProductCategories).toHaveLength(2);
+      expect(result.groupedProductCategories[0].subCategories).toHaveLength(1);
+      expect(result.groupedProductCategories[0].subCategories[0].subCategories).toHaveLength(1);
+    });
+  });
+
+  describe(RESET_FILTER, () => {
+    it('should reset filter count', () => {
+      const state = {
+        products: [],
+        productFilters: {},
+        moreFiltersCount: 15,
+      };
+      const action = {
+        type: RESET_FILTER,
+      };
+
+      const result = underTest(state, action);
+
+      expect(result.moreFiltersCount).toBe(0);
+    });
+
+    it('should reset filterShown', () => {
+      const state = {
+        products: [],
+        productFilters: {},
+        filterShown: true,
+      };
+      const action = {
+        type: RESET_FILTER,
+      };
+
+      const result = underTest(state, action);
+
+      expect(result.filterShown).toBe(false);
     });
   });
 });

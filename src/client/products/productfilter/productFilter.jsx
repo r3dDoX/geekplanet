@@ -62,6 +62,7 @@ const MobileFilterButton = styled.div`
   align-items: center;
   color: ${grey800};
   box-shadow: 0 1px 1px 1px rgba(0,0,0,0.2);
+  cursor: pointer;
   
   @media screen and (min-width: ${mdMinSize}) {
     display: none !important;

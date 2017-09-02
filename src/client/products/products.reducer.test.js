@@ -415,5 +415,20 @@ describe('Products Reducer', () => {
 
       expect(result.moreFiltersCount).toBe(0);
     });
+
+    it('should reset filterShown', () => {
+      const state = {
+        products: [],
+        productFilters: {},
+        filterShown: true,
+      };
+      const action = {
+        type: FILTER_PRODUCTS,
+      };
+
+      const result = underTest(state, action);
+
+      expect(result.filterShown).toBe(false);
+    });
   });
 });

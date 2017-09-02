@@ -54,6 +54,7 @@ const FilterButtonContainer = styled.div`
   width: 100%;
   max-width: 900px;
   padding: 5px 0;
+  z-index: 2;
   
   animation: .15s ease-in .45s delayFadeIn;
   animation-fill-mode: both;
@@ -121,10 +122,7 @@ const FilterPopover = ({
         <ResetButton
           secondary
           label={<FormattedMessage id="PRODUCT_FILTER.RESET_FILTER" />}
-          onClick={() => {
-            resetFilter();
-            toggleFilterView();
-          }}
+          onClick={resetFilter}
         />
         <FilterButton
           primary

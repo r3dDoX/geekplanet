@@ -1,6 +1,7 @@
 import Chip from 'material-ui/Chip';
 import RaisedButton from 'material-ui/RaisedButton';
-import { grey700 } from 'material-ui/styles/colors';
+import { grey200, grey700, grey800 } from 'material-ui/styles/colors';
+import FilterIcon from 'material-ui/svg-icons/image/tune';
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -44,6 +45,25 @@ const FilterButton = styled(RaisedButton)`
   margin-left: 20px;
   
   @media screen and (max-width: ${xsMaxSize}) {
+    display: none !important;
+  }
+`;
+
+const MobileFilterButton = styled.div`
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  background-color: ${grey200};
+  padding: 5px 20px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  color: ${grey800};
+  box-shadow: 0 1px 1px 1px rgba(0,0,0,0.2);
+  
+  @media screen and (min-width: ${mdMinSize}) {
     display: none !important;
   }
 `;
@@ -115,9 +135,9 @@ class ProductFilter extends React.Component {
     }
   }
 
-  handleButtonClick(event) {
+  handleButtonClick(top) {
     this.setState({
-      anchorElement: event.currentTarget,
+      top,
     });
     this.props.toggleFilterView();
   }
@@ -146,7 +166,10 @@ class ProductFilter extends React.Component {
           type="text"
         />
         <FilterButton
-          onClick={event => this.handleButtonClick(event)}
+          onClick={({ currentTarget }) => {
+            const boundingRect = currentTarget.getBoundingClientRect();
+            this.handleButtonClick(boundingRect.top + boundingRect.height + 5);
+          }}
           label={
             <FilterButtonLabel>
               Weitere Filter
@@ -162,13 +185,19 @@ class ProductFilter extends React.Component {
           icon={<ArrowDown />}
           overlayStyle={styles.filterButton}
         />
+        <MobileFilterButton
+          onClick={() => this.handleButtonClick(0)}
+        >
+          <FilterIcon color={grey800} />
+          &nbsp;Filters
+        </MobileFilterButton>
         {filterShown ? (
           <FilterPopover
-            anchorElementRect={this.state.anchorElement.getBoundingClientRect()}
+            top={this.state.top}
             toggleFilterView={this.props.toggleFilterView}
           >
             <FilterHeader>
-              Categories
+              <FormattedMessage id="PRODUCT_FILTER.PRODUCT_CATEGORIES_TITLE" />
             </FilterHeader>
             <ProductCategories
               productCategories={groupedProductCategories}
@@ -176,7 +205,7 @@ class ProductFilter extends React.Component {
               toggleFilterProductCategories={toggleFilterProductCategories}
             />
             <FilterHeader>
-              Producers
+              <FormattedMessage id="PRODUCT_FILTER.PRODUCERS_TITLE" />
             </FilterHeader>
             <Producers
               producersToFilter={producersToFilter}

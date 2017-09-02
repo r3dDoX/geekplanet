@@ -150,7 +150,7 @@ class ProductFilter extends React.Component {
       groupedProductCategories,
       filterShown,
       categoriesToFilter,
-      toggleFilterProductCategories,
+      toggleFilterProductCategory,
       producersToFilter,
       toggleProducer,
       producers,
@@ -205,7 +205,7 @@ class ProductFilter extends React.Component {
             <ProductCategories
               productCategories={groupedProductCategories}
               categoriesToFilter={categoriesToFilter}
-              toggleFilterProductCategories={toggleFilterProductCategories}
+              toggleFilterProductCategory={toggleFilterProductCategory}
             />
             <FilterHeader>
               <FormattedMessage id="PRODUCT_FILTER.PRODUCERS_TITLE" />
@@ -231,7 +231,7 @@ ProductFilter.propTypes = {
   loadProductCategories: PropTypes.func.isRequired,
   loadPublicPorducers: PropTypes.func.isRequired,
   filterProducts: PropTypes.func.isRequired,
-  toggleFilterProductCategories: PropTypes.func.isRequired,
+  toggleFilterProductCategory: PropTypes.func.isRequired,
   toggleProducer: PropTypes.func.isRequired,
   resetFilter: PropTypes.func.isRequired,
   toggleFilterView: PropTypes.func.isRequired,
@@ -259,8 +259,8 @@ export default connect(
     filterProducts(filterString) {
       dispatch(createFilterProducts(filterString));
     },
-    toggleFilterProductCategories(categories) {
-      dispatch(createToggleFilterCategory(categories));
+    toggleFilterProductCategory(category, categoryAdded) {
+      dispatch(createToggleFilterCategory(category, categoryAdded));
     },
     toggleProducer(producers) {
       dispatch(createToggleFilterProducer(producers));

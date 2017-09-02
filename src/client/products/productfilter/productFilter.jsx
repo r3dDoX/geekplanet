@@ -83,6 +83,14 @@ const FilterHeader = styled.h2`
   color: ${backgroundColor};
 `;
 
+const StyledFilterIcon = styled(FilterIcon)`
+  margin-right: 10px;
+`;
+
+const MobileFilterButtonText = styled.div`
+  white-space: nowrap;
+`;
+
 const styles = {
   filterHint: {
     color: grey700,
@@ -152,6 +160,7 @@ class ProductFilter extends React.Component {
       producersToFilter,
       toggleProducer,
       producers,
+      moreFiltersCount,
     } = this.props;
 
     return (
@@ -172,14 +181,16 @@ class ProductFilter extends React.Component {
           }}
           label={
             <FilterButtonLabel>
-              Weitere Filter
-              <FilterChip
-                labelStyle={styles.filterChip}
-                labelColor="#FFF"
-                backgroundColor={accent1Color}
-              >
-                3
-              </FilterChip>
+              <FormattedMessage id="PRODUCT_FILTER.MORE_FILTERS" />
+              {moreFiltersCount ? (
+                <FilterChip
+                  labelStyle={styles.filterChip}
+                  labelColor="#FFF"
+                  backgroundColor={accent1Color}
+                >
+                  {moreFiltersCount}
+                </FilterChip>
+              ) : null}
             </FilterButtonLabel>}
           labelPosition="before"
           icon={<ArrowDown />}
@@ -188,8 +199,19 @@ class ProductFilter extends React.Component {
         <MobileFilterButton
           onClick={() => this.handleButtonClick(0)}
         >
-          <FilterIcon color={grey800} />
-          &nbsp;Filters
+          <StyledFilterIcon color={grey800} />
+          <MobileFilterButtonText>
+            <FormattedMessage id="PRODUCT_FILTER.MORE_FILTERS" />
+          </MobileFilterButtonText>
+          {moreFiltersCount ? (
+            <FilterChip
+              labelStyle={styles.filterChip}
+              labelColor="#FFF"
+              backgroundColor={accent1Color}
+            >
+              {moreFiltersCount}
+            </FilterChip>
+          ) : null}
         </MobileFilterButton>
         {filterShown ? (
           <FilterPopover
@@ -233,6 +255,7 @@ ProductFilter.propTypes = {
   toggleProducer: PropTypes.func.isRequired,
   resetFilter: PropTypes.func.isRequired,
   toggleFilterView: PropTypes.func.isRequired,
+  moreFiltersCount: PropTypes.number.isRequired,
 };
 
 export default connect(
@@ -244,6 +267,7 @@ export default connect(
     filteredProducts: state.products.filteredProducts,
     filterString: state.products.filterString,
     filterShown: state.products.filterShown,
+    moreFiltersCount: state.products.moreFiltersCount,
   }),
   dispatch => ({
     loadProductCategories() {

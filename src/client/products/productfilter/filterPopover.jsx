@@ -1,3 +1,4 @@
+import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
@@ -19,10 +20,36 @@ const Popover = styled.div`
 `;
 
 const PopoverInlay = styled.div`
-  padding: 20px;
+  position: relative;
+  padding: 20px 20px 60px;
   background-color: #FFF;
+  max-width: 900px;
 `;
 
+const FilterButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background-color: #FFF;
+  width: 100%;
+  max-width: 900px;
+  padding: 5px 0;
+  
+  animation: .15s ease-in .45s delayFadeIn;
+  animation-fill-mode: both;
+  
+  @keyframes delayFadeIn {
+    from { bottom: -50px; }
+    to { bottom: 0; }
+  }
+`;
+
+const FilterButton = styled(RaisedButton)`
+  margin-right: 20px;
+`;
 
 const FilterPopover = ({
   anchorElementRect,
@@ -33,12 +60,14 @@ const FilterPopover = ({
       top: `${anchorElementRect.top + anchorElementRect.height + 5}px`,
     }}
   >
-    <PopoverInlay
-      style={{
-        maxWidth: `${anchorElementRect.left + anchorElementRect.width + 5}px`,
-      }}
-    >
+    <PopoverInlay>
       {children}
+      <FilterButtonContainer>
+        <FilterButton
+          primary
+          label="Filter speichern"
+        />
+      </FilterButtonContainer>
     </PopoverInlay>
   </Popover>
 );

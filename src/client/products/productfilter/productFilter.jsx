@@ -19,7 +19,7 @@ import {
 } from '../../actions';
 import TextField from '../../formHelpers/textField.jsx';
 import { ExtendedProductCategoryPropType, ProducerPropType } from '../../propTypes';
-import { accent1Color } from '../../theme';
+import { accent1Color, backgroundColor } from '../../theme';
 import FilterPopover from './filterPopover.jsx';
 import Producers from './producers.jsx';
 import ProductCategories from './productCategories.jsx';
@@ -27,11 +27,22 @@ import ProductCategories from './productCategories.jsx';
 export const formName = 'productFilter';
 
 const FilterContainer = styled.div`
-  padding: 20px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  background: #FFF;
+  z-index: 2;
+  padding: 0 20px 10px;
+  box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.3);
+  max-height: 82px;
 `;
 
 const FilterButton = styled(RaisedButton)`
   margin-left: 20px;
+  
+  @media (max-width: 659px) {
+    display: none !important;
+  }
 `;
 
 const FilterButtonLabel = styled.span`
@@ -46,7 +57,7 @@ const FilterChip = styled(Chip)`
 const FilterHeader = styled.h2`
   margin: 0;
   padding: 10px;
-  color: ${grey500};
+  color: ${backgroundColor};
 `;
 
 const styles = {

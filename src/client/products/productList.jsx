@@ -10,7 +10,7 @@ const ProductListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
-  padding: 20px 15px;
+  padding: 100px 15px 20px;
 `;
 
 const PAGE_SIZE = 20;

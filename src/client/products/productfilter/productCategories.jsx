@@ -1,4 +1,3 @@
-import flatten from 'lodash.flatten';
 import Checkbox from 'material-ui/Checkbox';
 import { grey100 } from 'material-ui/styles/colors';
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
@@ -34,25 +33,6 @@ const Toggle = styled.div`
   align-items: center;
 `;
 
-function recursivelyMapIds(category) {
-  return [
-    category._id,
-    ...flatten(category.subCategories.map(recursivelyMapIds)),
-  ];
-}
-
-function recursivelyMapIdsIfNotPresent(presentCategories, category) {
-  const arr = [];
-
-  if (!presentCategories.some(presentCategory => presentCategory._id === category._id)) {
-    arr.push(category);
-  }
-
-  return arr.concat(flatten(category.subCategories.map(
-    subCategory => recursivelyMapIdsIfNotPresent(presentCategories, subCategory)
-  )));
-}
-
 class ProductCategories extends React.Component {
   constructor(props) {
     super(props);
@@ -77,31 +57,10 @@ class ProductCategories extends React.Component {
     });
   }
 
-  toggleSelection(productCategory, checked) {
-    const {
-      categoriesToFilter,
-      toggleFilterProductCategories,
-    } = this.props;
-    let newCategoriesToFilter;
-
-    if (checked) {
-      newCategoriesToFilter = categoriesToFilter.concat(
-        recursivelyMapIdsIfNotPresent(categoriesToFilter, productCategory)
-      );
-    } else {
-      const idsToRemove = recursivelyMapIds(productCategory);
-
-      newCategoriesToFilter = categoriesToFilter.filter(
-        category => !idsToRemove.includes(category._id)
-      );
-    }
-
-    toggleFilterProductCategories(newCategoriesToFilter);
-  }
-
   recursiveCategoryRow(productCategory) {
     const {
       categoriesToFilter,
+      toggleFilterProductCategory,
     } = this.props;
 
     return (
@@ -111,7 +70,7 @@ class ProductCategories extends React.Component {
             <Checkbox
               label={productCategory.de.name}
               checked={!!categoriesToFilter.find(category => productCategory._id === category._id)}
-              onCheck={(event, checked) => this.toggleSelection(productCategory, checked)}
+              onCheck={(event, checked) => toggleFilterProductCategory(productCategory, checked)}
             />
           </CheckboxWrapper>
           {productCategory.subCategories.length ? (
@@ -151,7 +110,7 @@ class ProductCategories extends React.Component {
 ProductCategories.propTypes = {
   productCategories: PropTypes.arrayOf(ExtendedProductCategoryPropType).isRequired,
   categoriesToFilter: PropTypes.arrayOf(ExtendedProductCategoryPropType).isRequired,
-  toggleFilterProductCategories: PropTypes.func.isRequired,
+  toggleFilterProductCategory: PropTypes.func.isRequired,
 };
 
 export default ProductCategories;

@@ -1,13 +1,14 @@
+import flatten from 'lodash.flatten';
 import {
-  TOGGLE_FILTER_CATEGORY,
   FILTER_PRODUCTS,
   PRODUCT_CATEGORIES_LOADED,
   PRODUCT_LOADING,
   PRODUCT_SELECTED,
   PRODUCTS_LOADED,
-  RESET_FILTER,
-  TOGGLE_FILTER_PRODUCER,
   PUBLIC_PRODUCERS_LOADED,
+  RESET_FILTER,
+  TOGGLE_FILTER_CATEGORY,
+  TOGGLE_FILTER_PRODUCER,
   TOGGLE_FILTER_VIEW,
 } from '../actions';
 
@@ -102,6 +103,25 @@ function calculateFilterAmount(categoriesToFilter, producersToFilter) {
   return categoriesToFilter.length + producersToFilter.length;
 }
 
+function recursivelyMapIds(category) {
+  return [
+    category._id,
+    ...flatten(category.subCategories.map(recursivelyMapIds)),
+  ];
+}
+
+function recursivelyMapIdsIfNotPresent(presentCategories, category) {
+  const arr = [];
+
+  if (!presentCategories.some(presentCategory => presentCategory._id === category._id)) {
+    arr.push(category);
+  }
+
+  return arr.concat(flatten(category.subCategories.map(
+    subCategory => recursivelyMapIdsIfNotPresent(presentCategories, subCategory),
+  )));
+}
+
 export default (state = initialState, {
   type,
   products,
@@ -109,6 +129,8 @@ export default (state = initialState, {
   producers,
   selectedProduct,
   filterString,
+  productCategory,
+  productCategoryAdded,
 }) => {
   switch (type) {
     case PRODUCTS_LOADED:
@@ -125,8 +147,8 @@ export default (state = initialState, {
       return Object.assign({}, state, {
         productCategories,
         groupedProductCategories: productCategories
-          .filter(productCategory => !productCategory.parentCategory)
-          .map(productCategory => recursivelyMapSubCategories(productCategory, productCategories)),
+          .filter(category => !category.parentCategory)
+          .map(category => recursivelyMapSubCategories(category, productCategories)),
       });
     case PUBLIC_PRODUCERS_LOADED:
       return Object.assign({}, state, {
@@ -146,17 +168,31 @@ export default (state = initialState, {
       });
     }
     case TOGGLE_FILTER_CATEGORY: {
+      let filterCategories;
+
+      if (productCategoryAdded) {
+        filterCategories = state.categoriesToFilter.concat(
+          recursivelyMapIdsIfNotPresent(state.categoriesToFilter, productCategory),
+        );
+      } else {
+        const idsToRemove = recursivelyMapIds(productCategory);
+
+        filterCategories = state.categoriesToFilter.filter(
+          category => !idsToRemove.includes(category._id),
+        );
+      }
+
       const productFilters = Object.assign(state.productFilters, {
         filterProductsByCategories: filteredProducts =>
-          filterProductsByCategories(filteredProducts, productCategories),
+          filterProductsByCategories(filteredProducts, filterCategories),
       });
       productFilters.filterProductsByCategories.priority = 2;
 
       return Object.assign({}, state, {
-        categoriesToFilter: productCategories,
+        categoriesToFilter: filterCategories,
         productFilters,
         filteredProducts: filterProducts(state.products, productFilters),
-        moreFiltersCount: calculateFilterAmount(productCategories, state.producersToFilter),
+        moreFiltersCount: calculateFilterAmount(filterCategories, state.producersToFilter),
       });
     }
     case TOGGLE_FILTER_PRODUCER: {

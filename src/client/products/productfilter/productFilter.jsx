@@ -17,9 +17,9 @@ import {
   createToggleFilterProducer,
   createToggleFilterView,
 } from '../../actions';
-import TextField from '../../formHelpers/textField.jsx';
+import SmallTextField from '../../formHelpers/smallTextField.jsx';
 import { ExtendedProductCategoryPropType, ProducerPropType } from '../../propTypes';
-import { accent1Color, backgroundColor } from '../../theme';
+import { accent1Color, backgroundColor, mdMinSize, xsMaxSize } from '../../theme';
 import FilterPopover from './filterPopover.jsx';
 import Producers from './producers.jsx';
 import ProductCategories from './productCategories.jsx';
@@ -27,20 +27,23 @@ import ProductCategories from './productCategories.jsx';
 export const formName = 'productFilter';
 
 const FilterContainer = styled.div`
-  position: fixed;
-  left: 0;
-  right: 0;
   background: #FFF;
-  z-index: 2;
-  padding: 0 20px 10px;
+  padding: 10px 20px;
   box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.3);
-  max-height: 82px;
+  max-height: 68px;
+  
+  @media screen and (min-width: ${mdMinSize}) {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 2;
+  }
 `;
 
 const FilterButton = styled(RaisedButton)`
   margin-left: 20px;
   
-  @media screen and (max-width: 659px) {
+  @media screen and (max-width: ${xsMaxSize}) {
     display: none !important;
   }
 `;
@@ -126,7 +129,7 @@ class ProductFilter extends React.Component {
     return (
       <FilterContainer>
         <Field
-          component={TextField}
+          component={SmallTextField}
           name="filterString"
           label={<FormattedMessage id="PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER" />}
           floatingLabelStyle={styles.filterHint}

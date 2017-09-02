@@ -93,7 +93,7 @@ const FilterButton = styled(RaisedButton)`
 `;
 
 const ResetButton = styled(RaisedButton)`
-  margin-right: px;
+  margin-right: 5px;
 `;
 
 const FilterPopover = ({

@@ -87,6 +87,7 @@ const PopoverCloseContainer = styled.div`
   flex: none;
   padding: 20px;
   border-left: 1px solid ${grey800};
+  cursor: pointer;
 `;
 
 const FilterButton = styled(RaisedButton)`

@@ -1,5 +1,5 @@
 import Checkbox from 'material-ui/Checkbox';
-import { grey100 } from 'material-ui/styles/colors';
+import { grey100, grey500 } from 'material-ui/styles/colors';
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -57,19 +57,32 @@ class ProductCategories extends React.Component {
     });
   }
 
+  hasSubCategoriesToFilter(productCategory) {
+    return productCategory.subCategories.some(
+      subCategory => this.props.categoriesToFilter.some(
+        categoryToFilter => categoryToFilter._id === subCategory._id
+          || this.hasSubCategoriesToFilter(subCategory)
+      )
+    );
+  }
+
   recursiveCategoryRow(productCategory) {
     const {
       categoriesToFilter,
       toggleFilterProductCategory,
     } = this.props;
 
+    const isChecked = !!categoriesToFilter.find(category => productCategory._id === category._id);
+    const hasCheckedSubCategories = !isChecked && this.hasSubCategoriesToFilter(productCategory);
+
     return (
       <CategoryRow key={productCategory._id}>
         <CategoryInlay>
           <CheckboxWrapper>
             <Checkbox
+              iconStyle={hasCheckedSubCategories ? { fill: grey500 } : null}
               label={productCategory.de.name}
-              checked={!!categoriesToFilter.find(category => productCategory._id === category._id)}
+              checked={isChecked || hasCheckedSubCategories}
               onCheck={(event, checked) => toggleFilterProductCategory(productCategory, checked)}
             />
           </CheckboxWrapper>

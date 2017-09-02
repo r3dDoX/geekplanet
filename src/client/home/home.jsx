@@ -9,7 +9,7 @@ const Header = styled.div`
   padding: 80px 30px;
   background-color: ${backgroundColor};
   
-  @media (max-width: 659px) {
+  @media screen and (max-width: 659px) {
     display: none;
   }
 `;

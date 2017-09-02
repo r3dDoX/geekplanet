@@ -30,6 +30,7 @@ const initialState = {
   productLoading: false,
   productFilters: {},
   filterShown: false,
+  moreFiltersCount: 0,
 };
 
 function getPropByString(obj, prop) {
@@ -97,6 +98,10 @@ function recursivelyMapSubCategories(category, categories) {
   });
 }
 
+function calculateFilterAmount(categoriesToFilter, producersToFilter) {
+  return categoriesToFilter.length + producersToFilter.length;
+}
+
 export default (state = initialState, {
   type,
   products,
@@ -151,6 +156,7 @@ export default (state = initialState, {
         categoriesToFilter: productCategories,
         productFilters,
         filteredProducts: filterProducts(state.products, productFilters),
+        moreFiltersCount: calculateFilterAmount(productCategories, state.producersToFilter),
       });
     }
     case TOGGLE_FILTER_PRODUCER: {
@@ -164,6 +170,7 @@ export default (state = initialState, {
         producersToFilter: producers,
         productFilters,
         filteredProducts: filterProducts(state.products, productFilters),
+        moreFiltersCount: calculateFilterAmount(state.categoriesToFilter, producers),
       });
     }
     case PRODUCT_LOADING:

@@ -24,6 +24,7 @@ import { accent1Color, backgroundColor, mdMinSize, xsMaxSize } from '../../theme
 import FilterPopover from './filterPopover.jsx';
 import Producers from './producers.jsx';
 import ProductCategories from './productCategories.jsx';
+import FilterBadge from './filterBadge.jsx';
 
 export const formName = 'productFilter';
 
@@ -73,10 +74,6 @@ const FilterButtonLabel = styled.span`
   align-items: center;
 `;
 
-const FilterChip = styled(Chip)`
-  margin-left: 10px !important;
-`;
-
 const FilterHeader = styled.h2`
   margin: 0;
   padding: 10px;
@@ -100,9 +97,6 @@ const styles = {
   filterButton: {
     display: 'flex',
     alignItems: 'center',
-  },
-  filterChip: {
-    lineHeight: '24px',
   },
 };
 
@@ -182,15 +176,7 @@ class ProductFilter extends React.Component {
           label={
             <FilterButtonLabel>
               <FormattedMessage id="PRODUCT_FILTER.MORE_FILTERS" />
-              {moreFiltersCount ? (
-                <FilterChip
-                  labelStyle={styles.filterChip}
-                  labelColor="#FFF"
-                  backgroundColor={accent1Color}
-                >
-                  {moreFiltersCount}
-                </FilterChip>
-              ) : null}
+              <FilterBadge filterCount={moreFiltersCount} />
             </FilterButtonLabel>}
           labelPosition="before"
           icon={<ArrowDown />}
@@ -203,15 +189,7 @@ class ProductFilter extends React.Component {
           <MobileFilterButtonText>
             <FormattedMessage id="PRODUCT_FILTER.MORE_FILTERS" />
           </MobileFilterButtonText>
-          {moreFiltersCount ? (
-            <FilterChip
-              labelStyle={styles.filterChip}
-              labelColor="#FFF"
-              backgroundColor={accent1Color}
-            >
-              {moreFiltersCount}
-            </FilterChip>
-          ) : null}
+          <FilterBadge filterCount={moreFiltersCount} />
         </MobileFilterButton>
         {filterShown ? (
           <FilterPopover

@@ -18,7 +18,7 @@ import {
   createToggleFilterView,
 } from '../../actions';
 import SmallTextField from '../../formHelpers/smallTextField.jsx';
-import { ExtendedProductCategoryPropType, ProducerPropType } from '../../propTypes';
+import { ProductCategoryPropType, ProducerPropType } from '../../propTypes';
 import { backgroundColor, mdMinSize, xsMaxSize } from '../../theme';
 import FilterBadge from './filterBadge.jsx';
 import FilterPopover from './filterPopover.jsx';
@@ -223,7 +223,7 @@ class ProductFilter extends React.Component {
 }
 
 ProductFilter.propTypes = {
-  groupedProductCategories: PropTypes.arrayOf(ExtendedProductCategoryPropType).isRequired,
+  groupedProductCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   producers: PropTypes.arrayOf(ProducerPropType).isRequired,
   categoriesToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
   producersToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,

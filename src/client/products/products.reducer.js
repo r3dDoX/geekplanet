@@ -1,4 +1,4 @@
-import flatten from 'lodash.flatten';
+import flatMap from 'lodash.flatmap';
 import {
   FILTER_PRODUCTS,
   PRODUCT_CATEGORIES_LOADED,
@@ -106,7 +106,7 @@ function calculateFilterAmount(categoriesToFilter, producersToFilter) {
 function recursivelyMapIds(category) {
   return [
     category._id,
-    ...flatten(category.subCategories.map(recursivelyMapIds)),
+    ...flatMap(category.subCategories, recursivelyMapIds),
   ];
 }
 
@@ -117,9 +117,16 @@ function recursivelyMapIdsIfNotPresent(presentCategories, category) {
     arr.push(category);
   }
 
-  return arr.concat(flatten(category.subCategories.map(
+  return arr.concat(flatMap(category.subCategories,
     subCategory => recursivelyMapIdsIfNotPresent(presentCategories, subCategory),
-  )));
+  ));
+}
+
+function flattenGroupedCategories(category) {
+  return [
+    category,
+    ...flatMap(category.subCategories, flattenGroupedCategories),
+  ];
 }
 
 export default (state = initialState, {
@@ -143,13 +150,16 @@ export default (state = initialState, {
         selectedProduct,
         productLoading: false,
       });
-    case PRODUCT_CATEGORIES_LOADED:
+    case PRODUCT_CATEGORIES_LOADED: {
+      const groupedProductCategories = productCategories
+        .filter(category => !category.parentCategory)
+        .map(category => recursivelyMapSubCategories(category, productCategories));
+
       return Object.assign({}, state, {
-        productCategories,
-        groupedProductCategories: productCategories
-          .filter(category => !category.parentCategory)
-          .map(category => recursivelyMapSubCategories(category, productCategories)),
+        groupedProductCategories,
+        productCategories: flatMap(groupedProductCategories, flattenGroupedCategories),
       });
+    }
     case PUBLIC_PRODUCERS_LOADED:
       return Object.assign({}, state, {
         producers,

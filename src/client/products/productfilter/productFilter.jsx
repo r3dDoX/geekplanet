@@ -107,6 +107,14 @@ class ProductFilter extends React.Component {
     }
   }
 
+  componentWillUpdate(nextProps) {
+    if (nextProps.filterShown) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflowY = 'visible';
+    }
+  }
+
   handleButtonClick(event) {
     this.setState({
       anchorElement: event.currentTarget,

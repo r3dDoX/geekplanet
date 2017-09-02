@@ -184,6 +184,7 @@ export default (state = initialState, {
         producersToFilter: initialState.producersToFilter,
         filteredProducts: state.products,
         productFilters: {},
+        moreFiltersCount: initialState.moreFiltersCount,
       });
     case TOGGLE_FILTER_VIEW:
       return Object.assign({}, state, {

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AnimateHeight from 'react-animate-height';
 import styled from 'styled-components';
-import { ExtendedProductCategoryPropType } from '../../propTypes';
+import { ProductCategoryPropType } from '../../propTypes';
 import { backgroundColor } from '../../theme';
 
 const CategoryRow = styled.div`
@@ -108,8 +108,8 @@ class ProductCategories extends React.Component {
 }
 
 ProductCategories.propTypes = {
-  productCategories: PropTypes.arrayOf(ExtendedProductCategoryPropType).isRequired,
-  categoriesToFilter: PropTypes.arrayOf(ExtendedProductCategoryPropType).isRequired,
+  productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
+  categoriesToFilter: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   toggleFilterProductCategory: PropTypes.func.isRequired,
 };
 

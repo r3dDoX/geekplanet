@@ -67,7 +67,7 @@ class HomeTiles extends React.Component {
   render() {
     const {
       productCategories,
-      toggleFilterCategories,
+      toggleFilterCategory,
       resetFilter,
       history,
     } = this.props;
@@ -77,9 +77,7 @@ class HomeTiles extends React.Component {
         <Tile
           onClick={() => {
             resetFilter();
-            toggleFilterCategories([
-              productCategories.find(category => category._id === '59a2f657edd42108a67ed01a'),
-            ]);
+            toggleFilterCategory(productCategories.find(category => category._id === '59a2f657edd42108a67ed01a'));
             history.push('/products');
           }}
         >
@@ -91,33 +89,19 @@ class HomeTiles extends React.Component {
         <Tile
           onClick={() => {
             resetFilter();
-            toggleFilterCategories(
-              productCategories.filter(category =>
-                category._id === '59a2f657edd42108a67ed018'
-                || category._id === '59a2f657edd42108a67ecffb'
-                || category._id === '59a2f657edd42108a67ecffc'
-                || category._id === '59a2f657edd42108a67ecffe'
-              )
-            );
+            toggleFilterCategory(productCategories.find(category => category._id === '59a86560a6ae300067b3f104'));
             history.push('/products');
           }}
         >
           <TileImage src="/api/products/pictures/r1YogwUOxtW_s" />
           <TileTitle>
-            Airbrush Farben
+            Farben
           </TileTitle>
         </Tile>
         <Tile
           onClick={() => {
             resetFilter();
-            toggleFilterCategories(
-              productCategories.filter(category =>
-                category._id === '59a2f657edd42108a67ed01d'
-                || category._id === '59a2f657edd42108a67ed01e'
-                || category._id === '59a2f657edd42108a67ed01b'
-                || category._id === '59a2f657edd42108a67ed01c'
-              )
-            );
+            toggleFilterCategory(productCategories.find(category => category._id === '59a86560a6ae300067b3f104'));
             history.push('/products');
           }}
         >
@@ -129,9 +113,7 @@ class HomeTiles extends React.Component {
         <Tile
           onClick={() => {
             resetFilter();
-            toggleFilterCategories([
-              productCategories.find(category => category._id === '59a2f657edd42108a67ed00f'),
-            ]);
+            toggleFilterCategory(productCategories.find(category => category._id === '59a86560a6ae300067b3f104'));
             history.push('/products');
           }}
         >
@@ -143,9 +125,7 @@ class HomeTiles extends React.Component {
         <Tile
           onClick={() => {
             resetFilter();
-            toggleFilterCategories([
-              productCategories.find(category => category._id === '59a2f657edd42108a67ed00b'),
-            ]);
+            toggleFilterCategory(productCategories.find(category => category._id === '59a86560a6ae300067b3f104'));
             history.push('/products');
           }}
         >
@@ -173,7 +153,7 @@ class HomeTiles extends React.Component {
 HomeTiles.propTypes = {
   productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   resetFilter: PropTypes.func.isRequired,
-  toggleFilterCategories: PropTypes.func.isRequired,
+  toggleFilterCategory: PropTypes.func.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
@@ -186,8 +166,8 @@ export default connect(
     resetFilter() {
       dispatch(createResetFilter());
     },
-    toggleFilterCategories(category) {
-      dispatch(createToggleFilterCategory(category));
+    toggleFilterCategory(category) {
+      dispatch(createToggleFilterCategory(category, true));
     },
     loadProductCategories() {
       dispatch(createLoadProductCategories());

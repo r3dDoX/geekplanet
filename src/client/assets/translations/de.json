@@ -100,7 +100,8 @@
     "PRODUCT_CATEGORIES_TITLE": "Kategorien",
     "RESET_FILTER": "Filter zurücksetzen",
     "PRODUCERS_TITLE": "Hersteller",
-    "BACK": "Zurück"
+    "BACK": "Zurück",
+    "MORE_FILTERS": "Weitere Filter"
   },
   "EMAIL": {
     "ORDER_CONFIRMATION": "Vielen Dank für deinen Einkauf, {firstName}!",

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import { createLoadProduct } from '../actions';
 import MainSpinner from '../layout/mainSpinner.jsx';
 import OrderButton from '../order/orderButton.jsx';
@@ -13,62 +14,62 @@ import PriceCountUp from './priceCountUp.jsx';
 import ProductSlider from './productSlider.jsx';
 import StockIcon from './stockIcon.jsx';
 
-const styles = {
-  container: {
-    maxWidth: '800px',
-    margin: '0 auto',
-  },
-  productContainer: {
-    padding: '10px 10px 50px',
-  },
-  gridListContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-  },
-  gridList: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    overflowX: 'auto',
-  },
-  picture: {
-    width: '100%',
-  },
-  price: {
-    color: accent1Color,
-  },
-  title: {
-    color: brandPrimary,
-  },
-  productStock: {
-    display: 'flex',
-    alignItems: 'center',
-    margin: 0,
-  },
-  productDescription: {
-    textAlign: 'justify',
-  },
-  descriptionList: {
-    listStyle: 'none',
-    paddingLeft: '25px',
-    margin: '0',
-  },
-  listItem: {
-    padding: '10px',
-    borderTop: `1px solid ${grey300}`,
-  },
-  orderContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  divider: {
-    marginTop: '10px',
-  },
-  inStockMessage: {
-    color: green500,
-  },
-};
+const Container = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+`;
+
+const Title = styled.h1`
+  color: ${brandPrimary};
+`;
+
+const Product = styled.div`
+  padding: 10px 10px 50px;
+`;
+
+const Price = styled.h2`
+  color: ${accent1Color};
+`;
+
+const StyledDivider = styled(Divider)`
+  margin-top: 10px !important;
+`;
+
+const ProductStock = styled.p`
+  display: flex;
+  align-items: center;
+  margin: 0;
+`;
+
+const ProductDescription = styled.p`
+  text-align: justify;
+  
+  > p {
+    padding: 0;
+    margin: 0;
+  }
+`;
+
+const DescriptionList = styled.ul`
+  list-style: none;
+  padding-left: 25px;
+  margin: 0;
+`;
+
+const DescriptionListItem = styled.li`
+  padding: 10px;
+  border-top: 1px solid ${grey300};
+`;
+
+const OrderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const InStockMessage = styled.span`
+  color: ${green500};
+`;
 
 class ProductDetails extends React.Component {
   componentWillMount() {
@@ -84,82 +85,79 @@ class ProductDetails extends React.Component {
       productLoading,
     } = this.props;
     return (
-      <div style={styles.container}>
+      <Container>
         {(product && !productLoading) ? (
-          <div style={styles.productContainer}>
-            <div style={styles.gridListContainer}>
-              <ProductSlider product={product} />
-            </div>
-            <h1 style={styles.title}>
+          <Product>
+            <ProductSlider product={product} />
+            <Title>
               {product[locale].name}
-            </h1>
-            <Divider style={styles.divider} />
-            <div style={styles.orderContainer}>
-              <h2 style={styles.price}>
+            </Title>
+            <StyledDivider />
+            <OrderContainer>
+              <Price>
                 <PriceCountUp price={product.price} />
-              </h2>
+              </Price>
               <OrderButton product={product} />
-            </div>
-            <p style={styles.productStock}>
+            </OrderContainer>
+            <ProductStock>
               <StockIcon stock={product.stock} />&nbsp;&nbsp;&nbsp;
               {product.stock > 0 ? (
-                <span style={styles.inStockMessage}>
+                <InStockMessage>
                   <FormattedMessage id="PRODUCT.IN_STOCK" values={{ stock: product.stock }} />
-                </span>
+                </InStockMessage>
               ) : (
                 <FormattedMessage id="PRODUCT.OUT_OF_STOCK" />
               )}
-            </p>
-            <Divider style={styles.divider} />
+            </ProductStock>
+            <StyledDivider />
             <h3>Beschreibung</h3>
-            <p
-              style={styles.productDescription}
+            <ProductDescription
               // eslint-disable-next-line react/no-danger
               dangerouslySetInnerHTML={{ __html: product[locale].description }}
             />
-            <Divider style={styles.divider} />
+            <StyledDivider />
             {product[locale].specifications.length ? (
               <div>
                 <h3><FormattedMessage id="PRODUCT.SPECIFICATIONS" /></h3>
-                <ul style={styles.descriptionList}>
+                <DescriptionList>
                   {product[locale].specifications.map(specification => (
-                    <li key={specification} style={styles.listItem}>
+                    <DescriptionListItem key={specification}>
                       {specification}
-                    </li>
+                    </DescriptionListItem>
                   ))}
-                </ul>
-                <Divider style={styles.divider} />
+                </DescriptionList>
+                <StyledDivider />
               </div>
             ) : null}
             {product[locale].delivery.length ? (
               <div>
                 <h3><FormattedMessage id="PRODUCT.DELIVERY" /></h3>
-                <ul style={styles.descriptionList}>
+                <DescriptionList>
                   {product[locale].delivery.map(delivery => (
-                    <li key={delivery} style={styles.listItem}>
+                    <DescriptionListItem key={delivery}>
                       {delivery}
-                    </li>
+                    </DescriptionListItem>
                   ))}
-                </ul>
-                <Divider style={styles.divider} />
+                </DescriptionList>
+                <StyledDivider />
               </div>
             ) : null}
             {product[locale].downloads.length ? (
               <div>
                 <h3><FormattedMessage id="PRODUCT.DOWNLOADS" /></h3>
-                <ul style={styles.descriptionList}>
+                <DescriptionList>
                   {product[locale].downloads.map(downloadLink => (
-                    <li key={downloadLink.text} style={styles.listItem}>
+                    <DescriptionListItem key={downloadLink.text}>
                       <a href={downloadLink.href} target="_blank">{downloadLink.text}</a>
-                    </li>
+                    </DescriptionListItem>
                   ))}
-                </ul>
-                <Divider style={styles.divider} />
+                </DescriptionList>
+                <StyledDivider />
               </div>
             ) : null}
-          </div>
+          </Product>
         ) : <MainSpinner />}
-      </div>
+      </Container>
     );
   }
 }

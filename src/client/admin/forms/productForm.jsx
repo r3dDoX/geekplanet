@@ -3,9 +3,11 @@ import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import React from 'react';
+import ReactDrafts from 'react-drafts';
 import { connect } from 'react-redux';
 import withRouter from 'react-router-dom/withRouter';
-import { Field, initialize, reduxForm } from 'redux-form';
+import { change, Field, initialize, reduxForm } from 'redux-form';
+import '../../../../node_modules/react-drafts/dist/react-drafts.css';
 import { createLoadProducts } from '../../actions';
 import SelectField from '../../formHelpers/selectField.jsx';
 import TextField from '../../formHelpers/textField.jsx';
@@ -68,6 +70,19 @@ class ProductForm extends React.Component {
     if (match.params.id) {
       selectProduct(products.find(product => product._id === match.params.id));
     }
+  }
+
+  renderDraftJs({ input }) {
+    return (
+      <ReactDrafts
+        content={input.value}
+        onFileUpload={() => {}}
+        exportTo="html"
+        placeholder="Description"
+        onBlur={() => this.editor.save().then(content => this.props.changeDescription(content))}
+        ref={(editor) => { this.editor = editor; }}
+      />
+    );
   }
 
   render() {
@@ -158,12 +173,8 @@ class ProductForm extends React.Component {
         />
         <br />
         <Field
-          component={TextField}
+          component={(...args) => this.renderDraftJs(...args)}
           name="de.description"
-          label="Description"
-          type="text"
-          multiLine
-          rows={5}
         />
         <br />
         <Field
@@ -285,6 +296,7 @@ ProductForm.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectTag: PropTypes.func.isRequired,
   removeTag: PropTypes.func.isRequired,
+  changeDescription: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,
@@ -311,6 +323,9 @@ export default connect(
     }
 
     return {
+      changeDescription(content) {
+        dispatch(change(productFormName, 'de.description', content));
+      },
       onSubmit(productToSubmit) {
         ProductService.saveProduct(productToSubmit)
           .then(loadProducts)
@@ -320,7 +335,6 @@ export default connect(
             resetSelectedFiles();
           });
       },
-      clearForm,
       selectFiles(selectedFiles, initialFiles) {
         dispatch(createSelectFiles(selectedFiles, initialFiles));
       },

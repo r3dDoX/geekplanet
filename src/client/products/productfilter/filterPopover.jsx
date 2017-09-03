@@ -85,7 +85,7 @@ const PopoverTitle = styled.h2`
 
 const PopoverCloseContainer = styled.div`
   flex: none;
-  padding: 20px;
+  padding: 15px;
   border-left: 1px solid ${grey800};
   cursor: pointer;
 `;

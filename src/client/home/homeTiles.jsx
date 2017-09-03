@@ -77,11 +77,23 @@ class HomeTiles extends React.Component {
         <Tile
           onClick={() => {
             resetFilter();
-            toggleFilterCategory(productCategories.find(category => category._id === '59a2f657edd42108a67ed01a'));
+            toggleFilterCategory(productCategories.find(category => category._id === '59abd53c1661e03d9f8c3b64'));
             history.push('/products');
           }}
         >
-          <TileImage src="/api/products/pictures/Hyl6GgDIdeFZ_s" />
+          <TileImage src="/api/products/pictures/rJIZ7SBBLYtW_s" />
+          <TileTitle>
+            Warhamer 40k
+          </TileTitle>
+        </Tile>
+        <Tile
+          onClick={() => {
+            resetFilter();
+            toggleFilterCategory(productCategories.find(category => category._id === '59abd53c1661e03d9f8c3b62'));
+            history.push('/products');
+          }}
+        >
+          <TileImage src="/api/products/pictures/HkWazBHHUtKb_s" />
           <TileTitle>
             Blood Bowl
           </TileTitle>
@@ -89,11 +101,35 @@ class HomeTiles extends React.Component {
         <Tile
           onClick={() => {
             resetFilter();
-            toggleFilterCategory(productCategories.find(category => category._id === '59a86560a6ae300067b3f104'));
+            toggleFilterCategory(productCategories.find(category => category._id === '59abd5870edd567ca018e468'));
             history.push('/products');
           }}
         >
-          <TileImage src="/api/products/pictures/r1YogwUOxtW_s" />
+          <TileImage src="/api/products/pictures/BJjp-rrBLKtW_s" />
+          <TileTitle>
+            Spielgelände
+          </TileTitle>
+        </Tile>
+        <Tile
+          onClick={() => {
+            resetFilter();
+            toggleFilterCategory(productCategories.find(category => category._id === '59abd5870edd567ca018e469'));
+            history.push('/products');
+          }}
+        >
+          <TileImage src="/api/products/pictures/Hyt8lSrr8FKW_s" />
+          <TileTitle>
+            Airbrush
+          </TileTitle>
+        </Tile>
+        <Tile
+          onClick={() => {
+            resetFilter();
+            toggleFilterCategory(productCategories.find(category => category._id === '59abd5870edd567ca018e467'));
+            history.push('/products');
+          }}
+        >
+          <TileImage src="/api/products/pictures/SJvbSBSIKYW_s" />
           <TileTitle>
             Farben
           </TileTitle>
@@ -101,37 +137,13 @@ class HomeTiles extends React.Component {
         <Tile
           onClick={() => {
             resetFilter();
-            toggleFilterCategory(productCategories.find(category => category._id === '59a86560a6ae300067b3f104'));
+            toggleFilterCategory(productCategories.find(category => category._id === '59abd5870edd567ca018e466'));
             history.push('/products');
           }}
         >
-          <TileImage src="/api/products/pictures/ryH-Xgw8_ltW_s" />
+          <TileImage src="/api/products/pictures/HJ5mxHrSIKKW_s" />
           <TileTitle>
-            Warhammer
-          </TileTitle>
-        </Tile>
-        <Tile
-          onClick={() => {
-            resetFilter();
-            toggleFilterCategory(productCategories.find(category => category._id === '59a86560a6ae300067b3f104'));
-            history.push('/products');
-          }}
-        >
-          <TileImage src="/api/products/pictures/BkqTWgPUdlKZ_s" />
-          <TileTitle>
-            Gebäude
-          </TileTitle>
-        </Tile>
-        <Tile
-          onClick={() => {
-            resetFilter();
-            toggleFilterCategory(productCategories.find(category => category._id === '59a86560a6ae300067b3f104'));
-            history.push('/products');
-          }}
-        >
-          <TileImage src="/api/products/pictures/r1HkblPU_gK-_s" />
-          <TileTitle>
-            Fertiggelände
+            Hobbymaterial
           </TileTitle>
         </Tile>
         <Tile
@@ -140,7 +152,7 @@ class HomeTiles extends React.Component {
             history.push('/products');
           }}
         >
-          <TileImage src="/api/products/pictures/BkyfelvU_eFZ_s" />
+          <TileImage src="/api/products/pictures/Bk3cbrHBIKtZ_s" />
           <TileTitle>
             Alle Produkte
           </TileTitle>

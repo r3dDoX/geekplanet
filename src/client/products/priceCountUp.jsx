@@ -4,11 +4,11 @@ import CountUp from 'react-countup';
 
 const PriceCountUp = ({ price }) => (
   <CountUp
-    start={0}
+    start={price * 2}
     end={price}
     decimals={2}
     prefix="CHF "
-    duration={1.25}
+    duration={1.75}
   />
 );
 

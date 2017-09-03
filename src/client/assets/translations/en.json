@@ -97,9 +97,11 @@
   "PRODUCT_FILTER": {
     "TITLE": "Filter",
     "FILTERSTRING_PLACEHOLDER": "Filter...",
-    "PRODUCT_CATEGORIES_PLACEHOLDER": "Categories",
+    "PRODUCT_CATEGORIES_TITLE": "Categories",
     "RESET_FILTER": "Reset Filter",
-    "PRODUCERS_PLACEHOLDER": "Producer"
+    "PRODUCERS_TITLE": "Producer",
+    "BACK": "Back",
+    "MORE_FILTERS": "Weitere Filter"
   },
   "EMAIL": {
     "ORDER_CONFIRMATION": "Thank you for your purchase, {firstName}!",

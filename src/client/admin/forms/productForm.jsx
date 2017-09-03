@@ -76,8 +76,9 @@ class ProductForm extends React.Component {
     return (
       <ReactDrafts
         content={input.value}
-        onFileUpload={() => console.error('Can\'t handle this')}
+        onFileUpload={() => {}}
         exportTo="html"
+        placeholder="Description"
         onBlur={() => this.editor.save().then(content => this.props.changeDescription(content))}
         ref={(editor) => { this.editor = editor; }}
       />
@@ -174,10 +175,6 @@ class ProductForm extends React.Component {
         <Field
           component={(...args) => this.renderDraftJs(...args)}
           name="de.description"
-          label="Description"
-          type="text"
-          multiLine
-          rows={5}
         />
         <br />
         <Field

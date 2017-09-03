@@ -5,12 +5,17 @@ import styled from 'styled-components';
 import ProductTile from './productTile.jsx';
 import { ProductPropType } from '../propTypes';
 import MainSpinner from '../layout/mainSpinner.jsx';
+import { mdMinSize } from '../theme';
 
 const ProductListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
   padding: 20px 15px;
+  
+  @media screen and (min-width: ${mdMinSize}) {
+    padding-top: 90px;
+  }
 `;
 
 const PAGE_SIZE = 20;

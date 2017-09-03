@@ -1,12 +1,9 @@
-import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
-import SelectField from 'material-ui/SelectField';
-import { grey700 } from 'material-ui/styles/colors';
-import CancelIcon from 'material-ui/svg-icons/action/highlight-off';
-import ArrowUp from 'material-ui/svg-icons/navigation/expand-less';
+import { grey200, grey700, grey800 } from 'material-ui/styles/colors';
+import FilterIcon from 'material-ui/svg-icons/image/tune';
+import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import PropTypes from 'prop-types';
 import React from 'react';
-import AnimateHeight from 'react-animate-height';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
@@ -20,36 +17,75 @@ import {
   createToggleFilterProducer,
   createToggleFilterView,
 } from '../../actions';
-import TextField from '../../formHelpers/textField.jsx';
-import { ProducerPropType, ProductCategoryPropType } from '../../propTypes';
-import { accent2Color } from '../../theme';
+import SmallTextField from '../../formHelpers/smallTextField.jsx';
+import { ProductCategoryPropType, ProducerPropType } from '../../propTypes';
+import { backgroundColor, mdMinSize, xsMaxSize } from '../../theme';
+import FilterBadge from './filterBadge.jsx';
+import FilterPopover from './filterPopover.jsx';
+import Producers from './producers.jsx';
+import ProductCategories from './productCategories.jsx';
 
 export const formName = 'productFilter';
 
 const FilterContainer = styled.div`
-  padding: 20px;
+  background: #FFF;
+  padding: 10px 20px;
+  box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.3);
+  max-height: 68px;
+  
+  @media screen and (min-width: ${mdMinSize}) {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 2;
+  }
 `;
 
-const FilterInlay = styled.div`
+const FilterButton = styled(RaisedButton)`
+  margin-left: 20px;
+  
+  @media screen and (max-width: ${xsMaxSize}) {
+    display: none !important;
+  }
+`;
+
+const MobileFilterButton = styled.div`
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  background-color: ${grey200};
+  padding: 5px 20px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  background-color: ${accent2Color};
-`;
-
-const FilterItem = styled.div`
-  padding: 0 20px 20px;
-`;
-
-const FilterTitle = styled.h3`
-  display: flex;
-  justify-content: space-between;
-  margin: 0;
-  padding: 20px;
-  font-weight: 400;
-  background-color: ${accent2Color};
+  color: ${grey800};
+  box-shadow: 0 1px 1px 1px rgba(0,0,0,0.2);
   cursor: pointer;
+  
+  @media screen and (min-width: ${mdMinSize}) {
+    display: none !important;
+  }
+`;
+
+const FilterButtonLabel = styled.span`
+  display: flex;
+  align-items: center;
+`;
+
+const FilterHeader = styled.h2`
+  margin: 0;
+  padding: 10px;
+  color: ${backgroundColor};
+`;
+
+const StyledFilterIcon = styled(FilterIcon)`
+  margin-right: 10px;
+`;
+
+const MobileFilterButtonText = styled.div`
+  white-space: nowrap;
 `;
 
 const styles = {
@@ -57,6 +93,10 @@ const styles = {
     color: grey700,
     borderColor: grey700,
     fill: grey700,
+  },
+  filterButton: {
+    display: 'flex',
+    alignItems: 'center',
   },
 };
 
@@ -71,8 +111,16 @@ function debounce(fn, millis = 200) {
 }
 
 class ProductFilter extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      anchorElement: undefined,
+    };
+  }
+
   componentWillMount() {
-    if (this.props.productCategories.length === 0) {
+    if (this.props.groupedProductCategories.length === 0) {
       this.props.loadProductCategories();
     }
 
@@ -81,140 +129,125 @@ class ProductFilter extends React.Component {
     }
   }
 
+  componentWillUpdate(nextProps) {
+    if (nextProps.filterShown) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflowY = 'visible';
+    }
+  }
+
+  handleButtonClick(top) {
+    this.setState({
+      top,
+    });
+    this.props.toggleFilterView();
+  }
+
   render() {
     const {
       filterProducts,
-      productCategories,
-      producers,
-      filterString,
-      categoriesToFilter,
-      producersToFilter,
-      toggleProductCategory,
-      toggleProducer,
-      resetFilter,
+      groupedProductCategories,
       filterShown,
+      categoriesToFilter,
+      toggleFilterProductCategory,
+      producersToFilter,
+      toggleProducer,
+      producers,
+      moreFiltersCount,
       toggleFilterView,
+      resetFilter,
     } = this.props;
-
-    const noFiltersSet = () =>
-      filterString.length === 0 &&
-      categoriesToFilter.length === 0 &&
-      producersToFilter.length === 0;
 
     return (
       <FilterContainer>
-        <FilterTitle onClick={toggleFilterView}>
-          <FormattedMessage id="PRODUCT_FILTER.TITLE" />
-          <ArrowUp style={{ transform: filterShown ? 'rotate(0deg)' : 'rotate(180deg)' }} />
-        </FilterTitle>
-        <AnimateHeight
-          duration={250}
-          height={filterShown ? 'auto' : 0}
+        <Field
+          component={SmallTextField}
+          name="filterString"
+          label={<FormattedMessage id="PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER" />}
+          floatingLabelStyle={styles.filterHint}
+          underlineStyle={styles.filterHint}
+          onKeyUp={({ target }) => debounce(() => filterProducts(target.value))}
+          type="text"
+        />
+        <FilterButton
+          onClick={({ currentTarget }) => {
+            const boundingRect = currentTarget.getBoundingClientRect();
+            this.handleButtonClick(boundingRect.top + boundingRect.height + 5);
+          }}
+          label={
+            <FilterButtonLabel>
+              <FormattedMessage id="PRODUCT_FILTER.MORE_FILTERS" />
+              <FilterBadge filterCount={moreFiltersCount} />
+            </FilterButtonLabel>}
+          labelPosition="before"
+          icon={<ArrowDown />}
+          overlayStyle={styles.filterButton}
+        />
+        <MobileFilterButton
+          onClick={() => this.handleButtonClick(0)}
         >
-          <FilterInlay>
-            <FilterItem>
-              <Field
-                component={TextField}
-                name="filterString"
-                label={<FormattedMessage id="PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER" />}
-                floatingLabelStyle={styles.filterHint}
-                underlineStyle={styles.filterHint}
-                onKeyUp={({ target }) => debounce(() => filterProducts(target.value))}
-                type="text"
-              />
-            </FilterItem>
-            <FilterItem>
-              <SelectField
-                name="categories"
-                floatingLabelText={
-                  <FormattedMessage id="PRODUCT_FILTER.PRODUCT_CATEGORIES_PLACEHOLDER" />
-                }
-                onChange={(event, index, values) => toggleProductCategory(values)}
-                floatingLabelStyle={styles.filterHint}
-                underlineStyle={styles.filterHint}
-                iconStyle={styles.filterHint}
-                value={categoriesToFilter}
-                multiple
-              >
-                {productCategories.map(productCategory => (
-                  <MenuItem
-                    key={productCategory._id}
-                    value={productCategory}
-                    primaryText={productCategory.de.name}
-                    insetChildren
-                    checked={categoriesToFilter.some(
-                      categoryToFilter => categoryToFilter._id === productCategory._id,
-                    )}
-                  />
-                ))}
-              </SelectField>
-            </FilterItem>
-            <FilterItem>
-              <SelectField
-                name="producers"
-                floatingLabelText={<FormattedMessage id="PRODUCT_FILTER.PRODUCERS_PLACEHOLDER" />}
-                onChange={(event, index, values) => toggleProducer(values)}
-                floatingLabelStyle={styles.filterHint}
-                underlineStyle={styles.filterHint}
-                iconStyle={styles.filterHint}
-                value={producersToFilter}
-                multiple
-              >
-                {producers.map(producer => (
-                  <MenuItem
-                    key={producer._id}
-                    value={producer}
-                    primaryText={producer.name}
-                    insetChildren
-                    checked={producersToFilter.some(
-                      producerToFilter => producerToFilter._id === producer._id,
-                    )}
-                  />
-                ))}
-              </SelectField>
-            </FilterItem>
-            <FilterItem>
-              <RaisedButton
-                onTouchTap={resetFilter}
-                label={<FormattedMessage id="PRODUCT_FILTER.RESET_FILTER" />}
-                secondary
-                style={styles.button}
-                icon={<CancelIcon />}
-                disabled={noFiltersSet()}
-              />
-            </FilterItem>
-          </FilterInlay>
-        </AnimateHeight>
+          <StyledFilterIcon color={grey800} />
+          <MobileFilterButtonText>
+            <FormattedMessage id="PRODUCT_FILTER.MORE_FILTERS" />
+          </MobileFilterButtonText>
+          <FilterBadge filterCount={moreFiltersCount} />
+        </MobileFilterButton>
+        {filterShown ? (
+          <FilterPopover
+            top={this.state.top}
+            toggleFilterView={toggleFilterView}
+            resetFilter={resetFilter}
+          >
+            <FilterHeader>
+              <FormattedMessage id="PRODUCT_FILTER.PRODUCT_CATEGORIES_TITLE" />
+            </FilterHeader>
+            <ProductCategories
+              productCategories={groupedProductCategories}
+              categoriesToFilter={categoriesToFilter}
+              toggleFilterProductCategory={toggleFilterProductCategory}
+            />
+            <FilterHeader>
+              <FormattedMessage id="PRODUCT_FILTER.PRODUCERS_TITLE" />
+            </FilterHeader>
+            <Producers
+              producersToFilter={producersToFilter}
+              producers={producers}
+              toggleProducer={toggleProducer}
+            />
+          </FilterPopover>
+        ) : null}
       </FilterContainer>
     );
   }
 }
 
 ProductFilter.propTypes = {
-  productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
+  groupedProductCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   producers: PropTypes.arrayOf(ProducerPropType).isRequired,
   categoriesToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
   producersToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
-  filterString: PropTypes.string.isRequired,
   filterShown: PropTypes.bool.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
   loadPublicPorducers: PropTypes.func.isRequired,
   filterProducts: PropTypes.func.isRequired,
-  toggleProductCategory: PropTypes.func.isRequired,
+  toggleFilterProductCategory: PropTypes.func.isRequired,
   toggleProducer: PropTypes.func.isRequired,
   resetFilter: PropTypes.func.isRequired,
   toggleFilterView: PropTypes.func.isRequired,
+  moreFiltersCount: PropTypes.number.isRequired,
 };
 
 export default connect(
   state => ({
-    productCategories: state.products.productCategories,
+    groupedProductCategories: state.products.groupedProductCategories,
     producers: state.products.producers,
     categoriesToFilter: state.products.categoriesToFilter,
     producersToFilter: state.products.producersToFilter,
     filteredProducts: state.products.filteredProducts,
     filterString: state.products.filterString,
     filterShown: state.products.filterShown,
+    moreFiltersCount: state.products.moreFiltersCount,
   }),
   dispatch => ({
     loadProductCategories() {
@@ -226,8 +259,8 @@ export default connect(
     filterProducts(filterString) {
       dispatch(createFilterProducts(filterString));
     },
-    toggleProductCategory(categories) {
-      dispatch(createToggleFilterCategory(categories));
+    toggleFilterProductCategory(category, categoryAdded) {
+      dispatch(createToggleFilterCategory(category, categoryAdded));
     },
     toggleProducer(producers) {
       dispatch(createToggleFilterProducer(producers));

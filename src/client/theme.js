@@ -6,8 +6,8 @@ export const brandSecondary = '#27AAE1';
 export const accent1Color = '#E74C3C';
 export const accent2Color = '#ECF0F1';
 
-export const xsMaxSize = '659px';
-export const mdMinSize = '660px';
+export const xsMaxSize = '768px';
+export const mdMinSize = '769px';
 
 export default getMuiTheme({
   fontFamily: 'PT Sans, sans-serif',

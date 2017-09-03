@@ -51,7 +51,7 @@ const FilterButton = styled(RaisedButton)`
 
 const MobileFilterButton = styled.div`
   position: fixed;
-  bottom: 10px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;

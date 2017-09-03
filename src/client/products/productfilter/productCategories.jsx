@@ -33,6 +33,16 @@ const Toggle = styled.div`
   align-items: center;
 `;
 
+const StyledArrowDown = styled(ArrowDown)`
+  transition: transform .25s ease;
+`;
+
+const styles = {
+  openCategories: {
+    transform: 'rotate(180deg)',
+  },
+};
+
 class ProductCategories extends React.Component {
   constructor(props) {
     super(props);
@@ -74,6 +84,8 @@ class ProductCategories extends React.Component {
 
     const isChecked = !!categoriesToFilter.find(category => productCategory._id === category._id);
     const hasCheckedSubCategories = !isChecked && this.hasSubCategoriesToFilter(productCategory);
+    const isOpened = !!this.state.openCategories
+      .find(openCategory => openCategory._id === productCategory._id);
 
     return (
       <CategoryRow key={productCategory._id}>
@@ -88,17 +100,14 @@ class ProductCategories extends React.Component {
           </CheckboxWrapper>
           {productCategory.subCategories.length ? (
             <Toggle onClick={() => this.toggleCategory(productCategory)}>
-              <ArrowDown color="#FFF" />
+              <StyledArrowDown style={isOpened ? styles.openCategories : null} color="#FFF" />
             </Toggle>
           ) : null}
         </CategoryInlay>
         {productCategory.subCategories.length ? (
           <AnimateHeight
             duration={250}
-            height={
-              this.state.openCategories
-                .find(openCategory => openCategory._id === productCategory._id) ? 'auto' : 0
-            }
+            height={isOpened ? 'auto' : 0}
           >
             {productCategory.subCategories.map((...args) => this.recursiveCategoryRow(...args))}
           </AnimateHeight>

@@ -17,7 +17,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: stretch;
   padding: 50px;
-  max-width: 350px;
+  max-width: 450px;
 `;
 
 const SocialButton = styled(RaisedButton)`

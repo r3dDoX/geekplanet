@@ -38,6 +38,7 @@ const Popover = styled.div`
 
 const PopoverInlay = styled.div`
   position: relative;
+  height: 100%;
   padding: 20px 20px 60px;
   background-color: #FFF;
   max-width: 900px;

@@ -22,9 +22,10 @@
     "SEARCH": "Suchen"
   },
   "NAVIGATION": {
+    "ADMIN": "Admin",
     "LOGIN": "Login",
     "LOGOUT": "Logout",
-    "FORMS": "Formulare",
+    "FORMS": "Produkte",
     "ORDERS": "Bestellungen",
     "PRODUCTS": "Produkte"
   },

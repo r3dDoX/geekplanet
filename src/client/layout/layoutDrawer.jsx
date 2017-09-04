@@ -26,7 +26,7 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
     {roles.includes('admin') ? (
       <div>
         <Subheader>
-          Admin
+          <FormattedMessage id="NAVIGATION.ADMIN" />
         </Subheader>
         <MenuItem
           primaryText={<FormattedMessage id="NAVIGATION.FORMS" />}

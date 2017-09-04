@@ -34,6 +34,22 @@ class ProductList extends React.Component {
     this.updateProductArrayForPage(0, nextProps.products);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.filterNotShownOrClosing(nextProps) && (
+      this.filterClosing(nextProps)
+      || nextProps.products !== this.props.products
+      || nextState.currentPage !== this.state.currentPage
+    );
+  }
+
+  filterClosing(nextProps) {
+    return this.props.filterShown === true && nextProps.filterShown === false;
+  }
+
+  filterNotShownOrClosing(nextProps) {
+    return !this.props.filterShown || this.filterClosing(nextProps);
+  }
+
   updateProductArrayForPage(page, products) {
     this.setState({
       currentPage: page,
@@ -64,6 +80,7 @@ class ProductList extends React.Component {
 
 ProductList.propTypes = {
   products: PropTypes.arrayOf(ProductPropType).isRequired,
+  filterShown: PropTypes.bool.isRequired,
 };
 
 export default ProductList;

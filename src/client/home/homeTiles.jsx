@@ -49,16 +49,22 @@ const Tile = styled.div`
     bottom: 0;
     pointer-events: none;
     transition: background-color .45s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 1;
   }
   
   &:hover::before {
     background-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  &:hover img {
+    transform: scale(0.96);
   }
 `;
 
 const TileImage = styled.img`
   width: 100%;
   border-radius: 5px 5px 0 0;
+  transition: transform 2s cubic-bezier(0.23, 1, 0.32, 1);
 `;
 
 class HomeTiles extends React.Component {

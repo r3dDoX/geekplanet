@@ -147,5 +147,16 @@ module.exports = {
           .then(() => res.sendStatus(200))
           .catch(error => handleGenericError(error, res)),
     );
+
+    app.post('/api/payment/prepayment/cleared', bodyParser.json(), authorization, isAdmin,
+      (req, res) => Order.findOneAndUpdate({
+        _id: req.body.orderId,
+        user: req.user.sub,
+      }, {
+        $set: {
+          state: OrderState.FINISHED,
+        },
+      }).then(() => res.sendStatus(200))
+    );
   },
 };

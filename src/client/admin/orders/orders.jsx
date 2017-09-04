@@ -1,4 +1,8 @@
+import RaisedButton from 'material-ui/RaisedButton';
 import { grey200 } from 'material-ui/styles/colors';
+import DoneIcon from 'material-ui/svg-icons/action/done';
+import ThumbUpIcon from 'material-ui/svg-icons/action/thumb-up';
+import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -6,7 +10,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { formatPriceWithCurrency } from '../../../common/priceFormatter';
 import { OrdersPropType } from '../../propTypes';
-import { createLoadOrders } from '../adminActions';
+import { createClearPayment, createLoadOrders } from '../adminActions';
 
 const Container = styled.div`
   overflow-X: auto;
@@ -26,6 +30,10 @@ const OrderTable = styled.table`
   }
 `;
 
+const CenteredCell = styled.td`
+  text-align: center;
+`;
+
 class Orders extends React.Component {
   componentWillMount() {
     if (!this.props.orders.length) {
@@ -34,11 +42,11 @@ class Orders extends React.Component {
   }
 
   render() {
-    const { orders } = this.props;
+    const { orders, clearPayment } = this.props;
 
     return (
       <Container>
-        <OrderTable cellPadding="0" cellSpacing="0">
+        <OrderTable cellPadding="0" cellSpacing="1px">
           <thead>
             <tr>
               <th>
@@ -55,6 +63,9 @@ class Orders extends React.Component {
               </th>
               <th>
                 <FormattedMessage id="ORDERS.TOTAL" />
+              </th>
+              <th>
+                <EditIcon />
               </th>
             </tr>
           </thead>
@@ -88,6 +99,17 @@ class Orders extends React.Component {
                     0
                   ))}
                 </td>
+                <CenteredCell>
+                  {order.state === 'WAITING' ? (
+                    <RaisedButton
+                      primary
+                      icon={<DoneIcon />}
+                      onClick={() => clearPayment(order._id)}
+                    />
+                  ) : (
+                    <ThumbUpIcon />
+                  )}
+                </CenteredCell>
               </tr>
             ))}
           </tbody>
@@ -100,6 +122,7 @@ class Orders extends React.Component {
 Orders.propTypes = {
   orders: OrdersPropType.isRequired,
   loadOrders: PropTypes.func.isRequired,
+  clearPayment: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -109,6 +132,9 @@ export default connect(
   dispatch => ({
     loadOrders() {
       dispatch(createLoadOrders());
+    },
+    clearPayment(orderId) {
+      dispatch(createClearPayment(orderId));
     },
   })
 )(Orders);

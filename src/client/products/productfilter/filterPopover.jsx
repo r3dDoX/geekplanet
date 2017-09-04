@@ -42,6 +42,7 @@ const PopoverInlay = styled.div`
   padding: 20px 20px 60px;
   background-color: #FFF;
   max-width: 900px;
+  overflow-y: auto;
 `;
 
 const FilterButtonContainer = styled.div`

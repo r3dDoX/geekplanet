@@ -52,12 +52,14 @@ const Tile = styled.div`
     z-index: 1;
   }
   
-  &:hover::before {
-    background-color: rgba(255, 255, 255, 0.3);
-  }
-  
-  &:hover img {
-    transform: scale(0.96);
+  &:hover {
+    &::before {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    img {
+      transform: scale(0.96);
+    }
   }
 `;
 

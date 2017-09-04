@@ -2,19 +2,14 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import IconButton from 'material-ui/IconButton';
 import MenuItem from 'material-ui/MenuItem';
-import { grey400 } from 'material-ui/styles/colors';
 import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Link from 'react-router-dom/Link';
 import withRouter from 'react-router-dom/withRouter';
-import styled from 'styled-components';
-
-const AdminSection = styled.div`
-  border-bottom: 1px solid ${grey400};
-`;
 
 const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, history }) => (
   <Drawer
@@ -29,7 +24,7 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
       iconElementLeft={<IconButton><NavigationClose /></IconButton>}
     />
     {roles.includes('admin') ? (
-      <AdminSection>
+      <div>
         <Subheader>
           Admin
         </Subheader>
@@ -51,7 +46,8 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
           }
           onClick={toggleDrawer}
         />
-      </AdminSection>
+        <Divider />
+      </div>
     ) : null}
     <MenuItem
       primaryText="Home"

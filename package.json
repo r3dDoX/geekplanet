@@ -81,7 +81,7 @@
     "jwt-decode": "2.2.0",
     "lodash.flatmap": "4.5.0",
     "material-ui": "0.19.1",
-    "nodemon": "1.11.0",
+    "nodemon": "1.11.1",
     "prop-types": "15.5.10",
     "react-addons-test-utils": "15.6.0",
     "react-animate-height": "0.10.2",

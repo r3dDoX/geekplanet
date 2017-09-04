@@ -1,3 +1,4 @@
+import { grey300 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -9,7 +10,6 @@ import {
   createToggleFilterCategory,
 } from '../actions';
 import { ProductCategoryPropType } from '../propTypes';
-import { backgroundColor } from '../theme';
 
 const TilesContainer = styled.div`
   padding: 20px 15px;
@@ -19,11 +19,13 @@ const TilesContainer = styled.div`
 
 const TileTitle = styled.h1`
   margin: 0;
-  padding: 10px;
-  font-size: 1.5em;
+  padding: 8px;
+  font-size: 1.2em;
   font-weight: 400;
-  background-color: ${backgroundColor};
-  color: #FFF;
+  background-color: ${grey300};
+  box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.4);
+  border-radius: 0 0 5px 5px;
+  text-align: center;
 `;
 
 const Tile = styled.div`
@@ -34,8 +36,9 @@ const Tile = styled.div`
   min-width: 280px;
   max-width: 400px;
   margin: 5px;
-  box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.3);
   cursor: pointer;
+  border-radius: 5px;
   
   &::before {
     content: "";
@@ -46,15 +49,24 @@ const Tile = styled.div`
     bottom: 0;
     pointer-events: none;
     transition: background-color .45s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 1;
   }
   
-  &:hover::before {
-    background-color: rgba(255, 255, 255, 0.4);
+  &:hover {
+    &::before {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    img {
+      transform: scale(0.96);
+    }
   }
 `;
 
 const TileImage = styled.img`
   width: 100%;
+  border-radius: 5px 5px 0 0;
+  transition: transform 2s cubic-bezier(0.23, 1, 0.32, 1);
 `;
 
 class HomeTiles extends React.Component {

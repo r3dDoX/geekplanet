@@ -106,3 +106,7 @@ export const createLoadOrders = () => dispatch =>
     type: ORDERS_LOADED,
     orders,
   }));
+
+export const createClearPayment = orderId => dispatch =>
+  Xhr.post('/api/payment/prepayment/cleared', { orderId })
+    .then(() => createLoadOrders()(dispatch));

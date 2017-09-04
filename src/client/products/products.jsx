@@ -19,7 +19,10 @@ class Products extends React.Component {
       <div>
         <ProductFilter />
         {this.props.products.length ? (
-          <ProductList products={this.props.filteredProducts} />
+          <ProductList
+            products={this.props.filteredProducts}
+            filterShown={this.props.filterShown}
+          />
         ) : (
           <MainSpinner />
         )}
@@ -32,12 +35,14 @@ Products.propTypes = {
   products: PropTypes.arrayOf(ProductPropType).isRequired,
   loadProducts: PropTypes.func.isRequired,
   filteredProducts: PropTypes.arrayOf(ProductPropType).isRequired,
+  filterShown: PropTypes.bool.isRequired,
 };
 
 export default connect(
   state => ({
     products: state.products.products,
     filteredProducts: state.products.filteredProducts,
+    filterShown: state.products.filterShown,
   }),
   dispatch => ({
     loadProducts() {

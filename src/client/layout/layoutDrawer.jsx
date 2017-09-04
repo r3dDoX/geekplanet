@@ -1,13 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
-import MenuItem from 'material-ui/MenuItem';
+import Drawer from 'material-ui/Drawer';
 import IconButton from 'material-ui/IconButton';
+import MenuItem from 'material-ui/MenuItem';
+import { grey400 } from 'material-ui/styles/colors';
+import Subheader from 'material-ui/Subheader';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import Link from 'react-router-dom/Link';
 import withRouter from 'react-router-dom/withRouter';
-import { FormattedMessage } from 'react-intl';
+import styled from 'styled-components';
+
+const AdminSection = styled.div`
+  border-bottom: 1px solid ${grey400};
+`;
 
 const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, history }) => (
   <Drawer
@@ -21,8 +28,11 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
       onLeftIconButtonTouchTap={toggleDrawer}
       iconElementLeft={<IconButton><NavigationClose /></IconButton>}
     />
-    {
-      roles.includes('admin') ?
+    {roles.includes('admin') ? (
+      <AdminSection>
+        <Subheader>
+          Admin
+        </Subheader>
         <MenuItem
           primaryText={<FormattedMessage id="NAVIGATION.FORMS" />}
           containerElement={
@@ -32,10 +42,6 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
           }
           onClick={toggleDrawer}
         />
-        : null
-    }
-    {
-      roles.includes('admin') ?
         <MenuItem
           primaryText={<FormattedMessage id="NAVIGATION.ORDERS" />}
           containerElement={
@@ -45,8 +51,8 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
           }
           onClick={toggleDrawer}
         />
-        : null
-    }
+      </AdminSection>
+    ) : null}
     <MenuItem
       primaryText="Home"
       onClick={() => {

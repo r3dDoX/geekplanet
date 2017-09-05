@@ -64,6 +64,10 @@ const EditButton = styled(RaisedButton)`
   margin-top: 10px;
 `;
 
+const StyledLink = styled(Link)`
+  flex: none;
+`;
+
 const styles = {
   cardContainer: {
     flex: '1 1 auto',
@@ -81,14 +85,14 @@ export const ProductTileComponent = ({
   product,
 }) => (
   <StyledCard containerStyle={styles.cardContainer}>
-    <Link to={`/products/${product._id}`}>
+    <StyledLink to={`/products/${product._id}`}>
       <StyledCardMedia>
         <img
           alt="Product"
           src={(product.files.length) ? getPictureUrl(product.files[0]) : '/assets/images/notFound.jpg'}
         />
       </StyledCardMedia>
-    </Link>
+    </StyledLink>
     <StyledCardTitle
       title={<TitleLink to={`/products/${product._id}`}>{product[locale].name}</TitleLink>}
     >

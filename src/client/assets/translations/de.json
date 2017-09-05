@@ -27,7 +27,8 @@
     "LOGOUT": "Logout",
     "FORMS": "Produkte",
     "ORDERS": "Bestellungen",
-    "PRODUCTS": "Produkte"
+    "PRODUCTS": "Produkte",
+    "HOME_TILES": "Home Kacheln"
   },
   "NOTIFICATION": {
     "SHOPPING_CART_ITEM_ADDED": "Produkt zum Warenkorb hinzugefügt"

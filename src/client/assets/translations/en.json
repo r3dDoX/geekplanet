@@ -27,7 +27,8 @@
     "LOGOUT": "Logout",
     "FORMS": "Products",
     "ORDERS": "Orders",
-    "PRODUCTS": "Products"
+    "PRODUCTS": "Products",
+    "HOME_TILES": "Home Tiles"
   },
   "NOTIFICATION": {
     "SHOPPING_CART_ITEM_ADDED": "Added product to cart"

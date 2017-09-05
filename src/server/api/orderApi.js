@@ -10,10 +10,10 @@ const { saveOrUpdate, handleGenericError } = require('../db/mongoHelper');
 
 const orderConfig = envConfig.getEnvironmentSpecificConfig().ORDER;
 
+const OrderState = require('../../common/orderState');
 const {
   Invoice,
   Order,
-  OrderState,
   Product,
   UserAddress,
 } = require('../db/models');

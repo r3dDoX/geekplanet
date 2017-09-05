@@ -29,7 +29,7 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
           <FormattedMessage id="NAVIGATION.ADMIN" />
         </Subheader>
         <MenuItem
-          primaryText={<FormattedMessage id="NAVIGATION.FORMS" />}
+          primaryText={<FormattedMessage id="NAVIGATION.HOME_TILES" />}
           containerElement={
             <Link to="/admin/hometiles">
               <FormattedMessage id="NAVIGATION.HOME_TILES" />

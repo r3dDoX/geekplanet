@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
+const OrderState = require('../../common/orderState');
 
 const models = {};
+
 
 models.ProductPicturesCollection = 'productpictures';
 
@@ -118,12 +120,6 @@ const OrderItemSchema = mongoose.Schema({
   product: ProductSchema,
 });
 
-models.OrderState = {
-  STARTED: 'STARTED',
-  WAITING: 'WAITING',
-  FINISHED: 'FINISHED',
-};
-
 models.Order = mongoose.model('Order', {
   _id: {
     type: String,
@@ -131,8 +127,8 @@ models.Order = mongoose.model('Order', {
   },
   state: {
     type: String,
-    enum: Object.keys(models.OrderState),
-    default: models.OrderState.STARTED,
+    enum: Object.keys(OrderState),
+    default: OrderState.STARTED,
   },
   user: {
     type: String,

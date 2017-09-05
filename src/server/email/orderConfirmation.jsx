@@ -2,7 +2,7 @@ const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const { IntlProvider, FormattedMessage, FormattedHTMLMessage } = require('react-intl');
 const { formatPriceWithCurrency } = require('../../common/priceFormatter');
-const models = require('../db/models');
+const OrderState = require('../../common/orderState');
 
 const config = require('../../config/envConfig').getEnvironmentSpecificConfig();
 const TranslationService = require('../../common/translationService');
@@ -121,7 +121,7 @@ module.exports = function renderTemplate(order) {
                   values={{ firstName: order.address.firstName }}
                 />
                 <br /><br />
-                {(order.state === models.OrderState.WAITING) ? (
+                {(order.state === OrderState.WAITING) ? (
                   <FormattedMessage id="EMAIL.ORDER_PREPAYMENT" />
                 ) : (
                   <FormattedMessage id="EMAIL.ORDER_PAYED" />
@@ -238,7 +238,7 @@ module.exports = function renderTemplate(order) {
                 />
               </td>
             </tr>
-            {(order.state === models.OrderState.WAITING) ? (
+            {(order.state === OrderState.WAITING) ? (
               <tr>
                 <td colSpan={colCount}>
                   <div style={styles.title}>
@@ -247,7 +247,7 @@ module.exports = function renderTemplate(order) {
                 </td>
               </tr>
             ) : null}
-            {(order.state === models.OrderState.WAITING) ? (
+            {(order.state === OrderState.WAITING) ? (
               <tr>
                 <td
                   colSpan={colCount}

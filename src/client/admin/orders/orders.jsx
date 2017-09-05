@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { formatPriceWithCurrency } from '../../../common/priceFormatter';
 import { OrdersPropType } from '../../propTypes';
 import { createClearPayment, createLoadOrders } from '../adminActions';
+import { WAITING } from '../../../common/orderState';
 
 const Container = styled.div`
   overflow-X: auto;
@@ -100,7 +101,7 @@ class Orders extends React.Component {
                   ))}
                 </td>
                 <CenteredCell>
-                  {order.state === 'WAITING' ? (
+                  {order.state === WAITING ? (
                     <RaisedButton
                       primary
                       icon={<DoneIcon />}

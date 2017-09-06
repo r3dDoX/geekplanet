@@ -46,7 +46,7 @@
     "pdffiller": "0.0.10",
     "react": "15.6.1",
     "react-dom": "15.6.1",
-    "react-intl": "2.3.0",
+    "react-intl": "2.4.0",
     "sharp": "0.18.2",
     "shortid": "2.2.8",
     "streamifier": "0.1.1",

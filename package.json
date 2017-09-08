@@ -55,7 +55,7 @@
   "devDependencies": {
     "auth0-js": "8.9.3",
     "babel-eslint": "7.2.3",
-    "babel-jest": "21.0.0",
+    "babel-jest": "21.0.2",
     "babel-loader": "7.1.2",
     "babel-plugin-dynamic-import-webpack": "1.0.1",
     "babel-plugin-react-intl": "2.3.1",

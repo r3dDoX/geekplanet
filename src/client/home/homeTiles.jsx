@@ -10,13 +10,7 @@ import {
   createToggleFilterCategory,
 } from '../actions';
 import { ProductCategoryPropType } from '../propTypes';
-
-const TilesContainer = styled.div`
-  padding: 20px 15px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
+import HomeTilesContainer from './homeTilesContainer.jsx';
 
 const TileTitle = styled.h1`
   margin: 0;
@@ -86,7 +80,7 @@ class HomeTiles extends React.Component {
     } = this.props;
 
     return (
-      <TilesContainer>
+      <HomeTilesContainer>
         <Tile
           onClick={() => {
             resetFilter();
@@ -170,7 +164,7 @@ class HomeTiles extends React.Component {
             Alle Produkte
           </TileTitle>
         </Tile>
-      </TilesContainer>
+      </HomeTilesContainer>
     );
   }
 }

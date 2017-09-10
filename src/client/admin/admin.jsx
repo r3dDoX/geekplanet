@@ -1,7 +1,7 @@
 import React from 'react';
 import PrivateRoute from '../router/privateRoute.jsx';
 import Forms from './forms/forms.jsx';
-import HomeTilesForm from './homeTilesForm.jsx';
+import HomeTilesForm from './hometiles/homeTilesForm.jsx';
 import Orders from './orders/orders.jsx';
 
 export default () => (

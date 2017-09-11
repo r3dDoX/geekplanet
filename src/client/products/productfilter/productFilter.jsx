@@ -193,30 +193,29 @@ class ProductFilter extends React.Component {
           </MobileFilterButtonText>
           <FilterBadge filterCount={moreFiltersCount} />
         </MobileFilterButton>
-        {filterShown ? (
-          <FilterPopover
-            top={this.state.top}
-            toggleFilterView={toggleFilterView}
-            resetFilter={resetFilter}
-          >
-            <FilterHeader>
-              <FormattedMessage id="PRODUCT_FILTER.PRODUCT_CATEGORIES_TITLE" />
-            </FilterHeader>
-            <ProductCategories
-              productCategories={groupedProductCategories}
-              categoriesToFilter={categoriesToFilter}
-              toggleFilterProductCategory={toggleFilterProductCategory}
-            />
-            <FilterHeader>
-              <FormattedMessage id="PRODUCT_FILTER.PRODUCERS_TITLE" />
-            </FilterHeader>
-            <Producers
-              producersToFilter={producersToFilter}
-              producers={producers}
-              toggleProducer={toggleProducer}
-            />
-          </FilterPopover>
-        ) : null}
+        <FilterPopover
+          top={this.state.top}
+          toggleFilterView={toggleFilterView}
+          resetFilter={resetFilter}
+          filterShown={filterShown}
+        >
+          <FilterHeader>
+            <FormattedMessage id="PRODUCT_FILTER.PRODUCT_CATEGORIES_TITLE" />
+          </FilterHeader>
+          <ProductCategories
+            productCategories={groupedProductCategories}
+            categoriesToFilter={categoriesToFilter}
+            toggleFilterProductCategory={toggleFilterProductCategory}
+          />
+          <FilterHeader>
+            <FormattedMessage id="PRODUCT_FILTER.PRODUCERS_TITLE" />
+          </FilterHeader>
+          <Producers
+            producersToFilter={producersToFilter}
+            producers={producers}
+            toggleProducer={toggleProducer}
+          />
+        </FilterPopover>
       </FilterContainer>
     );
   }

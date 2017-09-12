@@ -8,6 +8,7 @@ const Container = styled.div`
   cursor: pointer;
   border-radius: 5px;
   padding: 50px;
+  margin-left: 20px;
 `;
 
 const StyledAddIcon = styled(AddIcon)`

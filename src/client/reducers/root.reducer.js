@@ -8,6 +8,7 @@ import layout from '../layout/layout.reducer';
 import shoppingCart from '../shoppingcart/shoppingCart.reducer';
 import order from '../order/order.reducer';
 import admin from '../admin/admin.reducer';
+import home from '../home/home.reducer';
 
 export default combineReducers({
   form: formReducer,
@@ -19,4 +20,5 @@ export default combineReducers({
   order,
   forms,
   admin,
+  home,
 });

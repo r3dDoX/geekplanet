@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import { getPictureUrl } from '../../products/productService';
+import { brandPrimary } from '../../theme';
 
 const PictureContainer = styled.div`
   display: flex;
@@ -25,15 +26,16 @@ const PictureField = ({
   pictures,
 }) => (
   <div>
-    <h3>{label}</h3>
+    <h4>{label}</h4>
     <PictureContainer>
       {pictures.map(picture => (
         <ProductPicture
+          key={picture}
           alt="Category Product"
           src={getPictureUrl(picture)}
           onClick={() => onChange(picture)}
           style={value === picture ? {
-            border: '1px solid blue',
+            border: `1px solid ${brandPrimary}`,
           } : null}
         />
       ))}

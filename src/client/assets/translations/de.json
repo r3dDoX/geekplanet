@@ -19,7 +19,9 @@
     "TOTAL": "Total",
     "SUBTOTAL": "Zwischentotal",
     "SHIPPING_COSTS": "Versandkosten",
-    "SEARCH": "Suchen"
+    "SEARCH": "Suchen",
+    "SAVE": "Speichern",
+    "CANCEL": "Abbrechen"
   },
   "NAVIGATION": {
     "ADMIN": "Admin",

@@ -2,7 +2,9 @@ import AutoComplete from 'material-ui/AutoComplete';
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Field, formValueSelector, initialize, reduxForm } from 'redux-form';
 import { createLoadProductCategories, createLoadProducts } from '../../actions';
 import AutoCompleteField from '../../formHelpers/autoCompleteField.jsx';
@@ -101,9 +103,18 @@ class HomeTileForm extends React.Component {
         />
         <br />
         <RaisedButton
-          label="Submit"
+          label={<FormattedMessage id="COMMON.SAVE" />}
           type="submit"
           primary
+        />&nbsp;
+        <RaisedButton
+          label={<FormattedMessage id="COMMON.CANCEL" />}
+          type="button"
+          containerElement={
+            <Link to="/admin/hometiles">
+              <FormattedMessage id="COMMON.CANCEL" />
+            </Link>
+          }
         />
       </form>
     );
@@ -141,9 +152,6 @@ export default connect(
       dispatch(initialize(formName, tile));
     },
     saveTile(tile) {
-      if (!tile._id) {
-        tile._id = '';
-      }
       dispatch(createSaveTile(tile));
     },
   })

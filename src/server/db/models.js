@@ -170,10 +170,6 @@ const HomeTileName = mongoose.Schema({
 });
 
 models.HomeTile = mongoose.model('HomeTile', {
-  _id: {
-    type: String,
-    index: true,
-  },
   de: HomeTileName,
   fr: HomeTileName,
   it: HomeTileName,

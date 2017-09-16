@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Field, formValueSelector, initialize, reduxForm } from 'redux-form';
 import { createLoadProductCategories, createLoadProducts } from '../../actions';
 import AutoCompleteField from '../../formHelpers/autoCompleteField.jsx';
@@ -55,12 +55,16 @@ class HomeTileForm extends React.Component {
       products,
       handleSubmit,
       saveTile,
+      history,
     } = this.props;
 
     return (
       <form
         name={formName}
-        onSubmit={handleSubmit(saveTile)}
+        onSubmit={handleSubmit((tile) => {
+          saveTile(tile);
+          history.push('/admin/hometiles');
+        })}
       >
         <Field
           component="input"
@@ -132,6 +136,7 @@ HomeTileForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   saveTile: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default connect(
@@ -157,4 +162,4 @@ export default connect(
   })
 )(reduxForm({
   form: formName,
-})(HomeTileForm));
+})(withRouter(HomeTileForm)));

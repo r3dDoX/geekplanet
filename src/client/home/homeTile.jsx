@@ -1,4 +1,5 @@
 import { grey300 } from 'material-ui/styles/colors';
+import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import { getPictureUrl } from '../products/productService';
@@ -58,15 +59,21 @@ const TileImage = styled.img`
 
 const HomeTile = ({
   tile,
+  onClick,
 }) => (
-  <Tile>
+  <Tile onClick={onClick}>
     <TileImage src={getPictureUrl(tile.picture)} />
     <TileTitle>{tile.de.name}</TileTitle>
   </Tile>
 );
 
+HomeTile.defaultProps = {
+  onClick: undefined,
+};
+
 HomeTile.propTypes = {
   tile: HomeTilePropType.isRequired,
+  onClick: PropTypes.func,
 };
 
 export default HomeTile;

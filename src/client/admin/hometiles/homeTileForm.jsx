@@ -1,3 +1,4 @@
+import flatMap from 'lodash.flatmap';
 import AutoComplete from 'material-ui/AutoComplete';
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
@@ -16,6 +17,14 @@ import PictureField from './pictureField.jsx';
 
 export const formName = 'homeTiles';
 const selector = formValueSelector(formName);
+
+function mapSubCategoriesRecursive(category) {
+  return [
+    category._id,
+    ...flatMap(category.subCategories, mapSubCategoriesRecursive),
+  ];
+}
+
 
 class HomeTileForm extends React.Component {
   constructor(props) {
@@ -57,6 +66,11 @@ class HomeTileForm extends React.Component {
       saveTile,
       history,
     } = this.props;
+
+    const categoriesToFilter = (selectedCategory && productCategories.length) ?
+      mapSubCategoriesRecursive(
+        productCategories.find(category => category._id === selectedCategory)
+      ) : [];
 
     return (
       <form
@@ -100,7 +114,7 @@ class HomeTileForm extends React.Component {
           label="Picture"
           pictures={selectedCategory ?
             products
-              .filter(product => product.category === selectedCategory)
+              .filter(product => categoriesToFilter.includes(product.category))
               .map(product => product.files[0])
               .filter(picture => !!picture)
             : []}

@@ -1,11 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
 import MenuItem from 'material-ui/MenuItem';
-import { FormattedMessage } from 'react-intl';
 import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { Field, reduxForm } from 'redux-form';
 import SelectField from '../formHelpers/selectField.jsx';
 import TextField from '../formHelpers/textField.jsx';
+import { required, requiredZIP } from '../formHelpers/validations.jsx';
 
 export const formName = 'userAddress';
 
@@ -19,22 +20,6 @@ const styles = {
   submitButton: {
     marginTop: '20px',
   },
-};
-
-const required = (value) => {
-  if (!(value && value.length >= 1)) {
-    return <FormattedMessage id="COMMON.FORM.REQUIRED" />;
-  }
-
-  return null;
-};
-
-const requiredZIP = (value) => {
-  if (!(value && Number(value) >= 1000 && Number(value) < 10000)) {
-    return <FormattedMessage id="ORDER.ADDRESS.FORM.REQUIRED_ZIP" />;
-  }
-
-  return null;
 };
 
 const UserAddress = ({ handleSubmit, onSubmit }) => (

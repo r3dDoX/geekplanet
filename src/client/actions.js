@@ -42,6 +42,7 @@ export const TAGS_LOADED = 'TAGS_LOADED';
 export const SET_TAGS = 'SET_TAGS';
 export const COMPLETE_PRODUCTS_LOADED = 'COMPLETE_PRODUCTS_LOADED';
 export const ORDERS_LOADED = 'ORDERS_LOADED';
+export const HOME_TILES_LOADED = 'HOME_TILES_LOADED';
 
 export const createLoadTranslations = localeWithFallback => dispatch =>
   Xhr.get(`/assets/translations/${localeWithFallback}.json`)
@@ -216,3 +217,8 @@ export const createResetFilter = () => (dispatch) => {
   });
   dispatch(reset(productFilterFormName));
 };
+export const createLoadHomeTiles = () => dispatch =>
+  Xhr.get('/api/hometiles').then(tiles => dispatch({
+    type: HOME_TILES_LOADED,
+    tiles,
+  }));

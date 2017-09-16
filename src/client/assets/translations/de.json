@@ -19,7 +19,9 @@
     "TOTAL": "Total",
     "SUBTOTAL": "Zwischentotal",
     "SHIPPING_COSTS": "Versandkosten",
-    "SEARCH": "Suchen"
+    "SEARCH": "Suchen",
+    "SAVE": "Speichern",
+    "CANCEL": "Abbrechen"
   },
   "NAVIGATION": {
     "ADMIN": "Admin",
@@ -27,7 +29,8 @@
     "LOGOUT": "Logout",
     "FORMS": "Produkte",
     "ORDERS": "Bestellungen",
-    "PRODUCTS": "Produkte"
+    "PRODUCTS": "Produkte",
+    "HOME_TILES": "Home Kacheln"
   },
   "NOTIFICATION": {
     "SHOPPING_CART_ITEM_ADDED": "Produkt zum Warenkorb hinzugefügt"

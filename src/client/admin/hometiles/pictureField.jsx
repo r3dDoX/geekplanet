@@ -34,9 +34,7 @@ const PictureField = ({
           alt="Category Product"
           src={getPictureUrl(picture)}
           onClick={() => onChange(picture)}
-          style={value === picture ? {
-            border: `1px solid ${brandPrimary}`,
-          } : null}
+          style={value === picture ? { border: `1px solid ${brandPrimary}` } : null}
         />
       ))}
     </PictureContainer>

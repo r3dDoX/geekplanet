@@ -97,7 +97,6 @@ class HomeTileForm extends React.Component {
           }))}
           dataSourceConfig={{ text: 'name', value: 'id' }}
           filter={AutoComplete.caseInsensitiveFilter}
-          validate={required}
         />
         <br />
         <Field
@@ -117,7 +116,8 @@ class HomeTileForm extends React.Component {
               .filter(product => categoriesToFilter.includes(product.category))
               .map(product => product.files[0])
               .filter(picture => !!picture)
-            : []}
+            : products.map(product => product.files[0])
+          }
         />
         <br />
         <RaisedButton

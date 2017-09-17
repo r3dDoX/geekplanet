@@ -1,6 +1,7 @@
 import { grey800 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
 import React from 'react';
+import Dragula from 'react-dragula';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -11,6 +12,7 @@ import { HomeTilePropType } from '../../propTypes';
 import PrivateRoute from '../../router/privateRoute.jsx';
 import AddHomeTile from './addHomeTile.jsx';
 import HomeTileDialog from './homeTileDialog.jsx';
+import Xhr from '../../xhr';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -24,11 +26,31 @@ class HomeTiles extends React.Component {
     }
   }
 
+  saveOrder(element, target, source, sibling) {
+    Xhr.post('/api/hometiles/order', {
+      element: element.dataset.id,
+      sibling: sibling ? sibling.dataset.id : undefined,
+    }).then(() => this.props.loadHomeTiles());
+  }
+
+  dragulaDecorator(componentBackingInstance) {
+    this.dragContainer = componentBackingInstance;
+
+    if (componentBackingInstance) {
+      const options = {};
+      const drake = Dragula([componentBackingInstance], options);
+      drake.on('drop', (...args) => this.saveOrder(...args));
+    }
+  }
+
   render() {
     return (
-      <HomeTileContainer>
+      <HomeTileContainer
+        className="tileContainer"
+        innerRef={element => this.dragulaDecorator(element)}
+      >
         {this.props.tiles.map(tile => (
-          <StyledLink key={tile._id} to={`/admin/hometiles/${tile._id}`}>
+          <StyledLink key={tile._id} data-id={tile._id} to={`/admin/hometiles/${tile._id}`}>
             <HomeTile tile={tile} />
           </StyledLink>
         ))}

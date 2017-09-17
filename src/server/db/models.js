@@ -176,7 +176,11 @@ models.HomeTile = mongoose.model('HomeTile', {
   en: HomeTileName,
   category: mongoose.Schema.Types.ObjectId,
   picture: String,
-  order: Number,
+  order: {
+    type: Number,
+    default: 0,
+    index: true,
+  },
 });
 
 module.exports = models;

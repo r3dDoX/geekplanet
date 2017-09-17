@@ -25,5 +25,52 @@ module.exports = {
           .then(() => res.sendStatus(200))
           .catch(error => handleGenericError(error, res))
     );
+
+    app.post('/api/hometiles/order', authorization, isAdmin, bodyParser.json(),
+      ({ body }, res) => Promise.all([
+        HomeTile.findOne({ _id: body.element }),
+        body.sibling ? HomeTile.findOne({ _id: body.sibling }) : HomeTile.count(),
+      ])
+        .then(([tile, siblingTile]) => {
+          let promise;
+          const originalPosition = tile.order;
+          let positionToTake = (typeof siblingTile === 'number') ?
+            siblingTile - 1 : siblingTile.order;
+
+
+          if (originalPosition < positionToTake) {
+            positionToTake -= 1;
+            promise = HomeTile.updateMany({
+              order: {
+                $gt: originalPosition,
+                $lte: positionToTake,
+              },
+            }, {
+              $inc: {
+                order: -1,
+              },
+            });
+          } else {
+            promise = HomeTile.updateMany({
+              order: {
+                $gte: positionToTake,
+                $lt: originalPosition,
+              },
+            }, {
+              $inc: {
+                order: 1,
+              },
+            });
+          }
+
+          return promise.then(() =>
+            HomeTile.update({
+              _id: body.element,
+            }, {
+              $set: { order: positionToTake },
+            }));
+        })
+        .then(() => res.sendStatus(200), () => res.sendStatus(500))
+    );
   },
 };

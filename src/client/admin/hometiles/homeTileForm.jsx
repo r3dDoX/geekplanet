@@ -116,7 +116,7 @@ class HomeTileForm extends React.Component {
               .filter(product => categoriesToFilter.includes(product.category))
               .map(product => product.files[0])
               .filter(picture => !!picture)
-            : products.map(product => product.files[0])
+            : products.map(product => product.files[0]).filter(picture => !!picture)
           }
         />
         <br />

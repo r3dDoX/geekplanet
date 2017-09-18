@@ -31,36 +31,27 @@ module.exports = {
         HomeTile.findOne({ _id: body.element }),
         body.sibling ? HomeTile.findOne({ _id: body.sibling }) : HomeTile.count(),
       ])
-        .then(([tile, siblingTile]) => {
+        .then(([{ _id, order: originalPosition }, siblingTile]) => {
           let promise;
-          const originalPosition = tile.order;
-          let positionToTake = (typeof siblingTile === 'number') ?
-            siblingTile : siblingTile.order;
-
+          let positionToTake = (typeof siblingTile === 'number') ? siblingTile : siblingTile.order;
 
           if (originalPosition < positionToTake) {
             positionToTake -= 1;
-            promise = HomeTile.updateMany({
-              order: {
-                $gt: originalPosition,
-                $lte: positionToTake,
-              },
-            }, { $inc: { order: -1 } });
+            promise = HomeTile.updateMany(
+              { order: { $gt: originalPosition, $lte: positionToTake } },
+              { $inc: { order: -1 } }
+            );
           } else {
-            promise = HomeTile.updateMany({
-              order: {
-                $gte: positionToTake,
-                $lt: originalPosition,
-              },
-            }, { $inc: { order: 1 } });
+            promise = HomeTile.updateMany(
+              { order: { $gte: positionToTake, $lt: originalPosition } },
+              { $inc: { order: 1 } }
+            );
           }
 
-          return promise.then(() =>
-            HomeTile.update({
-              _id: body.element,
-            }, {
-              $set: { order: positionToTake },
-            }));
+          return promise.then(() => HomeTile.update(
+            { _id },
+            { $set: { order: positionToTake } })
+          );
         })
         .then(() => res.sendStatus(200), error => handleGenericError(error, res))
     );

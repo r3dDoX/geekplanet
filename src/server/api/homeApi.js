@@ -35,7 +35,7 @@ module.exports = {
           let promise;
           const originalPosition = tile.order;
           let positionToTake = (typeof siblingTile === 'number') ?
-            siblingTile - 1 : siblingTile.order;
+            siblingTile : siblingTile.order;
 
 
           if (originalPosition < positionToTake) {

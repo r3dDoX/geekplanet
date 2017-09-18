@@ -45,22 +45,14 @@ module.exports = {
                 $gt: originalPosition,
                 $lte: positionToTake,
               },
-            }, {
-              $inc: {
-                order: -1,
-              },
-            });
+            }, { $inc: { order: -1 } });
           } else {
             promise = HomeTile.updateMany({
               order: {
                 $gte: positionToTake,
                 $lt: originalPosition,
               },
-            }, {
-              $inc: {
-                order: 1,
-              },
-            });
+            }, { $inc: { order: 1 } });
           }
 
           return promise.then(() =>

@@ -15,6 +15,7 @@ const Container = styled.div`
 const TextContainer = styled.div`
   flex: 1;
   text-align: center;
+  padding: 0 5px;
 `;
 
 const TextTitle = styled.h5`
@@ -48,6 +49,10 @@ const StyledEmailIcon = styled(EmailIcon)`
   margin-right: 5px;
 `;
 
+const MailLink = styled.a`
+  word-break: break-all;
+`;
+
 const styles = {
   links: {
     display: 'flex',
@@ -65,9 +70,9 @@ const Footer = () => (
       <TextTitle>
         <FormattedMessage id="FOOTER.CONTACT" />
       </TextTitle>
-      <a style={styles.links} href="mailto:info@geekplanet.ch">
+      <MailLink style={styles.links} href="mailto:info@geekplanet.ch">
         <StyledEmailIcon />info@geekplanet.ch
-      </a>
+      </MailLink>
     </TextContainer>
     <TextContainer>
       <TextTitle>

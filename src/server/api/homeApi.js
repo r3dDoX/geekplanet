@@ -62,7 +62,7 @@ module.exports = {
               $set: { order: positionToTake },
             }));
         })
-        .then(() => res.sendStatus(200), () => res.sendStatus(500))
+        .then(() => res.sendStatus(200), error => handleGenericError(error, res))
     );
   },
 };

@@ -2,6 +2,7 @@ import { grey800 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Dragula from 'react-dragula';
+import 'react-dragula/dist/dragula.css';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -10,9 +11,9 @@ import HomeTile from '../../home/homeTile.jsx';
 import HomeTileContainer from '../../home/homeTilesContainer.jsx';
 import { HomeTilePropType } from '../../propTypes';
 import PrivateRoute from '../../router/privateRoute.jsx';
+import Xhr from '../../xhr';
 import AddHomeTile from './addHomeTile.jsx';
 import HomeTileDialog from './homeTileDialog.jsx';
-import Xhr from '../../xhr';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -37,8 +38,7 @@ class HomeTiles extends React.Component {
     this.dragContainer = componentBackingInstance;
 
     if (componentBackingInstance) {
-      const options = {};
-      const drake = Dragula([componentBackingInstance], options);
+      const drake = Dragula([componentBackingInstance], {});
       drake.on('drop', (...args) => this.saveOrder(...args));
     }
   }

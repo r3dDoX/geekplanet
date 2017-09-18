@@ -1,6 +1,6 @@
 import { change } from 'redux-form';
 import {
-  COMPLETE_PRODUCTS_LOADED,
+  COMPLETE_PRODUCTS_LOADED, createLoadHomeTiles,
   ORDERS_LOADED,
   PRODUCERS_LOADED,
   REMOVE_SELECTED_FILE,
@@ -110,3 +110,7 @@ export const createLoadOrders = () => dispatch =>
 export const createClearPayment = orderId => dispatch =>
   Xhr.post('/api/payment/prepayment/cleared', { orderId })
     .then(() => createLoadOrders()(dispatch));
+
+export const createSaveTile = tile => dispatch =>
+  Xhr.put('/api/hometiles', tile)
+    .then(() => createLoadHomeTiles()(dispatch));

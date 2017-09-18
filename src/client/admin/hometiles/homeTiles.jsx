@@ -27,28 +27,19 @@ class HomeTiles extends React.Component {
     }
   }
 
-  saveOrder(element, target, source, sibling) {
-    Xhr.post('/api/hometiles/order', {
-      element: element.dataset.id,
-      sibling: sibling ? sibling.dataset.id : undefined,
-    }).then(() => this.props.loadHomeTiles());
-  }
-
-  dragulaDecorator(componentBackingInstance) {
-    this.dragContainer = componentBackingInstance;
-
-    if (componentBackingInstance) {
-      const drake = Dragula([componentBackingInstance], {});
-      drake.on('drop', (...args) => this.saveOrder(...args));
-    }
+  componentDidMount() {
+    const drake = Dragula([this.dragulaContainer], {});
+    drake.on('drop', (element, target, source, sibling) =>
+      Xhr.post('/api/hometiles/order', {
+        element: element.dataset.id,
+        sibling: sibling && sibling.dataset.id,
+      }).then(this.props.loadHomeTiles)
+    );
   }
 
   render() {
     return (
-      <HomeTileContainer
-        className="tileContainer"
-        innerRef={element => this.dragulaDecorator(element)}
-      >
+      <HomeTileContainer innerRef={(element) => { this.dragulaContainer = element; }}>
         {this.props.tiles.map(tile => (
           <StyledLink key={tile._id} data-id={tile._id} to={`/admin/hometiles/${tile._id}`}>
             <HomeTile tile={tile} />
@@ -57,7 +48,11 @@ class HomeTiles extends React.Component {
         <Link to="/admin/hometiles/new">
           <AddHomeTile />
         </Link>
-        <PrivateRoute path="/admin/hometiles/:id" allowedRoles={['admin']} component={HomeTileDialog} />
+        <PrivateRoute
+          path="/admin/hometiles/:id"
+          allowedRoles={['admin']}
+          component={HomeTileDialog}
+        />
       </HomeTileContainer>
     );
   }

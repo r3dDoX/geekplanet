@@ -165,4 +165,22 @@ InvoiceSchema.plugin(AutoIncrement, { inc_field: 'invoiceNumber' });
 
 models.Invoice = mongoose.model('Invoice', InvoiceSchema);
 
+const HomeTileName = mongoose.Schema({
+  name: String,
+});
+
+models.HomeTile = mongoose.model('HomeTile', {
+  de: HomeTileName,
+  fr: HomeTileName,
+  it: HomeTileName,
+  en: HomeTileName,
+  category: mongoose.Schema.Types.ObjectId,
+  picture: String,
+  order: {
+    type: Number,
+    default: 0,
+    index: true,
+  },
+});
+
 module.exports = models;

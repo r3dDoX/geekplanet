@@ -125,4 +125,12 @@ export const OrderPropType = PropTypes.shape({
   items: ShoppingCartItemsPropType,
 });
 
+export const HomeTilePropType = PropTypes.shape({
+  category: PropTypes.string.isRequired,
+  de: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+  picture: PropTypes.string.isRequired,
+});
+
 export const OrdersPropType = PropTypes.arrayOf(OrderPropType);

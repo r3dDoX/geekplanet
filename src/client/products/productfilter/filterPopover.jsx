@@ -7,6 +7,20 @@ import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import { mdMinSize, xsMaxSize } from '../../theme';
 
+const FilterButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: fixed;
+  left: 0;
+  bottom: -50px;
+  background-color: #FFF;
+  width: 100%;
+  max-width: 900px;
+  padding: 5px 0;
+  z-index: 2;
+`;
+
 const Popover = styled.div`
   position: fixed;
   z-index: 1101;
@@ -14,25 +28,32 @@ const Popover = styled.div`
   overflow-y: auto;
   left: 0;
   width: 100%;
+  transition: bottom .25s ease-in, top .25s ease-in, opacity .25s ease-in;
   
-  @media screen and (min-width: ${mdMinSize}) {
-    animation: .25s ease-in 0s slideDown;
-    animation-fill-mode: both;
-  }
-  
-  @media screen and (max-width: ${xsMaxSize}) {
-    animation: .25s ease-in 0s slideUp;
+  &.slide-in ${FilterButtonContainer} {
+    transition: bottom .15s ease-in .45s;
     bottom: 0;
   }
   
-  @keyframes slideDown {
-    from { bottom: 100%; }
-    to { bottom: 0; }
+  &.slide-out {
+    opacity: 0;
   }
   
-  @keyframes slideUp {
-    from { top: 100%; }
-    to { top: 0; }
+  @media screen and (min-width: ${mdMinSize}) {
+    bottom: 100%;
+    
+    &.slide-in {
+      bottom: 0;
+    }
+  }
+  
+  @media screen and (max-width: ${xsMaxSize}) {
+    bottom: 0;
+    top: 100%;
+    
+    &.slide-in {
+      top: 0;
+    }
   }
 `;
 
@@ -43,28 +64,6 @@ const PopoverInlay = styled.div`
   background-color: #FFF;
   max-width: 900px;
   overflow-y: auto;
-`;
-
-const FilterButtonContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  background-color: #FFF;
-  width: 100%;
-  max-width: 900px;
-  padding: 5px 0;
-  z-index: 2;
-  
-  animation: .15s ease-in .45s delayFadeIn;
-  animation-fill-mode: both;
-  
-  @keyframes delayFadeIn {
-    from { bottom: -50px; }
-    to { bottom: 0; }
-  }
 `;
 
 const PopoverTitleContainer = styled.div`
@@ -105,11 +104,11 @@ const FilterPopover = ({
   toggleFilterView,
   resetFilter,
   top,
+  filterShown,
 }) => (
   <Popover
-    style={{
-      top: `${top}px`,
-    }}
+    style={top ? { top: `${top}px` } : null}
+    className={filterShown ? 'slide-in' : 'slide-out'}
   >
     <PopoverTitleContainer>
       <PopoverTitle>
@@ -140,6 +139,7 @@ const FilterPopover = ({
 FilterPopover.propTypes = {
   top: PropTypes.number.isRequired,
   children: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
+  filterShown: PropTypes.bool.isRequired,
   toggleFilterView: PropTypes.func.isRequired,
   resetFilter: PropTypes.func.isRequired,
 };

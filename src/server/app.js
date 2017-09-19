@@ -13,7 +13,7 @@ const api = require('./api');
 
 mongo.init();
 const app = express();
-app.enable('etag');
+app.use(mongoSanitize());
 app.use('*', (req, res, next) => {
   if (config.USE_SSL && req.headers['x-forwarded-proto'] !== 'https') {
     res.redirect(`https://${req.hostname}${req.url}`);
@@ -21,7 +21,15 @@ app.use('*', (req, res, next) => {
     next();
   }
 });
-app.use(mongoSanitize());
+
+app.enable('etag');
+// prevent IE from caching REST requests to /api
+app.use('/api', (req, res, next) => {
+  res.setHeader('Expires', -1);
+  res.setHeader('Cache-Control', 'must-revalidate, private');
+  next();
+});
+
 
 if (process.env.NODE_ENV === 'production') {
   app.get('*.js', (req, res, next) => {

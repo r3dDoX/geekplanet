@@ -1,6 +1,6 @@
 {
   "name": "geekplanet",
-  "version": "1.0.0-rc.7",
+  "version": "1.0.0-rc.8",
   "description": "A Webshop built with React/Redux, Node JS and Mongo DB",
   "repository": "https://github.com/r3dDoX/geekplanet",
   "engines": {
@@ -53,7 +53,7 @@
     "stripe": "5.0.0"
   },
   "devDependencies": {
-    "auth0-js": "8.10.0",
+    "auth0-js": "8.10.1",
     "babel-eslint": "8.0.0",
     "babel-jest": "21.0.0",
     "babel-loader": "7.1.2",

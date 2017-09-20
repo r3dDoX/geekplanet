@@ -26,7 +26,7 @@ app.enable('etag');
 // prevent IE from caching REST requests to /api
 app.use('/api', (req, res, next) => {
   res.setHeader('Expires', -1);
-  res.setHeader('Cache-Control', 'must-revalidate, private');
+  res.setHeader('Cache-Control', 'public, must-revalidate');
   next();
 });
 

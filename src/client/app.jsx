@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import BrowserRouter from 'react-router-dom/BrowserRouter';
 import Route from 'react-router-dom/Route';
 import { createLoadShoppingCart, createLoadTranslations, createLoggedIn } from './actions';
+import Agb from './agb.jsx';
 import authService from './auth/authService';
 import ChangePassword from './auth/changePassword.jsx';
 import Login from './auth/login.jsx';
 import Home from './home/home.jsx';
+import Imprint from './imprint.jsx';
 import Layout from './layout/layout.jsx';
 import OrderStepper from './order/orderStepper.jsx';
 import ProductDetails from './products/productDetails.jsx';
@@ -32,6 +34,8 @@ class App extends React.Component {
         <Layout>
           <Route exact path="/" component={Home} />
           <Route exact path="/error" component={GenericError} />
+          <Route exact path="/agb" component={Agb} />
+          <Route exact path="/imprint" component={Imprint} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/login/changepassword" component={ChangePassword} />
           <Route exact path="/products/" component={Products} />

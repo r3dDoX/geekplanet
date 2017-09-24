@@ -1,5 +1,5 @@
 import {
-  ADDRESSES_LOADED,
+  ADDRESSES_LOADED, AGB_ACCEPTED,
   ORDER_FINISHED,
   PROCESSING_STARTED,
   SAVE_ADDRESS, SAVING_ADDRESS,
@@ -9,6 +9,7 @@ import {
 
 export const OrderSteps = {
   ADDRESS: 'address',
+  AGB: 'agb',
   PAYMENT: 'payment',
   CONFIRMATION: 'confirmation',
 };
@@ -31,8 +32,12 @@ export default function auth(state = initialState, { type, data }) {
     case SAVE_ADDRESS:
       return Object.assign({}, state, {
         address: data,
-        step: OrderSteps.PAYMENT,
+        step: OrderSteps.AGB,
         savingAddress: false,
+      });
+    case AGB_ACCEPTED:
+      return Object.assign({}, state, {
+        step: OrderSteps.PAYMENT,
       });
     case ADDRESSES_LOADED:
       return Object.assign({}, state, {

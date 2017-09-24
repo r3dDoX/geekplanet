@@ -21,9 +21,14 @@ module.exports = {
 
     app.put('/api/hometiles', authorization, isAdmin, bodyParser.json(),
       (req, res) =>
-        saveOrUpdate(HomeTile, req.body)
-          .then(() => res.sendStatus(200))
-          .catch(error => handleGenericError(error, res))
+        HomeTile.count().then((count) => {
+          const tile = req.body;
+          tile.order = count;
+
+          saveOrUpdate(HomeTile, tile)
+            .then(() => res.sendStatus(200))
+            .catch(error => handleGenericError(error, res));
+        })
     );
 
     app.post('/api/hometiles/order', authorization, isAdmin, bodyParser.json(),

@@ -49,6 +49,9 @@ module.exports = {
         from: 'src/client/assets/',
         to: 'assets/',
       },
+      {
+        from: 'src/client/robots.txt',
+      },
     ]),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',

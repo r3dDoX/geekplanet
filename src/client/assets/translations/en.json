@@ -4,7 +4,7 @@
     "ABOUT_US": "About Us",
     "SOCIAL_MEDIA": "Social Media",
     "IMPRINT": "Imprint",
-    "PRIVACY_POLICY": "Privacy Policy"
+    "AGB": "GTC"
   },
   "COMMON": {
     "EDIT": "Edit",
@@ -66,6 +66,10 @@
         "NO_ADDRESS": "Add new address",
         "RECENTLY": "Recently used"
       }
+    },
+    "AGB": {
+      "TITLE": "GTC",
+      "ACCEPT": "Accept GTC"
     },
     "CONFIRMATION": {
       "TITLE": "Confirmation",

@@ -1,6 +1,6 @@
 {
   "name": "geekplanet",
-  "version": "1.0.0-rc.8",
+  "version": "1.0.0-rc.9",
   "description": "A Webshop built with React/Redux, Node JS and Mongo DB",
   "repository": "https://github.com/r3dDoX/geekplanet",
   "engines": {
@@ -30,7 +30,7 @@
   "license": "ISC",
   "dependencies": {
     "babel-core": "6.26.0",
-    "body-parser": "1.18.1",
+    "body-parser": "1.18.2",
     "chalk": "2.1.0",
     "compression": "1.7.0",
     "express": "4.15.3",
@@ -73,7 +73,7 @@
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.2.1",
-    "flow-bin": "0.54.1",
+    "flow-bin": "0.55.0",
     "flow-typed": "2.1.5",
     "greenkeeper-lockfile": "1.9.0",
     "html-webpack-plugin": "2.30.1",

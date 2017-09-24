@@ -4,7 +4,7 @@
     "ABOUT_US": "Über uns",
     "SOCIAL_MEDIA": "Social Media",
     "IMPRINT": "Impressum",
-    "PRIVACY_POLICY": "Datenschutz"
+    "AGB": "AGB"
   },
   "COMMON": {
     "EDIT": "Bearbeiten",
@@ -67,9 +67,13 @@
         "RECENTLY": "Kürzlich gebraucht"
       }
     },
+    "AGB": {
+      "TITLE": "AGB",
+      "ACCEPT": "AGB akzeptieren"
+    },
     "CONFIRMATION": {
       "TITLE": "Bestätigung",
-      "TEXT": "Danke für deine Bestellung. In Kürze erhälst du eine Email mit der Bestätigung."
+      "TEXT": "Danke für deine Bestellung. In Kürze erhältst du eine Email mit der Bestätigung."
     }
   },
   "COUNTRIES": {

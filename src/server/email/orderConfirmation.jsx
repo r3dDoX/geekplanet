@@ -269,7 +269,7 @@ module.exports = function renderTemplate(order) {
               </td>
               <td colSpan={2} style={Object.assign({}, styles.textRight, styles.contentPadding)}>
                 <a
-                  href="http://www.youtube.com/geekplanet.ch/"
+                  href="https://www.youtube.com/channel/UCi7zjH3DyAvJoIlG8llygyQ"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={styles.socialLink}

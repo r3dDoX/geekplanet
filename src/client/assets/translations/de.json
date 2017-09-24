@@ -4,7 +4,7 @@
     "ABOUT_US": "Über uns",
     "SOCIAL_MEDIA": "Social Media",
     "IMPRINT": "Impressum",
-    "PRIVACY_POLICY": "Datenschutz"
+    "AGB": "AGB"
   },
   "COMMON": {
     "EDIT": "Bearbeiten",
@@ -66,6 +66,10 @@
         "NO_ADDRESS": "Neue Adresse erfassen",
         "RECENTLY": "Kürzlich gebraucht"
       }
+    },
+    "AGB": {
+      "TITLE": "AGB",
+      "ACCEPT": "AGB akzeptieren"
     },
     "CONFIRMATION": {
       "TITLE": "Bestätigung",

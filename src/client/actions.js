@@ -31,6 +31,7 @@ export const TOGGLE_FILTER_CATEGORY = 'TOGGLE_FILTER_CATEGORY';
 export const TOGGLE_FILTER_PRODUCER = 'TOGGLE_FILTER_PRODUCER';
 export const TOGGLE_FILTER_VIEW = 'TOGGLE_FILTER_VIEW';
 export const RESET_FILTER = 'RESET_FILTER';
+export const AGB_ACCEPTED = 'AGB_ACCEPTED';
 export const SAVING_ADDRESS = 'SAVING_ADDRESS';
 export const SELECT_UPLOAD_FILES = 'SELECT_UPLOAD_FILES';
 export const REMOVE_SELECTED_FILE = 'REMOVE_SELECTED_FILE';
@@ -112,6 +113,10 @@ export const createLoadAddresses = () => loadAndDispatchAddresses;
 export const createSelectAddress = address => ({
   type: SELECT_ADDRESS,
   data: address,
+});
+
+export const createAcceptAgb = () => ({
+  type: AGB_ACCEPTED,
 });
 
 export const createSaveAddress = address => (dispatch) => {

@@ -1,21 +1,17 @@
-import React from 'react';
+import { Step, StepButton, StepContent, Stepper } from 'material-ui/Stepper';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import withRouter from 'react-router-dom/withRouter';
-import {
-  Step,
-  Stepper,
-  StepButton,
-  StepContent,
-} from 'material-ui/Stepper';
-import { FormattedMessage } from 'react-intl';
+import { createSelectStep } from '../actions';
 import { ShoppingCartPropType } from '../propTypes';
 import PrivateRoute from '../router/privateRoute.jsx';
 import AddressStepContent from './addressStepContent.jsx';
-import PaymentStepContent from './paymentStepContent.jsx';
+import AgbStepContent from './agbStepContent.jsx';
 import ConfirmationStepContent from './confirmationStepContent.jsx';
 import { OrderSteps } from './order.reducer';
-import { createSelectStep } from '../actions';
+import PaymentStepContent from './paymentStepContent.jsx';
 
 const styles = {
   container: {
@@ -73,6 +69,9 @@ class OrderStepper extends React.Component {
       default:
         this.props.history.push(`${this.props.match.url}/address`);
         break;
+      case OrderSteps.AGB:
+        this.props.history.push(`${this.props.match.url}/agb`);
+        break;
       case OrderSteps.PAYMENT:
         this.props.history.push(`${this.props.match.url}/payment`);
         break;
@@ -96,16 +95,34 @@ class OrderStepper extends React.Component {
         style={styles.container}
       >
         <Step
-          onClick={() => orderStep !== OrderSteps.CONFIRMATION && selectStep(OrderSteps.ADDRESS)}
           completed={orderStep !== OrderSteps.ADDRESS}
           disabled={orderStep === OrderSteps.CONFIRMATION}
           active={orderStep === OrderSteps.ADDRESS}
         >
-          <StepButton>
+          <StepButton
+            onClick={() => orderStep !== OrderSteps.CONFIRMATION && selectStep(OrderSteps.ADDRESS)}
+          >
             <FormattedMessage id="ORDER.ADDRESS.TITLE" />
           </StepButton>
           <StepContent>
-            <PrivateRoute path={`${match.url}/${OrderSteps.ADDRESS}`} component={AddressStepContent} />
+            <PrivateRoute
+              path={`${match.url}/${OrderSteps.ADDRESS}`}
+              component={AddressStepContent}
+            />
+          </StepContent>
+        </Step>
+        <Step
+          completed={orderStep !== OrderSteps.ADDRESS && orderStep !== OrderSteps.AGB}
+          disabled={orderStep === OrderSteps.CONFIRMATION}
+          active={orderStep === OrderSteps.AGB}
+        >
+          <StepButton
+            onClick={() => orderStep !== OrderSteps.CONFIRMATION && selectStep(OrderSteps.AGB)}
+          >
+            <FormattedMessage id="ORDER.AGB.TITLE" />
+          </StepButton>
+          <StepContent>
+            <PrivateRoute path={`${match.url}/${OrderSteps.AGB}`} component={AgbStepContent} />
           </StepContent>
         </Step>
         <Step
@@ -117,7 +134,10 @@ class OrderStepper extends React.Component {
             <FormattedMessage id="ORDER.PAYMENT.TITLE" />
           </StepButton>
           <StepContent>
-            <PrivateRoute path={`${match.url}/${OrderSteps.PAYMENT}`} component={PaymentStepContent} />
+            <PrivateRoute
+              path={`${match.url}/${OrderSteps.PAYMENT}`}
+              component={PaymentStepContent}
+            />
           </StepContent>
         </Step>
         <Step
@@ -129,7 +149,10 @@ class OrderStepper extends React.Component {
             <FormattedMessage id="ORDER.CONFIRMATION.TITLE" />
           </StepButton>
           <StepContent>
-            <PrivateRoute path={`${match.url}/${OrderSteps.CONFIRMATION}`} component={ConfirmationStepContent} />
+            <PrivateRoute
+              path={`${match.url}/${OrderSteps.CONFIRMATION}`}
+              component={ConfirmationStepContent}
+            />
           </StepContent>
         </Step>
       </Stepper>

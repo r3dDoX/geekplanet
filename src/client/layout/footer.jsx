@@ -81,8 +81,8 @@ const Footer = () => (
       <Link to="/imprint" style={styles.links}>
         <FormattedMessage id="FOOTER.IMPRINT" />
       </Link>
-      <Link to="/privacy" style={styles.links}>
-        <FormattedMessage id="FOOTER.PRIVACY_POLICY" />
+      <Link to="/agb" style={styles.links}>
+        <FormattedMessage id="FOOTER.AGB" />
       </Link>
     </TextContainer>
     <SocialLinks>

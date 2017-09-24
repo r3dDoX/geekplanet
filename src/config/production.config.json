@@ -2,11 +2,11 @@
   "USE_SSL": true,
   "APP": {
     "TITLE": "geekplanet",
-    "BASE_URL": "https://geekplanet.ch"
+    "BASE_URL": "https://www.geekplanet.ch"
   },
   "AUTH": {
     "CLIENT_ID": "xLicjjjB3JUoEH8B9OK6YYOBn9COm7aR",
-    "REDIRECT_URL": "https://geekplanet.ch/login"
+    "REDIRECT_URL": "https://www.geekplanet.ch/login"
   },
   "PAYMENT": {
     "PUBLIC": "pk_live_0zlRwI1DMdy7qVzEJP3P1ECK"

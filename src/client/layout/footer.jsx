@@ -86,7 +86,7 @@ const Footer = () => (
       </Link>
     </TextContainer>
     <SocialLinks>
-      <SocialLink href="http://www.youtube.com/geekplanet.ch/" target="_blank" rel="noopener noreferrer">
+      <SocialLink href="https://www.youtube.com/channel/UCi7zjH3DyAvJoIlG8llygyQ" target="_blank" rel="noopener noreferrer">
         <SocialIcon
           alt="Youtube"
           src="/assets/images/youtube.png"

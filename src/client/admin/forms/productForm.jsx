@@ -1,12 +1,14 @@
 import Divider from 'material-ui/Divider';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
+import { grey500 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDrafts from 'react-drafts';
 import { connect } from 'react-redux';
 import withRouter from 'react-router-dom/withRouter';
-import { change, Field, initialize, reduxForm } from 'redux-form';
+import { change, Field, FieldArray, initialize, reduxForm } from 'redux-form';
+import styled from 'styled-components';
 import '../../../../node_modules/react-drafts/dist/react-drafts.css';
 import { createLoadProducts } from '../../actions';
 import SelectField from '../../formHelpers/selectField.jsx';
@@ -32,7 +34,22 @@ import {
   productFormName,
 } from '../adminActions';
 import Tags from '../tags/tags.jsx';
+import LinkArray from './linkArray.jsx';
+import TextAreaArray from './textAreaArray.jsx';
 import UploadImagePreview from './uploadImagePreview.jsx';
+
+const DescriptionContainer = styled.div`
+  display: flex;
+`;
+
+const DescriptionPart = styled.div`
+  flex: 1 1 33.33%;
+  min-width: 300px;
+`;
+
+const DescriptionPartTitle = styled.h4`
+  color: ${grey500};
+`;
 
 const styles = {
   container: {
@@ -176,7 +193,29 @@ class ProductForm extends React.Component {
           component={(...args) => this.renderDraftJs(...args)}
           name="de.description"
         />
-        <br />
+        <DescriptionContainer>
+          <DescriptionPart>
+            <DescriptionPartTitle>Specifications</DescriptionPartTitle>
+            <FieldArray
+              name="de.specifications"
+              component={TextAreaArray}
+            />
+          </DescriptionPart>
+          <DescriptionPart>
+            <DescriptionPartTitle>Delivery</DescriptionPartTitle>
+            <FieldArray
+              name="de.delivery"
+              component={TextAreaArray}
+            />
+          </DescriptionPart>
+          <DescriptionPart>
+            <DescriptionPartTitle>Downloads</DescriptionPartTitle>
+            <FieldArray
+              name="de.downloads"
+              component={LinkArray}
+            />
+          </DescriptionPart>
+        </DescriptionContainer>
         <Field
           component={TextField}
           name="price"

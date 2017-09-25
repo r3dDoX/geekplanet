@@ -40,6 +40,7 @@ import UploadImagePreview from './uploadImagePreview.jsx';
 
 const DescriptionContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 const DescriptionPart = styled.div`

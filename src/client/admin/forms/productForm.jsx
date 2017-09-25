@@ -38,6 +38,10 @@ import LinkArray from './linkArray.jsx';
 import TextAreaArray from './textAreaArray.jsx';
 import UploadImagePreview from './uploadImagePreview.jsx';
 
+const Container = styled.form`
+  padding: 24px;
+`;
+
 const DescriptionContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -52,28 +56,27 @@ const DescriptionPartTitle = styled.h4`
   color: ${grey500};
 `;
 
+const FileUploadInput = styled.input`
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+`;
+
+const UploadButton = styled(RaisedButton)`
+  margin-top: 10px;
+`;
+
 const styles = {
-  container: {
-    padding: '24px',
-  },
-  fileUploadInput: {
-    cursor: 'pointer',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    right: 0,
-    left: 0,
-    width: '100%',
-    opacity: 0,
-  },
-  uploadButton: {
-    marginTop: '10px',
-  },
   selectFields: {
     verticalAlign: 'bottom',
   },
-  fileInput: {
-    display: 'none',
+  descriptionEditor: {
+    borderBottom: `1px solid ${grey500}`,
   },
 };
 
@@ -124,8 +127,7 @@ class ProductForm extends React.Component {
     } = this.props;
 
     return (
-      <form
-        style={styles.container}
+      <Container
         name={productFormName}
         onSubmit={handleSubmit(onSubmit)}
       >
@@ -194,6 +196,7 @@ class ProductForm extends React.Component {
           component={(...args) => this.renderDraftJs(...args)}
           name="de.description"
         />
+        <Divider />
         <DescriptionContainer>
           <DescriptionPart>
             <DescriptionPartTitle>Specifications</DescriptionPartTitle>
@@ -294,23 +297,21 @@ class ProductForm extends React.Component {
           multiLine
         />
         <br />
-        <RaisedButton
+        <UploadButton
           label="Choose images"
           labelPosition="before"
           containerElement="label"
-          style={styles.uploadButton}
         >
-          <input
+          <FileUploadInput
             type="file"
             accept="image/jpeg,image/png"
             multiple
-            style={styles.fileUploadInput}
             onChange={event => selectFiles(event.target.files, selectedFiles)}
           />
-        </RaisedButton>
+        </UploadButton>
         <UploadImagePreview files={selectedFiles} removeFile={removeFile} />
         <RaisedButton label="Save" type="submit" primary />
-      </form>
+      </Container>
     );
   }
 }

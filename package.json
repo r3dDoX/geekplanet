@@ -83,7 +83,7 @@
     "material-ui": "0.19.2",
     "nodemon": "1.12.1",
     "prop-types": "15.5.10",
-    "react-addons-test-utils": "15.6.0",
+    "react-addons-test-utils": "15.6.2",
     "react-animate-height": "0.10.2",
     "react-countup": "2.2.0",
     "react-drafts": "1.0.2",

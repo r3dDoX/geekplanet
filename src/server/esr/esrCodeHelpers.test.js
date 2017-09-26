@@ -22,14 +22,14 @@ describe('generateInvoiceNumberCode', () => {
   it('should pad invoice number with zeros and calculate checkdigit', () => {
     const result = underTest.generateInvoiceNumberCode(524);
 
-    expect(result).toBe('000005039981000000000005247');
+    expect(result).toBe('000005039981546720000005243');
   });
 });
 
 describe('spaceReference', () => {
   it('should add a space every 5 chars from right', () => {
-    const result = underTest.spaceReference('000005039981000000000000018');
+    const result = underTest.spaceReference('000005039981546720000000018');
 
-    expect(result).toBe('00 00050 39981 00000 00000 00018');
+    expect(result).toBe('00 00050 39981 54672 00000 00018');
   });
 });

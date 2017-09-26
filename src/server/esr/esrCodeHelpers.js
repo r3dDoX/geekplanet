@@ -15,7 +15,7 @@ module.exports = {
 
   generateInvoiceNumberCode(invoiceNumber /* : number */) {
     const invoiceString = `00000000000000${invoiceNumber}`;
-    const rg = `000005039981${invoiceString.substr(invoiceString.length - 14)}`;
+    const rg = `00000503998154672${invoiceString.substr(invoiceString.length - 9)}`;
     const ro = rg.split('').reduce(
       (sum, currentValue) => checkDigitAlg[(sum + parseInt(currentValue, 10)) % 10],
       0

@@ -84,6 +84,7 @@
     "IN_STOCK": "{stock, number} {stock, plural, one {piece} other {pieces}} in stock",
     "OUT_OF_STOCK": "This product is currently out of stock",
     "TO_PRODUCTS": "To the products",
+    "DESCRIPTION": "Description",
     "SPECIFICATIONS": "Specifications",
     "DELIVERY": "Delivery",
     "DOWNLOADS": "Downloads"

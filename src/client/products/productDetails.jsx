@@ -5,12 +5,14 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { formatPriceWithCurrency } from '../../common/priceFormatter';
 import { createLoadProduct } from '../actions';
 import MainSpinner from '../layout/mainSpinner.jsx';
 import OrderButton from '../order/orderButton.jsx';
 import { CompleteProductPropType } from '../propTypes';
 import { accent1Color, brandPrimary } from '../theme';
 import PriceCountUp from './priceCountUp.jsx';
+import { getPictureUrl } from './productService';
 import ProductSlider from './productSlider.jsx';
 import StockIcon from './stockIcon.jsx';
 
@@ -87,14 +89,20 @@ class ProductDetails extends React.Component {
     return (
       <Container>
         {(product && !productLoading) ? (
-          <Product>
-            <ProductSlider product={product} />
-            <Title>
+          <Product itemScope itemType="http://schema.org/Product">
+            <ProductSlider
+              itemProp="logo"
+              content={product.files[0] ?
+                getPictureUrl(product.files[0], 's') : '/assets/images/notFound.jpg'
+              }
+              product={product}
+            />
+            <Title itemProp="name">
               {product[locale].name}
             </Title>
             <StyledDivider />
             <OrderContainer>
-              <Price>
+              <Price itemProp="price" content={formatPriceWithCurrency(product.price)}>
                 <PriceCountUp price={product.price} />
               </Price>
               <OrderButton product={product} />
@@ -110,8 +118,11 @@ class ProductDetails extends React.Component {
               )}
             </ProductStock>
             <StyledDivider />
-            <h3>Beschreibung</h3>
+            <h3>
+              <FormattedMessage id="PRODUCT.DESCRIPTION" />
+            </h3>
             <ProductDescription
+              itemProp="description"
               // eslint-disable-next-line react/no-danger
               dangerouslySetInnerHTML={{ __html: product[locale].description }}
             />

@@ -61,7 +61,7 @@ const HomeTile = ({
   tile,
   onClick,
 }) => (
-  <Tile onClick={onClick}>
+  <Tile role="button" onClick={onClick}>
     <TileImage src={getPictureUrl(tile.picture)} />
     <TileTitle>{tile.de.name}</TileTitle>
   </Tile>

@@ -1,4 +1,5 @@
 import React from 'react';
+import DocumentTitle from 'react-document-title';
 import styled from 'styled-components';
 import { backgroundColor, xsMaxSize } from '../theme';
 import HomeSearch from './homeSearch.jsx';
@@ -21,6 +22,7 @@ const SloganContainer = styled.div`
 
 export default () => (
   <div>
+    <DocumentTitle title="Home" />
     <Header>
       <SloganContainer>
         <Slogan />

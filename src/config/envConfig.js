@@ -12,6 +12,9 @@ if (fs.existsSync('./src/config/secret.config.json')) {
 }
 
 module.exports = {
+  getEnvKey() {
+    return process.env.CONFIG;
+  },
   getEnvironmentSpecificConfig() {
     switch (process.env.CONFIG) {
       case 'staging':

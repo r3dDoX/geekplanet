@@ -50,7 +50,8 @@ module.exports = {
         to: 'assets/',
       },
       {
-        from: 'src/client/robots.txt',
+        from: `src/config/robots${envConfig.getEnvKey() === 'production' ? '_prod' : ''}.txt`,
+        to: 'robots.txt',
       },
     ]),
     new webpack.optimize.CommonsChunkPlugin({

@@ -115,10 +115,10 @@ module.exports = {
     app.get('/api/products/:id',
       (req, res) =>
         Product.findOne({ _id: req.params.id }, productFilter)
-          .then(products => res.send(products))
+          .then(product => res.send(product))
           .catch((err) => {
             Logger.error(err);
-            res.status(500).send('Fetching products failed!');
+            res.status(500).send('Fetching product failed!');
           })
     );
 

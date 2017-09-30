@@ -157,6 +157,10 @@ const LoginForm = ({
   </Container>
 );
 
+LoginForm.defaultProps = {
+  error: undefined,
+};
+
 LoginForm.propTypes = {
   error: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   handleSubmit: PropTypes.func.isRequired,

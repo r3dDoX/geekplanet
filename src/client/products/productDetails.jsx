@@ -89,12 +89,15 @@ class ProductDetails extends React.Component {
     return (
       <Container>
         {(product && !productLoading) ? (
-          <Product itemScope itemType="http://schema.org/Product">
+          <Product
+            itemScope
+            itemType="http://schema.org/Product"
+            itemProp="logo"
+            content={product.files[0] ?
+              getPictureUrl(product.files[0], 's') : '/assets/images/notFound.jpg'
+            }
+          >
             <ProductSlider
-              itemProp="logo"
-              content={product.files[0] ?
-                getPictureUrl(product.files[0], 's') : '/assets/images/notFound.jpg'
-              }
               product={product}
             />
             <Title itemProp="name">

@@ -1,4 +1,3 @@
-import flatMap from 'lodash.flatmap';
 import {
   FILTER_PRODUCTS,
   PRODUCT_CATEGORIES_LOADED,
@@ -106,7 +105,7 @@ function calculateFilterAmount(categoriesToFilter, producersToFilter) {
 function recursivelyMapIds(category) {
   return [
     category._id,
-    ...flatMap(category.subCategories, recursivelyMapIds),
+    ...category.subCategories.flatMap(recursivelyMapIds),
   ];
 }
 
@@ -117,7 +116,7 @@ function recursivelyMapIdsIfNotPresent(presentCategories, category) {
     arr.push(category);
   }
 
-  return arr.concat(flatMap(category.subCategories,
+  return arr.concat(category.subCategories.flatMap(
     subCategory => recursivelyMapIdsIfNotPresent(presentCategories, subCategory),
   ));
 }
@@ -125,7 +124,7 @@ function recursivelyMapIdsIfNotPresent(presentCategories, category) {
 function flattenGroupedCategories(category) {
   return [
     category,
-    ...flatMap(category.subCategories, flattenGroupedCategories),
+    ...category.subCategories.flatMap(flattenGroupedCategories),
   ];
 }
 
@@ -157,7 +156,7 @@ export default (state = initialState, {
 
       return Object.assign({}, state, {
         groupedProductCategories,
-        productCategories: flatMap(groupedProductCategories, flattenGroupedCategories),
+        productCategories: groupedProductCategories.flatMap(flattenGroupedCategories),
       });
     }
     case PUBLIC_PRODUCERS_LOADED:

@@ -61,9 +61,17 @@ const HomeTile = ({
   tile,
   onClick,
 }) => (
-  <Tile role="button" onClick={onClick}>
-    <TileImage src={getPictureUrl(tile.picture)} />
-    <TileTitle>{tile.de.name}</TileTitle>
+  <Tile
+    itemScope
+    itemType="http://schema.org/Thing"
+    role="button"
+    onClick={onClick}
+  >
+    <TileImage
+      itemProp="image"
+      src={getPictureUrl(tile.picture)}
+    />
+    <TileTitle itemProp="category">{tile.de.name}</TileTitle>
   </Tile>
 );
 

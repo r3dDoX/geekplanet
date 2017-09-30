@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import DocumentTitle from 'react-document-title';
+import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createLoadProducts } from '../actions';
 import MainSpinner from '../layout/mainSpinner.jsx';
@@ -15,13 +17,16 @@ class Products extends React.Component {
   }
 
   render() {
+    const { products, filteredProducts, filterShown, intl } = this.props;
+
     return (
       <div>
+        <DocumentTitle title={intl.formatMessage({ id: 'COMMON.PRODUCTS' })} />
         <ProductFilter />
-        {this.props.products.length ? (
+        {products.length ? (
           <ProductList
-            products={this.props.filteredProducts}
-            filterShown={this.props.filterShown}
+            products={filteredProducts}
+            filterShown={filterShown}
           />
         ) : (
           <MainSpinner />
@@ -36,6 +41,7 @@ Products.propTypes = {
   loadProducts: PropTypes.func.isRequired,
   filteredProducts: PropTypes.arrayOf(ProductPropType).isRequired,
   filterShown: PropTypes.bool.isRequired,
+  intl: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default connect(
@@ -49,4 +55,4 @@ export default connect(
       dispatch(createLoadProducts());
     },
   }),
-)(Products);
+)(injectIntl(Products));

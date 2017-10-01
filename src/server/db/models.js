@@ -147,6 +147,7 @@ models.Order = mongoose.model('Order', {
   total: {
     type: Number,
   },
+  invoice: mongoose.Schema.Types.ObjectId,
 });
 
 const InvoiceSchema = mongoose.Schema({

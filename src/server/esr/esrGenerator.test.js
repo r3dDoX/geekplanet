@@ -8,7 +8,7 @@ describe('generate', () => {
   afterEach(() => fs.unlinkSync(`./invoices/${orderNumber}.pdf`));
 
   it('should create a pdf file', (done) => {
-    const result = underTest.generate(1, orderNumber, 0, {
+    const result = underTest.generate('000005039981546720000000056', orderNumber, 0, {
       firstName: '',
       lastName: '',
       streetAddress: '',
@@ -22,7 +22,7 @@ describe('generate', () => {
     }).catch(done.fail);
   });
 
-  it('should generate 12 digit code out of price with checkdigit', (done) => {
+  it('should fill form with given params', (done) => {
     const price = 498.25;
     const address = {
       firstName: 'firstName',
@@ -33,7 +33,7 @@ describe('generate', () => {
     };
     const mockFunc = jest.spyOn(pdffiller, 'fillForm');
 
-    const result = underTest.generate(5, orderNumber, price, address);
+    const result = underTest.generate('000005039981546720000000056', orderNumber, price, address);
 
     result.then(() => {
       expect(mockFunc).toHaveBeenCalledTimes(1);

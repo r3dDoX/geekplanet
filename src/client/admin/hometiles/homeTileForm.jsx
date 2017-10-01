@@ -1,4 +1,3 @@
-import flatMap from 'lodash.flatmap';
 import AutoComplete from 'material-ui/AutoComplete';
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
@@ -21,7 +20,7 @@ const selector = formValueSelector(formName);
 function mapSubCategoriesRecursive(category) {
   return [
     category._id,
-    ...flatMap(category.subCategories, mapSubCategoriesRecursive),
+    ...category.subCategories.flatMap(mapSubCategoriesRecursive),
   ];
 }
 

@@ -154,6 +154,7 @@ const InvoiceSchema = mongoose.Schema({
     type: String,
     index: true,
   },
+  esr: String,
   invoiceNumber: {
     type: Number,
     index: true,

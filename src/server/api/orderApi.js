@@ -7,6 +7,7 @@ const stripe = require('stripe')(envConfig.getSecretKey('PAYMENT_SECRET'));
 const esrGenerator = require('../esr/esrGenerator');
 const mail = require('../email/mail');
 const { saveOrUpdate, handleGenericError } = require('../db/mongoHelper');
+const esrCodeHelpers = require('../esr/esrCodeHelpers');
 
 const orderConfig = envConfig.getEnvironmentSpecificConfig().ORDER;
 
@@ -133,16 +134,21 @@ module.exports = {
               value: total,
               address,
             }).save()
-              .then(invoice =>
-                esrGenerator.generate(
-                  invoice.invoiceNumber,
+              .then((invoice) => {
+                const esr = esrCodeHelpers.generateInvoiceNumberCode(invoice.invoiceNumber);
+
+                return esrGenerator.generate(
+                  esr,
                   order._id,
                   invoice.value,
                   invoice.address,
                 ).then(pdfPath =>
-                  mail.sendESR(order, req.user.email, pdfPath).then(fs.unlink(pdfPath)),
-                ),
-              );
+                  Promise.all([
+                    mail.sendESR(order, req.user.email, pdfPath).then(fs.unlink(pdfPath)),
+                    Invoice.findOneAndUpdate({ _id: invoice._id }, { esr }),
+                  ])
+                );
+              });
           })
           .then(() => res.sendStatus(200))
           .catch(error => handleGenericError(error, res)),

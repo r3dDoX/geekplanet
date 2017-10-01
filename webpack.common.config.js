@@ -43,6 +43,11 @@ module.exports = {
     new webpack.DefinePlugin(stringifyValues(envConfig.getEnvironmentSpecificConfig())),
     new HtmlWebpackPlugin({
       template: 'src/client/index.html',
+      minify: {
+        minifyCSS: true,
+        collapseWhitespace: true,
+        preserveLineBreaks: false,
+      },
     }),
     new CopyWebpackPlugin([
       {

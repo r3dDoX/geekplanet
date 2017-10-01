@@ -8,7 +8,7 @@ const esrTemplate = `${__dirname}/ESR_Form.pdf`;
 
 module.exports = {
   generate(
-    invoiceNumber /* : number */,
+    reference /* : string */,
     orderNumber /* : string */,
     value /* : number */,
     address /* : any */
@@ -21,7 +21,6 @@ module.exports = {
 ${address.streetAddress}
 ${address.zip} ${address.city}`;
     const partnerNumber = '012000998';
-    const reference = esrCodeHelpers.generateInvoiceNumberCode(invoiceNumber);
     const formData = {
       value_1: integerValue,
       decimal_1: decimalValue,

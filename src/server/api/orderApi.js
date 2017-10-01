@@ -114,44 +114,42 @@ module.exports = {
       }
     );
 
-    app.post('/api/payment/prepayment', bodyParser.json(), authorization,
-      (req, res) =>
-        Order.findOneAndUpdate({
-          _id: req.body.shoppingCartId,
-          user: req.user.sub,
-        }, {
-          $set: {
-            state: OrderState.WAITING,
-          },
-        },
-        { new: true })
-          .then((order) => {
-            const { address, items, total } = order;
-            updateProductStocks(items);
+    app.post('/api/payment/prepayment', bodyParser.json(), authorization, (req, res) =>
+      new Invoice({
+        user: req.user.sub,
+      }).save()
+        .then(invoice =>
+          Order.findOneAndUpdate(
+            { _id: req.body.shoppingCartId, user: req.user.sub },
+            { $set: { state: OrderState.WAITING, invoice: invoice._id } },
+            { new: true })
+        )
+        .then((order) => {
+          const { address, items, total } = order;
+          updateProductStocks(items);
 
-            new Invoice({
-              user: req.user.sub,
-              value: total,
-              address,
-            }).save()
-              .then((invoice) => {
-                const esr = esrCodeHelpers.generateInvoiceNumberCode(invoice.invoiceNumber);
+          return Invoice.findOneAndUpdate(
+            { _id: order.invoice },
+            { $set: { value: total, address } },
+            { new: true })
+            .then((invoice) => {
+              const esr = esrCodeHelpers.generateInvoiceNumberCode(invoice.invoiceNumber);
 
-                return esrGenerator.generate(
-                  esr,
-                  order._id,
-                  invoice.value,
-                  invoice.address,
-                ).then(pdfPath =>
-                  Promise.all([
-                    mail.sendESR(order, req.user.email, pdfPath).then(fs.unlink(pdfPath)),
-                    Invoice.findOneAndUpdate({ _id: invoice._id }, { esr }),
-                  ])
-                );
-              });
-          })
-          .then(() => res.sendStatus(200))
-          .catch(error => handleGenericError(error, res)),
+              return esrGenerator.generate(
+                esr,
+                order._id,
+                invoice.value,
+                invoice.address,
+              ).then(pdfPath =>
+                Promise.all([
+                  mail.sendESR(order, req.user.email, pdfPath).then(fs.unlink(pdfPath)),
+                  Invoice.findOneAndUpdate({ _id: invoice._id }, { $set: { esr } }),
+                ])
+              );
+            });
+        })
+        .then(() => res.sendStatus(200))
+        .catch(error => handleGenericError(error, res))
     );
 
     app.post('/api/payment/prepayment/cleared', bodyParser.json(), authorization, isAdmin,

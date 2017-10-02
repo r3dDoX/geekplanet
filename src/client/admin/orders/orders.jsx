@@ -7,6 +7,7 @@ import { grey200 } from 'material-ui/styles/colors';
 import DoneIcon from 'material-ui/svg-icons/action/done';
 import ThumbUpIcon from 'material-ui/svg-icons/action/thumb-up';
 import ViewIcon from 'material-ui/svg-icons/action/visibility';
+import CreditCardIcon from 'material-ui/svg-icons/action/credit-card';
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -163,7 +164,7 @@ class Orders extends React.Component {
                   </Dialog>
                 </td>
                 <BreakingCell>
-                  {order.esr ? order.esr : null}
+                  {order.esr ? order.esr : <CreditCardIcon />}
                 </BreakingCell>
                 <td>
                   {`${order.address.title} ${order.address.firstName} ${order.address.lastName}`}<br />

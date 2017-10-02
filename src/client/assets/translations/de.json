@@ -132,7 +132,7 @@
   "ORDERS": {
     "ID": "Bestellnr.",
     "STATUS": "Status",
-    "ITEMS": "Produkte",
+    "ESR": "Referenz",
     "TOTAL": "Total",
     "ADDRESS": "Adresse"
   }

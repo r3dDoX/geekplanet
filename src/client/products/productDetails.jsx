@@ -99,9 +99,9 @@ class ProductDetails extends React.Component {
                 getPictureUrl(product.files[0], 's') : '/assets/images/notFound.jpg'
               }
             >
-              <ProductSlider
-                product={product}
-              />
+              {product.files.length ? (
+                <ProductSlider product={product} />
+              ) : null}
               <Title itemProp="name">
                 {product[locale].name}
               </Title>

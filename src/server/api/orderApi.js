@@ -30,6 +30,16 @@ module.exports = {
     app.get('/api/orders', authorization, isAdmin,
       (req, res) =>
         Order.find().sort({ date: 1 })
+          .then(orders => Promise.all(orders.map((order) => {
+            if (order.invoice) {
+              return Invoice.findOne({ _id: order.invoice })
+                .then(invoice => Object.assign({}, order.toObject(), {
+                  esr: invoice.esr,
+                }));
+            }
+
+            return order;
+          })))
           .then(orders => res.send(orders))
           .catch((err) => {
             Logger.error(err);

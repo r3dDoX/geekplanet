@@ -111,6 +111,10 @@ export const createClearPayment = orderId => dispatch =>
   Xhr.post('/api/payment/prepayment/cleared', { orderId })
     .then(() => createLoadOrders()(dispatch));
 
+export const createOrderSent = orderId => dispatch =>
+  Xhr.post('/api/order/sent', { orderId })
+    .then(() => createLoadOrders()(dispatch));
+
 export const createSaveTile = tile => dispatch =>
   Xhr.put('/api/hometiles', tile)
     .then(() => createLoadHomeTiles()(dispatch));

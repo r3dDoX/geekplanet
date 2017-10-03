@@ -82,6 +82,12 @@ module.exports = {
       }
     );
 
+    app.post('/api/order/sent', authorization, isAdmin, bodyParser.json(), (req, res) =>
+      Order.findOneAndUpdate({ _id: req.body.orderId }, { $set: { state: OrderState.SENT } })
+        .then(() => res.sendStatus(200))
+        .catch(error => handleGenericError(error, res))
+    );
+
     app.put('/api/userAddress', authorization, bodyParser.json(),
       (req, res) =>
         saveOrUpdate(UserAddress, Object.assign(

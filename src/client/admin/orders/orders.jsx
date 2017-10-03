@@ -1,23 +1,25 @@
 import Avatar from 'material-ui/Avatar';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import { grey200 } from 'material-ui/styles/colors';
+import CreditCardIcon from 'material-ui/svg-icons/action/credit-card';
 import DoneIcon from 'material-ui/svg-icons/action/done';
 import ThumbUpIcon from 'material-ui/svg-icons/action/thumb-up';
 import ViewIcon from 'material-ui/svg-icons/action/visibility';
-import CreditCardIcon from 'material-ui/svg-icons/action/credit-card';
+import AttentionIcon from 'material-ui/svg-icons/content/report';
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
+import ShippedIcon from 'material-ui/svg-icons/maps/local-shipping';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { WAITING } from '../../../common/orderState';
+import { FINISHED, SENT, WAITING } from '../../../common/orderState';
 import { formatPriceWithCurrency } from '../../../common/priceFormatter';
 import { OrdersPropType } from '../../propTypes';
-import { createClearPayment, createLoadOrders } from '../adminActions';
+import { createClearPayment, createLoadOrders, createOrderSent } from '../adminActions';
 
 const Container = styled.div`
   overflow-X: auto;
@@ -101,8 +103,35 @@ class Orders extends React.Component {
     });
   }
 
+  renderOrderButton(id, state) {
+    switch (state) {
+      case WAITING:
+        return (
+          <RaisedButton
+            primary
+            icon={<DoneIcon />}
+            onClick={() => this.props.clearPayment(id)}
+          />
+        );
+      case FINISHED:
+        return (
+          <RaisedButton
+            primary
+            icon={<ShippedIcon />}
+            onClick={() => this.props.orderSent(id)}
+          />
+        );
+      case SENT:
+        return (
+          <ThumbUpIcon />
+        );
+      default:
+        return <AttentionIcon />;
+    }
+  }
+
   render() {
-    const { orders, clearPayment } = this.props;
+    const { orders } = this.props;
 
     return (
       <Container>
@@ -183,15 +212,7 @@ class Orders extends React.Component {
                   ))}
                 </td>
                 <CenteredCell>
-                  {order.state === WAITING ? (
-                    <RaisedButton
-                      primary
-                      icon={<DoneIcon />}
-                      onClick={() => clearPayment(order._id)}
-                    />
-                  ) : (
-                    <ThumbUpIcon />
-                  )}
+                  {this.renderOrderButton(order._id, order.state)}
                 </CenteredCell>
               </tr>
             ))}
@@ -206,6 +227,7 @@ Orders.propTypes = {
   orders: OrdersPropType.isRequired,
   loadOrders: PropTypes.func.isRequired,
   clearPayment: PropTypes.func.isRequired,
+  orderSent: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -218,6 +240,9 @@ export default connect(
     },
     clearPayment(orderId) {
       dispatch(createClearPayment(orderId));
+    },
+    orderSent(orderId) {
+      dispatch(createOrderSent(orderId));
     },
   })
 )(Orders);

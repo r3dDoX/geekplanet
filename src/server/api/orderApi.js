@@ -29,7 +29,7 @@ module.exports = {
   registerEndpoints(app) {
     app.get('/api/orders', authorization, isAdmin,
       (req, res) =>
-        Order.find().sort({ date: 1 })
+        Order.find().sort({ date: -1 })
           .then(orders => Promise.all(orders.map((order) => {
             if (order.invoice) {
               return Invoice.findOne({ _id: order.invoice })

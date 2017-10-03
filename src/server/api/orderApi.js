@@ -169,10 +169,7 @@ module.exports = {
     );
 
     app.post('/api/payment/prepayment/cleared', bodyParser.json(), authorization, isAdmin,
-      (req, res) => Order.findOneAndUpdate({
-        _id: req.body.orderId,
-        user: req.user.sub,
-      }, {
+      (req, res) => Order.findOneAndUpdate({ _id: req.body.orderId }, {
         $set: {
           state: OrderState.FINISHED,
         },

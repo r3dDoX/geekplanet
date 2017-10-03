@@ -54,6 +54,7 @@ const StyledViewIcon = styled(ViewIcon)`
 
 const ItemList = styled.ul`
   list-style: none;
+  padding: 0;
   
   li:nth-child(2n - 1) {
     background-color: ${grey200};

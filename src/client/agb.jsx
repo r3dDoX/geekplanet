@@ -92,10 +92,12 @@ export default () => (
       Zahlungsmethoden/-bedingungen<br />
       Rechnungen sind innert 10 Tagen netto nach Rechnungsdatum zu begleichen. Folgende
       Zahlungsmethoden werden akzeptiert:
-      <StyledList>
-        <li>Vorkasse durch Überweisung (oranger Einzahlungsschein)</li>
-        <li>Kreditkarte (online) während dem Bestellvorgang</li>
-      </StyledList>
+    </p>
+    <StyledList>
+      <li>Vorkasse durch Überweisung (oranger Einzahlungsschein)</li>
+      <li>Kreditkarte (online) während dem Bestellvorgang</li>
+    </StyledList>
+    <p>
       Lieferung gegen Rechnung wird nach Ermessen von geekplanet GmbH je nach Kundenaccount als
       Zahlungsmethode freigeschaltet und ermöglicht.
       Ab der zweiten Zahlungsaufforderung und dem damit verbundenen erhöhten manuellen Aufwand kann

@@ -29,7 +29,17 @@ module.exports = {
   registerEndpoints(app) {
     app.get('/api/orders', authorization, isAdmin,
       (req, res) =>
-        Order.find().sort({ date: 1 })
+        Order.find().sort({ date: -1 })
+          .then(orders => Promise.all(orders.map((order) => {
+            if (order.invoice) {
+              return Invoice.findOne({ _id: order.invoice })
+                .then(invoice => Object.assign({}, order.toObject(), {
+                  esr: invoice.esr,
+                }));
+            }
+
+            return order;
+          })))
           .then(orders => res.send(orders))
           .catch((err) => {
             Logger.error(err);
@@ -70,6 +80,12 @@ module.exports = {
             .catch(error => handleGenericError(error, res));
         });
       }
+    );
+
+    app.post('/api/order/sent', authorization, isAdmin, bodyParser.json(), (req, res) =>
+      Order.findOneAndUpdate({ _id: req.body.orderId }, { $set: { state: OrderState.SENT } })
+        .then(() => res.sendStatus(200))
+        .catch(error => handleGenericError(error, res))
     );
 
     app.put('/api/userAddress', authorization, bodyParser.json(),
@@ -153,10 +169,7 @@ module.exports = {
     );
 
     app.post('/api/payment/prepayment/cleared', bodyParser.json(), authorization, isAdmin,
-      (req, res) => Order.findOneAndUpdate({
-        _id: req.body.orderId,
-        user: req.user.sub,
-      }, {
+      (req, res) => Order.findOneAndUpdate({ _id: req.body.orderId }, {
         $set: {
           state: OrderState.FINISHED,
         },

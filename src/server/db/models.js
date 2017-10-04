@@ -120,6 +120,23 @@ const OrderItemSchema = mongoose.Schema({
   product: ProductSchema,
 });
 
+const InvoiceSchema = mongoose.Schema({
+  user: {
+    type: String,
+    index: true,
+  },
+  esr: String,
+  invoiceNumber: {
+    type: Number,
+    index: true,
+  },
+  value: Number,
+  address: UserAddressSchema,
+});
+InvoiceSchema.plugin(AutoIncrement, { inc_field: 'invoiceNumber' });
+
+models.Invoice = mongoose.model('Invoice', InvoiceSchema);
+
 models.Order = mongoose.model('Order', {
   _id: {
     type: String,
@@ -150,22 +167,6 @@ models.Order = mongoose.model('Order', {
   invoice: mongoose.Schema.Types.ObjectId,
 });
 
-const InvoiceSchema = mongoose.Schema({
-  user: {
-    type: String,
-    index: true,
-  },
-  esr: String,
-  invoiceNumber: {
-    type: Number,
-    index: true,
-  },
-  value: Number,
-  address: UserAddressSchema,
-});
-InvoiceSchema.plugin(AutoIncrement, { inc_field: 'invoiceNumber' });
-
-models.Invoice = mongoose.model('Invoice', InvoiceSchema);
 
 const HomeTileName = mongoose.Schema({
   name: String,

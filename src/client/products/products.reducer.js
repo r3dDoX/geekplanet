@@ -74,7 +74,7 @@ function filterProductsByString(products, filterString) {
             value = value.join('');
           }
 
-          return value.toLowerCase();
+          return (value && value.toLowerCase()) || '';
         })
         .some(fieldValue => fieldValue.includes(filterWord)),
     ),

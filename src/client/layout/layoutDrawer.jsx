@@ -23,41 +23,42 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
       onLeftIconButtonTouchTap={toggleDrawer}
       iconElementLeft={<IconButton><NavigationClose /></IconButton>}
     />
-    {roles.includes('admin') ? (
-      <div>
-        <Subheader>
-          <FormattedMessage id="NAVIGATION.ADMIN" />
-        </Subheader>
-        <MenuItem
-          primaryText={<FormattedMessage id="NAVIGATION.HOME_TILES" />}
-          containerElement={
-            <Link to="/admin/hometiles">
-              <FormattedMessage id="NAVIGATION.HOME_TILES" />
-            </Link>
-          }
-          onClick={toggleDrawer}
-        />
-        <MenuItem
-          primaryText={<FormattedMessage id="NAVIGATION.FORMS" />}
-          containerElement={
-            <Link to="/admin/forms">
-              <FormattedMessage id="NAVIGATION.FORMS" />
-            </Link>
-          }
-          onClick={toggleDrawer}
-        />
-        <MenuItem
-          primaryText={<FormattedMessage id="NAVIGATION.ORDERS" />}
-          containerElement={
-            <Link to="/admin/orders">
-              <FormattedMessage id="NAVIGATION.ORDERS" />
-            </Link>
-          }
-          onClick={toggleDrawer}
-        />
-        <Divider />
-      </div>
-    ) : null}
+    {roles.includes('admin') ? ([
+      <Subheader key={'admin'}>
+        <FormattedMessage id="NAVIGATION.ADMIN" />
+      </Subheader>,
+      <MenuItem
+        key={'homeTiles'}
+        primaryText={<FormattedMessage id="NAVIGATION.HOME_TILES" />}
+        containerElement={
+          <Link to="/admin/hometiles">
+            <FormattedMessage id="NAVIGATION.HOME_TILES" />
+          </Link>
+        }
+        onClick={toggleDrawer}
+      />,
+      <MenuItem
+        key={'forms'}
+        primaryText={<FormattedMessage id="NAVIGATION.FORMS" />}
+        containerElement={
+          <Link to="/admin/forms">
+            <FormattedMessage id="NAVIGATION.FORMS" />
+          </Link>
+        }
+        onClick={toggleDrawer}
+      />,
+      <MenuItem
+        key={'orders'}
+        primaryText={<FormattedMessage id="NAVIGATION.ORDERS" />}
+        containerElement={
+          <Link to="/admin/orders">
+            <FormattedMessage id="NAVIGATION.ORDERS" />
+          </Link>
+        }
+        onClick={toggleDrawer}
+      />,
+      <Divider key={'divider'} />,
+    ]) : null}
     <MenuItem
       primaryText="Home"
       onClick={() => {

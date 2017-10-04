@@ -37,6 +37,7 @@ import Tags from '../tags/tags.jsx';
 import LinkArray from './linkArray.jsx';
 import TextAreaArray from './textAreaArray.jsx';
 import UploadImagePreview from './uploadImagePreview.jsx';
+import { required } from '../../formHelpers/validations.jsx';
 
 const Container = styled.form`
   padding: 24px;
@@ -160,6 +161,7 @@ class ProductForm extends React.Component {
           name="de.name"
           label="Name"
           type="text"
+          validate={required}
         />&nbsp;
         <Field
           component={SelectField}

@@ -42,9 +42,18 @@ const DownloadLinkSchema = {
 };
 
 const ProductTranslationsSchema = {
-  name: String,
-  shortDescription: String,
-  description: String,
+  name: {
+    type: String,
+    required: true,
+  },
+  shortDescription: {
+    type: String,
+    default: '',
+  },
+  description: {
+    type: String,
+    default: '',
+  },
   specifications: [String],
   delivery: [String],
   downloads: [DownloadLinkSchema],

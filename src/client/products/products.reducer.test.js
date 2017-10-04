@@ -41,6 +41,36 @@ describe('Products Reducer', () => {
       expect(newState.filteredProducts[0].de.name).toBe('Product Abc');
     });
 
+    it('should filter products by german name when some props missing', () => {
+      const state = {
+        categoriesToFilter: [],
+        productFilters: {},
+        products: [
+          {
+            de: {
+              name: 'Product Abc',
+            },
+            tags: [],
+          },
+          {
+            de: {
+              shortDescription: 'shortDescription',
+            },
+            tags: [],
+          },
+        ],
+      };
+      const action = {
+        type: FILTER_PRODUCTS,
+        filterString: 'abc',
+      };
+
+      const newState = underTest(state, action);
+
+      expect(newState.filteredProducts).toHaveLength(1);
+      expect(newState.filteredProducts[0].de.name).toBe('Product Abc');
+    });
+
     it('should filter products by german shortDescription', () => {
       const state = {
         categoriesToFilter: [],

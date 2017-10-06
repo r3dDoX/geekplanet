@@ -32,7 +32,7 @@ const StyledCardMedia = styled(CardMedia)`
 `;
 
 const StyledCardTitle = styled(CardTitle)`
-  flex none;
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import withRouter from 'react-router-dom/withRouter';
 import {
   createLoadHomeTiles,
   createLoadProductCategories,
@@ -27,7 +26,6 @@ class HomeTiles extends React.Component {
       productCategories,
       toggleFilterCategory,
       resetFilter,
-      history,
       tiles,
     } = this.props;
 
@@ -37,6 +35,7 @@ class HomeTiles extends React.Component {
           <HomeTile
             key={tile._id}
             tile={tile}
+            link="/products"
             onClick={() => {
               resetFilter();
               if (tile.category) {
@@ -44,7 +43,6 @@ class HomeTiles extends React.Component {
                   .find(category => category._id === tile.category)
                 );
               }
-              history.push('/products');
             }}
           />
         ))}
@@ -58,7 +56,6 @@ HomeTiles.propTypes = {
   resetFilter: PropTypes.func.isRequired,
   toggleFilterCategory: PropTypes.func.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   tiles: HomeTilePropType.isRequired,
   loadHomeTiles: PropTypes.func.isRequired,
 };
@@ -82,4 +79,4 @@ export default connect(
       dispatch(createLoadHomeTiles());
     },
   }),
-)(withRouter(HomeTiles));
+)(HomeTiles);

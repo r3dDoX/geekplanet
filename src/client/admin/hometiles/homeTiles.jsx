@@ -1,11 +1,9 @@
-import { grey800 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Dragula from 'react-dragula';
 import 'react-dragula/dist/dragula.css';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import { createLoadHomeTiles } from '../../actions';
 import HomeTile from '../../home/homeTile.jsx';
 import HomeTileContainer from '../../home/homeTilesContainer.jsx';
@@ -15,10 +13,6 @@ import Xhr from '../../xhr';
 import AddHomeTile from './addHomeTile.jsx';
 import HomeTileDialog from './homeTileDialog.jsx';
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: ${grey800};
-`;
 
 class HomeTiles extends React.Component {
   componentWillMount() {
@@ -41,9 +35,12 @@ class HomeTiles extends React.Component {
     return (
       <HomeTileContainer innerRef={(element) => { this.dragulaContainer = element; }}>
         {this.props.tiles.map(tile => (
-          <StyledLink key={tile._id} data-id={tile._id} to={`/admin/hometiles/${tile._id}`}>
-            <HomeTile tile={tile} />
-          </StyledLink>
+          <HomeTile
+            key={tile._id}
+            data-id={tile._id}
+            tile={tile}
+            link={`/admin/hometiles/${tile._id}`}
+          />
         ))}
         <Link to="/admin/hometiles/new">
           <AddHomeTile />

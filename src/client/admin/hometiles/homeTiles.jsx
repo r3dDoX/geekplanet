@@ -37,7 +37,7 @@ class HomeTiles extends React.Component {
         {this.props.tiles.map(tile => (
           <HomeTile
             key={tile._id}
-            data-id={tile._id}
+            id={tile._id}
             tile={tile}
             link={`/admin/hometiles/${tile._id}`}
           />

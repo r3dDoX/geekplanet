@@ -97,7 +97,7 @@ export const ProductTileComponent = ({
       title={<TitleLink to={`/products/${product._id}`}>{product[locale].name}</TitleLink>}
     >
       <Badge
-        badgeContent={product.stock}
+        badgeContent={product.stock < 0 ? 0 : product.stock}
         primary={product.stock > 0}
         secondary={product.stock <= 0}
         badgeStyle={styles.stockBadge}

@@ -6,7 +6,11 @@ import HomeTileForm from './homeTileForm.jsx';
 const HomeTileDialog = ({
   match,
 }) => (
-  <Dialog modal open>
+  <Dialog
+    modal={false}
+    open
+    autoScrollBodyContent
+  >
     <HomeTileForm selectedTileId={match.params.id === 'new' ? '' : match.params.id} />
   </Dialog>
 );

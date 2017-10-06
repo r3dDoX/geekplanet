@@ -64,6 +64,7 @@ const HomeTile = ({
   tile,
   onClick,
   link,
+  id,
 }) => (
   <Tile
     itemScope
@@ -71,6 +72,7 @@ const HomeTile = ({
     role="button"
     to={link}
     onClick={onClick}
+    data-id={id}
   >
     <TileImage
       itemProp="image"
@@ -82,12 +84,14 @@ const HomeTile = ({
 
 HomeTile.defaultProps = {
   onClick: undefined,
+  id: undefined,
 };
 
 HomeTile.propTypes = {
   tile: HomeTilePropType.isRequired,
   onClick: PropTypes.func,
   link: PropTypes.string.isRequired,
+  id: PropTypes.string,
 };
 
 export default HomeTile;

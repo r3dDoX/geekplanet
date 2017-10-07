@@ -63,7 +63,6 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
       primaryText="Home"
       onClick={() => {
         toggleDrawer();
-        logout();
         history.push('/');
       }}
     />

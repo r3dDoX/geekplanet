@@ -4,7 +4,7 @@
   "description": "A Webshop built with React/Redux, Node JS and Mongo DB",
   "repository": "https://github.com/r3dDoX/geekplanet",
   "engines": {
-    "node": "8.4.0"
+    "node": "8.6.0"
   },
   "scripts": {
     "greenkeeper_update": "greenkeeper-lockfile-update",
@@ -69,10 +69,10 @@
     "compression-webpack-plugin": "1.0.1",
     "copy-webpack-plugin": "4.1.1",
     "css-loader": "0.28.7",
-    "eslint": "4.7.2",
-    "eslint-config-airbnb": "15.1.0",
+    "eslint": "4.8.0",
+    "eslint-config-airbnb": "16.0.0",
     "eslint-plugin-import": "2.7.0",
-    "eslint-plugin-jsx-a11y": "5.1.1",
+    "eslint-plugin-jsx-a11y": "6.0.2",
     "eslint-plugin-react": "7.4.0",
     "flow-bin": "0.56.0",
     "flow-typed": "2.2.0",

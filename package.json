@@ -84,7 +84,7 @@
     "nodemon": "1.12.1",
     "prop-types": "15.6.0",
     "react-addons-test-utils": "15.6.2",
-    "react-animate-height": "0.10.4",
+    "react-animate-height": "0.10.5",
     "react-countup": "2.3.0",
     "react-document-title": "2.0.3",
     "react-drafts": "1.0.2",

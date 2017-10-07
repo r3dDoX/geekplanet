@@ -1,6 +1,7 @@
-import { grey300 } from 'material-ui/styles/colors';
+import { grey300, grey800 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { getPictureUrl } from '../products/productService';
 import { HomeTilePropType } from '../propTypes';
@@ -16,7 +17,7 @@ const TileTitle = styled.h1`
   text-align: center;
 `;
 
-const Tile = styled.div`
+const Tile = styled(Link)`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -27,6 +28,8 @@ const Tile = styled.div`
   box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   border-radius: 5px;
+  text-decoration: none;
+  color: ${grey800};
   
   &::before {
     content: "";
@@ -60,12 +63,16 @@ const TileImage = styled.img`
 const HomeTile = ({
   tile,
   onClick,
+  link,
+  id,
 }) => (
   <Tile
     itemScope
     itemType="http://schema.org/Thing"
     role="button"
+    to={link}
     onClick={onClick}
+    data-id={id}
   >
     <TileImage
       itemProp="image"
@@ -77,11 +84,14 @@ const HomeTile = ({
 
 HomeTile.defaultProps = {
   onClick: undefined,
+  id: undefined,
 };
 
 HomeTile.propTypes = {
   tile: HomeTilePropType.isRequired,
   onClick: PropTypes.func,
+  link: PropTypes.string.isRequired,
+  id: PropTypes.string,
 };
 
 export default HomeTile;

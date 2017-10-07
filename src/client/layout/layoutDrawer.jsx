@@ -70,7 +70,6 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
       primaryText={<FormattedMessage id="NAVIGATION.PRODUCTS" />}
       onClick={() => {
         toggleDrawer();
-        logout();
         history.push('/products');
       }}
     />

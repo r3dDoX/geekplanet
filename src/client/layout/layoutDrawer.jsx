@@ -11,7 +11,14 @@ import { FormattedMessage } from 'react-intl';
 import Link from 'react-router-dom/Link';
 import withRouter from 'react-router-dom/withRouter';
 
-const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, history }) => (
+const LayoutDrawer = ({
+  roles,
+  logout,
+  loggedIn,
+  drawerOpened,
+  toggleDrawer,
+  history,
+}) => (
   <Drawer
     docked={false}
     open={drawerOpened}
@@ -24,11 +31,11 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
       iconElementLeft={<IconButton><NavigationClose /></IconButton>}
     />
     {roles.includes('admin') ? ([
-      <Subheader key={'admin'}>
+      <Subheader key="admin">
         <FormattedMessage id="NAVIGATION.ADMIN" />
       </Subheader>,
       <MenuItem
-        key={'homeTiles'}
+        key="homeTiles"
         primaryText={<FormattedMessage id="NAVIGATION.HOME_TILES" />}
         containerElement={
           <Link to="/admin/hometiles">
@@ -38,7 +45,7 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
         onClick={toggleDrawer}
       />,
       <MenuItem
-        key={'forms'}
+        key="forms"
         primaryText={<FormattedMessage id="NAVIGATION.FORMS" />}
         containerElement={
           <Link to="/admin/forms">
@@ -48,7 +55,7 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
         onClick={toggleDrawer}
       />,
       <MenuItem
-        key={'orders'}
+        key="orders"
         primaryText={<FormattedMessage id="NAVIGATION.ORDERS" />}
         containerElement={
           <Link to="/admin/orders">
@@ -57,7 +64,7 @@ const LayoutDrawer = ({ roles, logout, loggedIn, drawerOpened, toggleDrawer, his
         }
         onClick={toggleDrawer}
       />,
-      <Divider key={'divider'} />,
+      <Divider key="divider" />,
     ]) : null}
     <MenuItem
       primaryText="Home"

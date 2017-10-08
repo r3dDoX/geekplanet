@@ -73,12 +73,6 @@ const Layout = ({
   return <MainSpinner />;
 };
 
-Layout.defaultProps = {
-  i18n: {
-    translations: undefined,
-  },
-};
-
 Layout.propTypes = {
   auth: PropTypes.shape({
     loggedIn: PropTypes.bool.isRequired,

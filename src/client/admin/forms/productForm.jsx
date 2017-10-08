@@ -131,6 +131,13 @@ class ProductForm extends React.Component {
       <Container
         name={productFormName}
         onSubmit={handleSubmit(onSubmit)}
+        onKeyDown={(event) => {
+          if (event.keyCode === 13) {
+            event.preventDefault();
+            return false;
+          }
+          return true;
+        }}
       >
         <Field
           component={SelectField}
@@ -317,12 +324,6 @@ class ProductForm extends React.Component {
     );
   }
 }
-
-ProductForm.defaultProps = {
-  selectedProductProductCategory: undefined,
-  selectedProductProducer: undefined,
-  selectedProductSupplier: undefined,
-};
 
 ProductForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,

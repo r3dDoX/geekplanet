@@ -88,6 +88,7 @@ export const ProductTileComponent = ({
     <StyledLink to={`/products/${product._id}`}>
       <StyledCardMedia>
         <img
+          async
           alt="Product"
           src={(product.files.length) ? getPictureUrl(product.files[0]) : '/assets/images/notFound.jpg'}
         />

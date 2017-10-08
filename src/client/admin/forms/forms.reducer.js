@@ -21,7 +21,12 @@ const initialState = {
   suppliers: [],
 };
 
-export default function forms(state = initialState, { type, data, products, productCategories }) {
+export default function forms(state = initialState, {
+  type,
+  data,
+  products,
+  productCategories,
+}) {
   switch (type) {
     case SELECT_UPLOAD_FILES:
       return Object.assign({}, state, {

@@ -160,10 +160,6 @@ class OrderStepper extends React.Component {
   }
 }
 
-OrderStepper.defaultProps = {
-  email: '',
-};
-
 OrderStepper.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string,

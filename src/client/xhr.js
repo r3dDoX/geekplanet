@@ -14,7 +14,7 @@ function wrapXhrPromise(path, method, data, contentType) {
 
     request.addEventListener('load', () => {
       if (request.status === 200) {
-        let response = request.response;
+        let { response } = request;
         try {
           response = JSON.parse(response);
         } catch (e) { /* Nothing to do when no JSON returned */ }

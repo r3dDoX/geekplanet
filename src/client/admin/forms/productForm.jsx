@@ -318,12 +318,6 @@ class ProductForm extends React.Component {
   }
 }
 
-ProductForm.defaultProps = {
-  selectedProductProductCategory: undefined,
-  selectedProductProducer: undefined,
-  selectedProductSupplier: undefined,
-};
-
 ProductForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

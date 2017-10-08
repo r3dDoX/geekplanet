@@ -30,7 +30,7 @@ export const formName = 'productFilter';
 const FilterContainer = styled.div`
   background: #FFF;
   padding: 10px 20px;
-  box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.3);
   max-height: 68px;
   
   @media screen and (min-width: ${mdMinSize}) {
@@ -114,9 +114,7 @@ class ProductFilter extends React.Component {
   constructor() {
     super();
 
-    this.state = {
-      anchorElement: undefined,
-    };
+    this.state = {};
   }
 
   componentWillMount() {

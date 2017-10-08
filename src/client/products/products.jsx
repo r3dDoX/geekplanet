@@ -17,7 +17,12 @@ class Products extends React.Component {
   }
 
   render() {
-    const { products, filteredProducts, filterShown, intl } = this.props;
+    const {
+      products,
+      filteredProducts,
+      filterShown,
+      intl,
+    } = this.props;
 
     return (
       <div>

@@ -203,11 +203,13 @@ module.exports = function renderTemplate(order) {
                 <strong><FormattedMessage id="COMMON.TOTAL" /></strong>
               </td>
               <td colSpan={Math.ceil(colCount / 2)} style={styles.totals}>
-                <strong>{formatPriceWithCurrency(
-                  order.itemTotal < config.ORDER.MIN_PRICE_SHIPPING ?
-                    order.total :
-                    order.itemTotal
-                )}</strong>
+                <strong>
+                  {formatPriceWithCurrency(
+                    order.itemTotal < config.ORDER.MIN_PRICE_SHIPPING ?
+                      order.total :
+                      order.itemTotal
+                  )}
+                </strong>
               </td>
             </tr>
             <tr>

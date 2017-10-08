@@ -21,7 +21,13 @@ class Payment extends React.Component {
   }
 
   render() {
-    const { email, shoppingCart, finishOrder, startProcessing, processing } = this.props;
+    const {
+      email,
+      shoppingCart,
+      finishOrder,
+      startProcessing,
+      processing,
+    } = this.props;
 
     if (processing) {
       return <MainSpinner />;

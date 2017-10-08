@@ -13,7 +13,12 @@ const styles = {
   },
 };
 
-const Tags = ({ savedTags, tags, selectTag, removeTag }) => (
+const Tags = ({
+  savedTags,
+  tags,
+  selectTag,
+  removeTag,
+}) => (
   <div>
     <AutoComplete
       floatingLabelText="Tags"

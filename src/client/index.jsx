@@ -1,5 +1,3 @@
-/* eslint-disable */
-import './error';
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
@@ -10,7 +8,6 @@ import authService from './auth/authService';
 import './extension';
 import setupStore from './reducers/setupStore';
 import WrappedApp from './wrappedApp.jsx';
-/* eslint-enable */
 
 addLocaleData([...de]);
 authService.init();

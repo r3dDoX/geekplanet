@@ -1,14 +1,15 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import 'react-image-gallery/styles/css/image-gallery.css';
 import { addLocaleData } from 'react-intl';
 import de from 'react-intl/locale-data/de';
-import 'react-image-gallery/styles/css/image-gallery.css';
-import './extension';
-import WrappedApp from './wrappedApp.jsx';
-import setupStore from './reducers/setupStore';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import authService from './auth/authService';
+import './error';
+import './extension';
+import setupStore from './reducers/setupStore';
+import WrappedApp from './wrappedApp.jsx';
 
 injectTapEventPlugin();
 addLocaleData([...de]);

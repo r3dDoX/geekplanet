@@ -8,12 +8,4 @@ window.onerror = (message, url, lineNo, colNo, error) => {
     colNo,
     error,
   }).then(() => {}, () => {});
-  const msg = document.createElement('pre');
-  msg.innerText = [
-    `Message: ${message}`,
-    `URL: ${url}`,
-    `Line: ${lineNo}`,
-    `Column: ${colNo}`,
-    `Stack: ${error && error.stack}`,
-  ].join('\n');
 };

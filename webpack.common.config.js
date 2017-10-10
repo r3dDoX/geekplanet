@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const envConfig = require('./src/config/envConfig');
+const silencerAlias = require('babel-polyfill-silencer/aliases');
 
 function stringifyValues(obj) {
   return Object.keys(obj).reduce((acc, key) => {
@@ -70,4 +71,8 @@ module.exports = {
       minChunks: Infinity,
     }),
   ],
+
+  resolve: {
+    alias: silencerAlias,
+  },
 };

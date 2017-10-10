@@ -1,4 +1,5 @@
 /* eslint-disable import/first */
+import 'babel-polyfill-silencer';
 import './errorHandler';
 import React from 'react';
 import { render } from 'react-dom';

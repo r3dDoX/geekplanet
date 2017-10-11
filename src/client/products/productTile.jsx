@@ -84,18 +84,26 @@ export const ProductTileComponent = ({
   locale,
   product,
 }) => (
-  <StyledCard containerStyle={styles.cardContainer}>
+  <StyledCard
+    itemScope
+    itemType="http://schema.org/Product"
+    itemProp="identifier"
+    content={product._id}
+    containerStyle={styles.cardContainer}
+  >
     <StyledLink to={`/products/${product._id}`}>
       <StyledCardMedia>
         <img
           async
           alt="Product"
+          itemProp="image"
           src={(product.files.length) ? getPictureUrl(product.files[0]) : '/assets/images/notFound.jpg'}
         />
       </StyledCardMedia>
     </StyledLink>
     <StyledCardTitle
-      title={<TitleLink to={`/products/${product._id}`}>{product[locale].name}</TitleLink>}
+      itemProp="name"
+      title={<TitleLink itemProp="url" to={`/products/${product._id}`}>{product[locale].name}</TitleLink>}
     >
       <Badge
         badgeContent={product.stock < 0 ? 0 : product.stock}
@@ -110,7 +118,7 @@ export const ProductTileComponent = ({
       {product[locale].shortDescription}
     </StyledCardText>
     <StyledCardActions>
-      <PriceTag>{formatPriceWithCurrency(product.price)}</PriceTag>
+      <PriceTag itemProp="price">{formatPriceWithCurrency(product.price)}</PriceTag>
       <OrderButton product={product} />
       <Authorized allowedRoles={['admin']}>
         <EditButton

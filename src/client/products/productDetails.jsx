@@ -94,13 +94,15 @@ class ProductDetails extends React.Component {
             <Product
               itemScope
               itemType="http://schema.org/Product"
-              itemProp="logo"
-              content={product.files[0] ?
-                getPictureUrl(product.files[0], 's') : '/assets/images/notFound.jpg'
-              }
+              itemProp="identifier"
+              content={product._id}
             >
               {product.files.length ? (
-                <ProductSlider product={product} />
+                <ProductSlider
+                  product={product}
+                  itemProp="image"
+                  content={getPictureUrl(product.files[0], 's')}
+                />
               ) : null}
               <Title itemProp="name">
                 {product[locale].name}

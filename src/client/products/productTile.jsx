@@ -103,7 +103,7 @@ export const ProductTileComponent = ({
     </StyledLink>
     <StyledCardTitle
       itemProp="name"
-      title={<TitleLink to={`/products/${product._id}`}>{product[locale].name}</TitleLink>}
+      title={<TitleLink itemProp="url" to={`/products/${product._id}`}>{product[locale].name}</TitleLink>}
     >
       <Badge
         badgeContent={product.stock < 0 ? 0 : product.stock}

@@ -2,13 +2,18 @@ require('babel-core/register')({
   presets: ['react'],
 });
 
+const config = require('../config/envConfig').getEnvironmentSpecificConfig();
+
+if (config.NEWRELIC) {
+  require('newrelic'); // eslint-disable-line global-require
+}
+
 const path = require('path');
 const express = require('express');
 const mongoSanitize = require('express-mongo-sanitize');
 const mime = require('mime-types');
 const Logger = require('./logger');
 const mongo = require('./db/mongoHelper');
-const config = require('../config/envConfig').getEnvironmentSpecificConfig();
 const api = require('./api');
 
 mongo.init();
@@ -37,6 +42,7 @@ if (process.env.NODE_ENV === 'production') {
     if (!req.url.includes('manifest')) {
       req.url += '.gz';
       res.set('Content-Encoding', 'gzip');
+      res.set('Content-Type', 'application/javascript');
     }
     next();
   });

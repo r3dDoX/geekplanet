@@ -22,7 +22,7 @@ const SloganContainer = styled.div`
 
 export default () => (
   <div>
-    <DocumentTitle title="Home" />
+    <DocumentTitle title="geekplanet - Tabletop Miniatures" />
     <Header>
       <SloganContainer>
         <Slogan />

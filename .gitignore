@@ -17,3 +17,4 @@ secret.config.json
 
 # misc
 npm-debug.log
+newrelic_agent.log

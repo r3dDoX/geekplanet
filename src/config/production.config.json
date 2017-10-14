@@ -10,5 +10,9 @@
   },
   "PAYMENT": {
     "PUBLIC": "pk_live_0zlRwI1DMdy7qVzEJP3P1ECK"
+  },
+  "NEWRELIC": {
+    "NAME": "geekplanet",
+    "KEY": "6502075d68e55a5c63be4a714601592cf2c9f9ee"
   }
 }

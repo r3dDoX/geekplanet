@@ -10,5 +10,6 @@
   },
   "PAYMENT": {
     "PUBLIC": "pk_test_vyVGipm7QCAuNaHYwBHBLdpy"
-  }
+  },
+  "NEWRELIC": null
 }

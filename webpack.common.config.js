@@ -9,7 +9,9 @@ function stringifyValues(obj) {
   return Object.keys(obj).reduce((acc, key) => {
     const value = obj[key];
 
-    if (typeof value === 'object') {
+    if (value === null) {
+      acc[key] = value;
+    } else if (typeof value === 'object') {
       acc[key] = stringifyValues(value);
     } else {
       acc[key] = JSON.stringify(value);

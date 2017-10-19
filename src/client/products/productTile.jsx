@@ -97,13 +97,15 @@ export const ProductTileComponent = ({
           async
           alt="Product"
           itemProp="image"
+          content={(product.files.length) ? getPictureUrl(product.files[0]) : '/assets/images/notFound.jpg'}
           src={(product.files.length) ? getPictureUrl(product.files[0]) : '/assets/images/notFound.jpg'}
         />
       </StyledCardMedia>
     </StyledLink>
     <StyledCardTitle
-      itemProp="name"
-      title={<TitleLink itemProp="url" to={`/products/${product._id}`}>{product[locale].name}</TitleLink>}
+      itemProp="url"
+      content={`/products/${product._id}`}
+      title={<TitleLink itemProp="name" to={`/products/${product._id}`}>{product[locale].name}</TitleLink>}
     >
       <Badge
         badgeContent={product.stock < 0 ? 0 : product.stock}

@@ -120,7 +120,12 @@ module.exports = {
     app.get('/api/products/:id',
       (req, res) =>
         Product.findOne({ _id: req.params.id }, productFilter)
-          .then(product => res.send(product))
+          .then(product =>
+            ProductCategory.findOne({ _id: product.category })
+              .then(category =>
+                res.send(Object.assign({}, product.toObject(), { category: category.de.name }))
+              )
+          )
           .catch((err) => {
             Logger.error(err);
             res.status(500).send('Fetching product failed!');

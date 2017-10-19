@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import DocumentTitle from 'react-document-title';
+import { Helmet } from 'react-helmet';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createLoadProducts } from '../actions';
@@ -26,7 +26,9 @@ class Products extends React.Component {
 
     return (
       <div>
-        <DocumentTitle title={intl.formatMessage({ id: 'COMMON.PRODUCTS' })} />
+        <Helmet>
+          <title>{intl.formatMessage({ id: 'COMMON.PRODUCTS' })}</title>
+        </Helmet>
         <ProductFilter />
         {products.length ? (
           <ProductList

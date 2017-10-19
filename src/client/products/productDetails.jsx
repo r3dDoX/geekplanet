@@ -93,8 +93,6 @@ class ProductDetails extends React.Component {
             <Product
               itemScope
               itemType="http://schema.org/Product"
-              itemProp="identifier"
-              content={product._id}
             >
               {product.files.length ? (
                 <ProductSlider product={product} />
@@ -107,7 +105,11 @@ class ProductDetails extends React.Component {
                 <Price itemProp="price" content={formatPriceWithCurrency(product.price)}>
                   <PriceCountUp price={product.price} />
                 </Price>
-                <OrderButton product={product} />
+                <OrderButton
+                  itemProp="identifier"
+                  content={product._id}
+                  product={product}
+                />
               </OrderContainer>
               <ProductStock>
                 <StockIcon stock={product.stock} />&nbsp;&nbsp;&nbsp;

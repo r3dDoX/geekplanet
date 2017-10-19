@@ -87,11 +87,13 @@ export const ProductTileComponent = ({
   <StyledCard
     itemScope
     itemType="http://schema.org/Product"
-    itemProp="identifier"
-    content={product._id}
     containerStyle={styles.cardContainer}
   >
-    <StyledLink to={`/products/${product._id}`}>
+    <StyledLink
+      itemProp="identifier"
+      content={product._id}
+      to={`/products/${product._id}`}
+    >
       <StyledCardMedia>
         <img
           async

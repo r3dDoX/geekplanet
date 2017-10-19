@@ -101,15 +101,11 @@ class ProductDetails extends React.Component {
                 {product[locale].name}
               </Title>
               <StyledDivider />
-              <OrderContainer>
+              <OrderContainer itemProp="identifier" content={product._id}>
                 <Price itemProp="price" content={formatPriceWithCurrency(product.price)}>
                   <PriceCountUp price={product.price} />
                 </Price>
-                <OrderButton
-                  itemProp="identifier"
-                  content={product._id}
-                  product={product}
-                />
+                <OrderButton product={product} />
               </OrderContainer>
               <ProductStock>
                 <StockIcon stock={product.stock} />&nbsp;&nbsp;&nbsp;

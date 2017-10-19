@@ -117,6 +117,7 @@ module.exports = {
             })
               .then(() => updateProductStocks(order.items))
           )
+          .then(() => res.sendStatus(200))
           .then(() =>
             Order.findOneAndUpdate(
               { _id: req.body.shoppingCartId, user: req.user.sub },
@@ -125,7 +126,6 @@ module.exports = {
             )
               .then(order => mail.sendConfirmation(order, req.user.email))
           )
-          .then(() => res.sendStatus(200))
           .catch(error => handleGenericError(error, res));
       }
     );
@@ -143,6 +143,7 @@ module.exports = {
         .then((order) => {
           const { address, items, total } = order;
           updateProductStocks(items);
+          res.sendStatus(200);
 
           return Invoice.findOneAndUpdate(
             { _id: order.invoice },
@@ -164,7 +165,6 @@ module.exports = {
               );
             });
         })
-        .then(() => res.sendStatus(200))
         .catch(error => handleGenericError(error, res))
     );
 

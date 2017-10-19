@@ -13,7 +13,6 @@ import OrderButton from '../order/orderButton.jsx';
 import { CompleteProductPropType } from '../propTypes';
 import { accent1Color, brandPrimary } from '../theme';
 import PriceCountUp from './priceCountUp.jsx';
-import { getPictureUrl } from './productService';
 import ProductSlider from './productSlider.jsx';
 import StockIcon from './stockIcon.jsx';
 
@@ -94,21 +93,15 @@ class ProductDetails extends React.Component {
             <Product
               itemScope
               itemType="http://schema.org/Product"
-              itemProp="identifier"
-              content={product._id}
             >
               {product.files.length ? (
-                <ProductSlider
-                  product={product}
-                  itemProp="image"
-                  content={getPictureUrl(product.files[0], 's')}
-                />
+                <ProductSlider product={product} />
               ) : null}
               <Title itemProp="name">
                 {product[locale].name}
               </Title>
               <StyledDivider />
-              <OrderContainer>
+              <OrderContainer itemProp="identifier" content={product._id}>
                 <Price itemProp="price" content={formatPriceWithCurrency(product.price)}>
                   <PriceCountUp price={product.price} />
                 </Price>
@@ -125,7 +118,7 @@ class ProductDetails extends React.Component {
                 )}
               </ProductStock>
               <StyledDivider />
-              <h3>
+              <h3 itemProp="category" content={product.category}>
                 <FormattedMessage id="PRODUCT.DESCRIPTION" />
               </h3>
               <ProductDescription

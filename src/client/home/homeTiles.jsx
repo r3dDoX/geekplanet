@@ -30,10 +30,7 @@ class HomeTiles extends React.Component {
     } = this.props;
 
     return (
-      <HomeTilesContainer
-        itemScope
-        itemType="http://schema.org/ItemList"
-      >
+      <HomeTilesContainer>
         {tiles.map(tile => (
           <HomeTile
             key={tile._id}

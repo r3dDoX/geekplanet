@@ -65,10 +65,7 @@ class ProductList extends React.Component {
         hasMore={this.state.loadedProducts.length < this.props.products.length}
         loader={<MainSpinner />}
       >
-        <ProductListContainer
-          itemScope
-          itemType="http://schema.org/ItemList"
-        >
+        <ProductListContainer>
           {this.state.loadedProducts.map(product => (
             <ProductTile
               key={product._id}

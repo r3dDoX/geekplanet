@@ -2,7 +2,7 @@ import Divider from 'material-ui/Divider';
 import { green500, grey300 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
 import React from 'react';
-import DocumentTitle from 'react-document-title';
+import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -87,89 +87,90 @@ class ProductDetails extends React.Component {
       productLoading,
     } = this.props;
     return (
-      <DocumentTitle title={(product && product[locale].name) || 'Untitled'}>
-        <Container>
-          {(product && !productLoading) ? (
-            <Product
-              itemScope
-              itemType="http://schema.org/Product"
-            >
-              {product.files.length ? (
-                <ProductSlider product={product} />
-              ) : null}
-              <Title itemProp="name">
-                {product[locale].name}
-              </Title>
-              <StyledDivider />
-              <OrderContainer itemProp="identifier" content={product._id}>
-                <Price itemProp="price" content={formatPriceWithCurrency(product.price)}>
-                  <PriceCountUp price={product.price} />
-                </Price>
-                <OrderButton product={product} />
-              </OrderContainer>
-              <ProductStock>
-                <StockIcon stock={product.stock} />&nbsp;&nbsp;&nbsp;
-                {product.stock > 0 ? (
-                  <InStockMessage>
-                    <FormattedMessage id="PRODUCT.IN_STOCK" values={{ stock: product.stock }} />
-                  </InStockMessage>
-                ) : (
-                  <FormattedMessage id="PRODUCT.OUT_OF_STOCK" />
-                )}
-              </ProductStock>
-              <StyledDivider />
-              <h3 itemProp="category" content={product.category}>
-                <FormattedMessage id="PRODUCT.DESCRIPTION" />
-              </h3>
-              <ProductDescription
-                itemProp="description"
-                // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{ __html: product[locale].description }}
-              />
-              <StyledDivider />
-              {product[locale].specifications.length ? (
-                <div>
-                  <h3><FormattedMessage id="PRODUCT.SPECIFICATIONS" /></h3>
-                  <DescriptionList>
-                    {product[locale].specifications.map(specification => (
-                      <DescriptionListItem key={specification}>
-                        {specification}
-                      </DescriptionListItem>
-                    ))}
-                  </DescriptionList>
-                  <StyledDivider />
-                </div>
-              ) : null}
-              {product[locale].delivery.length ? (
-                <div>
-                  <h3><FormattedMessage id="PRODUCT.DELIVERY" /></h3>
-                  <DescriptionList>
-                    {product[locale].delivery.map(delivery => (
-                      <DescriptionListItem key={delivery}>
-                        {delivery}
-                      </DescriptionListItem>
-                    ))}
-                  </DescriptionList>
-                  <StyledDivider />
-                </div>
-              ) : null}
-              {product[locale].downloads.length ? (
-                <div>
-                  <h3><FormattedMessage id="PRODUCT.DOWNLOADS" /></h3>
-                  <DescriptionList>
-                    {product[locale].downloads.map(downloadLink => (
-                      <DescriptionListItem key={downloadLink.text}>
-                        <a href={downloadLink.href} target="_blank">{downloadLink.text}</a>
-                      </DescriptionListItem>
-                    ))}
-                  </DescriptionList>
-                  <StyledDivider />
-                </div>
-              ) : null}
-            </Product>
-          ) : <MainSpinner />}
-        </Container>
-      </DocumentTitle>
+      <Container>
+        <Helmet>
+          <title>{(product && product[locale].name) || 'Untitled'}</title>
+        </Helmet>
+        {(product && !productLoading) ? (
+          <Product
+            itemScope
+            itemType="http://schema.org/Product"
+          >
+            {product.files.length ? (
+              <ProductSlider product={product} />
+            ) : null}
+            <Title itemProp="name">
+              {product[locale].name}
+            </Title>
+            <StyledDivider />
+            <OrderContainer itemProp="identifier" content={product._id}>
+              <Price itemProp="price" content={formatPriceWithCurrency(product.price)}>
+                <PriceCountUp price={product.price} />
+              </Price>
+              <OrderButton product={product} />
+            </OrderContainer>
+            <ProductStock>
+              <StockIcon stock={product.stock} />&nbsp;&nbsp;&nbsp;
+              {product.stock > 0 ? (
+                <InStockMessage>
+                  <FormattedMessage id="PRODUCT.IN_STOCK" values={{ stock: product.stock }} />
+                </InStockMessage>
+              ) : (
+                <FormattedMessage id="PRODUCT.OUT_OF_STOCK" />
+              )}
+            </ProductStock>
+            <StyledDivider />
+            <h3 itemProp="category" content={product.category}>
+              <FormattedMessage id="PRODUCT.DESCRIPTION" />
+            </h3>
+            <ProductDescription
+              itemProp="description"
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{ __html: product[locale].description }}
+            />
+            <StyledDivider />
+            {product[locale].specifications.length ? (
+              <div>
+                <h3><FormattedMessage id="PRODUCT.SPECIFICATIONS" /></h3>
+                <DescriptionList>
+                  {product[locale].specifications.map(specification => (
+                    <DescriptionListItem key={specification}>
+                      {specification}
+                    </DescriptionListItem>
+                  ))}
+                </DescriptionList>
+                <StyledDivider />
+              </div>
+            ) : null}
+            {product[locale].delivery.length ? (
+              <div>
+                <h3><FormattedMessage id="PRODUCT.DELIVERY" /></h3>
+                <DescriptionList>
+                  {product[locale].delivery.map(delivery => (
+                    <DescriptionListItem key={delivery}>
+                      {delivery}
+                    </DescriptionListItem>
+                  ))}
+                </DescriptionList>
+                <StyledDivider />
+              </div>
+            ) : null}
+            {product[locale].downloads.length ? (
+              <div>
+                <h3><FormattedMessage id="PRODUCT.DOWNLOADS" /></h3>
+                <DescriptionList>
+                  {product[locale].downloads.map(downloadLink => (
+                    <DescriptionListItem key={downloadLink.text}>
+                      <a href={downloadLink.href} target="_blank">{downloadLink.text}</a>
+                    </DescriptionListItem>
+                  ))}
+                </DescriptionList>
+                <StyledDivider />
+              </div>
+            ) : null}
+          </Product>
+        ) : <MainSpinner />}
+      </Container>
     );
   }
 }

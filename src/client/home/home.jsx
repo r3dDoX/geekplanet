@@ -1,5 +1,5 @@
 import React from 'react';
-import DocumentTitle from 'react-document-title';
+import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { backgroundColor, xsMaxSize } from '../theme';
 import HomeSearch from './homeSearch.jsx';
@@ -22,7 +22,9 @@ const SloganContainer = styled.div`
 
 export default () => (
   <div>
-    <DocumentTitle title="geekplanet - Tabletop Miniatures" />
+    <Helmet>
+      <title>geekplanet - Tabletop Miniatures</title>
+    </Helmet>
     <Header>
       <SloganContainer>
         <Slogan />

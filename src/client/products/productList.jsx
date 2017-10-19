@@ -1,11 +1,13 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { Helmet } from 'react-helmet';
 import InfiniteScroll from 'react-infinite-scroller';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import ProductTile from './productTile.jsx';
-import { ProductPropType } from '../propTypes';
 import MainSpinner from '../layout/mainSpinner.jsx';
+import { ProductPropType } from '../propTypes';
 import { mdMinSize } from '../theme';
+import ProductTile from './productTile.jsx';
 
 const ProductListContainer = styled.div`
   display: flex;
@@ -21,17 +23,32 @@ const ProductListContainer = styled.div`
 const PAGE_SIZE = 20;
 
 class ProductList extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
+    const queryPage = /page=(\d+)/.exec(props.history.location.search);
     this.state = {
       currentPage: 0,
+      preselectedPage: queryPage && queryPage[1] && Number(queryPage[1]),
       loadedProducts: [],
     };
   }
 
+  componentDidMount() {
+    if (this.state.preselectedPage) {
+      this.updateProductArrayForPage(this.state.preselectedPage, this.props.products);
+    } else {
+      this.updateProductArrayForPage(1, this.props.products);
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
-    this.updateProductArrayForPage(0, nextProps.products);
+    if (this.props.products !== nextProps.products) {
+      this.props.history.push('/products');
+      this.setState({
+        preselectedPage: undefined,
+      }, () => this.updateProductArrayForPage(1, nextProps.products));
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -51,21 +68,30 @@ class ProductList extends React.Component {
   }
 
   updateProductArrayForPage(page, products) {
+    let startIndex = 0;
+
+    if (this.state.preselectedPage) {
+      startIndex = (this.state.preselectedPage - 1) * PAGE_SIZE;
+    }
+
     this.setState({
       currentPage: page,
-      loadedProducts: products.slice(0, (page + 1) * PAGE_SIZE),
+      loadedProducts: products.slice(startIndex, page * PAGE_SIZE),
     });
   }
 
   render() {
-    return (
-      <InfiniteScroll
-        pageStart={0}
-        loadMore={newPage => this.updateProductArrayForPage(newPage, this.props.products)}
-        hasMore={this.state.loadedProducts.length < this.props.products.length}
-        loader={<MainSpinner />}
-      >
-        <ProductListContainer>
+    return [
+      <Helmet key="productListHead">
+        {this.state.currentPage > 1 &&
+          <link rel="prev" href={`?page=${this.state.currentPage - 1}`} />
+        }
+        {this.state.currentPage < this.props.products.length / PAGE_SIZE &&
+          <link rel="next" href={`?page=${this.state.currentPage + 1}`} />
+        }
+      </Helmet>,
+      this.state.preselectedPage ? (
+        <ProductListContainer key="productListProducts">
           {this.state.loadedProducts.map(product => (
             <ProductTile
               key={product._id}
@@ -73,14 +99,38 @@ class ProductList extends React.Component {
             />
           ))}
         </ProductListContainer>
-      </InfiniteScroll>
-    );
+      ) : (
+        <InfiniteScroll
+          key="productListProducts"
+          initialLoad={false}
+          pageStart={1}
+          loadMore={newPage => this.updateProductArrayForPage(newPage, this.props.products)}
+          hasMore={this.state.loadedProducts.length < this.props.products.length}
+          loader={<MainSpinner />}
+        >
+          <ProductListContainer>
+            {this.state.loadedProducts.map(product => (
+              <ProductTile
+                key={product._id}
+                product={product}
+              />
+            ))}
+          </ProductListContainer>
+        </InfiniteScroll>
+      ),
+    ];
   }
 }
 
 ProductList.propTypes = {
   products: PropTypes.arrayOf(ProductPropType).isRequired,
   filterShown: PropTypes.bool.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+    location: PropTypes.shape({
+      search: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
 };
 
-export default ProductList;
+export default withRouter(ProductList);

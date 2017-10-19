@@ -69,7 +69,6 @@ const HomeTile = ({
   <Tile
     itemScope
     itemType="http://schema.org/Thing"
-    role="button"
     to={link}
     onClick={onClick}
     data-id={id}

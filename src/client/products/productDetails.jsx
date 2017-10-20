@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { formatPriceWithCurrency } from '../../common/priceFormatter';
+import { formatPriceWithoutCurrency } from '../../common/priceFormatter';
 import { createLoadProduct } from '../actions';
 import MainSpinner from '../layout/mainSpinner.jsx';
 import OrderButton from '../order/orderButton.jsx';
@@ -104,7 +104,16 @@ class ProductDetails extends React.Component {
             </Title>
             <StyledDivider />
             <OrderContainer itemProp="identifier" content={product._id}>
-              <Price itemProp="price" content={formatPriceWithCurrency(product.price)}>
+              <Price itemProp="offers" itemScope itemType="http://schema.org/Offer">
+                <meta itemProp="itemCondition" content="http://schema.org/NewCondition" />
+                <meta itemProp="priceCurrency" content="CHF" />
+                <meta itemProp="price" content={formatPriceWithoutCurrency(product.price)} />
+                <meta
+                  itemProp="availability"
+                  content={
+                    product.stock > 0 ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock'
+                  }
+                />
                 <PriceCountUp price={product.price} />
               </Price>
               <OrderButton product={product} />

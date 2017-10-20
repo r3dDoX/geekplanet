@@ -78,7 +78,7 @@ const HomeTile = ({
       content={getPictureUrl(tile.picture)}
       src={getPictureUrl(tile.picture)}
     />
-    <TileTitle itemProp="category">{tile.de.name}</TileTitle>
+    <TileTitle itemProp="name">{tile.de.name}</TileTitle>
   </Tile>
 );
 

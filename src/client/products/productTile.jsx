@@ -7,12 +7,12 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import Link from 'react-router-dom/Link';
 import styled from 'styled-components';
+import { formatPriceWithCurrency, formatPriceWithoutCurrency } from '../../common/priceFormatter';
+import Authorized from '../auth/authorized.jsx';
 import OrderButton from '../order/orderButton.jsx';
 import { ProductPropType } from '../propTypes';
-import { formatPriceWithCurrency } from '../../common/priceFormatter';
 import { getPictureUrl } from './productService';
 import StockIcon from './stockIcon.jsx';
-import Authorized from '../auth/authorized.jsx';
 
 const StyledCard = styled(Card)`
   flex: 1 1 300px;
@@ -87,28 +87,28 @@ export const ProductTileComponent = ({
   <StyledCard
     itemScope
     itemType="http://schema.org/Product"
+    itemProp="identifier"
+    content={product._id}
     containerStyle={styles.cardContainer}
   >
-    <StyledLink
-      itemProp="identifier"
-      content={product._id}
-      to={`/products/${product._id}`}
-    >
+    <StyledLink to={`/products/${product._id}`}>
       <StyledCardMedia>
         <img
           async
           alt="Product"
           itemProp="image"
-          content={(product.files.length) ? getPictureUrl(product.files[0]) : '/assets/images/notFound.jpg'}
           src={(product.files.length) ? getPictureUrl(product.files[0]) : '/assets/images/notFound.jpg'}
         />
       </StyledCardMedia>
     </StyledLink>
     <StyledCardTitle
-      itemProp="url"
-      content={`/products/${product._id}`}
-      title={<TitleLink itemProp="name" to={`/products/${product._id}`}>{product[locale].name}</TitleLink>}
+      title={
+        <TitleLink to={`/products/${product._id}`} itemProp="url">
+          {product[locale].name}
+        </TitleLink>
+      }
     >
+      <meta itemProp="name" content={product[locale].name} />
       <Badge
         badgeContent={product.stock < 0 ? 0 : product.stock}
         primary={product.stock > 0}
@@ -118,11 +118,18 @@ export const ProductTileComponent = ({
         <StockIcon stock={product.stock} />
       </Badge>
     </StyledCardTitle>
-    <StyledCardText>
+    <StyledCardText itemProp="description">
       {product[locale].shortDescription}
     </StyledCardText>
-    <StyledCardActions>
-      <PriceTag itemProp="price">{formatPriceWithCurrency(product.price)}</PriceTag>
+    <StyledCardActions itemProp="offers" itemScope itemType="http://schema.org/Offer">
+      <meta itemProp="itemCondition" content="http://schema.org/NewCondition" />
+      <meta itemProp="priceCurrency" content="CHF" />
+      <meta itemProp="price" content={formatPriceWithoutCurrency(product.price)} />
+      <meta
+        itemProp="availability"
+        content={product.stock > 0 ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock'}
+      />
+      <PriceTag>{formatPriceWithCurrency(product.price)}</PriceTag>
       <OrderButton product={product} />
       <Authorized allowedRoles={['admin']}>
         <EditButton

@@ -47,8 +47,10 @@ const styles = {
   },
 };
 
-const ProductSlider = ({ product }) => (
+const ProductSlider = ({ product }) => [
+  <meta key="imageMeta" itemProp="image" content={getPictureUrl(product.files[0])} />,
   <ImageGallery
+    key="imageSlider"
     items={product.files.map(image => ({
       original: (screen.availWidth > 800) ? getPictureUrl(image, 'l') : getPictureUrl(image, 'm'),
       thumbnail: getPictureUrl(image, 's'),
@@ -100,8 +102,8 @@ const ProductSlider = ({ product }) => (
         <Fullscreen style={styles.fullscreenIcon} />
       </a>
     )}
-  />
-);
+  />,
+];
 
 ProductSlider.propTypes = {
   product: ProductPropType.isRequired,

@@ -89,7 +89,9 @@ class ProductDetails extends React.Component {
     return (
       <Container>
         <Helmet>
-          <title>{(product && product[locale].name) || 'Untitled'}</title>
+          <title>
+            {(product && `${product.category} - ${product[locale].name}`) || 'Untitled'}
+          </title>
         </Helmet>
         {(product && !productLoading) ? (
           <Product

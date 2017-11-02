@@ -1,4 +1,4 @@
-FROM r3ddox/node-pdftk:8.6.0
+FROM r3ddox/node-pdftk:8.7.0
 
 ARG BUILD_ENV="production"
 

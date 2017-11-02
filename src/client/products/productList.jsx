@@ -84,10 +84,10 @@ class ProductList extends React.Component {
     return [
       <Helmet key="productListHead">
         {this.state.currentPage > 1 &&
-          <link rel="prev" href={`?page=${this.state.currentPage - 1}`} />
+          <link rel="prev" href={`/products?page=${this.state.currentPage - 1}`} />
         }
         {this.state.currentPage < this.props.products.length / PAGE_SIZE &&
-          <link rel="next" href={`?page=${this.state.currentPage + 1}`} />
+          <link rel="next" href={`/products?page=${this.state.currentPage + 1}`} />
         }
       </Helmet>,
       this.state.preselectedPage ? (

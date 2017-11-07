@@ -87,7 +87,7 @@
     "prop-types": "15.6.0",
     "react-addons-test-utils": "15.6.2",
     "react-animate-height": "0.10.8",
-    "react-countup": "3.0.0",
+    "react-countup": "3.0.1",
     "react-drafts": "1.0.2",
     "react-dragula": "1.1.17",
     "react-helmet": "5.2.0",

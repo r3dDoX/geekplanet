@@ -83,6 +83,7 @@ class ProductList extends React.Component {
   render() {
     return [
       <Helmet key="productListHead">
+        <base href="https://www.geekplanet.ch" />
         {this.state.currentPage > 1 &&
           <link rel="prev" href={`/products?page=${this.state.currentPage - 1}`} />
         }

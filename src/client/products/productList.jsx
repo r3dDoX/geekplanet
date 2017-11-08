@@ -20,7 +20,7 @@ const ProductListContainer = styled.div`
   }
 `;
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 40;
 
 class ProductList extends React.Component {
   constructor(props) {

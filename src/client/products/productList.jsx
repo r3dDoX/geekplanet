@@ -20,7 +20,7 @@ const ProductListContainer = styled.div`
   }
 `;
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 40;
 
 class ProductList extends React.Component {
   constructor(props) {
@@ -83,6 +83,7 @@ class ProductList extends React.Component {
   render() {
     return [
       <Helmet key="productListHead">
+        <base href={APP.BASE_URL} />
         {this.state.currentPage > 1 &&
           <link rel="prev" href={`/products?page=${this.state.currentPage - 1}`} />
         }

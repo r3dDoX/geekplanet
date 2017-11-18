@@ -88,7 +88,9 @@
     "DESCRIPTION": "Description",
     "SPECIFICATIONS": "Specifications",
     "DELIVERY": "Delivery",
-    "DOWNLOADS": "Downloads"
+    "DOWNLOADS": "Downloads",
+    "NEXT": "Weiter",
+    "PREVIOUS": "Zurück"
   },
   "LOGIN": {
     "FACEBOOK": "Login with Facebook",

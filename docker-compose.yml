@@ -2,7 +2,7 @@ version: '3'
 services:
 
   web:
-    image: r3ddox/node-pdftk:8.7.0
+    image: r3ddox/node-pdftk:9.1.0
     volumes:
       - ./:/usr/src/app
     working_dir: /usr/src/app

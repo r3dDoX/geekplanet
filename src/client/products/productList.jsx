@@ -4,7 +4,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import InfiniteScroll from 'react-infinite-scroller';
 import { FormattedMessage } from 'react-intl';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import MainSpinner from '../layout/mainSpinner.jsx';
 import { ProductPropType } from '../propTypes';

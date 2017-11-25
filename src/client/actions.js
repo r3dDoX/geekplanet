@@ -222,6 +222,7 @@ export const createResetFilter = () => (dispatch) => {
   });
   dispatch(reset(productFilterFormName));
 };
+
 export const createLoadHomeTiles = () => dispatch =>
   Xhr.get('/api/hometiles').then(tiles => dispatch({
     type: HOME_TILES_LOADED,

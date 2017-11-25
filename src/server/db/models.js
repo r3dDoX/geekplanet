@@ -65,9 +65,10 @@ const ProductSchema = mongoose.Schema({
     index: true,
   },
   de: ProductTranslationsSchema,
-  en: ProductTranslationsSchema,
-  fr: ProductTranslationsSchema,
-  it: ProductTranslationsSchema,
+  // TODO: translate all our products
+  // en: ProductTranslationsSchema,
+  // fr: ProductTranslationsSchema,
+  // it: ProductTranslationsSchema,
   price: Number,
   purchasePrice: Number,
   purchasePackageSize: Number,

@@ -72,6 +72,10 @@ const UploadButton = styled(RaisedButton)`
   margin-top: 10px;
 `;
 
+const DeleteButton = styled(RaisedButton)`
+  margin-left: 10px;
+`;
+
 const styles = {
   selectFields: {
     verticalAlign: 'bottom',
@@ -119,6 +123,7 @@ class ProductForm extends React.Component {
       selectedFiles,
       selectFiles,
       removeFile,
+      removeProduct,
       tags,
       savedTags,
       selectTag,
@@ -161,6 +166,13 @@ class ProductForm extends React.Component {
             />
           ))}
         </Field>
+        {match.params.id && (
+          <DeleteButton
+            secondary
+            label="Remove"
+            onClick={() => removeProduct(match.params.id).then(() => history.push('/admin/forms/products'))}
+          />
+        )}
         <br />
 
         <Field
@@ -335,6 +347,7 @@ ProductForm.propTypes = {
   selectedFiles: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectFiles: PropTypes.func.isRequired,
   removeFile: PropTypes.func.isRequired,
+  removeProduct: PropTypes.func.isRequired,
   selectProduct: PropTypes.func.isRequired,
   savedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -366,18 +379,20 @@ export default connect(
       dispatch(createResetSelectedFiles());
     }
 
+    function resetFormAndLoadFiles() {
+      loadProducts();
+      dispatch(createLoadProducts());
+      clearForm();
+      resetSelectedFiles();
+    }
+
     return {
       changeDescription(content) {
         dispatch(change(productFormName, 'de.description', content));
       },
       onSubmit(productToSubmit) {
         ProductService.saveProduct(productToSubmit)
-          .then(loadProducts)
-          .then(() => {
-            dispatch(createLoadProducts());
-            clearForm();
-            resetSelectedFiles();
-          });
+          .then(resetFormAndLoadFiles);
       },
       selectFiles(selectedFiles, initialFiles) {
         dispatch(createSelectFiles(selectedFiles, initialFiles));
@@ -404,6 +419,10 @@ export default connect(
       },
       removeTag(tags, tag) {
         dispatch(createRemoveTag(tags, tag));
+      },
+      removeProduct(productId) {
+        return ProductService.removeProduct(productId)
+          .then(resetFormAndLoadFiles);
       },
     };
   },

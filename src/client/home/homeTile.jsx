@@ -75,8 +75,8 @@ const HomeTile = ({
   >
     <TileImage
       itemProp="image"
-      content={getPictureUrl(tile.picture)}
-      src={getPictureUrl(tile.picture)}
+      content={tile.picture ? getPictureUrl(tile.picture) : '/assets/images/notFound.jpg'}
+      src={tile.picture ? getPictureUrl(tile.picture) : '/assets/images/notFound.jpg'}
     />
     <TileTitle itemProp="name">{tile.de.name}</TileTitle>
   </Tile>

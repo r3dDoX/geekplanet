@@ -170,7 +170,7 @@ class ProductForm extends React.Component {
           <DeleteButton
             secondary
             label="Remove"
-            onClick={() => removeProduct(match.params.id)}
+            onClick={() => removeProduct(match.params.id).then(() => history.push('/admin/forms/products'))}
           />
         )}
         <br />
@@ -421,7 +421,7 @@ export default connect(
         dispatch(createRemoveTag(tags, tag));
       },
       removeProduct(productId) {
-        ProductService.removeProduct(productId)
+        return ProductService.removeProduct(productId)
           .then(resetFormAndLoadFiles);
       },
     };

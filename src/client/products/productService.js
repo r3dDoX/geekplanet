@@ -8,6 +8,10 @@ export function saveProduct(data) {
   return Xhr.put('/api/products', data);
 }
 
+export function removeProduct(productId) {
+  return Xhr.deleteHttp(`/api/products/${productId}`);
+}
+
 export function savePictures(formData) {
   return Xhr.postMultipart('/api/products/pictures', formData);
 }

@@ -150,6 +150,7 @@ module.exports = {
 
     app.delete('/api/products/pictures/:id', authorization, isAdmin,
       (req, res) =>
+        // TODO: remove file from gridFS if present
         removeFile(req.params.id)
           .then(() => Product.update({}, { $pull: { files: req.params.id } }, { multi: true }))
           .then(() => res.sendStatus(200))
@@ -163,6 +164,23 @@ module.exports = {
           .catch((err) => {
             Logger.error(err);
             res.status(500).send('Fetching products failed!');
+          })
+    );
+
+    app.delete('/api/products/:id', authorization, isAdmin,
+      (req, res) =>
+        Product.findOne({ _id: req.params.id })
+          .then((product) => {
+            const pictureRemovePromises = product.files.length ?
+              product.files.map(productFile => removeFile(productFile)) : [];
+
+            return Promise.all(pictureRemovePromises)
+              .then(() => Product.remove({ _id: req.params.id }))
+              .then(res.sendStatus(200));
+          })
+          .catch((err) => {
+            Logger.error(err);
+            res.status(500).send('Removing product or assigned images failed!');
           })
     );
 

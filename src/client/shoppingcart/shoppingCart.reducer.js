@@ -59,11 +59,10 @@ function calculateGrandTotal(itemTotal) {
   return itemTotal;
 }
 
-export default function auth(state = initialState, { type, data }) {
+export default function auth(state = initialState, { type, data, products }) {
   switch (type) {
     case PRODUCTS_LOADED: {
       const cart = load(ids.SHOPPING_CART) || state;
-      const { products } = data;
 
       cart.items = cart.items
         .filter(({ product }) =>

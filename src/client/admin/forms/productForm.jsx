@@ -10,16 +10,11 @@ import withRouter from 'react-router-dom/withRouter';
 import { change, Field, FieldArray, initialize, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import '../../../../node_modules/react-drafts/dist/react-drafts.css';
-import { createLoadProducts } from '../../actions';
 import SelectField from '../../formHelpers/selectField.jsx';
 import TextField from '../../formHelpers/textField.jsx';
+import { required } from '../../formHelpers/validations.jsx';
 import * as ProductService from '../../products/productService';
-import {
-  ProducerPropType,
-  ProductCategoryPropType,
-  ProductPropType,
-  SupplierPropType,
-} from '../../propTypes';
+import { ProducerPropType, ProductCategoryPropType, ProductPropType, SupplierPropType, } from '../../propTypes';
 import {
   createLoadCompleteProducts,
   createLoadProducers,
@@ -37,7 +32,6 @@ import Tags from '../tags/tags.jsx';
 import LinkArray from './linkArray.jsx';
 import TextAreaArray from './textAreaArray.jsx';
 import UploadImagePreview from './uploadImagePreview.jsx';
-import { required } from '../../formHelpers/validations.jsx';
 
 const Container = styled.form`
   padding: 24px;

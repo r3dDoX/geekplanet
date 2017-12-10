@@ -151,7 +151,6 @@ module.exports = {
 
     app.delete('/api/products/pictures/:id', authorization, isAdmin,
       (req, res) =>
-        // TODO: remove file from gridFS if present
         removeFile(req.params.id)
           .then(() => Product.update({}, { $pull: { files: req.params.id } }, { multi: true }))
           .then(() => res.sendStatus(200))

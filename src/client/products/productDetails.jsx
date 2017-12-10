@@ -109,14 +109,14 @@ class ProductDetails extends React.Component {
               <Price itemProp="offers" itemScope itemType="http://schema.org/Offer">
                 <meta itemProp="itemCondition" content="http://schema.org/NewCondition" />
                 <meta itemProp="priceCurrency" content="CHF" />
-                <meta itemProp="price" content={formatPriceWithoutCurrency(product.price)} />
+                <meta itemProp="price" content={formatPriceWithoutCurrency(product.originalPrice || product.price)} />
                 <meta
                   itemProp="availability"
                   content={
                     product.stock > 0 ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock'
                   }
                 />
-                <PriceCountUp price={product.price} />
+                <PriceCountUp price={product.originalPrice || product.price} />
               </Price>
               <OrderButton product={product} />
             </OrderContainer>

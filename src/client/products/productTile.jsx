@@ -124,12 +124,12 @@ export const ProductTileComponent = ({
     <StyledCardActions itemProp="offers" itemScope itemType="http://schema.org/Offer">
       <meta itemProp="itemCondition" content="http://schema.org/NewCondition" />
       <meta itemProp="priceCurrency" content="CHF" />
-      <meta itemProp="price" content={formatPriceWithoutCurrency(product.price)} />
+      <meta itemProp="price" content={formatPriceWithoutCurrency(product.originalPrice || product.price)} />
       <meta
         itemProp="availability"
         content={product.stock > 0 ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock'}
       />
-      <PriceTag>{formatPriceWithCurrency(product.price)}</PriceTag>
+      <PriceTag>{formatPriceWithCurrency(product.originalPrice || product.price)}</PriceTag>
       <OrderButton product={product} />
       <Authorized allowedRoles={['admin']}>
         <EditButton

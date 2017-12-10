@@ -12,6 +12,7 @@ export const ProductPropType = PropTypes.shape({
   category: PropTypes.string,
   name: PropTypes.string,
   price: PropTypes.number,
+  originalPrice: PropTypes.number,
   stock: PropTypes.number,
   de: PropTypes.shape({
     name: PropTypes.string,

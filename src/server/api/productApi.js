@@ -80,6 +80,7 @@ const productListFilter = {
   'de.name': 1,
   'de.shortDescription': 1,
   price: 1,
+  originalPrice: 1,
   stock: 1,
   files: {
     $slice: 1,

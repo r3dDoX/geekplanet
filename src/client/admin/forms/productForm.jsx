@@ -98,6 +98,12 @@ class ProductForm extends React.Component {
     }
   }
 
+  componentWillUpdate(nextProps) {
+    if (this.props.match.params.id && !nextProps.match.params.id) {
+      this.props.clearForm();
+    }
+  }
+
   renderDraftJs({ input }) {
     return (
       <ReactDrafts
@@ -135,7 +141,7 @@ class ProductForm extends React.Component {
     return (
       <Container
         name={productFormName}
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit(history))}
         onKeyDown={(event) => {
           if (event.keyCode === 13) {
             event.preventDefault();
@@ -345,6 +351,7 @@ class ProductForm extends React.Component {
 }
 
 ProductForm.propTypes = {
+  clearForm: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   products: PropTypes.arrayOf(ProductPropType).isRequired,
@@ -378,28 +385,18 @@ export default connect(
       dispatch(createLoadCompleteProducts());
     }
 
-    function clearForm() {
-      dispatch(initialize(productFormName));
-    }
-
-    function resetSelectedFiles() {
-      dispatch(createResetSelectedFiles());
-    }
-
-    function resetFormAndLoadFiles() {
-      loadProducts();
-      dispatch(createLoadProducts());
-      clearForm();
-      resetSelectedFiles();
-    }
-
     return {
+      clearForm() {
+        dispatch(initialize(productFormName));
+        dispatch(createResetSelectedFiles());
+      },
       changeDescription(content) {
         dispatch(change(productFormName, 'de.description', content));
       },
-      onSubmit(productToSubmit) {
-        ProductService.saveProduct(productToSubmit)
-          .then(resetFormAndLoadFiles);
+      onSubmit(history) {
+        return productToSubmit => ProductService
+          .saveProduct(productToSubmit)
+          .then(() => history.push('/admin/forms/products'));
       },
       selectFiles(selectedFiles, initialFiles) {
         dispatch(createSelectFiles(selectedFiles, initialFiles));
@@ -428,8 +425,7 @@ export default connect(
         dispatch(createRemoveTag(tags, tag));
       },
       removeProduct(productId) {
-        return ProductService.removeProduct(productId)
-          .then(resetFormAndLoadFiles);
+        return ProductService.removeProduct(productId);
       },
     };
   },

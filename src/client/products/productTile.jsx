@@ -13,6 +13,7 @@ import OrderButton from '../order/orderButton.jsx';
 import { ProductPropType } from '../propTypes';
 import { getPictureUrl } from './productService';
 import StockIcon from './stockIcon.jsx';
+import { grey500 } from 'material-ui/styles/colors';
 
 const StyledCard = styled(Card)`
   flex: 1 1 300px;
@@ -56,8 +57,18 @@ const StyledCardActions = styled(CardActions)`
   flex-wrap: wrap;
 `;
 
-const PriceTag = styled.span`
+const PriceTag = styled.div`
+  position: relative;
   margin-left: 8px;
+`;
+
+const OriginalPriceTag = styled.span`
+  position: absolute;
+  top: -100%;
+  left: 0;
+  text-decoration: line-through;
+  font-size: 80%;
+  color: ${grey500};
 `;
 
 const EditButton = styled(RaisedButton)`
@@ -124,12 +135,19 @@ export const ProductTileComponent = ({
     <StyledCardActions itemProp="offers" itemScope itemType="http://schema.org/Offer">
       <meta itemProp="itemCondition" content="http://schema.org/NewCondition" />
       <meta itemProp="priceCurrency" content="CHF" />
-      <meta itemProp="price" content={formatPriceWithoutCurrency(product.originalPrice || product.price)} />
+      <meta itemProp="price" content={formatPriceWithoutCurrency(product.price)} />
       <meta
         itemProp="availability"
         content={product.stock > 0 ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock'}
       />
-      <PriceTag>{formatPriceWithCurrency(product.originalPrice || product.price)}</PriceTag>
+      <PriceTag>
+        {formatPriceWithCurrency(product.price)}
+        {product.originalPrice && (
+          <OriginalPriceTag>
+            {formatPriceWithCurrency(product.originalPrice)}
+          </OriginalPriceTag>
+        )}
+      </PriceTag>
       <OrderButton product={product} />
       <Authorized allowedRoles={['admin']}>
         <EditButton

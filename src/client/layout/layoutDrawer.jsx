@@ -27,7 +27,7 @@ const LayoutDrawer = ({
   >
     <AppBar
       title={APP.TITLE}
-      onLeftIconButtonTouchTap={toggleDrawer}
+      onLeftIconButtonClick={toggleDrawer}
       iconElementLeft={<IconButton><NavigationClose /></IconButton>}
     />
     {roles.includes('admin') ? ([

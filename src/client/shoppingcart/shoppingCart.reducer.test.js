@@ -247,23 +247,21 @@ describe('ShoppingCart Reducer', () => {
 
       const action = {
         type: PRODUCTS_LOADED,
-        data: {
-          products: [
-            {
-              _id: 'product34',
-              price: 2.20,
-              de: {
-                name: 'Fixed Name',
-              },
+        products: [
+          {
+            _id: 'product34',
+            price: 2.20,
+            de: {
+              name: 'Fixed Name',
             },
-          ],
-        },
+          },
+        ],
       };
 
       const result = underTest(undefined, action);
 
       expect(result.items).toHaveLength(1);
-      expect(result.items[0].product).toEqual(action.data.products[0]);
+      expect(result.items[0].product).toEqual(action.products[0]);
       expect(result.items[0].amount).toEqual(storedState.items[1].amount);
     });
 
@@ -283,21 +281,19 @@ describe('ShoppingCart Reducer', () => {
 
       const action = {
         type: PRODUCTS_LOADED,
-        data: {
-          products: [
-            {
-              _id: 'product1',
-              price: 2.20,
-            },
-          ],
-        },
+        products: [
+          {
+            _id: 'product1',
+            price: 2.20,
+          },
+        ],
       };
 
       underTest(undefined, action);
 
       const loadedState = storage.load(storage.ids.SHOPPING_CART);
 
-      expect(loadedState.items[0].product).toEqual(action.data.products[0]);
+      expect(loadedState.items[0].product).toEqual(action.products[0]);
     });
   });
 });

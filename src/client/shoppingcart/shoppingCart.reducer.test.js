@@ -1,5 +1,6 @@
 import underTest from './shoppingCart.reducer';
-import { ADD_ITEM_TO_SHOPPING_CART, SET_SHOPPING_CART_AMOUNT } from '../actions';
+import { ADD_ITEM_TO_SHOPPING_CART, PRODUCTS_LOADED, SET_SHOPPING_CART_AMOUNT } from '../actions';
+import * as storage from '../storage';
 
 describe('ShoppingCart Reducer', () => {
   describe(ADD_ITEM_TO_SHOPPING_CART, () => {
@@ -219,6 +220,84 @@ describe('ShoppingCart Reducer', () => {
       expect(result.itemTotal).toBe(0);
       expect(result.total).toBe(0);
       expect(result.hasShippingCosts).toBe(false);
+    });
+  });
+
+  describe(PRODUCTS_LOADED, () => {
+    it('should update products in cart', () => {
+      const storedState = {
+        items: [
+          {
+            amount: 1,
+            product: {
+              _id: 'product1',
+              price: 12.5,
+            },
+          },
+          {
+            amount: 4,
+            product: {
+              _id: 'product34',
+              price: 32,
+            },
+          },
+        ],
+      };
+      storage.store(storage.ids.SHOPPING_CART, storedState);
+
+      const action = {
+        type: PRODUCTS_LOADED,
+        data: {
+          products: [
+            {
+              _id: 'product34',
+              price: 2.20,
+              de: {
+                name: 'Fixed Name',
+              },
+            },
+          ],
+        },
+      };
+
+      const result = underTest(undefined, action);
+
+      expect(result.items).toHaveLength(1);
+      expect(result.items[0].product).toEqual(action.data.products[0]);
+      expect(result.items[0].amount).toEqual(storedState.items[1].amount);
+    });
+
+    it('should store updated cart', () => {
+      const storedState = {
+        items: [
+          {
+            amount: 1,
+            product: {
+              _id: 'product1',
+              price: 12.5,
+            },
+          },
+        ],
+      };
+      storage.store(storage.ids.SHOPPING_CART, storedState);
+
+      const action = {
+        type: PRODUCTS_LOADED,
+        data: {
+          products: [
+            {
+              _id: 'product1',
+              price: 2.20,
+            },
+          ],
+        },
+      };
+
+      underTest(undefined, action);
+
+      const loadedState = storage.load(storage.ids.SHOPPING_CART);
+
+      expect(loadedState.items[0].product).toEqual(action.data.products[0]);
     });
   });
 });

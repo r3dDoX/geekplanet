@@ -70,6 +70,7 @@ const ProductSchema = mongoose.Schema({
   // fr: ProductTranslationsSchema,
   // it: ProductTranslationsSchema,
   price: Number,
+  originalPrice: Number,
   purchasePrice: Number,
   purchasePackageSize: Number,
   stock: Number,

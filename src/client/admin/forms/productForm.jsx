@@ -250,6 +250,13 @@ class ProductForm extends React.Component {
         />&nbsp;
         <Field
           component={TextField}
+          name="originalPrice"
+          label="Original Price"
+          type="number"
+          step="any"
+        />&nbsp;
+        <Field
+          component={TextField}
           name="purchasePrice"
           label="Purchase Price"
           type="number"

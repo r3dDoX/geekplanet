@@ -10,6 +10,7 @@ import withRouter from 'react-router-dom/withRouter';
 import { change, Field, FieldArray, initialize, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import '../../../../node_modules/react-drafts/dist/react-drafts.css';
+import { createLoadProducts } from '../../actions';
 import SelectField from '../../formHelpers/selectField.jsx';
 import TextField from '../../formHelpers/textField.jsx';
 import { required } from '../../formHelpers/validations.jsx';
@@ -376,6 +377,7 @@ export default connect(
   state => state.forms,
   (dispatch) => {
     function loadProducts() {
+      dispatch(createLoadProducts());
       dispatch(createLoadCompleteProducts());
     }
 
@@ -390,6 +392,7 @@ export default connect(
       onSubmit(history) {
         return productToSubmit => ProductService
           .saveProduct(productToSubmit)
+          .then(loadProducts)
           .then(() => history.push('/admin/forms/products'));
       },
       selectFiles(selectedFiles, initialFiles) {
@@ -419,7 +422,8 @@ export default connect(
         dispatch(createRemoveTag(tags, tag));
       },
       removeProduct(productId) {
-        return ProductService.removeProduct(productId);
+        return ProductService.removeProduct(productId)
+          .then(loadProducts);
       },
     };
   },

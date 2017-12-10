@@ -13,13 +13,9 @@ import '../../../../node_modules/react-drafts/dist/react-drafts.css';
 import { createLoadProducts } from '../../actions';
 import SelectField from '../../formHelpers/selectField.jsx';
 import TextField from '../../formHelpers/textField.jsx';
+import { required } from '../../formHelpers/validations.jsx';
 import * as ProductService from '../../products/productService';
-import {
-  ProducerPropType,
-  ProductCategoryPropType,
-  ProductPropType,
-  SupplierPropType,
-} from '../../propTypes';
+import { ProducerPropType, ProductCategoryPropType, ProductPropType, SupplierPropType } from '../../propTypes';
 import {
   createLoadCompleteProducts,
   createLoadProducers,
@@ -37,7 +33,6 @@ import Tags from '../tags/tags.jsx';
 import LinkArray from './linkArray.jsx';
 import TextAreaArray from './textAreaArray.jsx';
 import UploadImagePreview from './uploadImagePreview.jsx';
-import { required } from '../../formHelpers/validations.jsx';
 
 const Container = styled.form`
   padding: 24px;
@@ -98,6 +93,12 @@ class ProductForm extends React.Component {
     }
   }
 
+  componentWillUpdate(nextProps) {
+    if (this.props.match.params.id && !nextProps.match.params.id) {
+      this.props.clearForm();
+    }
+  }
+
   renderDraftJs({ input }) {
     return (
       <ReactDrafts
@@ -135,7 +136,7 @@ class ProductForm extends React.Component {
     return (
       <Container
         name={productFormName}
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit(history))}
         onKeyDown={(event) => {
           if (event.keyCode === 13) {
             event.preventDefault();
@@ -250,6 +251,13 @@ class ProductForm extends React.Component {
         />&nbsp;
         <Field
           component={TextField}
+          name="originalPrice"
+          label="Original Price"
+          type="number"
+          step="any"
+        />&nbsp;
+        <Field
+          component={TextField}
           name="purchasePrice"
           label="Purchase Price"
           type="number"
@@ -338,6 +346,7 @@ class ProductForm extends React.Component {
 }
 
 ProductForm.propTypes = {
+  clearForm: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   products: PropTypes.arrayOf(ProductPropType).isRequired,
@@ -368,31 +377,23 @@ export default connect(
   state => state.forms,
   (dispatch) => {
     function loadProducts() {
+      dispatch(createLoadProducts());
       dispatch(createLoadCompleteProducts());
     }
 
-    function clearForm() {
-      dispatch(initialize(productFormName));
-    }
-
-    function resetSelectedFiles() {
-      dispatch(createResetSelectedFiles());
-    }
-
-    function resetFormAndLoadFiles() {
-      loadProducts();
-      dispatch(createLoadProducts());
-      clearForm();
-      resetSelectedFiles();
-    }
-
     return {
+      clearForm() {
+        dispatch(initialize(productFormName));
+        dispatch(createResetSelectedFiles());
+      },
       changeDescription(content) {
         dispatch(change(productFormName, 'de.description', content));
       },
-      onSubmit(productToSubmit) {
-        ProductService.saveProduct(productToSubmit)
-          .then(resetFormAndLoadFiles);
+      onSubmit(history) {
+        return productToSubmit => ProductService
+          .saveProduct(productToSubmit)
+          .then(loadProducts)
+          .then(() => history.push('/admin/forms/products'));
       },
       selectFiles(selectedFiles, initialFiles) {
         dispatch(createSelectFiles(selectedFiles, initialFiles));
@@ -422,7 +423,7 @@ export default connect(
       },
       removeProduct(productId) {
         return ProductService.removeProduct(productId)
-          .then(resetFormAndLoadFiles);
+          .then(loadProducts);
       },
     };
   },

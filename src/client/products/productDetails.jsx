@@ -1,12 +1,12 @@
 import Divider from 'material-ui/Divider';
-import { green500, grey300 } from 'material-ui/styles/colors';
+import { green500, grey300, grey500 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { formatPriceWithoutCurrency } from '../../common/priceFormatter';
+import { formatPriceWithCurrency, formatPriceWithoutCurrency } from '../../common/priceFormatter';
 import { createLoadProduct } from '../actions';
 import MainSpinner from '../layout/mainSpinner.jsx';
 import OrderButton from '../order/orderButton.jsx';
@@ -30,7 +30,18 @@ const Product = styled.div`
 `;
 
 const Price = styled.h2`
+  position: relative;
   color: ${accent1Color};
+`;
+
+const OriginalPrice = styled.span`
+  position: absolute;
+  top: -50%;
+  left: 0;
+  text-decoration: line-through;
+  color: ${grey500};
+  font-weight: normal;
+  font-size: 60%;
 `;
 
 const StyledDivider = styled(Divider)`
@@ -117,6 +128,11 @@ class ProductDetails extends React.Component {
                   }
                 />
                 <PriceCountUp price={product.price} />
+                {product.originalPrice && (
+                  <OriginalPrice>
+                    {formatPriceWithCurrency(product.originalPrice)}
+                  </OriginalPrice>
+                )}
               </Price>
               <OrderButton product={product} />
             </OrderContainer>

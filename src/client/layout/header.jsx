@@ -22,7 +22,7 @@ const Header = ({
 }) => (
   <StyledAppBar
     title={<Title to="/">{APP.TITLE}</Title>}
-    onLeftIconButtonTouchTap={toggleDrawer}
+    onLeftIconButtonClick={toggleDrawer}
     iconElementRight={<ShoppingCartIcon />}
     zDepth={0}
   />

@@ -1,6 +1,7 @@
 import Badge from 'material-ui/Badge';
 import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import { grey500 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -56,8 +57,18 @@ const StyledCardActions = styled(CardActions)`
   flex-wrap: wrap;
 `;
 
-const PriceTag = styled.span`
+const PriceTag = styled.div`
+  position: relative;
   margin-left: 8px;
+`;
+
+const OriginalPriceTag = styled.span`
+  position: absolute;
+  top: -100%;
+  left: 0;
+  text-decoration: line-through;
+  font-size: 80%;
+  color: ${grey500};
 `;
 
 const EditButton = styled(RaisedButton)`
@@ -129,7 +140,14 @@ export const ProductTileComponent = ({
         itemProp="availability"
         content={product.stock > 0 ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock'}
       />
-      <PriceTag>{formatPriceWithCurrency(product.price)}</PriceTag>
+      <PriceTag>
+        {formatPriceWithCurrency(product.price)}
+        {product.originalPrice && (
+          <OriginalPriceTag>
+            {formatPriceWithCurrency(product.originalPrice)}
+          </OriginalPriceTag>
+        )}
+      </PriceTag>
       <OrderButton product={product} />
       <Authorized allowedRoles={['admin']}>
         <EditButton

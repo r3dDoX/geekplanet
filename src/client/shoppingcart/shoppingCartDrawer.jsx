@@ -45,7 +45,7 @@ const ShoppingCartDrawer = ({
   >
     <AppBar
       title={<FormattedMessage id="SHOPPING_CART.TITLE" />}
-      onLeftIconButtonTouchTap={toggleDrawer}
+      onLeftIconButtonClick={toggleDrawer}
       iconElementLeft={<IconButton><NavigationClose /></IconButton>}
     />
     {shoppingCart.length ? (

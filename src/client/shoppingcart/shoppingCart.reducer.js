@@ -1,7 +1,7 @@
 import shortId from 'shortid';
 import { load, store, remove, ids } from '../storage';
 import {
-  ADD_ITEM_TO_SHOPPING_CART, LOAD_SHOPPING_CART, ORDER_FINISHED,
+  ADD_ITEM_TO_SHOPPING_CART, LOAD_SHOPPING_CART, ORDER_FINISHED, PRODUCTS_LOADED,
   SET_SHOPPING_CART_AMOUNT,
 } from '../actions';
 
@@ -59,8 +59,26 @@ function calculateGrandTotal(itemTotal) {
   return itemTotal;
 }
 
-export default function auth(state = initialState, { type, data }) {
+export default function auth(state = initialState, { type, data, products }) {
   switch (type) {
+    case PRODUCTS_LOADED: {
+      const cart = load(ids.SHOPPING_CART) || state;
+
+      cart.items = cart.items
+        .filter(({ product }) =>
+          products.some(loadedProduct => loadedProduct._id === product._id)
+        )
+        .map((item) => {
+          item.product = Object.assign(item.product, products.find(
+            product => product._id === item.product._id)
+          );
+          return item;
+        });
+
+      store(ids.SHOPPING_CART, cart);
+
+      return cart;
+    }
     case LOAD_SHOPPING_CART: {
       const cart = load(ids.SHOPPING_CART) || state;
 

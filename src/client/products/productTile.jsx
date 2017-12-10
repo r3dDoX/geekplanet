@@ -1,6 +1,7 @@
 import Badge from 'material-ui/Badge';
 import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import { grey500 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -13,7 +14,6 @@ import OrderButton from '../order/orderButton.jsx';
 import { ProductPropType } from '../propTypes';
 import { getPictureUrl } from './productService';
 import StockIcon from './stockIcon.jsx';
-import { grey500 } from 'material-ui/styles/colors';
 
 const StyledCard = styled(Card)`
   flex: 1 1 300px;

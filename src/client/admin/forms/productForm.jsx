@@ -14,7 +14,7 @@ import SelectField from '../../formHelpers/selectField.jsx';
 import TextField from '../../formHelpers/textField.jsx';
 import { required } from '../../formHelpers/validations.jsx';
 import * as ProductService from '../../products/productService';
-import { ProducerPropType, ProductCategoryPropType, ProductPropType, SupplierPropType, } from '../../propTypes';
+import { ProducerPropType, ProductCategoryPropType, ProductPropType, SupplierPropType } from '../../propTypes';
 import {
   createLoadCompleteProducts,
   createLoadProducers,

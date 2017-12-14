@@ -64,7 +64,7 @@
     "babel-preset-env": "1.6.1",
     "babel-preset-react": "6.24.1",
     "compression-webpack-plugin": "1.0.1",
-    "copy-webpack-plugin": "4.2.3",
+    "copy-webpack-plugin": "4.3.0",
     "css-loader": "0.28.7",
     "eslint": "4.13.1",
     "eslint-config-airbnb": "16.1.0",

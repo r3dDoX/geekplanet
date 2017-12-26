@@ -52,7 +52,7 @@
     "stripe": "5.4.0"
   },
   "devDependencies": {
-    "auth0-js": "9.0.0",
+    "auth0-js": "9.0.1",
     "babel-eslint": "8.1.2",
     "babel-jest": "22.0.4",
     "babel-loader": "7.1.2",

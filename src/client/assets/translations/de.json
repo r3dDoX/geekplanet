@@ -89,8 +89,8 @@
     "SPECIFICATIONS": "Spezifikationen",
     "DELIVERY": "Lieferumfang",
     "DOWNLOADS": "Downloads",
-    "NEXT": "Next",
-    "PREVIOUS": "Previous"
+    "NEXT": "Nächste",
+    "PREVIOUS": "Vorherige"
   },
   "LOGIN": {
     "FACEBOOK": "Mit Facebook einloggen",
@@ -112,7 +112,7 @@
     "PRODUCT_CATEGORIES_TITLE": "Kategorien",
     "RESET_FILTER": "Filter zurücksetzen",
     "PRODUCERS_TITLE": "Hersteller",
-    "BACK": "Zurück",
+    "APPLY": "Anwenden",
     "MORE_FILTERS": "Weitere Filter"
   },
   "EMAIL": {

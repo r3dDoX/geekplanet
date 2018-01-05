@@ -84,7 +84,7 @@
     "react-drafts": "1.0.2",
     "react-dragula": "1.1.17",
     "react-helmet": "5.2.0",
-    "react-hot-loader": "4.0.0-beta.2",
+    "react-hot-loader": "3.1.3",
     "react-image-gallery": "0.8.6",
     "react-infinite-scroller": "1.1.2",
     "react-redux": "5.0.6",

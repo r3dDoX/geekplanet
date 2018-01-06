@@ -61,7 +61,6 @@ const AuthService = {
         email,
       }, (err) => {
         if (err) {
-          console.error(err.message);
           reject(err.message);
         } else {
           resolve();
@@ -99,8 +98,6 @@ const AuthService = {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
         dispatchLoggedIn(authResult.idTokenPayload);
-      } else if (err) {
-        console.error(err);
       }
     });
   },

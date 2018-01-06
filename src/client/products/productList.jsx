@@ -54,10 +54,7 @@ class ProductList extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.products !== nextProps.products) {
-      this.props.history.push('/products');
-      this.setState({
-        preselectedPage: undefined,
-      }, () => this.updateProductArrayForPage(1, nextProps.products));
+      this.updateProductArrayForPage(1, nextProps.products);
     }
   }
 

@@ -9,6 +9,7 @@ import {
   TOGGLE_FILTER_CATEGORY,
   TOGGLE_FILTER_PRODUCER,
   TOGGLE_FILTER_VIEW,
+  SET_FILTER_CATEGORIES,
 } from '../actions';
 
 const fieldNamesToFilter = [
@@ -174,6 +175,22 @@ export default (state = initialState, {
         filterString,
         productFilters,
         filteredProducts: filterProducts(state.products, productFilters),
+      });
+    }
+    case SET_FILTER_CATEGORIES: {
+      const categoriesToFilter = productCategories.flatMap(flattenGroupedCategories);
+
+      const productFilters = Object.assign(state.productFilters, {
+        filterProductsByCategories: filteredProducts =>
+          filterProductsByCategories(filteredProducts, categoriesToFilter),
+      });
+      productFilters.filterProductsByCategories.priority = 2;
+
+      return Object.assign({}, state, {
+        categoriesToFilter,
+        productFilters,
+        filteredProducts: filterProducts(state.products, productFilters),
+        moreFiltersCount: calculateFilterAmount(categoriesToFilter, state.producersToFilter),
       });
     }
     case TOGGLE_FILTER_CATEGORY: {

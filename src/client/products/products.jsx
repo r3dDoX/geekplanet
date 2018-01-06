@@ -19,17 +19,17 @@ class Products extends React.Component {
     if (!this.props.productCategories.length) {
       this.props.loadProductCategories();
     }
-    this._updateFilter(this.props.location.search, this.props.productCategories);
+    this.updateFilter(this.props.location.search, this.props.productCategories);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.location.search !== nextProps.location.search
       || this.props.productCategories.length !== nextProps.productCategories.length) {
-      this._updateFilter(nextProps.location.search, nextProps.productCategories);
+      this.updateFilter(nextProps.location.search, nextProps.productCategories);
     }
   }
 
-  _updateFilter(locationSearch, productCategories) {
+  updateFilter(locationSearch, productCategories) {
     const query = queryString.parse(locationSearch);
     if (query.categories && productCategories.length) {
       const categories = query.categories.split(',');

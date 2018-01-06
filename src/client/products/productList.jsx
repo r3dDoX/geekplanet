@@ -1,5 +1,6 @@
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -35,10 +36,10 @@ class ProductList extends React.Component {
   constructor(props) {
     super(props);
 
-    const queryPage = /page=(\d+)/.exec(props.history.location.search);
+    const query = queryString.parse(props.history.location.search);
     this.state = {
       currentPage: 0,
-      preselectedPage: queryPage && queryPage[1] && Number(queryPage[1]),
+      preselectedPage: query.page && Number(query.page),
       loadedProducts: [],
     };
   }
@@ -131,7 +132,7 @@ class ProductList extends React.Component {
         </InfiniteScroll>
       ),
       (this.state.preselectedPage) && (
-        <ButtonContainer>
+        <ButtonContainer key="productListButtons">
           {previousLink &&
             <RaisedButton
               primary

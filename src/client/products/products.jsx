@@ -1,18 +1,41 @@
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { createLoadProducts } from '../actions';
+import { withRouter } from 'react-router-dom';
+import { createLoadProductCategories, createLoadProducts, createSetFilterCategories } from '../actions';
 import MainSpinner from '../layout/mainSpinner.jsx';
 import ProductList from '../products/productList.jsx';
-import { ProductPropType } from '../propTypes';
+import { ProductCategoryPropType, ProductPropType } from '../propTypes';
 import ProductFilter from './productfilter/productFilter.jsx';
 
 class Products extends React.Component {
   componentWillMount() {
     if (!this.props.products.length) {
       this.props.loadProducts();
+    }
+    if (!this.props.productCategories.length) {
+      this.props.loadProductCategories();
+    }
+    this._updateFilter(this.props.location.search, this.props.productCategories);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location.search !== nextProps.location.search
+      || this.props.productCategories.length !== nextProps.productCategories.length) {
+      this._updateFilter(nextProps.location.search, nextProps.productCategories);
+    }
+  }
+
+  _updateFilter(locationSearch, productCategories) {
+    const query = queryString.parse(locationSearch);
+    if (query.categories && productCategories.length) {
+      const categories = query.categories.split(',');
+      this.props.setFilterCategories(
+        productCategories.filter(category => categories.includes(category._id))
+      );
     }
   }
 
@@ -46,14 +69,21 @@ class Products extends React.Component {
 Products.propTypes = {
   products: PropTypes.arrayOf(ProductPropType).isRequired,
   loadProducts: PropTypes.func.isRequired,
+  loadProductCategories: PropTypes.func.isRequired,
+  setFilterCategories: PropTypes.func.isRequired,
+  productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   filteredProducts: PropTypes.arrayOf(ProductPropType).isRequired,
   filterShown: PropTypes.bool.isRequired,
   intl: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default connect(
   state => ({
     products: state.products.products,
+    productCategories: state.products.productCategories,
     filteredProducts: state.products.filteredProducts,
     filterShown: state.products.filterShown,
   }),
@@ -61,5 +91,11 @@ export default connect(
     loadProducts() {
       dispatch(createLoadProducts());
     },
+    loadProductCategories() {
+      dispatch(createLoadProductCategories());
+    },
+    setFilterCategories(categories) {
+      dispatch(createSetFilterCategories(categories));
+    },
   }),
-)(injectIntl(Products));
+)(withRouter(injectIntl(Products)));

@@ -2,7 +2,7 @@ import underTest from './products.reducer';
 import {
   FILTER_PRODUCTS,
   PRODUCT_CATEGORIES_LOADED,
-  PRODUCTS_LOADED, RESET_FILTER,
+  PRODUCTS_LOADED, RESET_FILTER, SET_FILTER_CATEGORIES,
   TOGGLE_FILTER_CATEGORY,
   TOGGLE_FILTER_PRODUCER,
 } from '../actions';
@@ -186,6 +186,113 @@ describe('Products Reducer', () => {
 
       expect(newState.filteredProducts).toHaveLength(1);
       expect(newState.filteredProducts[0].de.name).toBe('Product efg');
+    });
+  });
+
+  describe(SET_FILTER_CATEGORIES, () => {
+    it('should count categories filtered', () => {
+      const action = {
+        type: SET_FILTER_CATEGORIES,
+        productCategories: [{
+          _id: 'categoryId1',
+          subCategories: [],
+        }],
+      };
+
+      const newState = underTest(undefined, action);
+
+      expect(newState.moreFiltersCount).toBe(1);
+    });
+
+    it('should filter products by category ids', () => {
+      const state = {
+        producersToFilter: [],
+        categoriesToFilter: [],
+        productFilters: {},
+        products: [
+          {
+            category: 'categoryId0',
+          },
+          {
+            category: 'categoryId1',
+          },
+        ],
+      };
+      const action = {
+        type: SET_FILTER_CATEGORIES,
+        productCategories: [
+          {
+            _id: 'categoryId1',
+            subCategories: [],
+          },
+          {
+            _id: 'categoryId2',
+            subCategories: [],
+          },
+        ],
+      };
+
+      const newState = underTest(state, action);
+
+      expect(newState.filteredProducts).toHaveLength(1);
+      expect(newState.filteredProducts[0].category).toBe('categoryId1');
+    });
+
+    it('should filter products by categories and subcategories', () => {
+      const state = {
+        producersToFilter: [],
+        categoriesToFilter: [],
+        productFilters: {},
+        products: [
+          {
+            category: 'categoryId',
+          },
+          {
+            category: 'subCategoryId',
+          },
+          {
+            category: 'otherParentId',
+          },
+          {
+            category: 'secondSubCategoryId',
+          },
+        ],
+      };
+      const action = {
+        type: SET_FILTER_CATEGORIES,
+        productCategories: [
+          {
+            _id: 'categoryId',
+            subCategories: [
+              {
+                _id: 'someOtherId',
+                subCategories: [
+                  {
+                    _id: 'subCategoryId',
+                    subCategories: [],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            _id: 'otherCategoryId',
+            subCategories: [
+              {
+                _id: 'secondSubCategoryId',
+                subCategories: [],
+              },
+            ],
+          },
+        ],
+      };
+
+      const newState = underTest(state, action);
+
+      expect(newState.filteredProducts).toHaveLength(3);
+      expect(newState.filteredProducts[0].category).toBe('categoryId');
+      expect(newState.filteredProducts[1].category).toBe('subCategoryId');
+      expect(newState.filteredProducts[2].category).toBe('secondSubCategoryId');
     });
   });
 

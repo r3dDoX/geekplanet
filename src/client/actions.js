@@ -27,6 +27,7 @@ export const SELECT_ORDER_STEP = 'SELECT_ORDER_STEP';
 export const PRODUCTS_LOADED = 'PRODUCTS_LOADED';
 export const FILTER_PRODUCTS = 'FILTER_PRODUCTS';
 export const REGISTRATION_SUCCESSFUL = 'REGISTRATION_SUCCESSFUL';
+export const SET_FILTER_CATEGORIES = 'SET_FILTER_CATEGORIES';
 export const TOGGLE_FILTER_CATEGORY = 'TOGGLE_FILTER_CATEGORY';
 export const TOGGLE_FILTER_PRODUCER = 'TOGGLE_FILTER_PRODUCER';
 export const TOGGLE_FILTER_VIEW = 'TOGGLE_FILTER_VIEW';
@@ -68,6 +69,11 @@ export const createLoggedIn = ({ email, 'https://geekplanet.ch/roles': roles }) 
 export const createFilterProducts = filterString => ({
   type: FILTER_PRODUCTS,
   filterString,
+});
+
+export const createSetFilterCategories = productCategories => ({
+  type: SET_FILTER_CATEGORIES,
+  productCategories,
 });
 
 export const createToggleFilterCategory = (productCategory, productCategoryAdded) => ({

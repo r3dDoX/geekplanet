@@ -74,7 +74,7 @@
     "flow-bin": "0.62.0",
     "flow-typed": "2.2.3",
     "html-webpack-plugin": "2.30.1",
-    "jest": "22.0.4",
+    "jest": "22.0.5",
     "jwt-decode": "2.2.0",
     "material-ui": "0.20.0",
     "nodemon": "1.14.11",

@@ -92,11 +92,11 @@ const PopoverCloseContainer = styled.div`
 `;
 
 const ResetButton = styled(RaisedButton)`
-  margin-right: 20px;
+  margin-right: 5px;
 `;
 
 const FilterButton = styled(RaisedButton)`
-  margin-right: 5px;
+  margin-right: 20px;
 `;
 
 const FilterPopover = ({
@@ -121,15 +121,15 @@ const FilterPopover = ({
     <PopoverInlay>
       {children}
       <FilterButtonContainer>
-        <FilterButton
-          primary
-          label={<FormattedMessage id="PRODUCT_FILTER.APPLY" />}
-          onClick={toggleFilterView}
-        />
         <ResetButton
           secondary
           label={<FormattedMessage id="PRODUCT_FILTER.RESET_FILTER" />}
           onClick={resetFilter}
+        />
+        <FilterButton
+          primary
+          label={<FormattedMessage id="PRODUCT_FILTER.APPLY" />}
+          onClick={toggleFilterView}
         />
       </FilterButtonContainer>
     </PopoverInlay>

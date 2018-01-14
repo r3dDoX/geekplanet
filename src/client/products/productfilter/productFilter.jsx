@@ -3,6 +3,7 @@ import { grey200, grey700, grey800 } from 'material-ui/styles/colors';
 import FilterIcon from 'material-ui/svg-icons/image/tune';
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
@@ -10,16 +11,13 @@ import { withRouter } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import {
-  createFilterProducts,
-  createLoadProductCategories,
-  createLoadPublicProducers,
-  createResetFilter,
-  createToggleFilterProducer,
-  createToggleFilterView,
+  createFilterProducts, createLoadProductCategories, createLoadPublicProducers, createResetFilter,
+  createToggleFilterProducer, createToggleFilterView,
 } from '../../actions';
 import SmallTextField from '../../formHelpers/smallTextField.jsx';
-import { ProductCategoryPropType, ProducerPropType } from '../../propTypes';
+import { ProducerPropType, ProductCategoryPropType } from '../../propTypes';
 import { backgroundColor, mdMinSize, xsMaxSize } from '../../theme';
+import { recursivelyMapIds, recursivelyMapIdsIfNotPresent } from '../productCategoryHelper';
 import FilterBadge from './filterBadge.jsx';
 import FilterPopover from './filterPopover.jsx';
 import Producers from './producers.jsx';
@@ -154,6 +152,8 @@ class ProductFilter extends React.Component {
       moreFiltersCount,
       toggleFilterView,
       resetFilter,
+      history,
+      productCategories,
     } = this.props;
 
     return (
@@ -202,7 +202,27 @@ class ProductFilter extends React.Component {
           <ProductCategories
             productCategories={groupedProductCategories}
             categoriesToFilter={categoriesToFilter}
-            toggleFilterProductCategory={() => { /* TODO */ }}
+            toggleFilterProductCategory={(category, checked) => {
+              const query = queryString.parse(history.location.search);
+              const categories = query.categories ? query.categories.split(',') : [];
+
+              if (checked) {
+                query.categories = categories.concat(
+                  recursivelyMapIdsIfNotPresent(
+                    productCategories.filter(actCategory => categories.includes(actCategory._id)),
+                    category
+                  ).map(actCategory => actCategory._id)
+                ).join(',');
+              } else {
+                const idsToRemove = recursivelyMapIds(category);
+
+                query.categories = categories.filter(
+                  actCategoryId => !idsToRemove.includes(actCategoryId),
+                );
+              }
+
+              history.push(`?${queryString.stringify(query)}`);
+            }}
           />
           <FilterHeader>
             <FormattedMessage id="PRODUCT_FILTER.PRODUCERS_TITLE" />
@@ -220,6 +240,7 @@ class ProductFilter extends React.Component {
 
 ProductFilter.propTypes = {
   groupedProductCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
+  productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   producers: PropTypes.arrayOf(ProducerPropType).isRequired,
   categoriesToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
   producersToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -231,12 +252,18 @@ ProductFilter.propTypes = {
   resetFilter: PropTypes.func.isRequired,
   toggleFilterView: PropTypes.func.isRequired,
   moreFiltersCount: PropTypes.number.isRequired,
-  // history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  history: PropTypes.shape({
+    location: PropTypes.shape({
+      search: PropTypes.string.isRequired,
+    }).isRequired,
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect(
   state => ({
     groupedProductCategories: state.products.groupedProductCategories,
+    productCategories: state.products.productCategories,
     producers: state.products.producers,
     categoriesToFilter: state.products.categoriesToFilter,
     producersToFilter: state.products.producersToFilter,

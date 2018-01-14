@@ -1,191 +1,10 @@
 import {
-  FILTER_PRODUCTS, PRODUCT_CATEGORIES_LOADED,
-  PRODUCTS_LOADED, RESET_FILTER, SET_FILTER,
+  PRODUCT_CATEGORIES_LOADED, PRODUCTS_LOADED,
+  RESET_FILTER, SET_FILTER,
 } from '../actions';
 import underTest from './products.reducer';
 
 describe('Products Reducer', () => {
-  describe(FILTER_PRODUCTS, () => {
-    it('should filter products by german name', () => {
-      const state = {
-        categoriesToFilter: [],
-        productFilters: {},
-        products: [
-          {
-            de: {
-              name: 'Product Abc',
-              shortDescription: 'shortDescription',
-            },
-            tags: [],
-          },
-          {
-            de: {
-              name: 'name',
-              shortDescription: 'shortDescription',
-            },
-            tags: [],
-          },
-        ],
-      };
-      const action = {
-        type: FILTER_PRODUCTS,
-        filterString: 'abc',
-      };
-
-      const newState = underTest(state, action);
-
-      expect(newState.filteredProducts).toHaveLength(1);
-      expect(newState.filteredProducts[0].de.name).toBe('Product Abc');
-    });
-
-    it('should filter products by german name when some props missing', () => {
-      const state = {
-        categoriesToFilter: [],
-        productFilters: {},
-        products: [
-          {
-            de: {
-              name: 'Product Abc',
-            },
-            tags: [],
-          },
-          {
-            de: {
-              shortDescription: 'shortDescription',
-            },
-            tags: [],
-          },
-        ],
-      };
-      const action = {
-        type: FILTER_PRODUCTS,
-        filterString: 'abc',
-      };
-
-      const newState = underTest(state, action);
-
-      expect(newState.filteredProducts).toHaveLength(1);
-      expect(newState.filteredProducts[0].de.name).toBe('Product Abc');
-    });
-
-    it('should filter products by german shortDescription', () => {
-      const state = {
-        categoriesToFilter: [],
-        productFilters: {},
-        products: [
-          {
-            de: {
-              name: 'name',
-              shortDescription: 'Product aBc',
-            },
-            tags: [],
-          },
-          {
-            de: {
-              name: 'name',
-              shortDescription: 'shortDescription',
-            },
-            tags: [],
-          },
-        ],
-      };
-      const action = {
-        type: FILTER_PRODUCTS,
-        filterString: 'abc',
-      };
-
-      const newState = underTest(state, action);
-
-      expect(newState.filteredProducts).toHaveLength(1);
-      expect(newState.filteredProducts[0].de.shortDescription).toBe('Product aBc');
-    });
-
-    it('should filter products by tags', () => {
-      const state = {
-        categoriesToFilter: [],
-        productFilters: {},
-        products: [
-          {
-            de: {
-              name: 'name',
-              shortDescription: 'shortDescription',
-            },
-            tags: [
-              'tag abc',
-              'tag efg',
-            ],
-          },
-          {
-            de: {
-              name: 'name',
-              shortDescription: 'shortDescription',
-            },
-            tags: [
-              'tag1',
-              'tag2',
-            ],
-          },
-          {
-            de: {
-              name: 'name',
-              shortDescription: 'shortDescription',
-            },
-            tags: [
-              'aBc',
-            ],
-          },
-        ],
-      };
-      const action = {
-        type: FILTER_PRODUCTS,
-        filterString: 'abc',
-      };
-
-      const newState = underTest(state, action);
-
-      expect(newState.filteredProducts).toHaveLength(2);
-      expect(newState.filteredProducts[0].tags[0]).toBe('tag abc');
-      expect(newState.filteredProducts[1].tags[0]).toBe('aBc');
-    });
-
-    it('should update filter on second action', () => {
-      const state = {
-        categoriesToFilter: [],
-        productFilters: {},
-        products: [
-          {
-            de: {
-              name: 'Product efg',
-              shortDescription: 'shortDescription',
-            },
-            tags: [],
-          },
-          {
-            de: {
-              name: 'name',
-              shortDescription: 'some ef product',
-            },
-            tags: [],
-          },
-        ],
-      };
-      const action = {
-        type: FILTER_PRODUCTS,
-        filterString: 'ef',
-      };
-      const action2 = {
-        type: FILTER_PRODUCTS,
-        filterString: 'efg',
-      };
-
-      const intermediateState = underTest(state, action);
-      const newState = underTest(intermediateState, action2);
-
-      expect(newState.filteredProducts).toHaveLength(1);
-      expect(newState.filteredProducts[0].de.name).toBe('Product efg');
-    });
-  });
-
   describe(SET_FILTER, () => {
     it('should count producers filtered', () => {
       const action = {
@@ -308,6 +127,148 @@ describe('Products Reducer', () => {
       expect(newState.filteredProducts[1].category).toBe('subCategoryId');
       expect(newState.filteredProducts[2].category).toBe('secondSubCategoryId');
     });
+
+    it('should filter products by german name', () => {
+      const state = {
+        categoriesToFilter: [],
+        productFilters: {},
+        products: [
+          {
+            de: {
+              name: 'Product Abc',
+              shortDescription: 'shortDescription',
+            },
+            tags: [],
+          },
+          {
+            de: {
+              name: 'name',
+              shortDescription: 'shortDescription',
+            },
+            tags: [],
+          },
+        ],
+      };
+      const action = {
+        type: SET_FILTER,
+        filterString: 'abc',
+      };
+
+      const newState = underTest(state, action);
+
+      expect(newState.filteredProducts).toHaveLength(1);
+      expect(newState.filteredProducts[0].de.name).toBe('Product Abc');
+    });
+
+    it('should filter products by german name when some props missing', () => {
+      const state = {
+        categoriesToFilter: [],
+        productFilters: {},
+        products: [
+          {
+            de: {
+              name: 'Product Abc',
+            },
+            tags: [],
+          },
+          {
+            de: {
+              shortDescription: 'shortDescription',
+            },
+            tags: [],
+          },
+        ],
+      };
+      const action = {
+        type: SET_FILTER,
+        filterString: 'abc',
+      };
+
+      const newState = underTest(state, action);
+
+      expect(newState.filteredProducts).toHaveLength(1);
+      expect(newState.filteredProducts[0].de.name).toBe('Product Abc');
+    });
+
+    it('should filter products by german shortDescription', () => {
+      const state = {
+        categoriesToFilter: [],
+        productFilters: {},
+        products: [
+          {
+            de: {
+              name: 'name',
+              shortDescription: 'Product aBc',
+            },
+            tags: [],
+          },
+          {
+            de: {
+              name: 'name',
+              shortDescription: 'shortDescription',
+            },
+            tags: [],
+          },
+        ],
+      };
+      const action = {
+        type: SET_FILTER,
+        filterString: 'abc',
+      };
+
+      const newState = underTest(state, action);
+
+      expect(newState.filteredProducts).toHaveLength(1);
+      expect(newState.filteredProducts[0].de.shortDescription).toBe('Product aBc');
+    });
+
+    it('should filter products by tags', () => {
+      const state = {
+        categoriesToFilter: [],
+        productFilters: {},
+        products: [
+          {
+            de: {
+              name: 'name',
+              shortDescription: 'shortDescription',
+            },
+            tags: [
+              'tag abc',
+              'tag efg',
+            ],
+          },
+          {
+            de: {
+              name: 'name',
+              shortDescription: 'shortDescription',
+            },
+            tags: [
+              'tag1',
+              'tag2',
+            ],
+          },
+          {
+            de: {
+              name: 'name',
+              shortDescription: 'shortDescription',
+            },
+            tags: [
+              'aBc',
+            ],
+          },
+        ],
+      };
+      const action = {
+        type: SET_FILTER,
+        filterString: 'abc',
+      };
+
+      const newState = underTest(state, action);
+
+      expect(newState.filteredProducts).toHaveLength(2);
+      expect(newState.filteredProducts[0].tags[0]).toBe('tag abc');
+      expect(newState.filteredProducts[1].tags[0]).toBe('aBc');
+    });
   });
 
   describe(PRODUCTS_LOADED, () => {
@@ -343,7 +304,7 @@ describe('Products Reducer', () => {
         products: [],
       };
       const filterAction = {
-        type: FILTER_PRODUCTS,
+        type: SET_FILTER,
         filterString: 'blubb',
       };
       const intermediateState = underTest(state, filterAction);

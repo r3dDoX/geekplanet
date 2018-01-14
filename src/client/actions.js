@@ -28,7 +28,6 @@ export const PRODUCTS_LOADED = 'PRODUCTS_LOADED';
 export const FILTER_PRODUCTS = 'FILTER_PRODUCTS';
 export const REGISTRATION_SUCCESSFUL = 'REGISTRATION_SUCCESSFUL';
 export const SET_FILTER_CATEGORIES = 'SET_FILTER_CATEGORIES';
-export const TOGGLE_FILTER_CATEGORY = 'TOGGLE_FILTER_CATEGORY';
 export const TOGGLE_FILTER_PRODUCER = 'TOGGLE_FILTER_PRODUCER';
 export const TOGGLE_FILTER_VIEW = 'TOGGLE_FILTER_VIEW';
 export const RESET_FILTER = 'RESET_FILTER';
@@ -74,12 +73,6 @@ export const createFilterProducts = filterString => ({
 export const createSetFilterCategories = productCategories => ({
   type: SET_FILTER_CATEGORIES,
   productCategories,
-});
-
-export const createToggleFilterCategory = (productCategory, productCategoryAdded) => ({
-  type: TOGGLE_FILTER_CATEGORY,
-  productCategory,
-  productCategoryAdded,
 });
 
 export const createToggleFilterProducer = producers => ({

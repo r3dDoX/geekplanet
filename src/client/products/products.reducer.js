@@ -1,12 +1,9 @@
 import {
-  FILTER_PRODUCTS, PRODUCT_CATEGORIES_LOADED, PRODUCT_LOADING, PRODUCT_SELECTED, PRODUCTS_LOADED,
-  PUBLIC_PRODUCERS_LOADED, RESET_FILTER, SET_FILTER_CATEGORIES, TOGGLE_FILTER_CATEGORY,
+  FILTER_PRODUCTS, PRODUCT_CATEGORIES_LOADED, PRODUCT_LOADING, PRODUCT_SELECTED,
+  PRODUCTS_LOADED, PUBLIC_PRODUCERS_LOADED, RESET_FILTER, SET_FILTER_CATEGORIES,
   TOGGLE_FILTER_PRODUCER, TOGGLE_FILTER_VIEW,
 } from '../actions';
-import {
-  flattenGroupedCategories, recursivelyMapIds, recursivelyMapIdsIfNotPresent,
-  recursivelyMapSubCategories,
-} from './productCategoryHelper';
+import { flattenGroupedCategories, recursivelyMapSubCategories } from './productCategoryHelper';
 
 const fieldNamesToFilter = [
   'de.name',
@@ -98,8 +95,6 @@ export default (state = initialState, {
   producers,
   selectedProduct,
   filterString,
-  productCategory,
-  productCategoryAdded,
 }) => {
   switch (type) {
     case PRODUCTS_LOADED:
@@ -153,34 +148,6 @@ export default (state = initialState, {
         productFilters,
         filteredProducts: filterProducts(state.products, productFilters),
         moreFiltersCount: calculateFilterAmount(categoriesToFilter, state.producersToFilter),
-      });
-    }
-    case TOGGLE_FILTER_CATEGORY: {
-      let filterCategories;
-
-      if (productCategoryAdded) {
-        filterCategories = state.categoriesToFilter.concat(
-          recursivelyMapIdsIfNotPresent(state.categoriesToFilter, productCategory),
-        );
-      } else {
-        const idsToRemove = recursivelyMapIds(productCategory);
-
-        filterCategories = state.categoriesToFilter.filter(
-          category => !idsToRemove.includes(category._id),
-        );
-      }
-
-      const productFilters = Object.assign(state.productFilters, {
-        filterProductsByCategories: filteredProducts =>
-          filterProductsByCategories(filteredProducts, filterCategories),
-      });
-      productFilters.filterProductsByCategories.priority = 2;
-
-      return Object.assign({}, state, {
-        categoriesToFilter: filterCategories,
-        productFilters,
-        filteredProducts: filterProducts(state.products, productFilters),
-        moreFiltersCount: calculateFilterAmount(filterCategories, state.producersToFilter),
       });
     }
     case TOGGLE_FILTER_PRODUCER: {

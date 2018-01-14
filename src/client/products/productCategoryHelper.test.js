@@ -186,4 +186,68 @@ describe('ProductCategory Helper', () => {
       expect(result).toHaveLength(3);
     });
   });
+
+  describe('flattenGroupedCategories', () => {
+    it('should create one dimensional array of categories from given category and its subcategories', () => {
+      const category = {
+        _id: 'Big Category',
+        subCategories: [
+          {
+            _id: 'Some Child Category',
+            subCategories: [
+              {
+                _id: 'Some Child Child Category',
+                subCategories: [],
+              },
+            ],
+          },
+          {
+            _id: 'Some Other Child Category',
+            subCategories: [],
+          },
+        ],
+      };
+
+      const result = underTest.flattenGroupedCategories(category);
+
+      expect(result).toHaveLength(4);
+      expect(result).toEqual(expect.arrayContaining([
+        {
+          _id: 'Big Category',
+          subCategories: [
+            {
+              _id: 'Some Child Category',
+              subCategories: [
+                {
+                  _id: 'Some Child Child Category',
+                  subCategories: [],
+                },
+              ],
+            },
+            {
+              _id: 'Some Other Child Category',
+              subCategories: [],
+            },
+          ],
+        },
+        {
+          _id: 'Some Child Category',
+          subCategories: [
+            {
+              _id: 'Some Child Child Category',
+              subCategories: [],
+            },
+          ],
+        },
+        {
+          _id: 'Some Child Child Category',
+          subCategories: [],
+        },
+        {
+          _id: 'Some Other Child Category',
+          subCategories: [],
+        },
+      ]));
+    });
+  });
 });

@@ -36,6 +36,8 @@ class Products extends React.Component {
       this.props.setFilterCategories(
         productCategories.filter(category => categories.includes(category._id))
       );
+    } else {
+      this.props.setFilterCategories([]);
     }
   }
 

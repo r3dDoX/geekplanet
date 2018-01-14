@@ -11,8 +11,8 @@ import { withRouter } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import {
-  createFilterProducts, createLoadProductCategories, createLoadPublicProducers, createResetFilter,
-  createToggleFilterProducer, createToggleFilterView,
+  createFilterProducts, createLoadProductCategories, createLoadPublicProducers,
+  createResetFilter, createToggleFilterView,
 } from '../../actions';
 import SmallTextField from '../../formHelpers/smallTextField.jsx';
 import { ProducerPropType, ProductCategoryPropType } from '../../propTypes';
@@ -147,7 +147,6 @@ class ProductFilter extends React.Component {
       filterShown,
       categoriesToFilter,
       producersToFilter,
-      toggleProducer,
       producers,
       moreFiltersCount,
       toggleFilterView,
@@ -176,7 +175,8 @@ class ProductFilter extends React.Component {
             <FilterButtonLabel>
               <FormattedMessage id="PRODUCT_FILTER.MORE_FILTERS" />
               <FilterBadge filterCount={moreFiltersCount} />
-            </FilterButtonLabel>}
+            </FilterButtonLabel>
+          }
           labelPosition="before"
           icon={<ArrowDown />}
           overlayStyle={styles.filterButton}
@@ -193,7 +193,10 @@ class ProductFilter extends React.Component {
         <FilterPopover
           top={this.state.top}
           toggleFilterView={toggleFilterView}
-          resetFilter={resetFilter}
+          resetFilter={() => {
+            history.push('?');
+            resetFilter();
+          }}
           filterShown={filterShown}
         >
           <FilterHeader>
@@ -230,7 +233,24 @@ class ProductFilter extends React.Component {
           <Producers
             producersToFilter={producersToFilter}
             producers={producers}
-            toggleProducer={toggleProducer}
+            toggleProducer={(producer, checked) => {
+              const query = queryString.parse(history.location.search);
+              const queryProducers = query.producers ? query.producers.split(',') : [];
+              const completeProducers = queryProducers
+                .filter(actProducer => queryProducers.includes(actProducer._id));
+
+              if (checked) {
+                query.producers = completeProducers
+                  .concat(producer)
+                  .map(actProducer => actProducer._id);
+              } else {
+                query.producers = completeProducers
+                  .filter(producerToFilter => producerToFilter._id !== producer._id)
+                  .map(actProducer => actProducer._id);
+              }
+
+              history.push(`?${queryString.stringify(query)}`);
+            }}
           />
         </FilterPopover>
       </FilterContainer>
@@ -248,7 +268,6 @@ ProductFilter.propTypes = {
   loadProductCategories: PropTypes.func.isRequired,
   loadPublicPorducers: PropTypes.func.isRequired,
   filterProducts: PropTypes.func.isRequired,
-  toggleProducer: PropTypes.func.isRequired,
   resetFilter: PropTypes.func.isRequired,
   toggleFilterView: PropTypes.func.isRequired,
   moreFiltersCount: PropTypes.number.isRequired,
@@ -281,9 +300,6 @@ export default connect(
     },
     filterProducts(filterString) {
       dispatch(createFilterProducts(filterString));
-    },
-    toggleProducer(producers) {
-      dispatch(createToggleFilterProducer(producers));
     },
     toggleFilterView() {
       dispatch(createToggleFilterView());

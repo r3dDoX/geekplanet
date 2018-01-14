@@ -1,10 +1,8 @@
-import underTest from './products.reducer';
 import {
-  FILTER_PRODUCTS,
-  PRODUCT_CATEGORIES_LOADED,
-  PRODUCTS_LOADED, RESET_FILTER, SET_FILTER_CATEGORIES,
-  TOGGLE_FILTER_PRODUCER,
+  FILTER_PRODUCTS, PRODUCT_CATEGORIES_LOADED,
+  PRODUCTS_LOADED, RESET_FILTER, SET_FILTER,
 } from '../actions';
+import underTest from './products.reducer';
 
 describe('Products Reducer', () => {
   describe(FILTER_PRODUCTS, () => {
@@ -188,10 +186,18 @@ describe('Products Reducer', () => {
     });
   });
 
-  describe(SET_FILTER_CATEGORIES, () => {
-    it('should count categories filtered', () => {
+  describe(SET_FILTER, () => {
+    it('should count producers filtered', () => {
       const action = {
-        type: SET_FILTER_CATEGORIES,
+        type: SET_FILTER,
+        producers: [
+          {
+            _id: 'producerId1',
+          },
+          {
+            _id: 'producerId',
+          },
+        ],
         productCategories: [{
           _id: 'categoryId1',
           subCategories: [],
@@ -200,10 +206,10 @@ describe('Products Reducer', () => {
 
       const newState = underTest(undefined, action);
 
-      expect(newState.moreFiltersCount).toBe(1);
+      expect(newState.moreFiltersCount).toBe(3);
     });
 
-    it('should filter products by category ids', () => {
+    it('should filter products by category and producer ids', () => {
       const state = {
         producersToFilter: [],
         categoriesToFilter: [],
@@ -214,11 +220,15 @@ describe('Products Reducer', () => {
           },
           {
             category: 'categoryId1',
+            producer: 'producerId7',
+          },
+          {
+            category: 'categoryId1',
           },
         ],
       };
       const action = {
-        type: SET_FILTER_CATEGORIES,
+        type: SET_FILTER,
         productCategories: [
           {
             _id: 'categoryId1',
@@ -227,6 +237,11 @@ describe('Products Reducer', () => {
           {
             _id: 'categoryId2',
             subCategories: [],
+          },
+        ],
+        producers: [
+          {
+            _id: 'producerId7',
           },
         ],
       };
@@ -258,7 +273,7 @@ describe('Products Reducer', () => {
         ],
       };
       const action = {
-        type: SET_FILTER_CATEGORIES,
+        type: SET_FILTER,
         productCategories: [
           {
             _id: 'categoryId',
@@ -292,54 +307,6 @@ describe('Products Reducer', () => {
       expect(newState.filteredProducts[0].category).toBe('categoryId');
       expect(newState.filteredProducts[1].category).toBe('subCategoryId');
       expect(newState.filteredProducts[2].category).toBe('secondSubCategoryId');
-    });
-  });
-
-  describe(TOGGLE_FILTER_PRODUCER, () => {
-    it('should count producers filtered', () => {
-      const action = {
-        type: TOGGLE_FILTER_PRODUCER,
-        producers: [
-          {
-            _id: 'producerId1',
-          },
-          {
-            _id: 'producerId',
-          },
-        ],
-      };
-
-      const newState = underTest(undefined, action);
-
-      expect(newState.moreFiltersCount).toBe(2);
-    });
-
-    it('should add count to moreFiltersCount', () => {
-      const categoryAction = {
-        type: SET_FILTER_CATEGORIES,
-        productCategories: [
-          {
-            _id: 'someId',
-            subCategories: [],
-          },
-        ],
-      };
-      const action = {
-        type: TOGGLE_FILTER_PRODUCER,
-        producers: [
-          {
-            _id: 'producerId1',
-          },
-          {
-            _id: 'producerId',
-          },
-        ],
-      };
-
-      const intermediateState = underTest(undefined, categoryAction);
-      const result = underTest(intermediateState, action);
-
-      expect(result.moreFiltersCount).toBe(3);
     });
   });
 

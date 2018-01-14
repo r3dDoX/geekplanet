@@ -24,15 +24,7 @@ const Producers = ({
           checked={!!producersToFilter.find(
             producerToFilter => producer._id === producerToFilter._id
           )}
-          onCheck={(event, checked) => {
-            if (checked) {
-              toggleProducer(producersToFilter.concat(producer));
-            } else {
-              toggleProducer(producersToFilter.filter(
-                producerToFilter => producerToFilter._id !== producer._id
-              ));
-            }
-          }}
+          onCheck={(event, checked) => toggleProducer(producer, checked)}
         />
       </ProducerRow>
     ))}

@@ -1,16 +1,12 @@
 import {
-  FILTER_PRODUCTS,
-  PRODUCT_CATEGORIES_LOADED,
-  PRODUCT_LOADING,
-  PRODUCT_SELECTED,
-  PRODUCTS_LOADED,
-  PUBLIC_PRODUCERS_LOADED,
-  RESET_FILTER,
-  TOGGLE_FILTER_CATEGORY,
-  TOGGLE_FILTER_PRODUCER,
-  TOGGLE_FILTER_VIEW,
-  SET_FILTER_CATEGORIES,
+  FILTER_PRODUCTS, PRODUCT_CATEGORIES_LOADED, PRODUCT_LOADING, PRODUCT_SELECTED, PRODUCTS_LOADED,
+  PUBLIC_PRODUCERS_LOADED, RESET_FILTER, SET_FILTER_CATEGORIES, TOGGLE_FILTER_CATEGORY,
+  TOGGLE_FILTER_PRODUCER, TOGGLE_FILTER_VIEW,
 } from '../actions';
+import {
+  flattenGroupedCategories, recursivelyMapIds, recursivelyMapIdsIfNotPresent,
+  recursivelyMapSubCategories,
+} from './productCategoryHelper';
 
 const fieldNamesToFilter = [
   'de.name',
@@ -91,42 +87,8 @@ function filterProducts(products, productFilters) {
     );
 }
 
-function recursivelyMapSubCategories(category, categories) {
-  return Object.assign({}, category, {
-    subCategories: categories
-      .filter(subCategory => subCategory.parentCategory === category._id)
-      .map(subCategory => recursivelyMapSubCategories(subCategory, categories)),
-  });
-}
-
 function calculateFilterAmount(categoriesToFilter, producersToFilter) {
   return categoriesToFilter.length + producersToFilter.length;
-}
-
-function recursivelyMapIds(category) {
-  return [
-    category._id,
-    ...category.subCategories.flatMap(recursivelyMapIds),
-  ];
-}
-
-function recursivelyMapIdsIfNotPresent(presentCategories, category) {
-  const arr = [];
-
-  if (!presentCategories.some(presentCategory => presentCategory._id === category._id)) {
-    arr.push(category);
-  }
-
-  return arr.concat(category.subCategories.flatMap(
-    subCategory => recursivelyMapIdsIfNotPresent(presentCategories, subCategory),
-  ));
-}
-
-function flattenGroupedCategories(category) {
-  return [
-    category,
-    ...category.subCategories.flatMap(flattenGroupedCategories),
-  ];
 }
 
 export default (state = initialState, {

@@ -1,7 +1,6 @@
 import {
   FILTER_PRODUCTS, PRODUCT_CATEGORIES_LOADED, PRODUCT_LOADING, PRODUCT_SELECTED,
-  PRODUCTS_LOADED, PUBLIC_PRODUCERS_LOADED, RESET_FILTER, SET_FILTER_CATEGORIES,
-  TOGGLE_FILTER_PRODUCER, TOGGLE_FILTER_VIEW,
+  PRODUCTS_LOADED, PUBLIC_PRODUCERS_LOADED, RESET_FILTER, SET_FILTER, TOGGLE_FILTER_VIEW,
 } from '../actions';
 import { flattenGroupedCategories, recursivelyMapSubCategories } from './productCategoryHelper';
 
@@ -91,8 +90,8 @@ function calculateFilterAmount(categoriesToFilter, producersToFilter) {
 export default (state = initialState, {
   type,
   products,
-  productCategories,
-  producers,
+  productCategories = [],
+  producers = [],
   selectedProduct,
   filterString,
 }) => {
@@ -134,34 +133,25 @@ export default (state = initialState, {
         filteredProducts: filterProducts(state.products, productFilters),
       });
     }
-    case SET_FILTER_CATEGORIES: {
+    case SET_FILTER: {
       const categoriesToFilter = productCategories.flatMap(flattenGroupedCategories);
 
       const productFilters = Object.assign(state.productFilters, {
         filterProductsByCategories: filteredProducts =>
           filterProductsByCategories(filteredProducts, categoriesToFilter),
-      });
-      productFilters.filterProductsByCategories.priority = 2;
-
-      return Object.assign({}, state, {
-        categoriesToFilter,
-        productFilters,
-        filteredProducts: filterProducts(state.products, productFilters),
-        moreFiltersCount: calculateFilterAmount(categoriesToFilter, state.producersToFilter),
-      });
-    }
-    case TOGGLE_FILTER_PRODUCER: {
-      const productFilters = Object.assign(state.productFilters, {
         filterProductsByProducers: filteredProducts =>
           filterProductsByProducers(filteredProducts, producers),
       });
+
+      productFilters.filterProductsByCategories.priority = 2;
       productFilters.filterProductsByProducers.priority = 1;
 
       return Object.assign({}, state, {
+        categoriesToFilter,
         producersToFilter: producers,
         productFilters,
         filteredProducts: filterProducts(state.products, productFilters),
-        moreFiltersCount: calculateFilterAmount(state.categoriesToFilter, producers),
+        moreFiltersCount: calculateFilterAmount(categoriesToFilter, producers),
       });
     }
     case PRODUCT_LOADING:

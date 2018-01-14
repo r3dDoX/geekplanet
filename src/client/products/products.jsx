@@ -5,10 +5,10 @@ import { Helmet } from 'react-helmet';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { createLoadProductCategories, createLoadProducts, createSetFilterCategories } from '../actions';
+import { createLoadProductCategories, createLoadProducts, createSetFilter } from '../actions';
 import MainSpinner from '../layout/mainSpinner.jsx';
 import ProductList from '../products/productList.jsx';
-import { ProductCategoryPropType, ProductPropType } from '../propTypes';
+import { ProducerPropType, ProductCategoryPropType, ProductPropType } from '../propTypes';
 import ProductFilter from './productfilter/productFilter.jsx';
 
 class Products extends React.Component {
@@ -19,25 +19,37 @@ class Products extends React.Component {
     if (!this.props.productCategories.length) {
       this.props.loadProductCategories();
     }
-    this.updateFilter(this.props.location.search, this.props.productCategories);
+    this.updateFilter(
+      this.props.location.search,
+      this.props.productCategories,
+      this.props.producers
+    );
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.location.search !== nextProps.location.search
-      || this.props.productCategories.length !== nextProps.productCategories.length) {
-      this.updateFilter(nextProps.location.search, nextProps.productCategories);
+      || this.props.productCategories.length !== nextProps.productCategories.length
+      || this.props.producers.length !== nextProps.producers.length) {
+      this.updateFilter(
+        nextProps.location.search,
+        nextProps.productCategories,
+        nextProps.producers
+      );
     }
   }
 
-  updateFilter(locationSearch, productCategories) {
+  updateFilter(locationSearch, productCategories, producers) {
     const query = queryString.parse(locationSearch);
-    if (query.categories && productCategories.length) {
-      const categories = query.categories.split(',');
-      this.props.setFilterCategories(
-        productCategories.filter(category => categories.includes(category._id))
+    if ((query.categories || query.producers) && productCategories.length) {
+      const categories = query.categories ? query.categories.split(',') : [];
+      const queryProducers = query.producers ? query.producers.split(',') : [];
+
+      this.props.setFilter(
+        productCategories.filter(category => categories.includes(category._id)),
+        producers.filter(producer => queryProducers.includes(producer._id))
       );
     } else {
-      this.props.setFilterCategories([]);
+      this.props.setFilter();
     }
   }
 
@@ -70,9 +82,10 @@ class Products extends React.Component {
 
 Products.propTypes = {
   products: PropTypes.arrayOf(ProductPropType).isRequired,
+  producers: PropTypes.arrayOf(ProducerPropType).isRequired,
   loadProducts: PropTypes.func.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
-  setFilterCategories: PropTypes.func.isRequired,
+  setFilter: PropTypes.func.isRequired,
   productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   filteredProducts: PropTypes.arrayOf(ProductPropType).isRequired,
   filterShown: PropTypes.bool.isRequired,
@@ -86,6 +99,7 @@ export default connect(
   state => ({
     products: state.products.products,
     productCategories: state.products.productCategories,
+    producers: state.products.producers,
     filteredProducts: state.products.filteredProducts,
     filterShown: state.products.filterShown,
   }),
@@ -96,8 +110,11 @@ export default connect(
     loadProductCategories() {
       dispatch(createLoadProductCategories());
     },
-    setFilterCategories(categories) {
-      dispatch(createSetFilterCategories(categories));
+    setFilter(productCategories, producers) {
+      dispatch(createSetFilter({
+        productCategories,
+        producers,
+      }));
     },
   }),
 )(withRouter(injectIntl(Products)));

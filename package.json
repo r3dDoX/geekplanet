@@ -13,7 +13,7 @@
     "test": "npm run lint && jest",
     "test:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk:9.4.0 npm test",
     "test:watch": "jest --watch",
-    "test:watch:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app -w /usr/app r3ddox/node-pdftk:9.4.0 npm run test:watch",
+    "test:watch:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:delegated -w /usr/app r3ddox/node-pdftk:9.4.0 npm run test:watch",
     "build": "NODE_ENV='production' webpack --config webpack.prod.config.js --progress --optimize-minimize -p",
     "build:production": "NODE_ENV='production' CONFIG='production' npm run build",
     "build:staging": "CONFIG='staging' npm run build",

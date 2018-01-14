@@ -3,7 +3,6 @@ import {
   FILTER_PRODUCTS,
   PRODUCT_CATEGORIES_LOADED,
   PRODUCTS_LOADED, RESET_FILTER, SET_FILTER_CATEGORIES,
-  TOGGLE_FILTER_CATEGORY,
   TOGGLE_FILTER_PRODUCER,
 } from '../actions';
 
@@ -296,145 +295,6 @@ describe('Products Reducer', () => {
     });
   });
 
-  describe(TOGGLE_FILTER_CATEGORY, () => {
-    it('should count categories filtered', () => {
-      const action = {
-        type: TOGGLE_FILTER_CATEGORY,
-        productCategory: {
-          _id: 'categoryId1',
-          subCategories: [],
-        },
-        productCategoryAdded: true,
-      };
-
-      const newState = underTest(undefined, action);
-
-      expect(newState.moreFiltersCount).toBe(1);
-    });
-
-    it('should filter products by category ids', () => {
-      const state = {
-        producersToFilter: [],
-        categoriesToFilter: [],
-        productFilters: {},
-        products: [
-          {
-            category: 'categoryId0',
-          },
-          {
-            category: 'categoryId1',
-          },
-        ],
-      };
-      const action = {
-        type: TOGGLE_FILTER_CATEGORY,
-        productCategory: {
-          _id: 'categoryId1',
-          subCategories: [],
-        },
-        productCategoryAdded: true,
-      };
-
-      const newState = underTest(state, action);
-
-      expect(newState.filteredProducts).toHaveLength(1);
-      expect(newState.filteredProducts[0].category).toBe('categoryId1');
-    });
-
-    it('should filter products by categories and subcategories', () => {
-      const state = {
-        producersToFilter: [],
-        categoriesToFilter: [],
-        productFilters: {},
-        products: [
-          {
-            category: 'categoryId',
-          },
-          {
-            category: 'subCategoryId',
-          },
-          {
-            category: 'otherParentId',
-          },
-        ],
-      };
-      const action = {
-        type: TOGGLE_FILTER_CATEGORY,
-        productCategory: {
-          _id: 'categoryId',
-          subCategories: [
-            {
-              _id: 'someOtherId',
-              subCategories: [
-                {
-                  _id: 'subCategoryId',
-                  subCategories: [],
-                },
-              ],
-            },
-          ],
-        },
-        productCategoryAdded: true,
-      };
-
-      const newState = underTest(state, action);
-
-      expect(newState.filteredProducts).toHaveLength(2);
-      expect(newState.filteredProducts[0].category).toBe('categoryId');
-      expect(newState.filteredProducts[1].category).toBe('subCategoryId');
-    });
-
-    it('should remove filterd subcategories when parentcategory removed', () => {
-      const state = {
-        producersToFilter: [],
-        categoriesToFilter: [],
-        productFilters: {},
-        products: [
-          {
-            category: 'categoryId',
-          },
-          {
-            category: 'subCategoryId',
-          },
-          {
-            category: 'otherParentId',
-          },
-        ],
-      };
-      const actionAdd = {
-        type: TOGGLE_FILTER_CATEGORY,
-        productCategory: {
-          _id: 'subCategoryId',
-          subCategories: [],
-        },
-        productCategoryAdded: true,
-      };
-      const actionRemove = {
-        type: TOGGLE_FILTER_CATEGORY,
-        productCategory: {
-          _id: 'categoryId',
-          subCategories: [
-            {
-              _id: 'someOtherId',
-              subCategories: [
-                {
-                  _id: 'subCategoryId',
-                  subCategories: [],
-                },
-              ],
-            },
-          ],
-        },
-        productCategoryAdded: false,
-      };
-
-      const intermediateState = underTest(state, actionAdd);
-      const newState = underTest(intermediateState, actionRemove);
-
-      expect(newState.filteredProducts).toHaveLength(3);
-    });
-  });
-
   describe(TOGGLE_FILTER_PRODUCER, () => {
     it('should count producers filtered', () => {
       const action = {
@@ -456,12 +316,13 @@ describe('Products Reducer', () => {
 
     it('should add count to moreFiltersCount', () => {
       const categoryAction = {
-        type: TOGGLE_FILTER_CATEGORY,
-        productCategory: {
-          _id: 'someId',
-          subCategories: [],
-        },
-        productCategoryAdded: true,
+        type: SET_FILTER_CATEGORIES,
+        productCategories: [
+          {
+            _id: 'someId',
+            subCategories: [],
+          },
+        ],
       };
       const action = {
         type: TOGGLE_FILTER_PRODUCER,

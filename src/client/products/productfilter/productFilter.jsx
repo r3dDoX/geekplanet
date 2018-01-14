@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import {
@@ -13,7 +14,6 @@ import {
   createLoadProductCategories,
   createLoadPublicProducers,
   createResetFilter,
-  createToggleFilterCategory,
   createToggleFilterProducer,
   createToggleFilterView,
 } from '../../actions';
@@ -148,7 +148,6 @@ class ProductFilter extends React.Component {
       groupedProductCategories,
       filterShown,
       categoriesToFilter,
-      toggleFilterProductCategory,
       producersToFilter,
       toggleProducer,
       producers,
@@ -203,7 +202,7 @@ class ProductFilter extends React.Component {
           <ProductCategories
             productCategories={groupedProductCategories}
             categoriesToFilter={categoriesToFilter}
-            toggleFilterProductCategory={toggleFilterProductCategory}
+            toggleFilterProductCategory={() => { /* TODO */ }}
           />
           <FilterHeader>
             <FormattedMessage id="PRODUCT_FILTER.PRODUCERS_TITLE" />
@@ -228,11 +227,11 @@ ProductFilter.propTypes = {
   loadProductCategories: PropTypes.func.isRequired,
   loadPublicPorducers: PropTypes.func.isRequired,
   filterProducts: PropTypes.func.isRequired,
-  toggleFilterProductCategory: PropTypes.func.isRequired,
   toggleProducer: PropTypes.func.isRequired,
   resetFilter: PropTypes.func.isRequired,
   toggleFilterView: PropTypes.func.isRequired,
   moreFiltersCount: PropTypes.number.isRequired,
+  // history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default connect(
@@ -256,9 +255,6 @@ export default connect(
     filterProducts(filterString) {
       dispatch(createFilterProducts(filterString));
     },
-    toggleFilterProductCategory(category, categoryAdded) {
-      dispatch(createToggleFilterCategory(category, categoryAdded));
-    },
     toggleProducer(producers) {
       dispatch(createToggleFilterProducer(producers));
     },
@@ -272,4 +268,4 @@ export default connect(
 )(reduxForm({
   form: formName,
   destroyOnUnmount: false,
-})(ProductFilter));
+})(withRouter(ProductFilter)));

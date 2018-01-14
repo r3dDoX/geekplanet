@@ -1,6 +1,6 @@
 import {
-  FILTER_PRODUCTS, PRODUCT_CATEGORIES_LOADED, PRODUCT_LOADING, PRODUCT_SELECTED,
-  PRODUCTS_LOADED, PUBLIC_PRODUCERS_LOADED, RESET_FILTER, SET_FILTER, TOGGLE_FILTER_VIEW,
+  PRODUCT_CATEGORIES_LOADED, PRODUCT_LOADING, PRODUCT_SELECTED, PRODUCTS_LOADED,
+  PUBLIC_PRODUCERS_LOADED, RESET_FILTER, SET_FILTER, TOGGLE_FILTER_VIEW,
 } from '../actions';
 import { flattenGroupedCategories, recursivelyMapSubCategories } from './productCategoryHelper';
 
@@ -120,37 +120,34 @@ export default (state = initialState, {
       return Object.assign({}, state, {
         producers,
       });
-    case FILTER_PRODUCTS: {
-      const productFilters = Object.assign(state.productFilters, {
-        filterProductsByString: filteredProducts =>
-          filterProductsByString(filteredProducts, filterString),
-      });
-      productFilters.filterProductsByString.priority = 10;
+    case SET_FILTER: {
+      const newProductFilters = {};
+      const categoriesToFilter = productCategories.flatMap(flattenGroupedCategories);
+
+      if (producers.length) {
+        newProductFilters.filterProductsByProducers = filteredProducts =>
+          filterProductsByProducers(filteredProducts, producers);
+        newProductFilters.filterProductsByProducers.priority = 1;
+      }
+
+      if (categoriesToFilter.length) {
+        newProductFilters.filterProductsByCategories = filteredProducts =>
+          filterProductsByCategories(filteredProducts, categoriesToFilter);
+        newProductFilters.filterProductsByCategories.priority = 2;
+      }
+
+      if (filterString) {
+        newProductFilters.filterProductsByString = filteredProducts =>
+          filterProductsByString(filteredProducts, filterString);
+        newProductFilters.filterProductsByString.priority = 10;
+      }
 
       return Object.assign({}, state, {
         filterString,
-        productFilters,
-        filteredProducts: filterProducts(state.products, productFilters),
-      });
-    }
-    case SET_FILTER: {
-      const categoriesToFilter = productCategories.flatMap(flattenGroupedCategories);
-
-      const productFilters = Object.assign(state.productFilters, {
-        filterProductsByCategories: filteredProducts =>
-          filterProductsByCategories(filteredProducts, categoriesToFilter),
-        filterProductsByProducers: filteredProducts =>
-          filterProductsByProducers(filteredProducts, producers),
-      });
-
-      productFilters.filterProductsByCategories.priority = 2;
-      productFilters.filterProductsByProducers.priority = 1;
-
-      return Object.assign({}, state, {
         categoriesToFilter,
         producersToFilter: producers,
-        productFilters,
-        filteredProducts: filterProducts(state.products, productFilters),
+        productFilters: newProductFilters,
+        filteredProducts: filterProducts(state.products, newProductFilters),
         moreFiltersCount: calculateFilterAmount(categoriesToFilter, producers),
       });
     }

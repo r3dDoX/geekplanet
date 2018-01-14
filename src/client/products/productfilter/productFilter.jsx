@@ -11,7 +11,7 @@ import { withRouter } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import {
-  createFilterProducts, createLoadProductCategories, createLoadPublicProducers,
+  createLoadProductCategories, createLoadPublicProducers,
   createResetFilter, createToggleFilterView,
 } from '../../actions';
 import SmallTextField from '../../formHelpers/smallTextField.jsx';
@@ -142,7 +142,6 @@ class ProductFilter extends React.Component {
 
   render() {
     const {
-      filterProducts,
       groupedProductCategories,
       filterShown,
       categoriesToFilter,
@@ -163,7 +162,13 @@ class ProductFilter extends React.Component {
           label={<FormattedMessage id="PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER" />}
           floatingLabelStyle={styles.filterHint}
           underlineStyle={styles.filterHint}
-          onKeyUp={({ target }) => debounce(() => filterProducts(target.value))}
+          onKeyUp={({ target }) => debounce(() => {
+            const query = queryString.parse(history.location.search);
+
+            query.filterString = target.value;
+
+            history.push(`?${queryString.stringify(query)}`);
+          })}
           type="text"
         />
         <FilterButton
@@ -236,17 +241,13 @@ class ProductFilter extends React.Component {
             toggleProducer={(producer, checked) => {
               const query = queryString.parse(history.location.search);
               const queryProducers = query.producers ? query.producers.split(',') : [];
-              const completeProducers = queryProducers
-                .filter(actProducer => queryProducers.includes(actProducer._id));
 
               if (checked) {
-                query.producers = completeProducers
-                  .concat(producer)
-                  .map(actProducer => actProducer._id);
+                query.producers = queryProducers.concat(producer._id).join(',');
               } else {
-                query.producers = completeProducers
-                  .filter(producerToFilter => producerToFilter._id !== producer._id)
-                  .map(actProducer => actProducer._id);
+                query.producers = queryProducers
+                  .filter(producerId => producerId !== producer._id)
+                  .join(',');
               }
 
               history.push(`?${queryString.stringify(query)}`);
@@ -267,7 +268,6 @@ ProductFilter.propTypes = {
   filterShown: PropTypes.bool.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
   loadPublicPorducers: PropTypes.func.isRequired,
-  filterProducts: PropTypes.func.isRequired,
   resetFilter: PropTypes.func.isRequired,
   toggleFilterView: PropTypes.func.isRequired,
   moreFiltersCount: PropTypes.number.isRequired,
@@ -297,9 +297,6 @@ export default connect(
     },
     loadPublicPorducers() {
       dispatch(createLoadPublicProducers());
-    },
-    filterProducts(filterString) {
-      dispatch(createFilterProducts(filterString));
     },
     toggleFilterView() {
       dispatch(createToggleFilterView());

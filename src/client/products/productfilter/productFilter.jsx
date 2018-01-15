@@ -11,15 +11,15 @@ import { withRouter } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import {
-  createLoadProductCategories, createLoadPublicProducers,
-  createResetFilter, createToggleFilterView,
+  createLoadProductCategories, createLoadPublicProducers, createResetFilter,
+  createToggleFilterView,
 } from '../../actions';
 import SmallTextField from '../../formHelpers/smallTextField.jsx';
 import { ProducerPropType, ProductCategoryPropType } from '../../propTypes';
 import { backgroundColor, mdMinSize, xsMaxSize } from '../../theme';
-import { recursivelyMapIds, recursivelyMapIdsIfNotPresent } from '../productCategoryHelper';
 import FilterBadge from './filterBadge.jsx';
 import FilterPopover from './filterPopover.jsx';
+import * as filterQuery from './filterQuery';
 import Producers from './producers.jsx';
 import ProductCategories from './productCategories.jsx';
 
@@ -211,25 +211,15 @@ class ProductFilter extends React.Component {
             productCategories={groupedProductCategories}
             categoriesToFilter={categoriesToFilter}
             toggleFilterProductCategory={(category, checked) => {
-              const query = queryString.parse(history.location.search);
-              const categories = query.categories ? query.categories.split(',') : [];
+              const newQuery = checked ?
+                filterQuery.addProductCategory(
+                  category,
+                  history.location.search,
+                  productCategories
+                ) :
+                filterQuery.removeProductCategory(category, history.location.search);
 
-              if (checked) {
-                query.categories = categories.concat(
-                  recursivelyMapIdsIfNotPresent(
-                    productCategories.filter(actCategory => categories.includes(actCategory._id)),
-                    category
-                  ).map(actCategory => actCategory._id)
-                ).join(',');
-              } else {
-                const idsToRemove = recursivelyMapIds(category);
-
-                query.categories = categories.filter(
-                  actCategoryId => !idsToRemove.includes(actCategoryId),
-                );
-              }
-
-              history.push(`?${queryString.stringify(query)}`);
+              history.push(`?${newQuery}`);
             }}
           />
           <FilterHeader>
@@ -239,18 +229,11 @@ class ProductFilter extends React.Component {
             producersToFilter={producersToFilter}
             producers={producers}
             toggleProducer={(producer, checked) => {
-              const query = queryString.parse(history.location.search);
-              const queryProducers = query.producers ? query.producers.split(',') : [];
+              const newQuery = checked ?
+                filterQuery.addProducer(producer, history.location.search) :
+                filterQuery.removeProducer(producer, history.location.search);
 
-              if (checked) {
-                query.producers = queryProducers.concat(producer._id).join(',');
-              } else {
-                query.producers = queryProducers
-                  .filter(producerId => producerId !== producer._id)
-                  .join(',');
-              }
-
-              history.push(`?${queryString.stringify(query)}`);
+              history.push(`?${newQuery}`);
             }}
           />
         </FilterPopover>

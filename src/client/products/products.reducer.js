@@ -1,15 +1,8 @@
 import {
-  FILTER_PRODUCTS,
-  PRODUCT_CATEGORIES_LOADED,
-  PRODUCT_LOADING,
-  PRODUCT_SELECTED,
-  PRODUCTS_LOADED,
-  PUBLIC_PRODUCERS_LOADED,
-  RESET_FILTER,
-  TOGGLE_FILTER_CATEGORY,
-  TOGGLE_FILTER_PRODUCER,
-  TOGGLE_FILTER_VIEW,
+  PRODUCT_CATEGORIES_LOADED, PRODUCT_LOADING, PRODUCT_SELECTED, PRODUCTS_LOADED,
+  PUBLIC_PRODUCERS_LOADED, RESET_FILTER, SET_FILTER, TOGGLE_FILTER_VIEW,
 } from '../actions';
+import { flattenGroupedCategories, recursivelyMapSubCategories } from './productCategoryHelper';
 
 const fieldNamesToFilter = [
   'de.name',
@@ -90,53 +83,17 @@ function filterProducts(products, productFilters) {
     );
 }
 
-function recursivelyMapSubCategories(category, categories) {
-  return Object.assign({}, category, {
-    subCategories: categories
-      .filter(subCategory => subCategory.parentCategory === category._id)
-      .map(subCategory => recursivelyMapSubCategories(subCategory, categories)),
-  });
-}
-
 function calculateFilterAmount(categoriesToFilter, producersToFilter) {
   return categoriesToFilter.length + producersToFilter.length;
-}
-
-function recursivelyMapIds(category) {
-  return [
-    category._id,
-    ...category.subCategories.flatMap(recursivelyMapIds),
-  ];
-}
-
-function recursivelyMapIdsIfNotPresent(presentCategories, category) {
-  const arr = [];
-
-  if (!presentCategories.some(presentCategory => presentCategory._id === category._id)) {
-    arr.push(category);
-  }
-
-  return arr.concat(category.subCategories.flatMap(
-    subCategory => recursivelyMapIdsIfNotPresent(presentCategories, subCategory),
-  ));
-}
-
-function flattenGroupedCategories(category) {
-  return [
-    category,
-    ...category.subCategories.flatMap(flattenGroupedCategories),
-  ];
 }
 
 export default (state = initialState, {
   type,
   products,
-  productCategories,
-  producers,
+  productCategories = [],
+  producers = [],
   selectedProduct,
   filterString,
-  productCategory,
-  productCategoryAdded,
 }) => {
   switch (type) {
     case PRODUCTS_LOADED:
@@ -163,59 +120,35 @@ export default (state = initialState, {
       return Object.assign({}, state, {
         producers,
       });
-    case FILTER_PRODUCTS: {
-      const productFilters = Object.assign(state.productFilters, {
-        filterProductsByString: filteredProducts =>
-          filterProductsByString(filteredProducts, filterString),
-      });
-      productFilters.filterProductsByString.priority = 10;
+    case SET_FILTER: {
+      const newProductFilters = {};
+      const categoriesToFilter = productCategories.flatMap(flattenGroupedCategories);
+
+      if (producers.length) {
+        newProductFilters.filterProductsByProducers = filteredProducts =>
+          filterProductsByProducers(filteredProducts, producers);
+        newProductFilters.filterProductsByProducers.priority = 1;
+      }
+
+      if (categoriesToFilter.length) {
+        newProductFilters.filterProductsByCategories = filteredProducts =>
+          filterProductsByCategories(filteredProducts, categoriesToFilter);
+        newProductFilters.filterProductsByCategories.priority = 2;
+      }
+
+      if (filterString) {
+        newProductFilters.filterProductsByString = filteredProducts =>
+          filterProductsByString(filteredProducts, filterString);
+        newProductFilters.filterProductsByString.priority = 10;
+      }
 
       return Object.assign({}, state, {
         filterString,
-        productFilters,
-        filteredProducts: filterProducts(state.products, productFilters),
-      });
-    }
-    case TOGGLE_FILTER_CATEGORY: {
-      let filterCategories;
-
-      if (productCategoryAdded) {
-        filterCategories = state.categoriesToFilter.concat(
-          recursivelyMapIdsIfNotPresent(state.categoriesToFilter, productCategory),
-        );
-      } else {
-        const idsToRemove = recursivelyMapIds(productCategory);
-
-        filterCategories = state.categoriesToFilter.filter(
-          category => !idsToRemove.includes(category._id),
-        );
-      }
-
-      const productFilters = Object.assign(state.productFilters, {
-        filterProductsByCategories: filteredProducts =>
-          filterProductsByCategories(filteredProducts, filterCategories),
-      });
-      productFilters.filterProductsByCategories.priority = 2;
-
-      return Object.assign({}, state, {
-        categoriesToFilter: filterCategories,
-        productFilters,
-        filteredProducts: filterProducts(state.products, productFilters),
-        moreFiltersCount: calculateFilterAmount(filterCategories, state.producersToFilter),
-      });
-    }
-    case TOGGLE_FILTER_PRODUCER: {
-      const productFilters = Object.assign(state.productFilters, {
-        filterProductsByProducers: filteredProducts =>
-          filterProductsByProducers(filteredProducts, producers),
-      });
-      productFilters.filterProductsByProducers.priority = 1;
-
-      return Object.assign({}, state, {
+        categoriesToFilter,
         producersToFilter: producers,
-        productFilters,
-        filteredProducts: filterProducts(state.products, productFilters),
-        moreFiltersCount: calculateFilterAmount(state.categoriesToFilter, producers),
+        productFilters: newProductFilters,
+        filteredProducts: filterProducts(state.products, newProductFilters),
+        moreFiltersCount: calculateFilterAmount(categoriesToFilter, producers),
       });
     }
     case PRODUCT_LOADING:

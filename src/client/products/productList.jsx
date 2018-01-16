@@ -1,10 +1,6 @@
-import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import InfiniteScroll from 'react-infinite-scroller';
-import { FormattedMessage } from 'react-intl';
-import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import MainSpinner from '../layout/mainSpinner.jsx';
 import { ProductPropType } from '../propTypes';
@@ -22,41 +18,25 @@ const ProductListContainer = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-`;
-
 const PAGE_SIZE = 40;
 
 class ProductList extends React.Component {
   constructor(props) {
     super(props);
 
-    const queryPage = /page=(\d+)/.exec(props.history.location.search);
     this.state = {
       currentPage: 0,
-      preselectedPage: queryPage && queryPage[1] && Number(queryPage[1]),
       loadedProducts: [],
     };
   }
 
   componentDidMount() {
-    if (this.state.preselectedPage) {
-      this.updateProductArrayForPage(this.state.preselectedPage, this.props.products);
-    } else {
-      this.updateProductArrayForPage(1, this.props.products);
-    }
+    this.updateProductArrayForPage(1, this.props.products);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.products !== nextProps.products) {
-      this.props.history.push('/products');
-      this.setState({
-        preselectedPage: undefined,
-      }, () => this.updateProductArrayForPage(1, nextProps.products));
+      this.updateProductArrayForPage(1, nextProps.products);
     }
   }
 
@@ -90,20 +70,16 @@ class ProductList extends React.Component {
   }
 
   render() {
-    const previousLink = this.state.currentPage > 1 ? `${APP.BASE_URL}/products?page=${this.state.currentPage - 1}` : undefined;
-    const nextLink = (this.state.currentPage < this.props.products.length / PAGE_SIZE) ? `${APP.BASE_URL}/products?page=${this.state.currentPage + 1}` : undefined;
-
-    return [
-      <Helmet key="productListHead">
-        {previousLink &&
-          <link rel="prev" href={previousLink} />
-        }
-        {nextLink &&
-          <link rel="next" href={nextLink} />
-        }
-      </Helmet>,
-      this.state.preselectedPage ? (
-        <ProductListContainer key="productListProducts">
+    return (
+      <InfiniteScroll
+        key="productListProducts"
+        initialLoad={false}
+        pageStart={1}
+        loadMore={newPage => this.updateProductArrayForPage(newPage, this.props.products)}
+        hasMore={this.state.loadedProducts.length < this.props.products.length}
+        loader={<MainSpinner />}
+      >
+        <ProductListContainer>
           {this.state.loadedProducts.map(product => (
             <ProductTile
               key={product._id}
@@ -111,65 +87,14 @@ class ProductList extends React.Component {
             />
           ))}
         </ProductListContainer>
-      ) : (
-        <InfiniteScroll
-          key="productListProducts"
-          initialLoad={false}
-          pageStart={1}
-          loadMore={newPage => this.updateProductArrayForPage(newPage, this.props.products)}
-          hasMore={this.state.loadedProducts.length < this.props.products.length}
-          loader={<MainSpinner />}
-        >
-          <ProductListContainer>
-            {this.state.loadedProducts.map(product => (
-              <ProductTile
-                key={product._id}
-                product={product}
-              />
-            ))}
-          </ProductListContainer>
-        </InfiniteScroll>
-      ),
-      (this.state.preselectedPage) && (
-        <ButtonContainer>
-          {previousLink &&
-            <RaisedButton
-              primary
-              label={<FormattedMessage id="PRODUCT.PREVIOUS" />}
-              containerElement={
-                <a href={previousLink}>
-                  <FormattedMessage id="PRODUCT.PREVIOUS" />
-                </a>
-              }
-            />
-          }
-          &nbsp;
-          {nextLink &&
-          <RaisedButton
-            primary
-            label={<FormattedMessage id="PRODUCT.NEXT" />}
-            containerElement={
-              <a href={nextLink}>
-                <FormattedMessage id="PRODUCT.NEXT" />
-              </a>
-            }
-          />
-          }
-        </ButtonContainer>
-      ),
-    ];
+      </InfiniteScroll>
+    );
   }
 }
 
 ProductList.propTypes = {
   products: PropTypes.arrayOf(ProductPropType).isRequired,
   filterShown: PropTypes.bool.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-    location: PropTypes.shape({
-      search: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
 };
 
-export default withRouter(ProductList);
+export default ProductList;

@@ -29,6 +29,7 @@
     "body-parser": "1.18.2",
     "chalk": "2.3.0",
     "compression": "1.7.1",
+    "coupon-code": "0.4.5",
     "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "1.1.1",
     "express": "4.16.0",

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 const OrderState = require('../../common/orderState');
+const cc = require('coupon-code');
 
 const models = {};
 
@@ -195,6 +196,14 @@ models.HomeTile = mongoose.model('HomeTile', {
     default: 0,
     index: true,
   },
+});
+
+models.Coupon = mongoose.model('Coupon', {
+  _id: {
+    type: String,
+    default: cc.generate({ parts: 4 }),
+  },
+  usedWithOrder: mongoose.Schema.Types.ObjectId,
 });
 
 module.exports = models;

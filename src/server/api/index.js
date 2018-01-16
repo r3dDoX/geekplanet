@@ -5,6 +5,7 @@ const supplierApi = require('./supplierApi');
 const tagApi = require('./tagApi');
 const homeApi = require('./homeApi');
 const errorApi = require('./errorApi');
+const couponApi = require('./couponApi');
 
 module.exports = {
   registerEndpoints(app) {
@@ -15,5 +16,6 @@ module.exports = {
     tagApi.registerEndpoints(app);
     homeApi.registerEndpoints(app);
     errorApi.registerEndpoints(app);
+    couponApi.registerEndpoints(app);
   },
 };

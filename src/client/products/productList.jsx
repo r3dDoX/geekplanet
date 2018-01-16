@@ -72,7 +72,6 @@ class ProductList extends React.Component {
   render() {
     return (
       <InfiniteScroll
-        key="productListProducts"
         initialLoad={false}
         pageStart={1}
         loadMore={newPage => this.updateProductArrayForPage(newPage, this.props.products)}

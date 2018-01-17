@@ -25,10 +25,8 @@ export const ADDRESSES_LOADED = 'ADDRESSES_LOADED';
 export const SELECT_ADDRESS = 'SELECT_ADDRESS';
 export const SELECT_ORDER_STEP = 'SELECT_ORDER_STEP';
 export const PRODUCTS_LOADED = 'PRODUCTS_LOADED';
-export const FILTER_PRODUCTS = 'FILTER_PRODUCTS';
 export const REGISTRATION_SUCCESSFUL = 'REGISTRATION_SUCCESSFUL';
-export const TOGGLE_FILTER_CATEGORY = 'TOGGLE_FILTER_CATEGORY';
-export const TOGGLE_FILTER_PRODUCER = 'TOGGLE_FILTER_PRODUCER';
+export const SET_FILTER = 'SET_FILTER';
 export const TOGGLE_FILTER_VIEW = 'TOGGLE_FILTER_VIEW';
 export const RESET_FILTER = 'RESET_FILTER';
 export const AGB_ACCEPTED = 'AGB_ACCEPTED';
@@ -65,20 +63,9 @@ export const createLoggedIn = ({ email, 'https://geekplanet.ch/roles': roles }) 
   },
 });
 
-export const createFilterProducts = filterString => ({
-  type: FILTER_PRODUCTS,
-  filterString,
-});
-
-export const createToggleFilterCategory = (productCategory, productCategoryAdded) => ({
-  type: TOGGLE_FILTER_CATEGORY,
-  productCategory,
-  productCategoryAdded,
-});
-
-export const createToggleFilterProducer = producers => ({
-  type: TOGGLE_FILTER_PRODUCER,
-  producers,
+export const createSetFilter = filters => ({
+  type: SET_FILTER,
+  ...filters,
 });
 
 export const createToggleFilterView = () => ({

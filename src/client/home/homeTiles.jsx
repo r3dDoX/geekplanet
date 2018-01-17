@@ -1,12 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  createLoadHomeTiles,
-  createLoadProductCategories,
-  createResetFilter,
-  createToggleFilterCategory,
-} from '../actions';
+import { createLoadHomeTiles, createLoadProductCategories, createResetFilter } from '../actions';
 import { HomeTilePropType, ProductCategoryPropType } from '../propTypes';
 import HomeTile from './homeTile.jsx';
 import HomeTilesContainer from './homeTilesContainer.jsx';
@@ -23,8 +18,6 @@ class HomeTiles extends React.Component {
 
   render() {
     const {
-      productCategories,
-      toggleFilterCategory,
       resetFilter,
       tiles,
     } = this.props;
@@ -35,15 +28,8 @@ class HomeTiles extends React.Component {
           <HomeTile
             key={tile._id}
             tile={tile}
-            link="/products"
-            onClick={() => {
-              resetFilter();
-              if (tile.category) {
-                toggleFilterCategory(productCategories
-                  .find(category => category._id === tile.category)
-                );
-              }
-            }}
+            link={tile.category ? `/products?categories=${tile.category}` : '/products'}
+            onClick={resetFilter}
           />
         ))}
       </HomeTilesContainer>
@@ -54,7 +40,6 @@ class HomeTiles extends React.Component {
 HomeTiles.propTypes = {
   productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   resetFilter: PropTypes.func.isRequired,
-  toggleFilterCategory: PropTypes.func.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
   tiles: HomeTilePropType.isRequired,
   loadHomeTiles: PropTypes.func.isRequired,
@@ -68,9 +53,6 @@ export default connect(
   dispatch => ({
     resetFilter() {
       dispatch(createResetFilter());
-    },
-    toggleFilterCategory(category) {
-      dispatch(createToggleFilterCategory(category, true));
     },
     loadProductCategories() {
       dispatch(createLoadProductCategories());

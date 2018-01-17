@@ -64,6 +64,16 @@ const LayoutDrawer = ({
         }
         onClick={toggleDrawer}
       />,
+      <MenuItem
+        key="coupons"
+        primaryText={<FormattedMessage id="NAVIGATION.COUPONS" />}
+        containerElement={
+          <Link to="/admin/coupons">
+            <FormattedMessage id="NAVIGATION.COUPONS" />
+          </Link>
+        }
+        onClick={toggleDrawer}
+      />,
       <Divider key="divider" />,
     ]) : null}
     <MenuItem

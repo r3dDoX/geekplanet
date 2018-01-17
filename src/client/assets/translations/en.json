@@ -31,7 +31,8 @@
     "FORMS": "Products",
     "ORDERS": "Orders",
     "PRODUCTS": "Products",
-    "HOME_TILES": "Home Tiles"
+    "HOME_TILES": "Home Tiles",
+    "COUPONS": "Coupons"
   },
   "NOTIFICATION": {
     "SHOPPING_CART_ITEM_ADDED": "Added product to cart"

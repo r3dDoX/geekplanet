@@ -1,14 +1,11 @@
 import IconButton from 'material-ui/IconButton';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import React from 'react';
 import { injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { change } from 'redux-form';
 import styled from 'styled-components';
-import { createFilterProducts, createResetFilter } from '../actions';
-import { formName } from '../products/productfilter/productFilter.jsx';
 import { backgroundColor } from '../theme';
 
 const SearchBar = styled.div`
@@ -44,12 +41,11 @@ const SearchButton = styled(IconButton)`
 
 const HomeSearch = ({
   history,
-  filterProducts,
   intl,
 }) => {
   function submitFilterString() {
-    filterProducts(document.getElementById('search').value);
-    history.push('/products');
+    const query = { filterString: document.getElementById('search').value };
+    history.push(`/products?${queryString.stringify(query)}`);
   }
 
   return (
@@ -76,17 +72,7 @@ const HomeSearch = ({
 HomeSearch.propTypes = {
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   intl: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  filterProducts: PropTypes.func.isRequired,
 };
 
-export default connect(
-  () => ({}),
-  dispatch => ({
-    filterProducts(filterString) {
-      dispatch(createResetFilter());
-      dispatch(change(formName, 'filterString', filterString));
-      dispatch(createFilterProducts(filterString));
-    },
-  })
-)(withRouter(injectIntl(HomeSearch)));
+export default withRouter(injectIntl(HomeSearch));
 

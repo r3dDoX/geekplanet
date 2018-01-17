@@ -3,25 +3,23 @@ import { grey200, grey700, grey800 } from 'material-ui/styles/colors';
 import FilterIcon from 'material-ui/svg-icons/image/tune';
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import {
-  createFilterProducts,
-  createLoadProductCategories,
-  createLoadPublicProducers,
-  createResetFilter,
-  createToggleFilterCategory,
-  createToggleFilterProducer,
+  createLoadProductCategories, createLoadPublicProducers, createResetFilter,
   createToggleFilterView,
 } from '../../actions';
 import SmallTextField from '../../formHelpers/smallTextField.jsx';
-import { ProductCategoryPropType, ProducerPropType } from '../../propTypes';
+import { ProducerPropType, ProductCategoryPropType } from '../../propTypes';
 import { backgroundColor, mdMinSize, xsMaxSize } from '../../theme';
 import FilterBadge from './filterBadge.jsx';
 import FilterPopover from './filterPopover.jsx';
+import * as filterQuery from './filterQuery';
 import Producers from './producers.jsx';
 import ProductCategories from './productCategories.jsx';
 
@@ -144,17 +142,16 @@ class ProductFilter extends React.Component {
 
   render() {
     const {
-      filterProducts,
       groupedProductCategories,
       filterShown,
       categoriesToFilter,
-      toggleFilterProductCategory,
       producersToFilter,
-      toggleProducer,
       producers,
       moreFiltersCount,
       toggleFilterView,
       resetFilter,
+      history,
+      productCategories,
     } = this.props;
 
     return (
@@ -165,7 +162,13 @@ class ProductFilter extends React.Component {
           label={<FormattedMessage id="PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER" />}
           floatingLabelStyle={styles.filterHint}
           underlineStyle={styles.filterHint}
-          onKeyUp={({ target }) => debounce(() => filterProducts(target.value))}
+          onKeyUp={({ target }) => debounce(() => {
+            const query = queryString.parse(history.location.search);
+
+            query.filterString = target.value;
+
+            history.push(`?${queryString.stringify(query)}`);
+          })}
           type="text"
         />
         <FilterButton
@@ -177,7 +180,8 @@ class ProductFilter extends React.Component {
             <FilterButtonLabel>
               <FormattedMessage id="PRODUCT_FILTER.MORE_FILTERS" />
               <FilterBadge filterCount={moreFiltersCount} />
-            </FilterButtonLabel>}
+            </FilterButtonLabel>
+          }
           labelPosition="before"
           icon={<ArrowDown />}
           overlayStyle={styles.filterButton}
@@ -194,7 +198,10 @@ class ProductFilter extends React.Component {
         <FilterPopover
           top={this.state.top}
           toggleFilterView={toggleFilterView}
-          resetFilter={resetFilter}
+          resetFilter={() => {
+            history.push('?');
+            resetFilter();
+          }}
           filterShown={filterShown}
         >
           <FilterHeader>
@@ -203,7 +210,17 @@ class ProductFilter extends React.Component {
           <ProductCategories
             productCategories={groupedProductCategories}
             categoriesToFilter={categoriesToFilter}
-            toggleFilterProductCategory={toggleFilterProductCategory}
+            toggleFilterProductCategory={(category, checked) => {
+              const newQuery = checked ?
+                filterQuery.addProductCategory(
+                  category,
+                  history.location.search,
+                  productCategories
+                ) :
+                filterQuery.removeProductCategory(category, history.location.search);
+
+              history.push(`?${newQuery}`);
+            }}
           />
           <FilterHeader>
             <FormattedMessage id="PRODUCT_FILTER.PRODUCERS_TITLE" />
@@ -211,7 +228,13 @@ class ProductFilter extends React.Component {
           <Producers
             producersToFilter={producersToFilter}
             producers={producers}
-            toggleProducer={toggleProducer}
+            toggleProducer={(producer, checked) => {
+              const newQuery = checked ?
+                filterQuery.addProducer(producer, history.location.search) :
+                filterQuery.removeProducer(producer, history.location.search);
+
+              history.push(`?${newQuery}`);
+            }}
           />
         </FilterPopover>
       </FilterContainer>
@@ -221,23 +244,28 @@ class ProductFilter extends React.Component {
 
 ProductFilter.propTypes = {
   groupedProductCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
+  productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   producers: PropTypes.arrayOf(ProducerPropType).isRequired,
   categoriesToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
   producersToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
   filterShown: PropTypes.bool.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
   loadPublicPorducers: PropTypes.func.isRequired,
-  filterProducts: PropTypes.func.isRequired,
-  toggleFilterProductCategory: PropTypes.func.isRequired,
-  toggleProducer: PropTypes.func.isRequired,
   resetFilter: PropTypes.func.isRequired,
   toggleFilterView: PropTypes.func.isRequired,
   moreFiltersCount: PropTypes.number.isRequired,
+  history: PropTypes.shape({
+    location: PropTypes.shape({
+      search: PropTypes.string.isRequired,
+    }).isRequired,
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect(
   state => ({
     groupedProductCategories: state.products.groupedProductCategories,
+    productCategories: state.products.productCategories,
     producers: state.products.producers,
     categoriesToFilter: state.products.categoriesToFilter,
     producersToFilter: state.products.producersToFilter,
@@ -253,15 +281,6 @@ export default connect(
     loadPublicPorducers() {
       dispatch(createLoadPublicProducers());
     },
-    filterProducts(filterString) {
-      dispatch(createFilterProducts(filterString));
-    },
-    toggleFilterProductCategory(category, categoryAdded) {
-      dispatch(createToggleFilterCategory(category, categoryAdded));
-    },
-    toggleProducer(producers) {
-      dispatch(createToggleFilterProducer(producers));
-    },
     toggleFilterView() {
       dispatch(createToggleFilterView());
     },
@@ -272,4 +291,4 @@ export default connect(
 )(reduxForm({
   form: formName,
   destroyOnUnmount: false,
-})(ProductFilter));
+})(withRouter(ProductFilter)));

@@ -92,7 +92,7 @@
     "react-router-dom": "4.2.2",
     "react-test-renderer": "16.2.0",
     "redux": "3.7.2",
-    "redux-form": "7.2.0",
+    "redux-form": "7.2.1",
     "redux-thunk": "2.2.0",
     "style-loader": "0.19.1",
     "styled-components": "2.4.0",

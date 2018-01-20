@@ -34,18 +34,18 @@ class ProductList extends React.Component {
     this.updateProductArrayForPage(1, this.props.products);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.products !== nextProps.products) {
-      this.updateProductArrayForPage(1, nextProps.products);
-    }
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     return this.filterNotShownOrClosing(nextProps) && (
       this.filterClosing(nextProps)
       || nextProps.products !== this.props.products
       || nextState.currentPage !== this.state.currentPage
     );
+  }
+
+  componentWillUpdate(nextProps) {
+    if (this.props.products !== nextProps.products) {
+      this.updateProductArrayForPage(1, nextProps.products);
+    }
   }
 
   filterClosing(nextProps) {

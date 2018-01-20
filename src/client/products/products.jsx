@@ -34,7 +34,7 @@ class Products extends React.Component {
     );
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillUpdate(nextProps) {
     if (this.props.location.search !== nextProps.location.search
       || this.props.productCategories.length !== nextProps.productCategories.length
       || this.props.producers.length !== nextProps.producers.length) {

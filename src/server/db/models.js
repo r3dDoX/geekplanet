@@ -152,7 +152,6 @@ models.Invoice = mongoose.model('Invoice', InvoiceSchema);
 models.Order = mongoose.model('Order', {
   _id: {
     type: String,
-    index: true,
   },
   state: {
     type: String,

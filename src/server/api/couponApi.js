@@ -29,7 +29,7 @@ module.exports = {
         .catch(handleGenericError)
     );
 
-    app.get('/api/coupons/:id/validate', (req, res) => {
+    app.get('/api/coupons/:id', (req, res) => {
       if (!cc.validate(req.params.id, { parts: 4 })) {
         res.sendStatus(404);
         return;
@@ -40,7 +40,7 @@ module.exports = {
           if (!coupon) {
             res.sendStatus(404);
           } else {
-            res.sendStatus(200);
+            res.send(coupon);
           }
         })
         .catch(handleGenericError);

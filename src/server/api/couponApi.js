@@ -12,9 +12,9 @@ module.exports = {
       (req, res) => Coupon.find().then(coupons => res.send(coupons))
     );
 
-    app.post('/api/coupons/', authorization, isAdmin,
+    app.post('/api/coupons/:amount', authorization, isAdmin,
       (req, res) =>
-        new Coupon()
+        new Coupon({ amount: req.params.amount })
           .save()
           .then(coupon => res.send(coupon))
           .catch(handleGenericError)

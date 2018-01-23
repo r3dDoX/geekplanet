@@ -202,6 +202,7 @@ models.Coupon = mongoose.model('Coupon', {
     type: String,
     default: cc.generate({ parts: 4 }),
   },
+  amount: Number,
   usedWithOrder: mongoose.Schema.Types.ObjectId,
 });
 

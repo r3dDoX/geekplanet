@@ -146,8 +146,17 @@ const InvoiceSchema = mongoose.Schema({
   address: UserAddressSchema,
 });
 InvoiceSchema.plugin(AutoIncrement, { inc_field: 'invoiceNumber' });
-
 models.Invoice = mongoose.model('Invoice', InvoiceSchema);
+
+const CouponSchema = mongoose.Schema({
+  _id: {
+    type: String,
+    default: cc.generate({ parts: 4 }),
+  },
+  amount: Number,
+  usedWithOrder: mongoose.Schema.Types.ObjectId,
+});
+models.Coupon = mongoose.model('Coupon', CouponSchema);
 
 models.Order = mongoose.model('Order', {
   _id: {
@@ -169,6 +178,7 @@ models.Order = mongoose.model('Order', {
     index: true,
   },
   items: [OrderItemSchema],
+  coupons: [CouponSchema],
   itemTotal: {
     type: Number,
   },
@@ -195,15 +205,6 @@ models.HomeTile = mongoose.model('HomeTile', {
     default: 0,
     index: true,
   },
-});
-
-models.Coupon = mongoose.model('Coupon', {
-  _id: {
-    type: String,
-    default: cc.generate({ parts: 4 }),
-  },
-  amount: Number,
-  usedWithOrder: mongoose.Schema.Types.ObjectId,
 });
 
 module.exports = models;

@@ -95,7 +95,7 @@
     "redux-form": "7.2.3",
     "redux-thunk": "2.2.0",
     "style-loader": "0.20.1",
-    "styled-components": "3.1.4",
+    "styled-components": "3.1.5",
     "webpack": "3.10.0",
     "webpack-dev-server": "2.11.1",
     "webpack-merge": "4.1.1"

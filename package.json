@@ -1,6 +1,6 @@
 {
   "name": "geekplanet",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "A Webshop built with React/Redux, Node JS and Mongo DB",
   "repository": "https://github.com/r3dDoX/geekplanet",
   "engines": {
@@ -53,7 +53,7 @@
     "stripe": "5.4.0"
   },
   "devDependencies": {
-    "auth0-js": "9.2.0",
+    "auth0-js": "9.2.1",
     "babel-eslint": "8.2.1",
     "babel-jest": "22.1.0",
     "babel-loader": "7.1.2",
@@ -80,7 +80,7 @@
     "material-ui": "0.20.0",
     "nodemon": "1.14.12",
     "prop-types": "15.6.0",
-    "query-string": "5.0.1",
+    "query-string": "5.1.0",
     "react-animate-height": "0.10.9",
     "react-countup": "3.0.2",
     "react-drafts": "1.0.2",
@@ -96,7 +96,7 @@
     "redux-form": "7.2.3",
     "redux-thunk": "2.2.0",
     "style-loader": "0.20.1",
-    "styled-components": "3.1.5",
+    "styled-components": "3.1.6",
     "webpack": "3.10.0",
     "webpack-dev-server": "2.11.1",
     "webpack-merge": "4.1.1"

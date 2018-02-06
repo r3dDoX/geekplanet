@@ -73,6 +73,7 @@ const HomeTile = ({
     onClick={onClick}
     data-id={id}
   >
+    <meta itemProp="url" content={link} />
     <TileImage
       itemProp="image"
       content={tile.picture ? getPictureUrl(tile.picture) : '/assets/images/notFound.jpg'}

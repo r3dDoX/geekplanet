@@ -6,6 +6,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const commonConfig = require('./webpack.common.config');
 
 module.exports = merge(commonConfig, {
+  mode: 'production',
   devtool: 'source-map',
 
   entry: './src/client/index.jsx',
@@ -13,6 +14,13 @@ module.exports = merge(commonConfig, {
   output: {
     path: path.join(__dirname, 'dist/'),
     filename: '[name].[chunkhash].js',
+  },
+
+  optimization: {
+    runtimeChunk: true,
+    splitChunks: {
+      chunks: 'all',
+    },
   },
 
   plugins: [

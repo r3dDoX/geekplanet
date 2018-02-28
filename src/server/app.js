@@ -38,8 +38,7 @@ app.use('/api', (req, res, next) => {
 
 if (process.env.NODE_ENV === 'production') {
   app.get('*.js', (req, res, next) => {
-    // TODO: this is a fix because of issue: https://github.com/webpack-contrib/compression-webpack-plugin/issues/30
-    if (!req.url.includes('manifest')) {
+    if (!req.url.includes('runtime')) {
       req.url += '.gz';
       res.set('Content-Encoding', 'gzip');
       res.set('Content-Type', 'application/javascript');

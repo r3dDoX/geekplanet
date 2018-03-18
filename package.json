@@ -4,7 +4,7 @@
   "description": "A Webshop built with React/Redux, Node JS and Mongo DB",
   "repository": "https://github.com/r3dDoX/geekplanet",
   "engines": {
-    "node": "9.4.0"
+    "node": "9.6.1"
   },
   "scripts": {
     "predist": "npm run build",

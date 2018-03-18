@@ -73,7 +73,7 @@
     "eslint-plugin-jsx-a11y": "6.0.3",
     "eslint-plugin-react": "7.7.0",
     "flow-bin": "0.66.0",
-    "flow-typed": "2.3.0",
+    "flow-typed": "2.4.0",
     "html-webpack-plugin": "github:webpack-contrib/html-webpack-plugin",
     "jest": "22.1.4",
     "jwt-decode": "2.2.0",

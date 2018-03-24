@@ -117,6 +117,11 @@ export const ProductCategoryPropType = PropTypes.shape({
   subCategories: PropTypes.arrayOf(lazyFunction(() => ProductCategoryPropType)),
 });
 
+export const CouponPropType = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  amount: PropTypes.number.isRequired,
+});
+
 export const OrderPropType = PropTypes.shape({
   _id: PropTypes.string,
   user: PropTypes.string,
@@ -124,6 +129,7 @@ export const OrderPropType = PropTypes.shape({
   address: AddressPropType,
   date: PropTypes.string,
   items: ShoppingCartItemsPropType,
+  coupons: PropTypes.arrayOf(CouponPropType),
 });
 
 export const HomeTilePropType = PropTypes.shape({

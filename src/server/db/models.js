@@ -154,7 +154,6 @@ const CouponSchema = mongoose.Schema({
     default: cc.generate({ parts: 4 }),
   },
   amount: Number,
-  usedWithOrder: mongoose.Schema.Types.ObjectId,
 });
 models.Coupon = mongoose.model('Coupon', CouponSchema);
 

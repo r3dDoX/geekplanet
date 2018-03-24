@@ -15,6 +15,7 @@ export const LOGGED_OUT = 'LOGGED_OUT';
 export const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
 export const TOGGLE_SHOPPING_CART_DRAWER = 'TOGGLE_SHOPPING_CART_DRAWER';
 export const ADD_ITEM_TO_SHOPPING_CART = 'ADD_ITEM_TO_SHOPPING_CART';
+export const ADD_COUPON_TO_SHOPPING_CART = 'ADD_COUPON_TO_SHOPPING_CART';
 export const LOAD_SHOPPING_CART = 'LOAD_SHOPPING_CART';
 export const HIDE_SHOPPING_CART_NOTIFICATION = 'HIDE_SHOPPING_CART_NOTIFICATION';
 export const SET_SHOPPING_CART_AMOUNT = 'SET_AMOUNT';
@@ -163,6 +164,12 @@ export const createLoadProduct = productId => (dispatch) => {
 export const createAddItemToShoppingCart = product => ({
   type: ADD_ITEM_TO_SHOPPING_CART,
   data: product,
+});
+
+
+export const createAddCouponToShoppingCart = coupon => ({
+  type: ADD_COUPON_TO_SHOPPING_CART,
+  data: coupon,
 });
 
 export const createLoadProducts = () => dispatch =>

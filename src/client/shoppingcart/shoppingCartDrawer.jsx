@@ -14,9 +14,11 @@ import { connect } from 'react-redux';
 import Link from 'react-router-dom/Link';
 import styled from 'styled-components';
 import { formatPriceWithCurrency } from '../../common/priceFormatter';
-import { createSetShoppingCartamount, createToggleShoppingCartDrawer } from '../actions';
-import { ShoppingCartItemsPropType } from '../propTypes';
+import { createAddCouponToShoppingCart, createSetShoppingCartamount, createToggleShoppingCartDrawer } from '../actions';
+import { CouponPropType, ShoppingCartItemsPropType } from '../propTypes';
 import { accent1Color } from '../theme';
+import xhr from '../xhr';
+import Coupons from './coupons.jsx';
 import ShoppingCartItem from './shoppingCartItem.jsx';
 
 const ShippingCost = styled(MenuItem)`
@@ -35,6 +37,8 @@ const ShoppingCartDrawer = ({
   shoppingCartDrawerOpened,
   hasShippingCosts,
   shoppingCartTotal,
+  coupons,
+  addCouponToShoppingCart,
 }) => (
   <Drawer
     open={shoppingCartDrawerOpened}
@@ -64,19 +68,26 @@ const ShoppingCartDrawer = ({
         <FormattedMessage id="SHOPPING_CART.NO_ITEMS" />
       </Subheader>
     )}
-    <Divider />
-    {hasShippingCosts ? (
-      <Subheader inset>
+    {hasShippingCosts ? [
+      <Divider key="shippingCostDivider" />,
+      <Subheader key="shippingCostHeader" inset>
         <FormattedMessage id="SHOPPING_CART.SHIPPING_COST" />
-      </Subheader>
-    ) : null}
-    {hasShippingCosts ? (
+      </Subheader>,
       <ShippingCost
+        key="shippingCostBody"
         disabled
         insetChildren
         primaryText={formatPriceWithCurrency(ORDER.SHIPPING_COST)}
-      />
-    ) : null}
+      />,
+    ] : null}
+    <Coupons
+      coupons={coupons}
+      onAdd={(couponId) => {
+        const checkCoupon = xhr.get(`/api/coupons/${couponId}`);
+        checkCoupon.then(coupon => addCouponToShoppingCart(coupon));
+        return checkCoupon;
+      }}
+    />
     <Divider />
     <Subheader inset>
       <FormattedMessage id="SHOPPING_CART.TOTAL" />
@@ -105,18 +116,21 @@ const ShoppingCartDrawer = ({
 
 ShoppingCartDrawer.propTypes = {
   shoppingCart: ShoppingCartItemsPropType.isRequired,
+  coupons: PropTypes.arrayOf(CouponPropType).isRequired,
   shoppingCartDrawerOpened: PropTypes.bool.isRequired,
   setAmount: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
   hasShippingCosts: PropTypes.bool.isRequired,
   shoppingCartTotal: PropTypes.number.isRequired,
+  addCouponToShoppingCart: PropTypes.func.isRequired,
 };
 
 export default connect(
   state => ({
     locale: state.i18n.locale,
     shoppingCart: state.shoppingCart.items,
+    coupons: state.shoppingCart.coupons,
     shoppingCartDrawerOpened: state.layout.shoppingCartDrawerOpened,
     hasShippingCosts: state.shoppingCart.hasShippingCosts,
     shoppingCartTotal: state.shoppingCart.total,
@@ -127,6 +141,9 @@ export default connect(
     },
     toggleDrawer() {
       dispatch(createToggleShoppingCartDrawer());
+    },
+    addCouponToShoppingCart(coupon) {
+      dispatch(createAddCouponToShoppingCart(coupon));
     },
   }),
 )(ShoppingCartDrawer);

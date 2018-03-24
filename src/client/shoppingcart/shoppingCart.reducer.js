@@ -1,6 +1,7 @@
 import shortId from 'shortid';
 import { load, store, remove, ids } from '../storage';
 import {
+  ADD_COUPON_TO_SHOPPING_CART,
   ADD_ITEM_TO_SHOPPING_CART, LOAD_SHOPPING_CART, ORDER_FINISHED, PRODUCTS_LOADED,
   SET_SHOPPING_CART_AMOUNT,
 } from '../actions';
@@ -8,6 +9,7 @@ import {
 const initialState = {
   id: shortId.generate(),
   items: [],
+  coupons: [],
   itemTotal: 0,
   total: 0,
   hasShippingCosts: false,
@@ -51,18 +53,25 @@ function isInShippingCostRange(price) {
   return price > 0 && price < ORDER.MIN_PRICE_SHIPPING;
 }
 
-function calculateGrandTotal(itemTotal) {
+function calculateGrandTotal(itemTotal, coupons = []) {
+  let grandTotal = itemTotal;
+  const couponsTotal = coupons.reduce((acc, { amount }) => acc + amount, 0);
+
   if (isInShippingCostRange(itemTotal)) {
-    return itemTotal + ORDER.SHIPPING_COST;
+    grandTotal = itemTotal + ORDER.SHIPPING_COST;
   }
 
-  return itemTotal;
+  if (grandTotal <= couponsTotal) {
+    return 0;
+  }
+
+  return grandTotal - couponsTotal;
 }
 
 export default function auth(state = initialState, { type, data, products }) {
   switch (type) {
     case PRODUCTS_LOADED: {
-      const cart = load(ids.SHOPPING_CART) || state;
+      const cart = Object.assign({}, initialState, load(ids.SHOPPING_CART)) || state;
 
       cart.items = cart.items
         .filter(({ product }) =>
@@ -80,7 +89,7 @@ export default function auth(state = initialState, { type, data, products }) {
       return cart;
     }
     case LOAD_SHOPPING_CART: {
-      const cart = load(ids.SHOPPING_CART) || state;
+      const cart = Object.assign({}, initialState, load(ids.SHOPPING_CART)) || state;
 
       if (!shortId.isValid(cart.id)) {
         cart.id = shortId.generate();
@@ -95,8 +104,23 @@ export default function auth(state = initialState, { type, data, products }) {
       const newState = Object.assign({}, state, {
         items,
         itemTotal,
-        total: calculateGrandTotal(itemTotal),
+        total: calculateGrandTotal(itemTotal, state.coupons),
         hasShippingCosts: isInShippingCostRange(itemTotal),
+      });
+
+      store(ids.SHOPPING_CART, newState);
+
+      return newState;
+    }
+    case ADD_COUPON_TO_SHOPPING_CART: {
+      const newCoupons = state.coupons;
+      if (!newCoupons.some(coupon => coupon._id === data._id)) {
+        newCoupons.push(data);
+      }
+
+      const newState = Object.assign({}, state, {
+        coupons: newCoupons,
+        total: calculateGrandTotal(state.itemTotal, newCoupons),
       });
 
       store(ids.SHOPPING_CART, newState);
@@ -109,7 +133,7 @@ export default function auth(state = initialState, { type, data, products }) {
       const newState = Object.assign({}, state, {
         items,
         itemTotal,
-        total: calculateGrandTotal(itemTotal),
+        total: calculateGrandTotal(itemTotal, state.coupons),
         hasShippingCosts: isInShippingCostRange(itemTotal),
       });
 

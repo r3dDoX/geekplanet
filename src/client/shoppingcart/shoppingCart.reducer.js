@@ -55,7 +55,7 @@ function isInShippingCostRange(price) {
 
 function calculateGrandTotal(itemTotal, coupons) {
   let grandTotal = itemTotal;
-  const couponsTotal = coupons.reduce((acc, { amount }) => acc + amount, 0);
+  const couponsTotal = coupons.reduce((acc, { amount }) => ((acc * 100) + (amount * 100)) / 100, 0);
 
   if (isInShippingCostRange(itemTotal)) {
     grandTotal = itemTotal + ORDER.SHIPPING_COST;
@@ -65,7 +65,7 @@ function calculateGrandTotal(itemTotal, coupons) {
     return 0;
   }
 
-  return grandTotal - couponsTotal;
+  return ((grandTotal * 100) - (couponsTotal * 100)) / 100;
 }
 
 export default function auth(state = initialState, { type, data, products }) {

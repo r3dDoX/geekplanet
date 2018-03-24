@@ -1,5 +1,8 @@
 import underTest from './shoppingCart.reducer';
-import { ADD_ITEM_TO_SHOPPING_CART, PRODUCTS_LOADED, SET_SHOPPING_CART_AMOUNT } from '../actions';
+import {
+  ADD_COUPON_TO_SHOPPING_CART, ADD_ITEM_TO_SHOPPING_CART, PRODUCTS_LOADED,
+  SET_SHOPPING_CART_AMOUNT,
+} from '../actions';
 import * as storage from '../storage';
 
 describe('ShoppingCart Reducer', () => {
@@ -100,6 +103,77 @@ describe('ShoppingCart Reducer', () => {
       expect(result.itemTotal).toBe(49.95);
       expect(result.total).toBe(58.95);
       expect(result.hasShippingCosts).toBe(true);
+    });
+  });
+
+  describe(ADD_COUPON_TO_SHOPPING_CART, () => {
+    it('should add new coupon to shoppingCart', () => {
+      const action = {
+        type: ADD_COUPON_TO_SHOPPING_CART,
+        data: {
+          _id: 'ABCD-EFGH-IJKL-MNOP',
+          amount: 10,
+        },
+      };
+
+      const result = underTest(undefined, action);
+
+      expect(result.coupons).toHaveLength(1);
+      expect(result.coupons[0]._id).toBe('ABCD-EFGH-IJKL-MNOP');
+      expect(result.coupons[0].amount).toBe(10);
+    });
+
+    it('should subtract coupon value from total', () => {
+      const state = {
+        items: [
+          {
+            amount: 1,
+            product: {
+              _id: 'product1',
+              price: 80,
+            },
+          },
+        ],
+        itemTotal: 80,
+        coupons: [],
+      };
+
+      const action = {
+        type: ADD_COUPON_TO_SHOPPING_CART,
+        data: {
+          _id: 'ABCD-EFGH-IJKL-MNOP',
+          amount: 10,
+        },
+      };
+
+      const result = underTest(state, action);
+
+      expect(result.total).toBe(70);
+    });
+
+    it('should not add coupon already registered', () => {
+      const state = {
+        items: [],
+        itemTotal: 0,
+        coupons: [
+          {
+            _id: 'ABCD-EFGH-IJKL-MNOP',
+            amount: 10,
+          },
+        ],
+      };
+
+      const action = {
+        type: ADD_COUPON_TO_SHOPPING_CART,
+        data: {
+          _id: 'ABCD-EFGH-IJKL-MNOP',
+          amount: 10,
+        },
+      };
+
+      const result = underTest(state, action);
+
+      expect(result.coupons).toHaveLength(1);
     });
   });
 

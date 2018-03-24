@@ -45,6 +45,9 @@
     "SHIPPING_COST": "Versandkosten",
     "NOT_IN_STOCK": "Dieses Produkt ist gerade nicht an Lager. Deshalb verzögert sich der Versand etwas."
   },
+  "COUPONS": {
+    "TITLE": "Gutscheine"
+  },
   "ORDER": {
     "PAYMENT": {
       "TITLE": "Zahlungsmethode auswählen",

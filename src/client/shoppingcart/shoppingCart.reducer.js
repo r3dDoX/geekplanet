@@ -53,7 +53,7 @@ function isInShippingCostRange(price) {
   return price > 0 && price < ORDER.MIN_PRICE_SHIPPING;
 }
 
-function calculateGrandTotal(itemTotal, coupons = []) {
+function calculateGrandTotal(itemTotal, coupons) {
   let grandTotal = itemTotal;
   const couponsTotal = coupons.reduce((acc, { amount }) => acc + amount, 0);
 
@@ -84,7 +84,7 @@ export default function auth(state = initialState, { type, data, products }) {
           return item;
         });
       cart.itemTotal = calculateItemTotal(cart.items);
-      cart.total = calculateGrandTotal(cart.itemTotal);
+      cart.total = calculateGrandTotal(cart.itemTotal, cart.coupons);
 
       store(ids.SHOPPING_CART, cart);
 

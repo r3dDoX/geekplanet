@@ -26,7 +26,8 @@ module.exports = {
         return;
       }
 
-      Coupon.findOne({ _id: req.params.id, amount: { $gt: 0 } })
+      Coupon
+        .findOne({ _id: req.params.id, amount: { $gt: 0 } })
         .then((coupon) => {
           if (!coupon) {
             res.sendStatus(404);

@@ -5,12 +5,21 @@ import {
 } from '../actions';
 import * as storage from '../storage';
 
+function createStoreWithMockData(mock = {}) {
+  return Object.assign({}, {
+    items: [],
+    coupons: [],
+    itemTotal: 0,
+    total: 0,
+    hasShippingCosts: false,
+  },
+  mock);
+}
+
 describe('ShoppingCart Reducer', () => {
   describe(ADD_ITEM_TO_SHOPPING_CART, () => {
     it('should add new item with amount 1 to items', () => {
-      const state = {
-        items: [],
-      };
+      const state = createStoreWithMockData();
 
       const action = {
         type: ADD_ITEM_TO_SHOPPING_CART,
@@ -27,7 +36,7 @@ describe('ShoppingCart Reducer', () => {
     });
 
     it('should increase amount when product already in cart', () => {
-      const state = {
+      const state = createStoreWithMockData({
         items: [
           {
             amount: 2,
@@ -36,7 +45,7 @@ describe('ShoppingCart Reducer', () => {
             },
           },
         ],
-      };
+      });
 
       const action = {
         type: ADD_ITEM_TO_SHOPPING_CART,
@@ -52,7 +61,7 @@ describe('ShoppingCart Reducer', () => {
     });
 
     it('should calculate new item total', () => {
-      const state = {
+      const state = createStoreWithMockData({
         items: [
           {
             amount: 2,
@@ -62,7 +71,7 @@ describe('ShoppingCart Reducer', () => {
             },
           },
         ],
-      };
+      });
 
       const action = {
         type: ADD_ITEM_TO_SHOPPING_CART,
@@ -78,7 +87,7 @@ describe('ShoppingCart Reducer', () => {
     });
 
     it('should add SHIPPING_COST when under MIN_PRICE_SHIPPING', () => {
-      const state = {
+      const state = createStoreWithMockData({
         items: [
           {
             amount: 1,
@@ -88,7 +97,7 @@ describe('ShoppingCart Reducer', () => {
             },
           },
         ],
-      };
+      });
 
       const action = {
         type: ADD_ITEM_TO_SHOPPING_CART,
@@ -124,7 +133,7 @@ describe('ShoppingCart Reducer', () => {
     });
 
     it('should subtract coupon value from total', () => {
-      const state = {
+      const state = createStoreWithMockData({
         items: [
           {
             amount: 1,
@@ -135,8 +144,7 @@ describe('ShoppingCart Reducer', () => {
           },
         ],
         itemTotal: 80,
-        coupons: [],
-      };
+      });
 
       const action = {
         type: ADD_COUPON_TO_SHOPPING_CART,
@@ -152,16 +160,14 @@ describe('ShoppingCart Reducer', () => {
     });
 
     it('should not add coupon already registered', () => {
-      const state = {
-        items: [],
-        itemTotal: 0,
+      const state = createStoreWithMockData({
         coupons: [
           {
             _id: 'ABCD-EFGH-IJKL-MNOP',
             amount: 10,
           },
         ],
-      };
+      });
 
       const action = {
         type: ADD_COUPON_TO_SHOPPING_CART,
@@ -179,7 +185,7 @@ describe('ShoppingCart Reducer', () => {
 
   describe(SET_SHOPPING_CART_AMOUNT, () => {
     it('should remove item when product amount 0', () => {
-      const state = {
+      const state = createStoreWithMockData({
         items: [
           {
             amount: 1,
@@ -188,7 +194,7 @@ describe('ShoppingCart Reducer', () => {
             },
           },
         ],
-      };
+      });
 
       const action = {
         type: SET_SHOPPING_CART_AMOUNT,
@@ -206,7 +212,7 @@ describe('ShoppingCart Reducer', () => {
     });
 
     it('should set amount when product amount more than zero', () => {
-      const state = {
+      const state = createStoreWithMockData({
         items: [
           {
             amount: 2,
@@ -215,7 +221,7 @@ describe('ShoppingCart Reducer', () => {
             },
           },
         ],
-      };
+      });
 
       const action = {
         type: SET_SHOPPING_CART_AMOUNT,
@@ -234,7 +240,7 @@ describe('ShoppingCart Reducer', () => {
     });
 
     it('should calculate new totals', () => {
-      const state = {
+      const state = createStoreWithMockData({
         items: [
           {
             amount: 2,
@@ -244,7 +250,7 @@ describe('ShoppingCart Reducer', () => {
             },
           },
         ],
-      };
+      });
 
       const action = {
         type: SET_SHOPPING_CART_AMOUNT,
@@ -264,7 +270,7 @@ describe('ShoppingCart Reducer', () => {
     });
 
     it('should not add shipping cost when not items', () => {
-      const state = {
+      const state = createStoreWithMockData({
         items: [
           {
             amount: 1,
@@ -277,7 +283,7 @@ describe('ShoppingCart Reducer', () => {
         itemTotal: 12.5,
         total: 21.5,
         hasShippingCosts: true,
-      };
+      });
 
       const action = {
         type: SET_SHOPPING_CART_AMOUNT,
@@ -299,7 +305,7 @@ describe('ShoppingCart Reducer', () => {
 
   describe(PRODUCTS_LOADED, () => {
     it('should update products in cart', () => {
-      const storedState = {
+      const storedState = createStoreWithMockData({
         items: [
           {
             amount: 1,
@@ -317,8 +323,7 @@ describe('ShoppingCart Reducer', () => {
           },
         ],
         itemTotal: 324,
-        total: 0,
-      };
+      });
       storage.store(storage.ids.SHOPPING_CART, storedState);
 
       const action = {
@@ -344,7 +349,7 @@ describe('ShoppingCart Reducer', () => {
     });
 
     it('should store updated cart', () => {
-      const storedState = {
+      const storedState = createStoreWithMockData({
         items: [
           {
             amount: 1,
@@ -354,7 +359,7 @@ describe('ShoppingCart Reducer', () => {
             },
           },
         ],
-      };
+      });
       storage.store(storage.ids.SHOPPING_CART, storedState);
 
       const action = {

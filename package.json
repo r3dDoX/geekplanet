@@ -4,20 +4,20 @@
   "description": "A Webshop built with React/Redux, Node JS and Mongo DB",
   "repository": "https://github.com/r3dDoX/geekplanet",
   "engines": {
-    "node": "9.6.1"
+    "node": "9.9.0"
   },
   "scripts": {
     "predist": "npm run build",
     "flow:install": "flow-typed install --overwrite",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
     "test": "npm run lint && jest",
-    "test:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:delegated -w /usr/app r3ddox/node-pdftk:9.6.1 npm test",
+    "test:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:delegated -w /usr/app r3ddox/node-pdftk:9.9.0 npm test",
     "test:watch": "jest --watch",
-    "test:watch:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:delegated -w /usr/app r3ddox/node-pdftk:9.6.1 npm run test:watch",
+    "test:watch:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:delegated -w /usr/app r3ddox/node-pdftk:9.9.0 npm run test:watch",
     "build": "NODE_ENV='production' webpack --config webpack.prod.config.js --progress --optimize-minimize -p",
     "build:production": "NODE_ENV='production' CONFIG='production' npm run build",
     "build:staging": "CONFIG='staging' npm run build",
-    "build:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk:9.6.1 npm run build:production",
+    "build:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk:9.9.0 npm run build:production",
     "start": "NODE_ENV='production' node src/server/app.js",
     "dev": "NODE_ENV='development' webpack-dev-server --color --config webpack.dev.config.js & nodemon -e js,jsx,json --watch ./src/common --watch ./src/config --watch ./src/server src/server/app.js",
     "debug": "NODE_ENV='development' webpack-dev-server --color --config webpack.dev.config.js & nodemon -e js,jsx,json --watch ./src/common --watch ./src/config --watch ./src/server --inspect-brk=0.0.0.0:9229 -e js,jsx,json src/server/app.js"
@@ -51,7 +51,7 @@
     "sharp": "0.20.1",
     "shortid": "2.2.8",
     "streamifier": "0.1.1",
-    "stripe": "5.5.0"
+    "stripe": "5.6.0"
   },
   "devDependencies": {
     "auth0-js": "9.4.1",

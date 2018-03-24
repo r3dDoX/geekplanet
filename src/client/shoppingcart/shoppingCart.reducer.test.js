@@ -242,6 +242,8 @@ describe('ShoppingCart Reducer', () => {
             },
           },
         ],
+        itemTotal: 324,
+        total: 0,
       };
       storage.store(storage.ids.SHOPPING_CART, storedState);
 
@@ -263,6 +265,8 @@ describe('ShoppingCart Reducer', () => {
       expect(result.items).toHaveLength(1);
       expect(result.items[0].product).toEqual(action.products[0]);
       expect(result.items[0].amount).toEqual(storedState.items[1].amount);
+      expect(result.itemTotal).toEqual(8.8);
+      expect(result.total).toEqual(17.8);
     });
 
     it('should store updated cart', () => {

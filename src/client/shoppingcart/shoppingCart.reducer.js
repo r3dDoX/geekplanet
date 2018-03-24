@@ -74,6 +74,8 @@ export default function auth(state = initialState, { type, data, products }) {
           );
           return item;
         });
+      cart.itemTotal = calculateItemTotal(cart.items);
+      cart.total = calculateGrandTotal(cart.itemTotal);
 
       store(ids.SHOPPING_CART, cart);
 

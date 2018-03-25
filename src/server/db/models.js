@@ -5,7 +5,6 @@ const cc = require('coupon-code');
 
 const models = {};
 
-
 models.ProductPicturesCollection = 'productpictures';
 
 const address = {

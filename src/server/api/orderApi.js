@@ -29,7 +29,9 @@ module.exports = {
   registerEndpoints(app) {
     app.get('/api/orders', authorization, isAdmin,
       (req, res) =>
-        Order.find().sort({ date: -1 })
+        Order
+          .find()
+          .sort({ date: -1 })
           .then(orders => Promise.all(orders.map((order) => {
             if (order.invoice) {
               return Invoice.findOne({ _id: order.invoice })
@@ -83,7 +85,8 @@ module.exports = {
     );
 
     app.post('/api/order/sent', authorization, isAdmin, bodyParser.json(), (req, res) =>
-      Order.findOneAndUpdate({ _id: req.body.orderId }, { $set: { state: OrderState.SENT } })
+      Order
+        .findOneAndUpdate({ _id: req.body.orderId }, { $set: { state: OrderState.SENT } })
         .then(() => res.sendStatus(200))
         .catch(error => handleGenericError(error, res))
     );
@@ -105,7 +108,8 @@ module.exports = {
 
     app.post('/api/payment/cleared', bodyParser.json(), authorization,
       (req, res) => {
-        Order.findOne({ _id: req.body.shoppingCartId, user: req.user.sub })
+        Order
+          .findOne({ _id: req.body.shoppingCartId, user: req.user.sub })
           .then(order => stripe.charges
             .create({
               amount: order.total * 100,

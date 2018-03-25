@@ -68,7 +68,7 @@ const ShoppingCartDrawer = ({
         <FormattedMessage id="SHOPPING_CART.NO_ITEMS" />
       </Subheader>
     )}
-    {hasShippingCosts ? [
+    {hasShippingCosts && [
       <Divider key="shippingCostDivider" />,
       <Subheader key="shippingCostHeader" inset>
         <FormattedMessage id="SHOPPING_CART.SHIPPING_COST" />
@@ -79,7 +79,7 @@ const ShoppingCartDrawer = ({
         insetChildren
         primaryText={formatPriceWithCurrency(ORDER.SHIPPING_COST)}
       />,
-    ] : null}
+    ]}
     <Coupons
       coupons={coupons}
       onAdd={(couponId) => {

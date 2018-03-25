@@ -2,7 +2,11 @@ import shortId from 'shortid';
 import { load, store, remove, ids } from '../storage';
 import {
   ADD_COUPON_TO_SHOPPING_CART,
-  ADD_ITEM_TO_SHOPPING_CART, LOAD_SHOPPING_CART, ORDER_FINISHED, PRODUCTS_LOADED,
+  ADD_ITEM_TO_SHOPPING_CART,
+  LOAD_SHOPPING_CART,
+  ORDER_FINISHED,
+  PRODUCTS_LOADED,
+  REMOVE_COUPON_FROM_SHOPPING_CART,
   SET_SHOPPING_CART_AMOUNT,
 } from '../actions';
 
@@ -120,6 +124,17 @@ export default function auth(state = initialState, { type, data, products }) {
         newCoupons.push(data);
       }
 
+      const newState = Object.assign({}, state, {
+        coupons: newCoupons,
+        total: calculateGrandTotal(state.itemTotal, newCoupons),
+      });
+
+      store(ids.SHOPPING_CART, newState);
+
+      return newState;
+    }
+    case REMOVE_COUPON_FROM_SHOPPING_CART: {
+      const newCoupons = state.coupons.filter(coupon => coupon._id !== data);
       const newState = Object.assign({}, state, {
         coupons: newCoupons,
         total: calculateGrandTotal(state.itemTotal, newCoupons),

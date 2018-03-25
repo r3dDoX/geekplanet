@@ -14,7 +14,10 @@ import { connect } from 'react-redux';
 import Link from 'react-router-dom/Link';
 import styled from 'styled-components';
 import { formatPriceWithCurrency } from '../../common/priceFormatter';
-import { createAddCouponToShoppingCart, createSetShoppingCartamount, createToggleShoppingCartDrawer } from '../actions';
+import {
+  createAddCouponToShoppingCart, createRemoveCouponFromShoppingCart, createSetShoppingCartamount,
+  createToggleShoppingCartDrawer,
+} from '../actions';
 import { CouponPropType, ShoppingCartItemsPropType } from '../propTypes';
 import { accent1Color } from '../theme';
 import xhr from '../xhr';
@@ -39,6 +42,7 @@ const ShoppingCartDrawer = ({
   shoppingCartTotal,
   coupons,
   addCouponToShoppingCart,
+  removeCouponIdFromShoppingCart,
 }) => (
   <Drawer
     open={shoppingCartDrawerOpened}
@@ -87,6 +91,7 @@ const ShoppingCartDrawer = ({
         checkCoupon.then(coupon => addCouponToShoppingCart(coupon));
         return checkCoupon;
       }}
+      onRemove={removeCouponIdFromShoppingCart}
     />
     <Divider />
     <Subheader inset>
@@ -124,6 +129,7 @@ ShoppingCartDrawer.propTypes = {
   hasShippingCosts: PropTypes.bool.isRequired,
   shoppingCartTotal: PropTypes.number.isRequired,
   addCouponToShoppingCart: PropTypes.func.isRequired,
+  removeCouponIdFromShoppingCart: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -144,6 +150,9 @@ export default connect(
     },
     addCouponToShoppingCart(coupon) {
       dispatch(createAddCouponToShoppingCart(coupon));
+    },
+    removeCouponIdFromShoppingCart(couponId) {
+      dispatch(createRemoveCouponFromShoppingCart(couponId));
     },
   }),
 )(ShoppingCartDrawer);

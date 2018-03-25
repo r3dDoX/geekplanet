@@ -1,6 +1,9 @@
 import underTest from './shoppingCart.reducer';
 import {
-  ADD_COUPON_TO_SHOPPING_CART, ADD_ITEM_TO_SHOPPING_CART, PRODUCTS_LOADED,
+  ADD_COUPON_TO_SHOPPING_CART,
+  ADD_ITEM_TO_SHOPPING_CART,
+  PRODUCTS_LOADED,
+  REMOVE_COUPON_FROM_SHOPPING_CART,
   SET_SHOPPING_CART_AMOUNT,
 } from '../actions';
 import * as storage from '../storage';
@@ -180,6 +183,49 @@ describe('ShoppingCart Reducer', () => {
       const result = underTest(state, action);
 
       expect(result.coupons).toHaveLength(1);
+    });
+  });
+
+  describe(REMOVE_COUPON_FROM_SHOPPING_CART, () => {
+    it('should remove coupon with id from shoppingCart', () => {
+      const state = createStoreWithMockData({
+        coupons: [
+          {
+            _id: 'ABCD-EFGH-IJKL-MNOP',
+            amount: 10,
+          },
+        ],
+      });
+
+      const action = {
+        type: REMOVE_COUPON_FROM_SHOPPING_CART,
+        data: 'ABCD-EFGH-IJKL-MNOP',
+      };
+
+      const result = underTest(state, action);
+
+      expect(result.coupons).toHaveLength(0);
+    });
+
+    it('should recalculate total', () => {
+      const state = createStoreWithMockData({
+        coupons: [
+          {
+            _id: 'ABCD-EFGH-IJKL-MNOP',
+            amount: 10,
+          },
+        ],
+        total: 60,
+      });
+
+      const action = {
+        type: REMOVE_COUPON_FROM_SHOPPING_CART,
+        data: 'ABCD-EFGH-IJKL-MNOP',
+      };
+
+      const result = underTest(state, action);
+
+      expect(result.total).toEqual(0);
     });
   });
 

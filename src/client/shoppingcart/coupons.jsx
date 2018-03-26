@@ -20,7 +20,8 @@ const Coupons = ({ coupons, onAdd, onRemove }) => [
       insetChildren
       primaryText={coupon._id}
       secondaryText={`- ${formatPriceWithoutCurrency(coupon.amount)}`}
-      leftIcon={<ClearIcon onClick={() => onRemove(coupon._id)} />}
+      leftIcon={<ClearIcon />}
+      onClick={() => onRemove(coupon._id)}
     />
   )),
   <AddCoupon key="couponAddForm" onAdd={onAdd} />,

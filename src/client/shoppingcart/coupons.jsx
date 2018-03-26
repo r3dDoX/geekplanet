@@ -16,6 +16,7 @@ const Coupons = ({ coupons, onAdd, onRemove }) => [
   </Subheader>,
   coupons.map(coupon => (
     <MenuItem
+      key={coupon._id}
       insetChildren
       primaryText={coupon._id}
       secondaryText={`- ${formatPriceWithoutCurrency(coupon.amount)}`}

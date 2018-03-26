@@ -66,6 +66,7 @@ class AddCoupon extends React.Component {
     return (
       <MenuItem insetChildren leftIcon={this.getIcon()}>
         <TextField
+          ref={(input) => { this.textInput = input; }}
           disabled={this.state.inputState === inputState.CHECKING}
           underlineStyle={{
             borderColor: this.getColor(),
@@ -85,9 +86,12 @@ class AddCoupon extends React.Component {
                     inputState: inputState.SUCCESS,
                   });
 
-                  setTimeout(() => this.setState({
-                    inputState: inputState.NONE,
-                  }), 2000);
+                  setTimeout(() => {
+                    this.setState({
+                      inputState: inputState.NONE,
+                    });
+                    this.textInput.input.value = '';
+                  }, 2000);
                 })
                 .catch(() => this.setState({
                   inputState: inputState.ERROR,

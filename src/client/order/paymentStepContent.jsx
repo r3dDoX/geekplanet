@@ -23,9 +23,8 @@ const PaymentStepContent = ({
         processing={order.processing}
         shoppingCart={shoppingCart}
         startOrder={() => Xhr.put('/api/orders', Object.assign({
-          _id: shoppingCart.id,
           address: order.selectedAddress,
-          items: shoppingCart.items,
+          ...shoppingCart,
         }))}
         finishOrder={finishOrder}
         startProcessing={startProcessing}

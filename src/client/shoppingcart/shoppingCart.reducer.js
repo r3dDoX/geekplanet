@@ -9,6 +9,9 @@ import {
   REMOVE_COUPON_FROM_SHOPPING_CART,
   SET_SHOPPING_CART_AMOUNT,
 } from '../actions';
+import PriceCalculation from '../../common/priceCalculation';
+
+const priceCalculation = PriceCalculation.create(ORDER.MIN_PRICE_SHIPPING, ORDER.SHIPPING_COST);
 
 const initialState = {
   id: shortId.generate(),
@@ -46,32 +49,6 @@ function insertOrUpdateItem(items, product, amount) {
   });
 }
 
-function calculateItemTotal(items) {
-  return items.reduce(
-    (sum, { amount, product }) => ((sum * 100) + (product.price * amount * 100)) / 100,
-    0
-  );
-}
-
-function isInShippingCostRange(price) {
-  return price > 0 && price < ORDER.MIN_PRICE_SHIPPING;
-}
-
-function calculateGrandTotal(itemTotal, coupons) {
-  let grandTotal = itemTotal;
-  const couponsTotal = coupons.reduce((acc, { amount }) => ((acc * 100) + (amount * 100)) / 100, 0);
-
-  if (isInShippingCostRange(itemTotal)) {
-    grandTotal = itemTotal + ORDER.SHIPPING_COST;
-  }
-
-  if (grandTotal <= couponsTotal) {
-    return 0;
-  }
-
-  return ((grandTotal * 100) - (couponsTotal * 100)) / 100;
-}
-
 export default function auth(state = initialState, { type, data, products }) {
   switch (type) {
     case PRODUCTS_LOADED: {
@@ -87,8 +64,8 @@ export default function auth(state = initialState, { type, data, products }) {
           );
           return item;
         });
-      cart.itemTotal = calculateItemTotal(cart.items);
-      cart.total = calculateGrandTotal(cart.itemTotal, cart.coupons);
+      cart.itemTotal = priceCalculation.calculateItemTotal(cart.items);
+      cart.total = priceCalculation.calculateGrandTotal(cart.itemTotal, cart.coupons);
 
       store(ids.SHOPPING_CART, cart);
 
@@ -106,12 +83,12 @@ export default function auth(state = initialState, { type, data, products }) {
     }
     case ADD_ITEM_TO_SHOPPING_CART: {
       const items = insertOrUpdateItem(state.items, data);
-      const itemTotal = calculateItemTotal(items);
+      const itemTotal = priceCalculation.calculateItemTotal(items);
       const newState = Object.assign({}, state, {
         items,
         itemTotal,
-        total: calculateGrandTotal(itemTotal, state.coupons),
-        hasShippingCosts: isInShippingCostRange(itemTotal),
+        total: priceCalculation.calculateGrandTotal(itemTotal, state.coupons),
+        hasShippingCosts: priceCalculation.isInShippingCostRange(itemTotal),
       });
 
       store(ids.SHOPPING_CART, newState);
@@ -126,7 +103,7 @@ export default function auth(state = initialState, { type, data, products }) {
 
       const newState = Object.assign({}, state, {
         coupons: newCoupons,
-        total: calculateGrandTotal(state.itemTotal, newCoupons),
+        total: priceCalculation.calculateGrandTotal(state.itemTotal, newCoupons),
       });
 
       store(ids.SHOPPING_CART, newState);
@@ -137,7 +114,7 @@ export default function auth(state = initialState, { type, data, products }) {
       const newCoupons = state.coupons.filter(coupon => coupon._id !== data);
       const newState = Object.assign({}, state, {
         coupons: newCoupons,
-        total: calculateGrandTotal(state.itemTotal, newCoupons),
+        total: priceCalculation.calculateGrandTotal(state.itemTotal, newCoupons),
       });
 
       store(ids.SHOPPING_CART, newState);
@@ -146,12 +123,12 @@ export default function auth(state = initialState, { type, data, products }) {
     }
     case SET_SHOPPING_CART_AMOUNT: {
       const items = insertOrUpdateItem(state.items, data.product, data.amount);
-      const itemTotal = calculateItemTotal(items);
+      const itemTotal = priceCalculation.calculateItemTotal(items);
       const newState = Object.assign({}, state, {
         items,
         itemTotal,
-        total: calculateGrandTotal(itemTotal, state.coupons),
-        hasShippingCosts: isInShippingCostRange(itemTotal),
+        total: priceCalculation.calculateGrandTotal(itemTotal, state.coupons),
+        hasShippingCosts: priceCalculation.isInShippingCostRange(itemTotal),
       });
 
       store(ids.SHOPPING_CART, newState);

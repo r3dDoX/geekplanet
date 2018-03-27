@@ -10,9 +10,12 @@ const { saveOrUpdate, handleGenericError } = require('../db/mongoHelper');
 const esrCodeHelpers = require('../esr/esrCodeHelpers');
 
 const orderConfig = envConfig.getEnvironmentSpecificConfig().ORDER;
+const priceCalculation = require('../../common/priceCalculation')
+  .create(orderConfig.MIN_PRICE_SHIPPING, orderConfig.SHIPPING_COST);
 
 const OrderState = require('../../common/orderState');
 const {
+  Coupon,
   Invoice,
   Order,
   Product,
@@ -51,15 +54,18 @@ module.exports = {
 
     app.put('/api/orders', authorization, bodyParser.json(),
       (req, res) => {
-        const itemPromises = req.body.items.map(
+        const itemPromises = Promise.all(req.body.items.map(
           item => Product.findOne({ _id: item.product._id })
             .then(product => ({
               amount: item.amount,
               product,
             }))
+        ));
+        const couponPromises = Promise.all(
+          req.body.coupons.map(coupon => Coupon.findOne({ _id: coupon._id }))
         );
 
-        Promise.all(itemPromises).then((items) => {
+        Promise.all([itemPromises, couponPromises]).then(([items, coupons]) => {
           const itemTotal = items.reduce(
             (sum, { amount, product }) => ((sum * 100) + ((amount * product.price) * 100)) / 100,
             0
@@ -68,14 +74,14 @@ module.exports = {
           saveOrUpdate(Order, Object.assign(
             req.body,
             {
+              _id: req.body.id,
               user: req.user.sub,
               state: OrderState.STARTED,
               date: Date.now(),
               items,
+              coupons,
               itemTotal,
-              total: itemTotal < orderConfig.MIN_PRICE_SHIPPING ?
-                itemTotal + orderConfig.SHIPPING_COST :
-                itemTotal,
+              total: priceCalculation.calculateGrandTotal(itemTotal, coupons),
             }
           ))
             .then(() => res.sendStatus(200))

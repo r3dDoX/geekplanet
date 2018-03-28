@@ -6,8 +6,8 @@ import Orders from './orders/orders.jsx';
 import Coupons from './coupons/coupons.jsx';
 
 export default () => [
-  <PrivateRoute path="/admin/orders" allowedRoles={['admin']} component={Orders} />,
-  <PrivateRoute path="/admin/forms" allowedRoles={['admin']} component={Forms} />,
-  <PrivateRoute path="/admin/hometiles" allowedRoles={['admin']} component={HomeTiles} />,
-  <PrivateRoute path="/admin/coupons" allowedRoles={['admin']} component={Coupons} />,
+  <PrivateRoute key="adminOrders" path="/admin/orders" allowedRoles={['admin']} component={Orders} />,
+  <PrivateRoute key="adminForms" path="/admin/forms" allowedRoles={['admin']} component={Forms} />,
+  <PrivateRoute key="adminHometiles" path="/admin/hometiles" allowedRoles={['admin']} component={HomeTiles} />,
+  <PrivateRoute key="adminCoupons" path="/admin/coupons" allowedRoles={['admin']} component={Coupons} />,
 ];

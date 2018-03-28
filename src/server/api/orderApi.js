@@ -28,6 +28,14 @@ function updateProductStocks(items) {
   );
 }
 
+function updateCoupons(itemTotal, coupons) {
+  const updatedCoupons = priceCalculation.getRemainingCouponsAmount(itemTotal, coupons);
+  return Promise.all(updatedCoupons.map(coupon => Coupon
+    .findOneAndUpdate({ _id: coupon._id }, { $set: { amount: coupon.amount } })
+    .exec()
+  ));
+}
+
 module.exports = {
   registerEndpoints(app) {
     app.get('/api/orders', authorization, isAdmin,
@@ -124,7 +132,7 @@ module.exports = {
               source: req.body.token.id,
             })
             .then(() => {
-              // TODO: update coupons
+              updateCoupons(order.itemTotal, order.coupons);
               updateProductStocks(order.items);
             }))
           .then(() => res.sendStatus(200))
@@ -169,7 +177,7 @@ module.exports = {
             { new: true })
         )
         .then((order) => {
-          // TODO: update coupons
+          updateCoupons(order.itemTotal, order.coupons);
           updateProductStocks(order.items);
           res.sendStatus(200);
 
@@ -194,7 +202,7 @@ module.exports = {
         { new: true }
       )
         .then((order) => {
-          // TODO: update coupons
+          updateCoupons(order.itemTotal, order.coupons);
           res.sendStatus(200);
           return mail.sendConfirmation(order, req.user.email);
         })

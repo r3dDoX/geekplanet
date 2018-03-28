@@ -96,9 +96,9 @@ export default function auth(state = initialState, { type, data, products }) {
       return newState;
     }
     case ADD_COUPON_TO_SHOPPING_CART: {
-      const newCoupons = state.coupons;
+      let newCoupons = state.coupons;
       if (!newCoupons.some(coupon => coupon._id === data._id)) {
-        newCoupons.push(data);
+        newCoupons = newCoupons.concat(data);
       }
 
       const newState = Object.assign({}, state, {

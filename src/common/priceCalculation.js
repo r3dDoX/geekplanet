@@ -6,16 +6,20 @@ const PriceCalculation = {
     );
   },
 
+  calculateCouponsTotal(coupons) {
+    return coupons.reduce(
+      (acc, { amount }) => ((acc * 100) + (amount * 100)) / 100,
+      0
+    );
+  },
+
   isInShippingCostRange(price) {
     return price > 0 && price < this.minPriceShipping;
   },
 
   calculateGrandTotal(itemTotal, coupons) {
     let grandTotal = itemTotal;
-    const couponsTotal = coupons.reduce(
-      (acc, { amount }) => ((acc * 100) + (amount * 100)) / 100,
-      0
-    );
+    const couponsTotal = this.calculateCouponsTotal(coupons);
 
     if (this.isInShippingCostRange(itemTotal)) {
       grandTotal = itemTotal + this.shippingCost;

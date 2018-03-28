@@ -49,7 +49,8 @@
   "COUPONS": {
     "TITLE": "Gutscheine",
     "AMOUNT": "Wert",
-    "CREATED": "Ausgestellt"
+    "CREATED": "Ausgestellt",
+    "CREATE": "Erstellen"
   },
   "ORDER": {
     "PAYMENT": {

@@ -49,7 +49,8 @@
   "COUPONS": {
     "TITLE": "COUPONS",
     "AMOUNT": "Amount",
-    "CREATED": "Created"
+    "CREATED": "Created",
+    "CREATE": "Create"
   },
   "ORDER": {
     "PAYMENT": {

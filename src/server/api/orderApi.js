@@ -161,7 +161,9 @@ module.exports = {
           return esrGenerator
             .generate(esr, order._id, invoice.value, invoice.address)
             .then(pdfPath => Promise.all([
-              mail.sendESR(order, email, pdfPath).then(() => fs.unlink(pdfPath)),
+              mail.sendESR(order, email, pdfPath).then(() =>
+                fs.unlink(pdfPath), err => err && Logger(err)
+              ),
               Invoice.findOneAndUpdate({ _id: invoice._id }, { $set: { esr } }),
             ]));
         });

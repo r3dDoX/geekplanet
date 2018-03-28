@@ -52,7 +52,9 @@
     "PAYMENT": {
       "TITLE": "Select Payment Method",
       "CREDIT_CARD": "Pay with Credit Card",
-      "PREPAYMENT": "Pay in advance"
+      "PREPAYMENT": "Pay in advance",
+      "NO_PAYMENT": "There is no payment needed for your order",
+      "FINISH": "Finish order"
     },
     "ADDRESS": {
       "TITLE": "Shipping Address",

@@ -44,7 +44,7 @@ export const ORDERS_LOADED = 'ORDERS_LOADED';
 export const HOME_TILES_LOADED = 'HOME_TILES_LOADED';
 
 export const createLoadTranslations = localeWithFallback => dispatch =>
-  import(`./assets/translations/${localeWithFallback}.json`)
+  Xhr.get(`/assets/translations/${localeWithFallback}.json`)
     .then(TranslationService.transformTranslations)
     .then(translations => dispatch({
       type: TRANSLATIONS_LOADED,

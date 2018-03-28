@@ -33,9 +33,9 @@ const PriceCalculation = {
 
     return coupons.map((coupon) => {
       if (coupon.amount > total) {
-        coupon.amount -= total;
+        coupon.amount = ((coupon.amount * 100) - (total * 100)) / 100;
       } else {
-        total -= coupon.amount;
+        total = ((total * 100) - (coupon.amount * 100)) / 100;
         coupon.amount = 0;
       }
 

@@ -123,7 +123,10 @@ module.exports = {
               currency: 'chf',
               source: req.body.token.id,
             })
-            .then(() => updateProductStocks(order.items)))
+            .then(() => {
+              // TODO: update coupons
+              updateProductStocks(order.items);
+            }))
           .then(() => res.sendStatus(200))
           .then(() => Order
             .findOneAndUpdate(
@@ -166,6 +169,7 @@ module.exports = {
             { new: true })
         )
         .then((order) => {
+          // TODO: update coupons
           updateProductStocks(order.items);
           res.sendStatus(200);
 
@@ -190,6 +194,7 @@ module.exports = {
         { new: true }
       )
         .then((order) => {
+          // TODO: update coupons
           res.sendStatus(200);
           return mail.sendConfirmation(order, req.user.email);
         })

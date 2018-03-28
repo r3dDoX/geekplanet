@@ -27,6 +27,21 @@ const PriceCalculation = {
 
     return ((grandTotal * 100) - (couponsTotal * 100)) / 100;
   },
+
+  getRemainingCouponsAmount(itemTotal, coupons) {
+    let total = this.isInShippingCostRange(itemTotal) ? itemTotal + this.shippingCost : itemTotal;
+
+    return coupons.map((coupon) => {
+      if (coupon.amount > total) {
+        coupon.amount -= total;
+      } else {
+        total -= coupon.amount;
+        coupon.amount = 0;
+      }
+
+      return coupon;
+    });
+  },
 };
 
 module.exports = {

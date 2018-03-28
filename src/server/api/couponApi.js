@@ -9,7 +9,7 @@ const {
 module.exports = {
   registerEndpoints(app) {
     app.get('/api/coupons', authorization, isAdmin,
-      (req, res) => Coupon.find().then(coupons => res.send(coupons))
+      (req, res) => Coupon.find({ amount: { $gt: 0 } }).then(coupons => res.send(coupons))
     );
 
     app.post('/api/coupons/:amount', authorization, isAdmin,

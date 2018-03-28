@@ -47,7 +47,9 @@
     "NOT_IN_STOCK": "This product is currently not in stock. Therefore shipping is delayed."
   },
   "COUPONS": {
-    "TITLE": "COUPONS"
+    "TITLE": "COUPONS",
+    "AMOUNT": "Amount",
+    "CREATED": "Created"
   },
   "ORDER": {
     "PAYMENT": {

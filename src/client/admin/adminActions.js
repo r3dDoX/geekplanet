@@ -10,6 +10,7 @@ import {
   SET_TAGS,
   SUPPLIERS_LOADED,
   TAGS_LOADED,
+  CREATE_COUPON, COUPONS_LOADED,
 } from '../actions';
 import * as ProductService from '../products/productService';
 import Xhr from '../xhr';
@@ -118,3 +119,13 @@ export const createOrderSent = orderId => dispatch =>
 export const createSaveTile = tile => dispatch =>
   Xhr.put('/api/hometiles', tile)
     .then(() => createLoadHomeTiles()(dispatch));
+
+export const createLoadCoupons = () => dispatch =>
+  Xhr.get('/api/coupons').then(coupons => dispatch({
+    type: COUPONS_LOADED,
+    coupons,
+  }));
+
+export const createCoupon = amount => dispatch =>
+  Xhr.post(`/api/coupons/${amount}`)
+    .then(() => createLoadCoupons()(dispatch));

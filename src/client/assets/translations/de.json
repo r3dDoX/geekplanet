@@ -47,7 +47,9 @@
     "NOT_IN_STOCK": "Dieses Produkt ist gerade nicht an Lager. Deshalb verzögert sich der Versand etwas."
   },
   "COUPONS": {
-    "TITLE": "Gutscheine"
+    "TITLE": "Gutscheine",
+    "AMOUNT": "Wert",
+    "CREATED": "Ausgestellt"
   },
   "ORDER": {
     "PAYMENT": {

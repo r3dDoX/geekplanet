@@ -180,6 +180,20 @@ module.exports = {
           { _id: req.body.orderId },
           { $set: { state: OrderState.FINISHED } })
         .then(() => res.sendStatus(200))
+        .catch(error => handleGenericError(error, req.user.email))
+    );
+
+    app.post('/api/payment/none', bodyParser.json(), authorization, (req, res) =>
+      Order.findOneAndUpdate(
+        { _id: req.body.shoppingCartId, user: req.user.sub, total: 0 },
+        { $set: { state: OrderState.FINISHED } },
+        { new: true }
+      )
+        .then((order) => {
+          res.sendStatus(200);
+          return mail.sendConfirmation(order, req.user.email);
+        })
+        .catch(error => handleGenericError(error, req.user.email))
     );
   },
 };

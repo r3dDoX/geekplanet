@@ -47,28 +47,51 @@ class Payment extends React.Component {
 
     return (
       <div style={styles.container}>
-        <RaisedButton
-          style={styles.paymentButton}
-          onClick={() => stripeHandler.open({
-            name: 'geekplanet GmbH',
-            image: '/assets/images/icon.png',
-            currency: 'chf',
-            amount: shoppingCart.total * 100,
-          })}
-          label={<FormattedMessage id="ORDER.PAYMENT.CREDIT_CARD" />}
-          primary
-        />
-        <RaisedButton
-          style={styles.paymentButton}
-          onClick={() => {
-            startProcessing();
+        {shoppingCart.total > 0 ? [
+          <RaisedButton
+            key="buttonCreditCard"
+            style={styles.paymentButton}
+            onClick={() => stripeHandler.open({
+              name: 'geekplanet GmbH',
+              image: '/assets/images/icon.png',
+              currency: 'chf',
+              amount: shoppingCart.total * 100,
+            })}
+            label={<FormattedMessage id="ORDER.PAYMENT.CREDIT_CARD" />}
+            primary
+          />,
+          <RaisedButton
+            key="buttonPrepayment"
+            style={styles.paymentButton}
+            onClick={() => {
+              startProcessing();
 
-            Xhr.post('/api/payment/prepayment', { shoppingCartId: shoppingCart.id })
-              .then(finishOrder, () => () => window.location.assign('/error'));
-          }}
-          label={<FormattedMessage id="ORDER.PAYMENT.PREPAYMENT" />}
-          primary
-        />
+              Xhr
+                .post('/api/payment/prepayment', {
+                  shoppingCartId: shoppingCart.id,
+                })
+                .then(finishOrder, () => () => window.location.assign('/error'));
+            }}
+            label={<FormattedMessage id="ORDER.PAYMENT.PREPAYMENT" />}
+            primary
+          />,
+        ] : [
+          <p key="textNoPayment">
+            <FormattedMessage id="ORDER.PAYMENT.NO_PAYMENT" />
+          </p>,
+          <RaisedButton
+            key="buttonNoPayment"
+            onClick={() =>
+              Xhr
+                .post('/api/payment/none', {
+                  shoppingCartId: shoppingCart.id,
+                })
+                .then(finishOrder, () => () => window.location.assign('/error'))
+            }
+            label={<FormattedMessage id="ORDER.PAYMENT.FINISH" />}
+            primary
+          />,
+        ]}
       </div>
     );
   }

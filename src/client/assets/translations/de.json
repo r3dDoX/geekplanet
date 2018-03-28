@@ -52,7 +52,9 @@
     "PAYMENT": {
       "TITLE": "Zahlungsmethode auswählen",
       "CREDIT_CARD": "Mit Kreditkarte bezahlen",
-      "PREPAYMENT": "Per Vorkasse bezahlen"
+      "PREPAYMENT": "Per Vorkasse bezahlen",
+      "NO_PAYMENT": "Für deine Bestellung ist keine Zahlung nötig",
+      "FINISH": "Bestellung abschliessen"
     },
     "ADDRESS": {
       "TITLE": "Lieferadresse",

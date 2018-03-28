@@ -10,7 +10,7 @@ import {
   SET_TAGS,
   SUPPLIERS_LOADED,
   TAGS_LOADED,
-  CREATE_COUPON, COUPONS_LOADED,
+  COUPONS_LOADED,
 } from '../actions';
 import * as ProductService from '../products/productService';
 import Xhr from '../xhr';

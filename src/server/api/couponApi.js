@@ -9,12 +9,18 @@ const {
 module.exports = {
   registerEndpoints(app) {
     app.get('/api/coupons', authorization, isAdmin,
-      (req, res) => Coupon.find({ amount: { $gt: 0 } }).then(coupons => res.send(coupons))
+      (req, res) => Coupon
+        .find({ amount: { $gt: 0 } })
+        .sort({ date: -1 })
+        .then(coupons => res.send(coupons))
     );
 
     app.post('/api/coupons/:amount', authorization, isAdmin,
       (req, res) =>
-        new Coupon({ amount: req.params.amount })
+        new Coupon({
+          _id: cc.generate({ parts: 4 }),
+          amount: req.params.amount,
+        })
           .save()
           .then(coupon => res.send(coupon))
           .catch(handleGenericError)

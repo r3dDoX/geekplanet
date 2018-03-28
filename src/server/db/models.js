@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 const OrderState = require('../../common/orderState');
-const cc = require('coupon-code');
 
 const models = {};
 
@@ -150,7 +149,6 @@ models.Invoice = mongoose.model('Invoice', InvoiceSchema);
 const CouponSchema = mongoose.Schema({
   _id: {
     type: String,
-    default: cc.generate({ parts: 4 }),
   },
   amount: Number,
   date: {
@@ -176,7 +174,6 @@ models.Order = mongoose.model('Order', {
   address: UserAddressSchema,
   date: {
     type: Date,
-    default: Date.now(),
     index: true,
   },
   items: [OrderItemSchema],

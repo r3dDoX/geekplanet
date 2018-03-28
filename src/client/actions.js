@@ -44,6 +44,9 @@ export const SET_TAGS = 'SET_TAGS';
 export const COMPLETE_PRODUCTS_LOADED = 'COMPLETE_PRODUCTS_LOADED';
 export const ORDERS_LOADED = 'ORDERS_LOADED';
 export const HOME_TILES_LOADED = 'HOME_TILES_LOADED';
+export const LOAD_COUPONS = 'LOAD_COUPONS';
+export const COUPONS_LOADED = 'COUPONS_LOADED';
+export const CREATE_COUPON = 'CREATE_COUPON';
 
 export const createLoadTranslations = localeWithFallback => dispatch =>
   Xhr.get(`/assets/translations/${localeWithFallback}.json`)

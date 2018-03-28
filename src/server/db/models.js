@@ -153,6 +153,10 @@ const CouponSchema = mongoose.Schema({
     default: cc.generate({ parts: 4 }),
   },
   amount: Number,
+  date: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 models.Coupon = mongoose.model('Coupon', CouponSchema);
 

@@ -55,6 +55,32 @@ describe('calculateItemTotal', () => {
   });
 });
 
+describe('calculateCouponsTotal', () => {
+  it('should add all given coupons', () => {
+    const coupons = [
+      { amount: 3 },
+      { amount: 1 },
+    ];
+
+    const underTest = PriceCalculation.create();
+    const result = underTest.calculateCouponsTotal(coupons);
+
+    expect(result).toEqual(4);
+  });
+
+  it('should handle number rounding issues', () => {
+    const coupons = [
+      { amount: 15.2 },
+      { amount: 11.1 },
+    ];
+
+    const underTest = PriceCalculation.create();
+    const result = underTest.calculateCouponsTotal(coupons);
+
+    expect(result).toEqual(26.3);
+  });
+});
+
 describe('calculateGrandTotal', () => {
   it('should return item total when no coupons and shipping', () => {
     const underTest = PriceCalculation.create(50, 9);

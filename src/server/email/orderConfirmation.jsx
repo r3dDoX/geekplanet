@@ -8,6 +8,9 @@ const config = require('../../config/envConfig').getEnvironmentSpecificConfig();
 const TranslationService = require('../../common/translationService');
 const messages = TranslationService.transformTranslations(require('../../client/assets/translations/de.json'));
 
+const priceCalculation = require('../../common/priceCalculation')
+  .create(config.ORDER.MIN_PRICE_SHIPPING, config.ORDER.SHIPPING_COST);
+
 const styles = {
   container: {
     padding: 0,
@@ -192,12 +195,22 @@ module.exports = function renderTemplate(order) {
               </td>
               <td colSpan={Math.ceil(colCount / 2)} style={styles.totals}>
                 {formatPriceWithCurrency(
-                  order.itemTotal < config.ORDER.MIN_PRICE_SHIPPING ?
-                    config.ORDER.SHIPPING_COST :
-                    0
+                  priceCalculation.isInShippingCostRange(order.itemTotal)
+                    ? config.ORDER.SHIPPING_COST
+                    : 0
                 )}
               </td>
             </tr>
+            {order.coupons.length && (
+              <tr>
+                <td colSpan={Math.floor(colCount / 2)} style={styles.contentPadding}>
+                  <FormattedMessage id="COMMON.COUPONS" />
+                </td>
+                <td colSpan={Math.ceil(colCount / 2)} style={styles.totals}>
+                  {formatPriceWithCurrency(-priceCalculation.calculateCouponsTotal(order.coupons))}
+                </td>
+              </tr>
+            )}
             <tr>
               <td colSpan={Math.floor(colCount / 2)} style={styles.contentPadding}>
                 <strong><FormattedMessage id="COMMON.TOTAL" /></strong>
@@ -205,9 +218,9 @@ module.exports = function renderTemplate(order) {
               <td colSpan={Math.ceil(colCount / 2)} style={styles.totals}>
                 <strong>
                   {formatPriceWithCurrency(
-                    order.itemTotal < config.ORDER.MIN_PRICE_SHIPPING ?
-                      order.total :
-                      order.itemTotal
+                    priceCalculation.calculateGrandTotal(order.itemTotal, order.coupons)
+                      ? order.total
+                      : order.itemTotal
                   )}
                 </strong>
               </td>
@@ -240,17 +253,15 @@ module.exports = function renderTemplate(order) {
                 />
               </td>
             </tr>
-            {(order.state === OrderState.WAITING) ? (
-              <tr>
+            {order.state === OrderState.WAITING && [
+              <tr key="bankDetailsTitle">
                 <td colSpan={colCount}>
                   <div style={styles.title}>
                     <FormattedMessage id="EMAIL.BANK_DETAILS_TITLE" />
                   </div>
                 </td>
-              </tr>
-            ) : null}
-            {(order.state === OrderState.WAITING) ? (
-              <tr>
+              </tr>,
+              <tr key="bankDetailsText">
                 <td
                   colSpan={colCount}
                   style={Object.assign({}, styles.textCenter, styles.contentPadding)}
@@ -259,8 +270,8 @@ module.exports = function renderTemplate(order) {
                   <br /><br />
                   <FormattedHTMLMessage id="EMAIL.BANK_DETAILS" />
                 </td>
-              </tr>
-            ) : null}
+              </tr>,
+            ]}
           </tbody>
         </table>
         <table style={styles.footerTable} cellPadding={0} cellSpacing={0}>

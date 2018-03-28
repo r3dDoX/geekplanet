@@ -133,4 +133,15 @@ describe('getRemainingCouponsAmount', () => {
 
     expect(result).toEqual([]);
   });
+
+  it('should handle number rounding issues', () => {
+    const coupons = [{ _id: '1', amount: 60.1 }];
+
+    const underTest = PriceCalculation.create(50, 9);
+    const result = underTest.getRemainingCouponsAmount(51.4, coupons);
+
+    expect(result).toEqual([
+      { _id: '1', amount: 8.7 },
+    ]);
+  });
 });

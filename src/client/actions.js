@@ -46,8 +46,10 @@ export const ORDERS_LOADED = 'ORDERS_LOADED';
 export const HOME_TILES_LOADED = 'HOME_TILES_LOADED';
 export const COUPONS_LOADED = 'COUPONS_LOADED';
 
+// eslint-disable-next-line
 export const createLoadTranslations = localeWithFallback => dispatch =>
-  Xhr.get(`/assets/translations/${localeWithFallback}.json`)
+  // TODO: load translations dynamically
+  import('./assets/translations/de.json')
     .then(TranslationService.transformTranslations)
     .then(translations => dispatch({
       type: TRANSLATIONS_LOADED,

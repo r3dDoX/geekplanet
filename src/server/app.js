@@ -38,11 +38,9 @@ app.use('/api', (req, res, next) => {
 
 if (process.env.NODE_ENV === 'production') {
   app.get('*.js', (req, res, next) => {
-    if (!req.url.includes('runtime')) {
-      req.url += '.gz';
-      res.set('Content-Encoding', 'gzip');
-      res.set('Content-Type', 'application/javascript');
-    }
+    req.url += '.gz';
+    res.set('Content-Encoding', 'gzip');
+    res.set('Content-Type', 'application/javascript');
     next();
   });
 }

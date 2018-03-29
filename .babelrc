@@ -38,6 +38,9 @@
       "presets": [
         "env",
         "react"
+      ],
+      "plugins": [
+        "babel-plugin-dynamic-import-node"
       ]
     }
   },

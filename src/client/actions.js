@@ -48,8 +48,7 @@ export const COUPONS_LOADED = 'COUPONS_LOADED';
 
 // eslint-disable-next-line
 export const createLoadTranslations = localeWithFallback => dispatch =>
-  // TODO: load translations dynamically
-  import('./assets/translations/de.json')
+  import(`./assets/translations/${localeWithFallback}.json`)
     .then(TranslationService.transformTranslations)
     .then(translations => dispatch({
       type: TRANSLATIONS_LOADED,

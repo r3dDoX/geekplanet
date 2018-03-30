@@ -63,6 +63,10 @@ const ProductSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     index: true,
   },
+  number: {
+    type: Number,
+    index: true,
+  },
   de: ProductTranslationsSchema,
   // TODO: translate all our products
   // en: ProductTranslationsSchema,

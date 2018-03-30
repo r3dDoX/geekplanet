@@ -110,7 +110,7 @@ module.exports = {
 
     app.get('/api/products', compression(),
       (req, res) =>
-        Product.find({}, productListFilter).sort({ name: 1 })
+        Product.find({}, productListFilter).sort({ number: 1 })
           .then(products => res.send(products))
           .catch((err) => {
             Logger.error(err);
@@ -159,7 +159,7 @@ module.exports = {
 
     app.get('/api/completeProducts', authorization, isAdmin, compression(),
       (req, res) =>
-        Product.find().sort({ 'de.name': 1 })
+        Product.find().sort({ number: 1 })
           .then(products => res.send(products))
           .catch((err) => {
             Logger.error(err);

@@ -20,6 +20,7 @@ module.exports = {
         new Coupon({
           _id: cc.generate({ parts: 4 }),
           amount: req.params.amount,
+          date: Date.now(),
         })
           .save()
           .then(coupon => res.send(coupon))

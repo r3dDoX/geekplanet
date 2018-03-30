@@ -151,10 +151,7 @@ const CouponSchema = mongoose.Schema({
     type: String,
   },
   amount: Number,
-  date: {
-    type: Date,
-    default: Date.now(),
-  },
+  date: Date,
 });
 models.Coupon = mongoose.model('Coupon', CouponSchema);
 

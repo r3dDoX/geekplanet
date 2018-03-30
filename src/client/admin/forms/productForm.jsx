@@ -178,6 +178,12 @@ class ProductForm extends React.Component {
 
         <Field
           component={TextField}
+          name="number"
+          label="Number"
+          type="number"
+        />&nbsp;
+        <Field
+          component={TextField}
           name="de.name"
           label="Name"
           type="text"

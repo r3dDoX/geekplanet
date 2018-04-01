@@ -3,14 +3,16 @@ const Grid = require('gridfs-stream');
 const Logger = require('../logger');
 
 const mongoURI = process.env.MONGODB_URI || process.env.MONGOHQ_URL;
-mongoose.Promise = Promise;
-mongoose.connect(mongoURI);
+mongoose.Promise = global.Promise;
 
 const mongoHelper = {
   init() {
-    const connection = mongoose.createConnection(mongoURI);
-    connection.once('open', () => {
-      mongoHelper.gridfs = Grid(connection.db, mongoose.mongo);
+    mongoose.connect(mongoURI, {
+      poolSize: 10,
+    }).catch(Logger.error);
+    mongoose.connection.on('error', Logger.error);
+    mongoose.connection.once('open', () => {
+      this.gridfs = Grid(mongoose.connection.db, mongoose.mongo);
     });
   },
   gridfs: undefined,

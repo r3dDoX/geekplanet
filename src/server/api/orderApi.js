@@ -183,7 +183,7 @@ module.exports = {
           updateProductStocks(order.items);
           res.sendStatus(200);
 
-          return createAndSendEsr(order, req);
+          return createAndSendEsr(order, req.user.email);
         })
         .catch(error => handleGenericError(error, req.user.email))
     );

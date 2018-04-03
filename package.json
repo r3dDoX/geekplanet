@@ -24,7 +24,6 @@
   },
   "author": "Patrick Walther",
   "license": "ISC",
-  "html-webpack-plugin": "webpack-contrib/html-webpack-plugin",
   "dependencies": {
     "babel-core": "6.26.0",
     "body-parser": "1.18.2",
@@ -76,7 +75,7 @@
     "eslint-plugin-react": "7.7.0",
     "flow-bin": "0.69.0",
     "flow-typed": "2.4.0",
-    "html-webpack-plugin": "github:webpack-contrib/html-webpack-plugin",
+    "html-webpack-plugin": "3.2.0",
     "jest": "22.1.4",
     "jwt-decode": "2.2.0",
     "material-ui": "0.20.0",

@@ -101,7 +101,7 @@ const colCount = 4;
 module.exports = function renderTemplate(order) {
   return ReactDOMServer.renderToStaticMarkup(
     <IntlProvider locale="de" messages={messages}>
-      <body style={styles.container}>
+      <div style={styles.container}>
         <table style={styles.headerTable} cellPadding={0} cellSpacing={0}>
           <thead>
             <tr>
@@ -124,11 +124,10 @@ module.exports = function renderTemplate(order) {
                   values={{ firstName: order.address.firstName }}
                 />
                 <br /><br />
-                {(order.state === OrderState.WAITING) ? (
-                  <FormattedMessage id="EMAIL.ORDER_PREPAYMENT" />
-                ) : (
-                  <FormattedMessage id="EMAIL.ORDER_PAYED" />
-                )}
+                {(order.state === OrderState.WAITING)
+                  ? <FormattedMessage id="EMAIL.ORDER_PREPAYMENT" />
+                  : <FormattedMessage id="EMAIL.ORDER_PAYED" />
+                }
               </td>
             </tr>
             <tr>
@@ -201,7 +200,7 @@ module.exports = function renderTemplate(order) {
                 )}
               </td>
             </tr>
-            {order.coupons.length && (
+            {order.coupons.length ? (
               <tr>
                 <td colSpan={Math.floor(colCount / 2)} style={styles.contentPadding}>
                   <FormattedMessage id="COMMON.COUPONS" />
@@ -210,7 +209,7 @@ module.exports = function renderTemplate(order) {
                   {formatPriceWithCurrency(-priceCalculation.calculateCouponsTotal(order.coupons))}
                 </td>
               </tr>
-            )}
+            ) : null}
             <tr>
               <td colSpan={Math.floor(colCount / 2)} style={styles.contentPadding}>
                 <strong><FormattedMessage id="COMMON.TOTAL" /></strong>
@@ -253,7 +252,7 @@ module.exports = function renderTemplate(order) {
                 />
               </td>
             </tr>
-            {order.state === OrderState.WAITING && [
+            {order.state === OrderState.WAITING ? [
               <tr key="bankDetailsTitle">
                 <td colSpan={colCount}>
                   <div style={styles.title}>
@@ -271,7 +270,7 @@ module.exports = function renderTemplate(order) {
                   <FormattedHTMLMessage id="EMAIL.BANK_DETAILS" />
                 </td>
               </tr>,
-            ]}
+            ] : null}
           </tbody>
         </table>
         <table style={styles.footerTable} cellPadding={0} cellSpacing={0}>
@@ -309,7 +308,7 @@ module.exports = function renderTemplate(order) {
             </tr>
           </tfoot>
         </table>
-      </body>
+      </div>
     </IntlProvider>
   );
 };

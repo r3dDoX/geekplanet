@@ -1,16 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { createLoadHomeTiles, createLoadProductCategories, createResetFilter } from '../actions';
-import { HomeTilePropType, ProductCategoryPropType } from '../propTypes';
+import { createLoadHomeTiles, createResetFilter } from '../actions';
+import { HomeTilePropType } from '../propTypes';
 import HomeTile from './homeTile.jsx';
 import HomeTilesContainer from './homeTilesContainer.jsx';
 
 class HomeTiles extends React.Component {
   componentWillMount() {
-    if (!this.props.productCategories.length) {
-      this.props.loadProductCategories();
-    }
     if (!this.props.tiles.length) {
       this.props.loadHomeTiles();
     }
@@ -38,9 +35,7 @@ class HomeTiles extends React.Component {
 }
 
 HomeTiles.propTypes = {
-  productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   resetFilter: PropTypes.func.isRequired,
-  loadProductCategories: PropTypes.func.isRequired,
   tiles: HomeTilePropType.isRequired,
   loadHomeTiles: PropTypes.func.isRequired,
 };
@@ -48,14 +43,10 @@ HomeTiles.propTypes = {
 export default connect(
   state => ({
     tiles: state.home.tiles,
-    productCategories: state.products.productCategories,
   }),
   dispatch => ({
     resetFilter() {
       dispatch(createResetFilter());
-    },
-    loadProductCategories() {
-      dispatch(createLoadProductCategories());
     },
     loadHomeTiles() {
       dispatch(createLoadHomeTiles());

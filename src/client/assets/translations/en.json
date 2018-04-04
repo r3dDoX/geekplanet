@@ -27,11 +27,11 @@
   },
   "NAVIGATION": {
     "ADMIN": "Admin",
+    "PRODUCTS": "Products",
     "LOGIN": "Login",
     "LOGOUT": "Logout",
     "FORMS": "Products",
     "ORDERS": "Orders",
-    "PRODUCTS": "Products",
     "HOME_TILES": "Home Tiles",
     "COUPONS": "Coupons"
   },

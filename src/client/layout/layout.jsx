@@ -6,72 +6,95 @@ import { FormattedMessage, IntlProvider } from 'react-intl';
 import { connect } from 'react-redux';
 import withRouter from 'react-router-dom/withRouter';
 import styled from 'styled-components';
-import { createHideShoppingCartNotification, createLogout, createToggleDrawer } from '../actions';
+import {
+  createHideShoppingCartNotification,
+  createLoadProductCategories,
+  createLogout,
+  createToggleDrawer,
+} from '../actions';
 import authService from '../auth/authService';
+import { ProductCategoryPropType } from '../propTypes';
 import ShoppingCartDrawer from '../shoppingcart/shoppingCartDrawer.jsx';
+import { laMinSize } from '../theme';
 import Footer from './footer.jsx';
 import Header from './header.jsx';
 import LayoutDrawer from './layoutDrawer.jsx';
 import MainSpinner from './mainSpinner.jsx';
 
 const Body = styled(Paper)`
-  padding-top: 64px;
   position: relative;
+  padding-top: 64px;
+  
+  @media screen and (min-width: ${laMinSize}) {
+    padding-left: 256px;
+  }
 `;
 
-const Layout = ({
-  auth: {
-    loggedIn,
-    roles,
-  },
-  layout: {
-    drawerOpened,
-    shoppingCartNotification,
-  },
-  i18n: {
-    language,
-    translations,
-  },
-  logout,
-  toggleDrawer,
-  hideShoppingCartNotification,
-  children,
-}) => {
-  if (translations) {
-    return (
-      <IntlProvider locale={language} messages={translations}>
-        <div>
-          <Header toggleDrawer={toggleDrawer} />
-          <LayoutDrawer
-            roles={roles}
-            logout={() => {
-              authService.logout();
-              logout();
-            }}
-            loggedIn={loggedIn}
-            drawerOpened={drawerOpened}
-            toggleDrawer={toggleDrawer}
-          />
-          <ShoppingCartDrawer />
-          <Body>
-            {children}
-          </Body>
-          <Footer />
-          <Snackbar
-            open={shoppingCartNotification}
-            message={
-              <FormattedMessage id="NOTIFICATION.SHOPPING_CART_ITEM_ADDED" />
-            }
-            autoHideDuration={4000}
-            onRequestClose={hideShoppingCartNotification}
-          />
-        </div>
-      </IntlProvider>
-    );
+class Layout extends React.Component {
+  componentWillMount() {
+    if (!this.props.productCategories.length) {
+      this.props.loadProductCategories();
+    }
   }
 
-  return <MainSpinner />;
-};
+  render() {
+    const {
+      auth: {
+        loggedIn,
+        roles,
+      },
+      layout: {
+        drawerOpened,
+        shoppingCartNotification,
+      },
+      i18n: {
+        language,
+        translations,
+      },
+      logout,
+      toggleDrawer,
+      hideShoppingCartNotification,
+      productCategories,
+      children,
+    } = this.props;
+
+    if (translations) {
+      return (
+        <IntlProvider locale={language} messages={translations}>
+          <div>
+            <Header toggleDrawer={toggleDrawer} />
+            <LayoutDrawer
+              roles={roles}
+              logout={() => {
+                authService.logout();
+                logout();
+              }}
+              loggedIn={loggedIn}
+              drawerOpened={drawerOpened}
+              toggleDrawer={toggleDrawer}
+              productCategories={productCategories}
+            />
+            <ShoppingCartDrawer />
+            <Body>
+              {children}
+            </Body>
+            <Footer />
+            <Snackbar
+              open={shoppingCartNotification}
+              message={
+                <FormattedMessage id="NOTIFICATION.SHOPPING_CART_ITEM_ADDED" />
+              }
+              autoHideDuration={4000}
+              onRequestClose={hideShoppingCartNotification}
+            />
+          </div>
+        </IntlProvider>
+      );
+    }
+
+    return <MainSpinner />;
+  }
+}
 
 Layout.propTypes = {
   auth: PropTypes.shape({
@@ -90,6 +113,8 @@ Layout.propTypes = {
   toggleDrawer: PropTypes.func.isRequired,
   hideShoppingCartNotification: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
+  loadProductCategories: PropTypes.func.isRequired,
+  productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
 };
 
 export default withRouter(connect(
@@ -97,6 +122,7 @@ export default withRouter(connect(
     auth: state.auth,
     layout: state.layout,
     i18n: state.i18n,
+    productCategories: state.products.groupedProductCategories,
   }),
   dispatch => ({
     logout() {
@@ -107,6 +133,9 @@ export default withRouter(connect(
     },
     hideShoppingCartNotification() {
       dispatch(createHideShoppingCartNotification());
+    },
+    loadProductCategories() {
+      dispatch(createLoadProductCategories());
     },
   })
 )(Layout));

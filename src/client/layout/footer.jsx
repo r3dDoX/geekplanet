@@ -4,12 +4,17 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Link from 'react-router-dom/Link';
 import styled from 'styled-components';
+import { laMinSize } from '../theme';
 
 const Container = styled.div`
   display: flex;
   align-items: flex-start;
   padding: 24px;
   background-color: ${blueGrey100};
+  
+  @media screen and (min-width: ${laMinSize}) {
+    padding-left: 280px;
+  }
 `;
 
 const TextContainer = styled.div`

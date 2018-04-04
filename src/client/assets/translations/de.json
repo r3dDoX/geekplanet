@@ -27,11 +27,11 @@
   },
   "NAVIGATION": {
     "ADMIN": "Admin",
+    "PRODUCTS": "Produkte",
     "LOGIN": "Login",
     "LOGOUT": "Logout",
     "FORMS": "Produkte",
     "ORDERS": "Bestellungen",
-    "PRODUCTS": "Produkte",
     "HOME_TILES": "Home Kacheln",
     "COUPONS": "Gutscheine"
   },

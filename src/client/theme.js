@@ -8,6 +8,8 @@ export const accent2Color = '#ECF0F1';
 
 export const xsMaxSize = '768px';
 export const mdMinSize = '769px';
+export const mdMaxSize = '1023px';
+export const laMinSize = '1024px';
 
 export default getMuiTheme({
   fontFamily: 'PT Sans, sans-serif',

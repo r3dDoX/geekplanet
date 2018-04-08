@@ -6,6 +6,7 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Link from 'react-router-dom/Link';
@@ -18,6 +19,17 @@ const Title = styled(Link)`
   text-decoration: none;
   color: inherit;
 `;
+
+const style = {
+  selectedItem: {
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  },
+};
+
+function mapSubCategoryIds(category) {
+  return category.subCategories
+    .flatMap(subCategory => [subCategory._id].concat(mapSubCategoryIds(subCategory)));
+}
 
 class LayoutDrawer extends React.Component {
   constructor(props) {
@@ -41,24 +53,6 @@ class LayoutDrawer extends React.Component {
     this.setState({ width: window.innerWidth });
   }
 
-  recursivelyRenderCategoryMenus(category, toggleDrawer) {
-    return (
-      <ListItem
-        key={category._id}
-        primaryText={category.de.name}
-        nestedItems={
-          category.subCategories.map(
-            subCategory => this.recursivelyRenderCategoryMenus(subCategory, toggleDrawer)
-          )
-        }
-        onClick={() => {
-          toggleDrawer();
-          this.props.history.push(`/products?categories=${category._id}`);
-        }}
-      />
-    );
-  }
-
   render() {
     const {
       roles,
@@ -71,6 +65,38 @@ class LayoutDrawer extends React.Component {
     } = this.props;
     const laMinSizeNumber = Number(laMinSize.slice(0, -2));
     const toggleDrawerOnMobile = () => this.state.width < laMinSizeNumber && toggleDrawer();
+
+    const query = queryString.parse(this.props.location.search);
+    const selectedCategories = query.categories
+      ? query.categories.split(',')
+      : [];
+
+    function recursivelyRenderCategoryMenus(category) {
+      const categoryIds = mapSubCategoryIds(category);
+      return (
+        <ListItem
+          key={category._id}
+          primaryText={category.de.name}
+          primaryTogglesNestedList
+          initiallyOpen={selectedCategories.some(
+            categoryId => categoryIds.includes(categoryId)
+          )}
+          nestedItems={
+            category.subCategories.map(
+              subCategory => recursivelyRenderCategoryMenus(subCategory, toggleDrawerOnMobile)
+            )
+          }
+          onClick={() => {
+            toggleDrawerOnMobile();
+            history.push(`/products?categories=${category._id}`);
+          }}
+          style={selectedCategories.includes(category._id)
+            ? style.selectedItem
+            : null
+          }
+        />
+      );
+    }
 
     return (
       <Drawer
@@ -86,6 +112,11 @@ class LayoutDrawer extends React.Component {
           }
           onLeftIconButtonClick={toggleDrawer}
           iconElementLeft={<IconButton><NavigationClose /></IconButton>}
+          iconStyleLeft={{
+            display: this.state.width < laMinSizeNumber
+              ? 'block'
+              : 'none',
+          }}
         />
         <List>
           {roles.includes('admin') ? ([
@@ -134,12 +165,6 @@ class LayoutDrawer extends React.Component {
             />,
             <Divider key="AdminDivider" />,
           ]) : null}
-          <Subheader key="products">
-            <FormattedMessage id="NAVIGATION.PRODUCTS" />
-          </Subheader>
-          {productCategories
-            .map(category => this.recursivelyRenderCategoryMenus(category, toggleDrawerOnMobile))}
-          <Divider key="ProductDivider" />
           {
             loggedIn ? (
               <ListItem
@@ -162,6 +187,12 @@ class LayoutDrawer extends React.Component {
               />
             )
           }
+          <Divider key="ProductDivider" />
+          <Subheader key="products">
+            <FormattedMessage id="NAVIGATION.PRODUCTS" />
+          </Subheader>
+          {productCategories
+            .map(category => recursivelyRenderCategoryMenus(category))}
         </List>
       </Drawer>
     );
@@ -174,8 +205,11 @@ LayoutDrawer.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   drawerOpened: PropTypes.bool.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
+  history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default withRouter(LayoutDrawer);

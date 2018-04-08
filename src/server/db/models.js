@@ -20,6 +20,10 @@ const ProductCategoryTranslationsSchema = {
 };
 
 models.ProductCategory = mongoose.model('ProductCategory', {
+  order: {
+    type: Number,
+    default: 0,
+  },
   parentCategory: mongoose.Schema.Types.Object,
   de: ProductCategoryTranslationsSchema,
   en: ProductCategoryTranslationsSchema,

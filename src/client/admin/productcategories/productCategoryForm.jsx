@@ -59,6 +59,13 @@ const ProductCategoriesForm = ({
     />
     <br />
     <Field
+      component={TextField}
+      name="order"
+      label="Order"
+      type="number"
+    />
+    <br />
+    <Field
       component={SelectField}
       name="parentCategory"
       label="Parent Category"

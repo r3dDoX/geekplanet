@@ -23,7 +23,7 @@ const FilterButtonContainer = styled.div`
 
 const Popover = styled.div`
   position: fixed;
-  z-index: 1101;
+  z-index: 9999;
   background-color: rgba(255, 255, 255, 0.8);
   overflow-y: auto;
   left: 0;

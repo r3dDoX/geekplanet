@@ -47,45 +47,25 @@ function debounce(fn, millis = 200) {
   timeoutId = setTimeout(fn, millis);
 }
 
-class ProductFilter extends React.Component {
-  constructor() {
-    super();
+const ProductFilter = ({ history }) => (
+  <FilterContainer>
+    <Field
+      component={SmallTextField}
+      name="filterString"
+      label={<FormattedMessage id="PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER" />}
+      floatingLabelStyle={styles.filterHint}
+      underlineStyle={styles.filterHint}
+      onKeyUp={({ target }) => debounce(() => {
+        const query = queryString.parse(history.location.search);
 
-    this.state = {};
-  }
+        query.filterString = target.value;
 
-  componentWillUpdate(nextProps) {
-    if (nextProps.filterShown) {
-      document.body.style.overflowY = 'hidden';
-    } else {
-      document.body.style.overflowY = 'visible';
-    }
-  }
-
-  render() {
-    const { history } = this.props;
-
-    return (
-      <FilterContainer>
-        <Field
-          component={SmallTextField}
-          name="filterString"
-          label={<FormattedMessage id="PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER" />}
-          floatingLabelStyle={styles.filterHint}
-          underlineStyle={styles.filterHint}
-          onKeyUp={({ target }) => debounce(() => {
-            const query = queryString.parse(history.location.search);
-
-            query.filterString = target.value;
-
-            history.push(`?${queryString.stringify(query)}`);
-          })}
-          type="text"
-        />
-      </FilterContainer>
-    );
-  }
-}
+        history.push(`?${queryString.stringify(query)}`);
+      })}
+      type="text"
+    />
+  </FilterContainer>
+);
 
 ProductFilter.propTypes = {
   history: PropTypes.shape({

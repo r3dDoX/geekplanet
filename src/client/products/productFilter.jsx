@@ -6,14 +6,14 @@ import { FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
-import SmallTextField from '../../formHelpers/smallTextField.jsx';
-import { laMinSize, mdMinSize } from '../../theme';
+import SmallTextField from '../formHelpers/smallTextField.jsx';
+import { laMinSize, mdMinSize } from '../theme';
 
 export const formName = 'productFilter';
 
 const FilterContainer = styled.div`
   background: #FFF;
-  padding: 10px 20px;
+  padding: 4px 20px;
   box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.3);
   max-height: 68px;
   

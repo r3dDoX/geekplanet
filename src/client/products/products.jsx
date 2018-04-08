@@ -10,7 +10,7 @@ import { createLoadProductCategories, createLoadProducts, createSetFilter } from
 import MainSpinner from '../layout/mainSpinner.jsx';
 import ProductList from '../products/productList.jsx';
 import { ProductCategoryPropType, ProductPropType } from '../propTypes';
-import ProductFilter, { formName } from './productfilter/productFilter.jsx';
+import ProductFilter, { formName } from './productFilter.jsx';
 
 class Products extends React.Component {
   componentWillMount() {

@@ -9,7 +9,7 @@ import { change } from 'redux-form';
 import { createLoadProductCategories, createLoadProducts, createSetFilter } from '../actions';
 import MainSpinner from '../layout/mainSpinner.jsx';
 import ProductList from '../products/productList.jsx';
-import { ProducerPropType, ProductCategoryPropType, ProductPropType } from '../propTypes';
+import { ProductCategoryPropType, ProductPropType } from '../propTypes';
 import ProductFilter, { formName } from './productfilter/productFilter.jsx';
 
 class Products extends React.Component {
@@ -30,31 +30,26 @@ class Products extends React.Component {
     this.updateFilter(
       this.props.location.search,
       this.props.productCategories,
-      this.props.producers
     );
   }
 
   componentWillUpdate(nextProps) {
     if (this.props.location.search !== nextProps.location.search
-      || this.props.productCategories.length !== nextProps.productCategories.length
-      || this.props.producers.length !== nextProps.producers.length) {
+      || this.props.productCategories.length !== nextProps.productCategories.length) {
       this.updateFilter(
         nextProps.location.search,
         nextProps.productCategories,
-        nextProps.producers
       );
     }
   }
 
-  updateFilter(locationSearch, productCategories, producers) {
+  updateFilter(locationSearch, productCategories) {
     const query = queryString.parse(locationSearch);
-    if ((query.categories || query.producers || query.filterString) && productCategories.length) {
+    if ((query.categories || query.filterString) && productCategories.length) {
       const categories = query.categories ? query.categories.split(',') : [];
-      const queryProducers = query.producers ? query.producers.split(',') : [];
 
       this.props.setFilter(
         productCategories.filter(category => categories.includes(category._id)),
-        producers.filter(producer => queryProducers.includes(producer._id)),
         query.filterString
       );
     } else {
@@ -91,7 +86,6 @@ class Products extends React.Component {
 
 Products.propTypes = {
   products: PropTypes.arrayOf(ProductPropType).isRequired,
-  producers: PropTypes.arrayOf(ProducerPropType).isRequired,
   loadProducts: PropTypes.func.isRequired,
   loadProductCategories: PropTypes.func.isRequired,
   setFilter: PropTypes.func.isRequired,
@@ -109,7 +103,6 @@ export default connect(
   state => ({
     products: state.products.products,
     productCategories: state.products.productCategories,
-    producers: state.products.producers,
     filteredProducts: state.products.filteredProducts,
     filterShown: state.products.filterShown,
   }),
@@ -123,10 +116,9 @@ export default connect(
     updateForm(filterString) {
       dispatch(change(formName, 'filterString', filterString));
     },
-    setFilter(productCategories, producers, filterString) {
+    setFilter(productCategories, filterString) {
       dispatch(createSetFilter({
         productCategories,
-        producers,
         filterString,
       }));
     },

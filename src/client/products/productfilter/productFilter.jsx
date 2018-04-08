@@ -1,28 +1,13 @@
-/* eslint-disable */
-import RaisedButton from 'material-ui/RaisedButton';
-import { grey200, grey700, grey800 } from 'material-ui/styles/colors';
-import FilterIcon from 'material-ui/svg-icons/image/tune';
-import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
+import { grey700 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
-import {
-  createLoadProductCategories, createLoadPublicProducers, createResetFilter,
-  createToggleFilterView,
-} from '../../actions';
 import SmallTextField from '../../formHelpers/smallTextField.jsx';
-import { ProducerPropType, ProductCategoryPropType } from '../../propTypes';
-import { backgroundColor, laMinSize, mdMinSize, xsMaxSize } from '../../theme';
-import FilterBadge from './filterBadge.jsx';
-import FilterPopover from './filterPopover.jsx';
-import * as filterQuery from './filterQuery';
-import Producers from './producers.jsx';
-import ProductCategories from './productCategories.jsx';
+import { laMinSize, mdMinSize } from '../../theme';
 
 export const formName = 'productFilter';
 
@@ -44,62 +29,11 @@ const FilterContainer = styled.div`
   }
 `;
 
-const FilterButton = styled(RaisedButton)`
-  margin-left: 20px;
-  
-  @media screen and (max-width: ${xsMaxSize}) {
-    display: none !important;
-  }
-`;
-
-const MobileFilterButton = styled.div`
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  background-color: ${grey200};
-  padding: 5px 20px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  color: ${grey800};
-  box-shadow: 0 1px 1px 1px rgba(0,0,0,0.2);
-  cursor: pointer;
-  
-  @media screen and (min-width: ${mdMinSize}) {
-    display: none !important;
-  }
-`;
-
-const FilterButtonLabel = styled.span`
-  display: flex;
-  align-items: center;
-`;
-
-const FilterHeader = styled.h2`
-  margin: 0;
-  padding: 10px;
-  color: ${backgroundColor};
-`;
-
-const StyledFilterIcon = styled(FilterIcon)`
-  margin-right: 10px;
-`;
-
-const MobileFilterButtonText = styled.div`
-  white-space: nowrap;
-`;
-
 const styles = {
   filterHint: {
     color: grey700,
     borderColor: grey700,
     fill: grey700,
-  },
-  filterButton: {
-    display: 'flex',
-    alignItems: 'center',
   },
 };
 
@@ -120,16 +54,6 @@ class ProductFilter extends React.Component {
     this.state = {};
   }
 
-  componentWillMount() {
-    if (this.props.groupedProductCategories.length === 0) {
-      this.props.loadProductCategories();
-    }
-
-    if (this.props.producers.length === 0) {
-      this.props.loadPublicPorducers();
-    }
-  }
-
   componentWillUpdate(nextProps) {
     if (nextProps.filterShown) {
       document.body.style.overflowY = 'hidden';
@@ -138,26 +62,8 @@ class ProductFilter extends React.Component {
     }
   }
 
-  handleButtonClick(top) {
-    this.setState({
-      top,
-    });
-    this.props.toggleFilterView();
-  }
-
   render() {
-    const {
-      groupedProductCategories,
-      filterShown,
-      categoriesToFilter,
-      producersToFilter,
-      producers,
-      moreFiltersCount,
-      toggleFilterView,
-      resetFilter,
-      history,
-      productCategories,
-    } = this.props;
+    const { history } = this.props;
 
     return (
       <FilterContainer>
@@ -182,17 +88,6 @@ class ProductFilter extends React.Component {
 }
 
 ProductFilter.propTypes = {
-  groupedProductCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
-  productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
-  producers: PropTypes.arrayOf(ProducerPropType).isRequired,
-  categoriesToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
-  producersToFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
-  filterShown: PropTypes.bool.isRequired,
-  loadProductCategories: PropTypes.func.isRequired,
-  loadPublicPorducers: PropTypes.func.isRequired,
-  resetFilter: PropTypes.func.isRequired,
-  toggleFilterView: PropTypes.func.isRequired,
-  moreFiltersCount: PropTypes.number.isRequired,
   history: PropTypes.shape({
     location: PropTypes.shape({
       search: PropTypes.string.isRequired,
@@ -201,34 +96,7 @@ ProductFilter.propTypes = {
   }).isRequired,
 };
 
-export default connect(
-  state => ({
-    groupedProductCategories: state.products.groupedProductCategories,
-    productCategories: state.products.productCategories,
-    producers: state.products.producers,
-    categoriesToFilter: state.products.categoriesToFilter,
-    producersToFilter: state.products.producersToFilter,
-    filteredProducts: state.products.filteredProducts,
-    filterString: state.products.filterString,
-    filterShown: state.products.filterShown,
-    moreFiltersCount: state.products.moreFiltersCount,
-  }),
-  dispatch => ({
-    loadProductCategories() {
-      dispatch(createLoadProductCategories());
-    },
-    loadPublicPorducers() {
-      dispatch(createLoadPublicProducers());
-    },
-    toggleFilterView() {
-      dispatch(createToggleFilterView());
-    },
-    resetFilter() {
-      dispatch(createResetFilter());
-    },
-  }),
-)(reduxForm({
+export default reduxForm({
   form: formName,
   destroyOnUnmount: false,
-})(withRouter(ProductFilter)));
-/* eslint-enable */
+})(withRouter(ProductFilter));

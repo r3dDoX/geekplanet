@@ -1,6 +1,6 @@
 import { reset } from 'redux-form';
 import TranslationService from '../common/translationService';
-import { formName as productFilterFormName } from './products/productfilter/productFilter.jsx';
+import { formName as productFilterFormName } from './products/productFilter.jsx';
 import Xhr from './xhr';
 
 export const PRODUCT_LOADING = 'PRODUCT_LOADING';
@@ -70,10 +70,6 @@ export const createLoggedIn = ({ email, 'https://geekplanet.ch/roles': roles }) 
 export const createSetFilter = filters => ({
   type: SET_FILTER,
   ...filters,
-});
-
-export const createToggleFilterView = () => ({
-  type: TOGGLE_FILTER_VIEW,
 });
 
 export const createLogout = () => ({
@@ -189,12 +185,6 @@ export const createLoadProductCategories = () => dispatch =>
   Xhr.get('/api/productCategories').then(productCategories => dispatch({
     type: PRODUCT_CATEGORIES_LOADED,
     productCategories,
-  }));
-
-export const createLoadPublicProducers = () => dispatch =>
-  Xhr.get('/api/publicproducers').then(producers => dispatch({
-    type: PUBLIC_PRODUCERS_LOADED,
-    producers,
   }));
 
 export const createSetShoppingCartamount = (amount, product) => ({

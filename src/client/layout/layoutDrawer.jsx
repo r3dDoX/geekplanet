@@ -3,6 +3,7 @@ import Divider from 'material-ui/Divider';
 import Drawer from 'material-ui/Drawer';
 import IconButton from 'material-ui/IconButton';
 import { List, ListItem } from 'material-ui/List';
+import { grey300 } from 'material-ui/styles/colors';
 import Subheader from 'material-ui/Subheader';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import PropTypes from 'prop-types';
@@ -21,13 +22,12 @@ const Title = styled(Link)`
 `;
 
 const CategoryDivider = styled(Divider)`
-  margin-bottom: 10px !important;
   margin-left: 16px !important;
 `;
 
 const style = {
   selectedItem: {
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: grey300,
   },
 };
 
@@ -87,7 +87,7 @@ class LayoutDrawer extends React.Component {
             categoryId => categoryIds.includes(categoryId)
           )}
           nestedItems={
-            category.subCategories.map(
+            category.subCategories.flatMap(
               subCategory => recursivelyRenderCategoryMenus(subCategory, toggleDrawerOnMobile)
             )
           }
@@ -99,6 +99,7 @@ class LayoutDrawer extends React.Component {
             ? style.selectedItem
             : null
           }
+          hoverColor={grey300}
         />,
         !category.parentCategory
           ? <CategoryDivider key={`${category._id}Divider`} />

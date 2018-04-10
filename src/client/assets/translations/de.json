@@ -123,7 +123,8 @@
     "RESET_FILTER": "Filter zurücksetzen",
     "PRODUCERS_TITLE": "Hersteller",
     "APPLY": "Anwenden",
-    "MORE_FILTERS": "Weitere Filter"
+    "MORE_FILTERS": "Weitere Filter",
+    "NOTHING_FOUND": "Keine Produkte entsprechen deiner Suche :("
   },
   "EMAIL": {
     "ORDER_CONFIRMATION": "Vielen Dank für deinen Einkauf, {firstName}!",

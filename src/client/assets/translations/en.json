@@ -118,7 +118,7 @@
   },
   "PRODUCT_FILTER": {
     "TITLE": "Filter",
-    "FILTERSTRING_PLACEHOLDER": "Filter...",
+    "FILTERSTRING_PLACEHOLDER": "Search...",
     "PRODUCT_CATEGORIES_TITLE": "Categories",
     "RESET_FILTER": "Reset Filter",
     "PRODUCERS_TITLE": "Producer",

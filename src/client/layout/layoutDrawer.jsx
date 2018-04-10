@@ -20,6 +20,11 @@ const Title = styled(Link)`
   color: inherit;
 `;
 
+const CategoryDivider = styled(Divider)`
+  margin-bottom: 10px !important;
+  margin-left: 16px !important;
+`;
+
 const style = {
   selectedItem: {
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
@@ -73,7 +78,7 @@ class LayoutDrawer extends React.Component {
 
     function recursivelyRenderCategoryMenus(category) {
       const categoryIds = mapSubCategoryIds(category);
-      return (
+      return [
         <ListItem
           key={category._id}
           primaryText={category.de.name}
@@ -94,8 +99,11 @@ class LayoutDrawer extends React.Component {
             ? style.selectedItem
             : null
           }
-        />
-      );
+        />,
+        !category.parentCategory
+          ? <CategoryDivider key={`${category._id}Divider`} />
+          : null,
+      ];
     }
 
     return (

@@ -10,6 +10,7 @@ import { createLoadProductCategories, createLoadProducts, createSetFilter } from
 import MainSpinner from '../layout/mainSpinner.jsx';
 import ProductList from '../products/productList.jsx';
 import { ProductCategoryPropType, ProductPropType } from '../propTypes';
+import NothingFound from './nothingFound.jsx';
 import ProductFilter, { formName } from './productFilter.jsx';
 
 class Products extends React.Component {
@@ -71,14 +72,13 @@ class Products extends React.Component {
           <title>{intl.formatMessage({ id: 'COMMON.PRODUCTS' })}</title>
         </Helmet>
         <ProductFilter />
-        {products.length ? (
-          <ProductList
-            products={filteredProducts}
-            filterShown={filterShown}
-          />
-        ) : (
-          <MainSpinner />
-        )}
+        {
+          products.length
+            ? filteredProducts.length
+              ? <ProductList products={filteredProducts} filterShown={filterShown} />
+              : <NothingFound />
+            : <MainSpinner />
+        }
       </div>
     );
   }

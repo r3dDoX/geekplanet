@@ -23,7 +23,8 @@
     "SAVE": "Speichern",
     "CANCEL": "Abbrechen",
     "PRODUCTS": "Produkte",
-    "COUPONS": "Gutscheine"
+    "COUPONS": "Gutscheine",
+    "CATEGORIES": "Kategorien"
   },
   "NAVIGATION": {
     "ADMIN": "Admin",
@@ -90,6 +91,9 @@
   "COUNTRIES": {
     "CHE": "Schweiz",
     "LIE": "Liechtenstein"
+  },
+  "PRODUCTS": {
+    "TITLE": "{categoryCount, plural, =0 {Alle Produkte} other {{categories}}}"
   },
   "PRODUCT": {
     "IN_STOCK": "{stock} Stück auf Lager",

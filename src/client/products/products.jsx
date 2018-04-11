@@ -64,12 +64,21 @@ class Products extends React.Component {
       filteredProducts,
       filterShown,
       intl,
+      categoriesToFilter,
     } = this.props;
 
     return (
       <div>
         <Helmet>
-          <title>{intl.formatMessage({ id: 'COMMON.PRODUCTS' })}</title>
+          <title>
+            {intl.formatMessage(
+              { id: 'PRODUCTS.TITLE' },
+              {
+                categoryCount: categoriesToFilter.length,
+                categories: categoriesToFilter.map(category => category.de.name).join(', '),
+              }
+            )}
+          </title>
         </Helmet>
         <ProductFilter />
         {
@@ -91,6 +100,7 @@ Products.propTypes = {
   setFilter: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
+  categoriesToFilter: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   filteredProducts: PropTypes.arrayOf(ProductPropType).isRequired,
   filterShown: PropTypes.bool.isRequired,
   intl: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
@@ -105,6 +115,7 @@ export default connect(
     productCategories: state.products.productCategories,
     filteredProducts: state.products.filteredProducts,
     filterShown: state.products.filterShown,
+    categoriesToFilter: state.products.categoriesToFilter,
   }),
   dispatch => ({
     loadProducts() {

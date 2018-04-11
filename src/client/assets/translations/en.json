@@ -23,7 +23,8 @@
     "SAVE": "Save",
     "CANCEL": "Cancel",
     "PRODUCTS": "Products",
-    "COUPONS": "Coupons"
+    "COUPONS": "Coupons",
+    "CATEGORIES": "Categories"
   },
   "NAVIGATION": {
     "ADMIN": "Admin",
@@ -90,6 +91,9 @@
   "COUNTRIES": {
     "CHE": "Switzerland",
     "LIE": "Liechtenstein"
+  },
+  "PRODUCTS": {
+    "TITLE": "{categoryCount, plural, =0 {All Products} other {{categories}}}"
   },
   "PRODUCT": {
     "IN_STOCK": "{stock, number} {stock, plural, one {piece} other {pieces}} in stock",

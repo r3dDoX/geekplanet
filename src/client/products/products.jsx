@@ -65,6 +65,7 @@ class Products extends React.Component {
       filterShown,
       intl,
       categoriesToFilter,
+      filterString,
     } = this.props;
 
     return (
@@ -74,6 +75,7 @@ class Products extends React.Component {
             {intl.formatMessage(
               { id: 'PRODUCTS.TITLE' },
               {
+                searchTerm: filterString ? `${filterString} | ` : '',
                 categoryCount: categoriesToFilter.length,
                 categories: categoriesToFilter.map(category => category.de.name).join(', '),
               }
@@ -103,6 +105,7 @@ Products.propTypes = {
   categoriesToFilter: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   filteredProducts: PropTypes.arrayOf(ProductPropType).isRequired,
   filterShown: PropTypes.bool.isRequired,
+  filterString: PropTypes.string.isRequired,
   intl: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
@@ -116,6 +119,7 @@ export default connect(
     filteredProducts: state.products.filteredProducts,
     filterShown: state.products.filterShown,
     categoriesToFilter: state.products.categoriesToFilter,
+    filterString: state.products.filterString,
   }),
   dispatch => ({
     loadProducts() {

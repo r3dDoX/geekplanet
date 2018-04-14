@@ -93,7 +93,7 @@
     "LIE": "Liechtenstein"
   },
   "PRODUCTS": {
-    "TITLE": "{categoryCount, plural, =0 {All Products} other {{categories}}}"
+    "TITLE": "{searchTerm}{categoryCount, plural, =0 {All Products} other {{categories}}}"
   },
   "PRODUCT": {
     "IN_STOCK": "{stock, number} {stock, plural, one {piece} other {pieces}} in stock",

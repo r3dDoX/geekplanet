@@ -1,5 +1,7 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
+import { FormattedMessage } from 'react-intl';
 
 const Container = styled.div`
   padding: 10px 20px;
@@ -7,6 +9,9 @@ const Container = styled.div`
 
 export default () => (
   <Container>
+    <FormattedMessage id="FOOTER.IMPRINT">
+      {message => (<Helmet><title>{message}</title></Helmet>)}
+    </FormattedMessage>
     <h3>Impressum</h3>
 
     <p>

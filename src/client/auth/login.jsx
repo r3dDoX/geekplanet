@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { SubmissionError } from 'redux-form';
 import withRouter from 'react-router-dom/withRouter';
@@ -29,8 +31,12 @@ export const LoginComponent = ({
       store(ids.REDIRECT_URI, '/');
     }
 
-    return (
+    return [
+      <FormattedMessage key="loginTitle" id="NAVIGATION.LOGIN">
+        {message => (<Helmet><title>{message}</title></Helmet>)}
+      </FormattedMessage>,
       <LoginForm
+        key="loginForm"
         isAuthenticating={isAuthenticating}
         onSubmit={(values) => {
           authenticating();
@@ -55,8 +61,8 @@ export const LoginComponent = ({
               });
             });
         }}
-      />
-    );
+      />,
+    ];
   }
 
   return (

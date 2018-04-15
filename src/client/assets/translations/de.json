@@ -24,7 +24,8 @@
     "CANCEL": "Abbrechen",
     "PRODUCTS": "Produkte",
     "COUPONS": "Gutscheine",
-    "CATEGORIES": "Kategorien"
+    "CATEGORIES": "Kategorien",
+    "ORDER": "Bestellung"
   },
   "NAVIGATION": {
     "ADMIN": "Admin",

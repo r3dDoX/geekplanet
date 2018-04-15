@@ -1,6 +1,7 @@
 import { Step, StepButton, StepContent, Stepper } from 'material-ui/Stepper';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import withRouter from 'react-router-dom/withRouter';
@@ -88,8 +89,12 @@ class OrderStepper extends React.Component {
       selectStep,
     } = this.props;
 
-    return (
+    return [
+      <FormattedMessage key="orderTitle" id="COMMON.ORDER">
+        {message => (<Helmet><title>{message}</title></Helmet>)}
+      </FormattedMessage>,
       <Stepper
+        key="orderStepper"
         linear={false}
         orientation="vertical"
         style={styles.container}
@@ -155,8 +160,8 @@ class OrderStepper extends React.Component {
             />
           </StepContent>
         </Step>
-      </Stepper>
-    );
+      </Stepper>,
+    ];
   }
 }
 

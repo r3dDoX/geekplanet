@@ -1,4 +1,6 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
+import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -11,6 +13,9 @@ const StyledList = styled.ul`
 
 export default () => (
   <Container>
+    <FormattedMessage id="FOOTER.AGB">
+      {message => (<Helmet><title>{message}</title></Helmet>)}
+    </FormattedMessage>
     <h3>Allgemeine Geschäftsbedingungen (AGB)</h3>
     <p>
       Geltung<br />

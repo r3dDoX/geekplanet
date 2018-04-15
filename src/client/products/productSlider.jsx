@@ -48,7 +48,11 @@ const styles = {
 };
 
 const ProductSlider = ({ product }) => [
-  <meta key="imageMeta" itemProp="image" content={getPictureUrl(product.files[0])} />,
+  <meta
+    key="imageMeta"
+    itemProp="image"
+    content={APP.BASE_URL + getPictureUrl(product.files[0])}
+  />,
   <ImageGallery
     key="imageSlider"
     items={product.files.map(image => ({

@@ -24,8 +24,8 @@ class Products extends React.Component {
     }
 
     const query = queryString.parse(this.props.location.search);
-    if (query && query.filterString) {
-      this.props.updateForm(query.filterString);
+    if (query && query.search) {
+      this.props.updateForm(query.search);
     }
 
     this.updateFilter(
@@ -42,16 +42,20 @@ class Products extends React.Component {
         nextProps.productCategories,
       );
     }
+
+    if (this.props.filterString && !nextProps.filterString) {
+      this.props.updateForm('');
+    }
   }
 
   updateFilter(locationSearch, productCategories) {
     const query = queryString.parse(locationSearch);
-    if ((query.categories || query.filterString) && productCategories.length) {
+    if ((query.categories || query.search) && productCategories.length) {
       const categories = query.categories ? query.categories.split(',') : [];
 
       this.props.setFilter(
         productCategories.filter(category => categories.includes(category._id)),
-        query.filterString
+        query.search
       );
     } else {
       this.props.setFilter();
@@ -129,7 +133,7 @@ export default connect(
       dispatch(createLoadProductCategories());
     },
     updateForm(filterString) {
-      dispatch(change(formName, 'filterString', filterString));
+      dispatch(change(formName, 'search', filterString));
     },
     setFilter(productCategories, filterString) {
       dispatch(createSetFilter({

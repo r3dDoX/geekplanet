@@ -51,14 +51,14 @@ const ProductFilter = ({ history }) => (
   <FilterContainer>
     <Field
       component={SmallTextField}
-      name="filterString"
+      name="search"
       label={<FormattedMessage id="PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER" />}
       floatingLabelStyle={styles.filterHint}
       underlineStyle={styles.filterHint}
       onKeyUp={({ target }) => debounce(() => {
         const query = queryString.parse(history.location.search);
 
-        query.filterString = target.value;
+        query.search = target.value;
 
         history.push(`?${queryString.stringify(query)}`);
       })}

@@ -24,7 +24,7 @@ const SearchInlay = styled.div`
 `;
 
 const SearchInput = styled.input`
-  margin: 5px 0px 5px 0;
+  margin: 5px 0 5px 0;
   padding: 5px 10px;
   border: none;
   border-radius: 20px;
@@ -44,7 +44,7 @@ const HomeSearch = ({
   intl,
 }) => {
   function submitFilterString() {
-    const query = { filterString: document.getElementById('search').value };
+    const query = { search: document.getElementById('search').value };
     history.push(`/products?${queryString.stringify(query)}`);
   }
 

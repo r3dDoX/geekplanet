@@ -49,12 +49,17 @@ const HomeSearch = ({
   }
 
   return (
-    <SearchBar>
-      <SearchInlay>
+    <SearchBar itemScope itemType="http://schema.org/WebSite">
+      <meta itemProp="url" content={APP.BASE_URL} />
+      <SearchInlay itemProp="potentialAction" itemScope itemType="http://schema.org/SearchAction">
+        <meta itemProp="target" content={`${APP.BASE_URL}/products?search={search_term_string}`} />
         <SearchInput
           id="search"
           placeholder={intl.formatMessage({ id: 'COMMON.SEARCH' })}
           type="search"
+          itemProp="query-input"
+          name="search_term_string"
+          required
           onKeyDown={(event) => {
             if (event.keyCode === 13) {
               submitFilterString();

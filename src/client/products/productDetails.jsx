@@ -101,7 +101,7 @@ class ProductDetails extends React.Component {
       <Container>
         <Helmet>
           <title>
-            {(product && `${product.category} - ${product[locale].name}`) || 'Untitled'}
+            {(product && `${product.category} | ${product[locale].name}`) || 'Untitled'}
           </title>
         </Helmet>
         {(product && !productLoading) ? (

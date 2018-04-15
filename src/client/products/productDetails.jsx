@@ -158,7 +158,9 @@ class ProductDetails extends React.Component {
             <StyledDivider />
             {product[locale].specifications.length ? (
               <div>
-                <h3><FormattedMessage id="PRODUCT.SPECIFICATIONS" /></h3>
+                <h3>
+                  <FormattedMessage id="PRODUCT.SPECIFICATIONS" />
+                </h3>
                 <DescriptionList>
                   {product[locale].specifications.map(specification => (
                     <DescriptionListItem key={specification}>
@@ -171,7 +173,9 @@ class ProductDetails extends React.Component {
             ) : null}
             {product[locale].delivery.length ? (
               <div>
-                <h3><FormattedMessage id="PRODUCT.DELIVERY" /></h3>
+                <h3>
+                  <FormattedMessage id="PRODUCT.DELIVERY" />
+                </h3>
                 <DescriptionList>
                   {product[locale].delivery.map(delivery => (
                     <DescriptionListItem key={delivery}>
@@ -184,7 +188,9 @@ class ProductDetails extends React.Component {
             ) : null}
             {product[locale].downloads.length ? (
               <div>
-                <h3><FormattedMessage id="PRODUCT.DOWNLOADS" /></h3>
+                <h3>
+                  <FormattedMessage id="PRODUCT.DOWNLOADS" />
+                </h3>
                 <DescriptionList>
                   {product[locale].downloads.map(downloadLink => (
                     <DescriptionListItem key={downloadLink.text}>

@@ -55,7 +55,7 @@ describe('LoginComponent', () => {
 
     const result = login();
 
-    expect(result.type()).toBe(LoginForm);
+    expect(result.first().last().type()).toBe(LoginForm);
   });
 
   it('should call handleAuthentication when logged out and access_token in hash', () => {

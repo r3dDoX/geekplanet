@@ -8,6 +8,7 @@ const sharp = require('sharp');
 const Logger = require('../logger');
 const mongoHelper = require('../db/mongoHelper');
 const { saveOrUpdate, handleGenericError } = require('../db/mongoHelper');
+const fs = require('fs');
 
 const {
   Product,
@@ -100,9 +101,9 @@ module.exports = {
           root: ProductPicturesCollection,
         });
 
-        readStream.on('error', (err) => {
-          res.sendStatus(404);
-          Logger.error(err);
+        readStream.on('error', () => {
+          res.setHeader('content-type', 'image/jpeg');
+          fs.createReadStream('src/client/assets/images/notFound.jpg').pipe(res);
         });
 
         readStream.pipe(res);

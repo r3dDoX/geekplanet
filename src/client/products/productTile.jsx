@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import Link from 'react-router-dom/Link';
 import styled from 'styled-components';
-import { formatPriceWithCurrency, formatPriceWithoutCurrency } from '../../common/priceFormatter';
+import { formatPriceWithCurrency } from '../../common/priceFormatter';
 import Authorized from '../auth/authorized.jsx';
 import OrderButton from '../order/orderButton.jsx';
 import { ProductPropType } from '../propTypes';
@@ -135,7 +135,7 @@ export const ProductTileComponent = ({
     <StyledCardActions itemProp="offers" itemScope itemType="http://schema.org/Offer">
       <meta itemProp="itemCondition" content="http://schema.org/NewCondition" />
       <meta itemProp="priceCurrency" content="CHF" />
-      <meta itemProp="price" content={formatPriceWithoutCurrency(product.price)} />
+      <meta itemProp="price" content={product.price} />
       <meta
         itemProp="availability"
         content={product.stock > 0 ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock'}

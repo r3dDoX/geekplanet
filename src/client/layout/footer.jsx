@@ -69,7 +69,9 @@ const styles = {
 };
 
 const Footer = () => (
-  <Container>
+  <Container itemScope itemType="http://schema.org/Organization">
+    <meta itemProp="url" content={APP.BASE_URL} />
+    <meta itemProp="logo" content={`${APP.BASE_URL}/assets/images/icon.png`} />
     <Logo src="/assets/images/logo.svg" alt="geekplanet Logo" />
     <TextContainer>
       <TextTitle>
@@ -91,13 +93,23 @@ const Footer = () => (
       </Link>
     </TextContainer>
     <SocialLinks>
-      <SocialLink href="https://www.youtube.com/channel/UCi7zjH3DyAvJoIlG8llygyQ" target="_blank" rel="noopener noreferrer">
+      <meta itemProp="sameAs" content="https://www.youtube.com/channel/UCi7zjH3DyAvJoIlG8llygyQ" />
+      <SocialLink
+        href="https://www.youtube.com/channel/UCi7zjH3DyAvJoIlG8llygyQ"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <SocialIcon
           alt="Youtube"
           src="/assets/images/youtube.png"
         />
       </SocialLink>
-      <SocialLink href="https://www.facebook.com/geekplanet.ch/" target="_blank" rel="noopener noreferrer">
+      <meta itemProp="sameAs" content="https://www.facebook.com/geekplanet.ch/" />
+      <SocialLink
+        href="https://www.facebook.com/geekplanet.ch/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <SocialIcon
           alt="Facebook"
           src="/assets/images/facebook.png"

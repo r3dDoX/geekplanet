@@ -21,9 +21,7 @@ const SloganContainer = styled.div`
 `;
 
 export default () => (
-  <div itemScope itemType="http://schema.org/Organization">
-    <meta itemProp="url" content={APP.BASE_URL} />
-    <meta itemProp="logo" content={`${APP.BASE_URL}/assets/images/icon.png`} />
+  <div>
     <Helmet>
       <title>geekplanet - Tabletop Miniatures</title>
     </Helmet>

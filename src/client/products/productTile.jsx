@@ -96,10 +96,6 @@ export const ProductTileComponent = ({
   product,
 }) => (
   <StyledCard
-    itemScope
-    itemType="http://schema.org/Product"
-    itemProp="identifier"
-    content={product._id}
     containerStyle={styles.cardContainer}
   >
     <StyledLink to={`/products/${product._id}`}>
@@ -107,19 +103,17 @@ export const ProductTileComponent = ({
         <img
           async
           alt="Product"
-          itemProp="image"
           src={(product.files.length) ? getPictureUrl(product.files[0]) : '/assets/images/notFound.jpg'}
         />
       </StyledCardMedia>
     </StyledLink>
     <StyledCardTitle
       title={
-        <TitleLink to={`/products/${product._id}`} itemProp="url">
+        <TitleLink to={`/products/${product._id}`}>
           {product[locale].name}
         </TitleLink>
       }
     >
-      <meta itemProp="name" content={product[locale].name} />
       <Badge
         badgeContent={product.stock < 0 ? 0 : product.stock}
         primary={product.stock > 0}
@@ -129,17 +123,10 @@ export const ProductTileComponent = ({
         <StockIcon stock={product.stock} />
       </Badge>
     </StyledCardTitle>
-    <StyledCardText itemProp="description">
+    <StyledCardText>
       {product[locale].shortDescription}
     </StyledCardText>
-    <StyledCardActions itemProp="offers" itemScope itemType="http://schema.org/Offer">
-      <meta itemProp="itemCondition" content="http://schema.org/NewCondition" />
-      <meta itemProp="priceCurrency" content="CHF" />
-      <meta itemProp="price" content={product.price} />
-      <meta
-        itemProp="availability"
-        content={product.stock > 0 ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock'}
-      />
+    <StyledCardActions>
       <PriceTag>
         {formatPriceWithCurrency(product.price)}
         {product.originalPrice && (

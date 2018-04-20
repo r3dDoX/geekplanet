@@ -3,49 +3,55 @@ import NavigationRight from 'material-ui/svg-icons/navigation/chevron-right';
 import Fullscreen from 'material-ui/svg-icons/navigation/fullscreen';
 import React from 'react';
 import ImageGallery from 'react-image-gallery';
+import styled from 'styled-components';
 import { ProductPropType } from '../propTypes';
 import { backgroundColor } from '../theme';
 import { getPictureUrl } from './productService';
 
-const arrowContainerStyle = {
-  position: 'absolute',
-  top: '50%',
-  padding: '15px',
-  transform: 'translateY(-50%)',
-  zIndex: 1,
-  cursor: 'pointer',
-  outline: 'none',
-};
+const ArrowIcon = styled.div`
+  width: 48px !important;
+  height: 48px !important;
+  color: ${backgroundColor} !important;
+  filter: drop-shadow( 0px 0px 4px white);
+`;
 
-const styles = {
-  leftArrowContainer: Object.assign({
-    left: 0,
-  }, arrowContainerStyle),
-  rightArrowContainer: Object.assign({
-    right: 0,
-  }, arrowContainerStyle),
-  icons: {
-    width: '48px',
-    height: '48px',
-    color: backgroundColor,
-    filter: 'drop-shadow( 0px 0px 4px white)',
-  },
-  fullscreenIcon: {
-    width: '42px',
-    height: '42px',
-    color: backgroundColor,
-    filter: 'drop-shadow( 0px 0px 4px white)',
-  },
-  fullscreenContainer: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    zIndex: 1,
-    cursor: 'pointer',
-    paddingRight: '15px',
-    outline: 'none',
-  },
-};
+const LeftArrowIcon = ArrowIcon.withComponent(NavigationLeft);
+const RightArrowIcon = ArrowIcon.withComponent(NavigationRight);
+
+const ArrowContainer = styled.a`
+  position: absolute;
+  top: 50%;
+  padding: 15px;
+  transform: translateY(-50%);
+  z-index: 1;
+  cursor: pointer;
+  outline: none;
+`;
+
+const LeftArrowContainer = ArrowContainer.extend`
+  left: 0;
+`;
+
+const RightArrowContainer = ArrowContainer.extend`
+  right: 0;
+`;
+
+const FullscreenContainer = styled.a`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  cursor: pointer;
+  padding-right: 15px;
+  outline: none;
+`;
+
+const FullscreenIcon = styled(Fullscreen)`
+  width: 42px;
+  height: 42px;
+  color: ${backgroundColor};
+  filter: drop-shadow( 0px 0px 4px white);
+`;
 
 const ProductSlider = ({ product }) => [
   <meta
@@ -62,19 +68,16 @@ const ProductSlider = ({ product }) => [
     defaultImage="/assets/images/notFound.jpg"
     lazyLoad
     showPlayButton={false}
-    showThumbnails={product.files.length > 1}
-    thumbnailPosition="left"
     renderLeftNav={(onClick, disabled) => {
       if (!disabled) {
         return (
-          <a
+          <LeftArrowContainer
             onClick={onClick}
-            style={styles.leftArrowContainer}
             role="button"
             tabIndex={0}
           >
-            <NavigationLeft style={styles.icons} />
-          </a>
+            <LeftArrowIcon />
+          </LeftArrowContainer>
         );
       }
 
@@ -83,28 +86,26 @@ const ProductSlider = ({ product }) => [
     renderRightNav={(onClick, disabled) => {
       if (!disabled) {
         return (
-          <a
+          <RightArrowContainer
             onClick={onClick}
-            style={styles.rightArrowContainer}
             role="button"
             tabIndex={0}
           >
-            <NavigationRight style={styles.icons} />
-          </a>
+            <RightArrowIcon />
+          </RightArrowContainer>
         );
       }
 
       return null;
     }}
     renderFullscreenButton={onClick => (
-      <a
+      <FullscreenContainer
         onClick={onClick}
-        style={styles.fullscreenContainer}
         role="button"
         tabIndex={0}
       >
-        <Fullscreen style={styles.fullscreenIcon} />
-      </a>
+        <FullscreenIcon />
+      </FullscreenContainer>
     )}
   />,
 ];

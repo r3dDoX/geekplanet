@@ -71,6 +71,7 @@ const styles = {
 const Footer = () => (
   <Container itemScope itemType="http://schema.org/Organization">
     <meta itemProp="url" content={APP.BASE_URL} />
+    <meta itemProp="name" content="geekplanet" />
     <meta itemProp="logo" content={`${APP.BASE_URL}/assets/images/icon.png`} />
     <Logo src="/assets/images/logo.svg" alt="geekplanet Logo" />
     <TextContainer>

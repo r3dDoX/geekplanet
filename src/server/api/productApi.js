@@ -130,8 +130,8 @@ module.exports = {
             ])
               .then(([category, producer]) =>
                 res.send(Object.assign({}, product.toObject(), {
-                  category: category.de.name,
-                  producer: producer.name,
+                  category,
+                  producer,
                 }))
               )
           )

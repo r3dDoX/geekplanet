@@ -49,7 +49,7 @@ const HomeSearch = ({
   }
 
   return (
-    <SearchBar itemScope itemType="http://schema.org/WebSite">
+    <SearchBar itemScope itemType="http://schema.org/WebSite" role="search">
       <meta itemProp="url" content={APP.BASE_URL} />
       <SearchInlay itemProp="potentialAction" itemScope itemType="http://schema.org/SearchAction">
         <meta itemProp="target" content={`${APP.BASE_URL}/products?search={search_term_string}`} />

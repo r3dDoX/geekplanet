@@ -51,7 +51,9 @@ const ProductSlider = ({ product }) => [
           alt="Product"
           src={(screen.availWidth > 800)
             ? getPictureUrl(image, 'l')
-            : getPictureUrl(image, 'm')
+            : (screen.availWidth > 450)
+              ? getPictureUrl(image, 'm')
+              : getPictureUrl(image, 's')
           }
         />
       </div>

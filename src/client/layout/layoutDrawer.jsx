@@ -197,10 +197,22 @@ class LayoutDrawer extends React.Component {
               />
             )
           }
-          <Divider key="ProductDivider" />
-          <Subheader key="products">
+          <Divider />
+          <Subheader>
             <FormattedMessage id="NAVIGATION.PRODUCTS" />
           </Subheader>
+          <ListItem
+            primaryText={<FormattedMessage id="NAVIGATION.ALL_PRODUCTS" />}
+            containerElement={
+              <Link to="/products" />
+            }
+            style={selectedCategories.length === 0 && location.pathname.includes('products')
+              ? style.selectedItem
+              : null
+            }
+            onClick={toggleDrawerOnMobile}
+          />
+          <CategoryDivider />
           {productCategories
             .map(category => recursivelyRenderCategoryMenus(category))}
         </List>
@@ -219,6 +231,7 @@ LayoutDrawer.propTypes = {
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
+    pathname: PropTypes.string.isRequired,
   }).isRequired,
 };
 

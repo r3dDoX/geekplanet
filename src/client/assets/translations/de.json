@@ -35,7 +35,8 @@
     "FORMS": "Produkte",
     "ORDERS": "Bestellungen",
     "HOME_TILES": "Home Kacheln",
-    "COUPONS": "Gutscheine"
+    "COUPONS": "Gutscheine",
+    "ALL_PRODUCTS": "Alle Produkte"
   },
   "NOTIFICATION": {
     "SHOPPING_CART_ITEM_ADDED": "Produkt zum Warenkorb hinzugefügt"

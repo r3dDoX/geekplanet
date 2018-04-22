@@ -6,6 +6,10 @@ import { ProductPropType } from '../propTypes';
 import { backgroundColor } from '../theme';
 import { getPictureUrl } from './productService';
 
+const ProductPicture = styled.picture`
+  width: 100%;
+`;
+
 const ProductImage = styled.img`
   width: 100%;
 `;
@@ -47,15 +51,17 @@ const ProductSlider = ({ product }) => [
   >
     {product.files.map(image => (
       <div key={`productImage_${image}`}>
-        <ProductImage
-          alt="Product"
-          src={(screen.availWidth > 800)
-            ? getPictureUrl(image, 'l')
-            : (screen.availWidth > 450)
-              ? getPictureUrl(image, 'm')
-              : getPictureUrl(image, 's')
-          }
-        />
+        <ProductPicture>
+          <source
+            media="(max-width: 450px)"
+            srcSet={`${getPictureUrl(image, 's')} 1x, ${getPictureUrl(image, 'm')} 2x`}
+          />
+          <source
+            media="(max-width: 800px)"
+            srcSet={`${getPictureUrl(image, 'm')} 1x, ${getPictureUrl(image, 'l')} 2x`}
+          />
+          <ProductImage src={getPictureUrl(image, 'l')} alt="Product" />
+        </ProductPicture>
       </div>
     ))}
   </StyledSlider>,

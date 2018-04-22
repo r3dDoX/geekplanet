@@ -15,7 +15,7 @@ const ProductImage = styled.img`
 `;
 
 const StyledSlider = styled(Slider)`
-  margin: 0 25px;
+  margin: 0 25px 40px;
   
   .slick-prev, .slick-next {
     &:before {

@@ -46,6 +46,7 @@
     "TOTAL": "Total",
     "CHECKOUT": "Zur Kasse",
     "SHIPPING_COST": "Versandkosten",
+    "FREE_SHIPPING": "Versandkostenfrei ab {amount}",
     "NOT_IN_STOCK": "Dieses Produkt ist gerade nicht an Lager. Deshalb verzögert sich der Versand etwas."
   },
   "COUPONS": {

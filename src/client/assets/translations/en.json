@@ -19,6 +19,7 @@
     "TOTAL": "Total",
     "SUBTOTAL": "Subtotal",
     "SHIPPING_COSTS": "Shipping Costs",
+    "FREE_SHIPPING": "Free shipping from {amount}",
     "SEARCH": "Search",
     "SAVE": "Save",
     "CANCEL": "Cancel",

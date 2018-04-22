@@ -83,6 +83,12 @@ const ShoppingCartDrawer = ({
         insetChildren
         primaryText={formatPriceWithCurrency(ORDER.SHIPPING_COST)}
       />,
+      <Subheader key="freeShippingFrom" inset>
+        <FormattedMessage
+          id="SHOPPING_CART.FREE_SHIPPING"
+          values={{ amount: formatPriceWithCurrency(ORDER.MIN_PRICE_SHIPPING) }}
+        />
+      </Subheader>,
     ]}
     <Coupons
       coupons={coupons}

@@ -187,6 +187,12 @@ export const createLoadProductCategories = () => dispatch =>
     productCategories,
   }));
 
+export const createLoadPublicProducers = () => dispatch =>
+  Xhr.get('/api/publicproducers').then(producers => dispatch({
+    type: PUBLIC_PRODUCERS_LOADED,
+    producers,
+  }));
+
 export const createSetShoppingCartamount = (amount, product) => ({
   type: SET_SHOPPING_CART_AMOUNT,
   data: {

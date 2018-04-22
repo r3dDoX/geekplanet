@@ -14,6 +14,7 @@ const {
   Product,
   ProductPicturesCollection,
   ProductCategory,
+  Producer,
 } = require('../db/models');
 
 function saveFileInSize(id, file, sizeTag, size) {
@@ -123,9 +124,15 @@ module.exports = {
       (req, res) =>
         Product.findOne({ _id: req.params.id }, productFilter)
           .then(product =>
-            ProductCategory.findOne({ _id: product.category })
-              .then(category =>
-                res.send(Object.assign({}, product.toObject(), { category: category.de.name }))
+            Promise.all([
+              ProductCategory.findOne({ _id: product.category }),
+              Producer.findOne({ _id: product.producer }),
+            ])
+              .then(([category, producer]) =>
+                res.send(Object.assign({}, product.toObject(), {
+                  category,
+                  producer,
+                }))
               )
           )
           .catch((err) => {

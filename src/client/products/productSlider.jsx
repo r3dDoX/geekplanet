@@ -1,5 +1,4 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import Slider from 'react-slick';
 import styled from 'styled-components';
 import { ProductPropType } from '../propTypes';
@@ -25,18 +24,6 @@ const StyledSlider = styled(Slider)`
 `;
 
 const ProductSlider = ({ product }) => [
-  <Helmet key="productDetailHead">
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
-    />
-  </Helmet>,
   ...product.files.map(image => (
     <meta
       key={`imageMeta_${image}`}

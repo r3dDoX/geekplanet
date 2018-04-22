@@ -81,6 +81,7 @@ class LayoutDrawer extends React.Component {
       return [
         <ListItem
           key={category._id}
+          role="link"
           primaryText={category.de.name}
           primaryTogglesNestedList
           initiallyOpen={selectedCategories.some(

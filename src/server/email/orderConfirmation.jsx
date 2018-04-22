@@ -158,7 +158,10 @@ module.exports = function renderTemplate(order) {
                   <img
                     style={styles.productPicture}
                     alt="Product"
-                    src={`${config.APP.BASE_URL}/api/products/pictures/${product.files[0]}_s`}
+                    src={product.files.length
+                      ? `${config.APP.BASE_URL}/assets/images/notFound.jpg`
+                      : `${config.APP.BASE_URL}/api/products/pictures/${product.files[0]}_s`
+                    }
                   />
                 </td>
                 <td style={styles.productCell}>

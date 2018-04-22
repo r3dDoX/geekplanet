@@ -37,11 +37,13 @@ const ProductSlider = ({ product }) => [
       href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
     />
   </Helmet>,
-  <meta
-    key="imageMeta"
-    itemProp="image"
-    content={APP.BASE_URL + getPictureUrl(product.files[0])}
-  />,
+  ...product.files.map(image => (
+    <meta
+      key={`imageMeta_${image}`}
+      itemProp="image"
+      content={APP.BASE_URL + getPictureUrl(image, 'l')}
+    />
+  )),
   <StyledSlider
     key="imageSlider"
     dots

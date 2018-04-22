@@ -75,7 +75,10 @@ const ShoppingCartDrawer = ({
     {hasShippingCosts && [
       <Divider key="shippingCostDivider" />,
       <Subheader key="shippingCostHeader" inset>
-        <FormattedMessage id="SHOPPING_CART.SHIPPING_COST" />
+        <FormattedMessage
+          id="SHOPPING_CART.SHIPPING_COST"
+          values={{ amount: formatPriceWithCurrency(ORDER.MIN_PRICE_SHIPPING) }}
+        />
       </Subheader>,
       <ShippingCost
         key="shippingCostBody"
@@ -83,12 +86,6 @@ const ShoppingCartDrawer = ({
         insetChildren
         primaryText={formatPriceWithCurrency(ORDER.SHIPPING_COST)}
       />,
-      <Subheader key="freeShippingFrom" inset>
-        <FormattedMessage
-          id="SHOPPING_CART.FREE_SHIPPING"
-          values={{ amount: formatPriceWithCurrency(ORDER.MIN_PRICE_SHIPPING) }}
-        />
-      </Subheader>,
     ]}
     <Coupons
       coupons={coupons}

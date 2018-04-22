@@ -159,8 +159,8 @@ module.exports = function renderTemplate(order) {
                     style={styles.productPicture}
                     alt="Product"
                     src={product.files.length
-                      ? `${config.APP.BASE_URL}/assets/images/notFound.jpg`
-                      : `${config.APP.BASE_URL}/api/products/pictures/${product.files[0]}_s`
+                      ? `${config.APP.BASE_URL}/api/products/pictures/${product.files[0]}_s`
+                      : `${config.APP.BASE_URL}/assets/images/notFound.jpg`
                     }
                   />
                 </td>

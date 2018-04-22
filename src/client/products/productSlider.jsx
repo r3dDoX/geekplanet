@@ -36,7 +36,10 @@ const ProductSlider = ({ product }) => [
   <meta
     key="imageMeta"
     itemProp="image"
-    content={APP.BASE_URL + getPictureUrl(product.files[0])}
+    content={APP.BASE_URL + (product.files.length
+      ? getPictureUrl(product.files[0])
+      : '/assets/images/notFound.jpg')
+    }
   />,
   <StyledSlider
     key="imageSlider"

@@ -4,7 +4,6 @@ import './errorHandler';
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import 'react-image-gallery/styles/css/image-gallery.css';
 import { addLocaleData } from 'react-intl';
 import de from 'react-intl/locale-data/de';
 import authService from './auth/authService';

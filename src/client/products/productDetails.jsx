@@ -1,17 +1,18 @@
 import Divider from 'material-ui/Divider';
-import { green500, grey300, grey500 } from 'material-ui/styles/colors';
+import { green500, grey300, grey500, grey800 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { formatPriceWithCurrency } from '../../common/priceFormatter';
 import { createLoadProduct } from '../actions';
 import MainSpinner from '../layout/mainSpinner.jsx';
 import OrderButton from '../order/orderButton.jsx';
 import { CompleteProductPropType } from '../propTypes';
-import { accent1Color, brandPrimary } from '../theme';
+import { accent1Color, brandSecondary } from '../theme';
 import PriceCountUp from './priceCountUp.jsx';
 import ProductSlider from './productSlider.jsx';
 import StockIcon from './stockIcon.jsx';
@@ -22,7 +23,8 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-  color: ${brandPrimary};
+  color: ${grey800};
+  margin-bottom: 10px;
 `;
 
 const Product = styled.div`
@@ -84,6 +86,20 @@ const InStockMessage = styled.span`
   color: ${green500};
 `;
 
+const TitleContainer = styled.p`
+  margin: 0;
+  color: ${grey500};
+`;
+
+const TitleLink = styled(Link)`
+  color: ${brandSecondary};
+  text-decoration: none;
+  
+  &:hover {
+    color: ${accent1Color};
+  }
+`;
+
 class ProductDetails extends React.Component {
   componentWillMount() {
     if (!this.props.product || this.props.product._id !== this.props.match.params.id) {
@@ -101,7 +117,7 @@ class ProductDetails extends React.Component {
       <Container>
         <Helmet>
           <title>
-            {(product && `${product.category} | ${product[locale].name}`) || 'Untitled'}
+            {(product && `${product[locale].name} | ${product.producer.name} | ${product.category.de.name}`) || 'Untitled'}
           </title>
         </Helmet>
         {(product && !productLoading) ? (
@@ -115,6 +131,17 @@ class ProductDetails extends React.Component {
             <Title itemProp="name">
               {product[locale].name}
             </Title>
+            <TitleContainer>
+              <TitleLink to={`/products?producers=${product.producer._id}`}>
+                <meta itemProp="brand" content={product.producer.name} />
+                {product.producer.name}
+              </TitleLink>
+              &nbsp;&nbsp;|&nbsp;&nbsp;
+              <TitleLink to={`/products?categories=${product.category._id}`}>
+                <meta itemProp="category" content={product.category.de.name} />
+                {product.category.de.name}
+              </TitleLink>
+            </TitleContainer>
             <StyledDivider />
             <OrderContainer itemProp="identifier" content={product._id}>
               <Price itemProp="offers" itemScope itemType="http://schema.org/Offer">
@@ -124,7 +151,9 @@ class ProductDetails extends React.Component {
                 <meta
                   itemProp="availability"
                   content={
-                    product.stock > 0 ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock'
+                    product.stock > 0
+                      ? 'http://schema.org/InStock'
+                      : 'http://schema.org/OutOfStock'
                   }
                 />
                 <PriceCountUp price={product.price} />
@@ -147,7 +176,7 @@ class ProductDetails extends React.Component {
               )}
             </ProductStock>
             <StyledDivider />
-            <h3 itemProp="category" content={product.category}>
+            <h3>
               <FormattedMessage id="PRODUCT.DESCRIPTION" />
             </h3>
             <ProductDescription

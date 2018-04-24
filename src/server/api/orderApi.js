@@ -132,7 +132,7 @@ module.exports = {
               source: req.body.token.id,
             })
             .catch(({ message, detail }) =>
-              Promise.reject(new Error(`${message} ${detail ? `Reason: ${detail}` : ''}`))
+              Promise.reject(new Error(`${message} ${detail || ''}`))
             )
             .then(() => {
               updateCoupons(order.itemTotal, order.coupons);

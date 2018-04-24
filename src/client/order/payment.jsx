@@ -52,7 +52,7 @@ class Payment extends React.Component {
 
         Xhr.post('/api/payment/cleared', { token, shoppingCartId: shoppingCart.id })
           .then(finishOrder)
-          .catch(error => stopProcessing(error));
+          .catch(stopProcessing);
       },
     });
 

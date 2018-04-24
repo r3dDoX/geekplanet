@@ -36,7 +36,6 @@ const ProductSlider = ({ product }) => [
     dots
     infinite
     speed={500}
-    lazyLoad
   >
     {product.files.map(image => (
       <div key={`productImage_${image}`}>
@@ -49,7 +48,8 @@ const ProductSlider = ({ product }) => [
             media="(max-width: 800px)"
             srcSet={`${getPictureUrl(image, 'm')} 1x, ${getPictureUrl(image, 'l')} 2x`}
           />
-          <ProductImage src={getPictureUrl(image, 'l')} alt="Product" />
+          <source srcSet={getPictureUrl(image, 'l')} />
+          <ProductImage src={getPictureUrl(image, 'l')} alt="Product Carousel" />
         </ProductPicture>
       </div>
     ))}

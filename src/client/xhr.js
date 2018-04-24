@@ -23,7 +23,8 @@ function wrapXhrPromise(path, method, data, contentType) {
         AuthService.logout();
         window.location.assign('/login');
       } else {
-        reject();
+        const { response } = request;
+        reject(response);
       }
     });
 

@@ -24,7 +24,7 @@ const mongoHelper = {
   },
   handleGenericError(error, response) {
     Logger.error(error);
-    response.status(500).send(error);
+    response.status(500).send(error.toString());
   },
 };
 

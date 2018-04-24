@@ -1,10 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import Avatar from 'material-ui/Avatar';
+import Chip from 'material-ui/Chip';
 import RaisedButton from 'material-ui/RaisedButton';
-import Xhr from '../xhr';
-import { ShoppingCartPropType } from '../propTypes';
+import { redA100 } from 'material-ui/styles/colors';
+import CreditCardIcon from 'material-ui/svg-icons/action/credit-card';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import MainSpinner from '../layout/mainSpinner.jsx';
+import { ShoppingCartPropType } from '../propTypes';
+import { accent1Color } from '../theme';
+import Xhr from '../xhr';
 
 const styles = {
   container: {
@@ -12,6 +17,9 @@ const styles = {
   },
   paymentButton: {
     margin: '10px',
+  },
+  paymentError: {
+    margin: '0 0 10px 10px',
   },
 };
 
@@ -27,6 +35,8 @@ class Payment extends React.Component {
       finishOrder,
       startProcessing,
       processing,
+      paymentError,
+      stopProcessing,
     } = this.props;
 
     if (processing) {
@@ -41,12 +51,19 @@ class Payment extends React.Component {
         startProcessing();
 
         Xhr.post('/api/payment/cleared', { token, shoppingCartId: shoppingCart.id })
-          .then(finishOrder, () => window.location.assign('/error'));
+          .then(finishOrder)
+          .catch(error => stopProcessing(error));
       },
     });
 
     return (
       <div style={styles.container}>
+        {paymentError && (
+          <Chip backgroundColor={redA100} style={styles.paymentError}>
+            <Avatar size={32} backgroundColor={accent1Color} icon={<CreditCardIcon />} />
+            {paymentError}
+          </Chip>
+        )}
         {shoppingCart.total > 0 ? [
           <RaisedButton
             key="buttonCreditCard"
@@ -104,6 +121,8 @@ Payment.propTypes = {
   startOrder: PropTypes.func.isRequired,
   finishOrder: PropTypes.func.isRequired,
   startProcessing: PropTypes.func.isRequired,
+  stopProcessing: PropTypes.func.isRequired,
+  paymentError: PropTypes.string.isRequired,
 };
 
 export default Payment;

@@ -121,7 +121,7 @@ module.exports = {
     );
 
     app.post('/api/payment/cleared', bodyParser.json(), authorization,
-      (req, res) => {
+      (req, res) =>
         Order
           .findOne({ _id: req.body.shoppingCartId, user: req.user.sub })
           .then(order => stripe.charges
@@ -131,6 +131,9 @@ module.exports = {
               currency: 'chf',
               source: req.body.token.id,
             })
+            .catch(({ message, detail }) =>
+              Promise.reject(new Error(`${message} ${detail ? `Reason: ${detail}` : ''}`))
+            )
             .then(() => {
               updateCoupons(order.itemTotal, order.coupons);
               updateProductStocks(order.items);
@@ -143,8 +146,7 @@ module.exports = {
               { new: true }
             )
             .then(order => mail.sendConfirmation(order, req.user.email)))
-          .catch(error => handleGenericError(error, res));
-      }
+          .catch(error => handleGenericError(error, res))
     );
 
     function createAndSendEsr(order, email) {

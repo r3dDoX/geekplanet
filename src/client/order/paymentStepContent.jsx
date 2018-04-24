@@ -7,7 +7,7 @@ import {
 } from '../propTypes';
 import Xhr from '../xhr';
 import Payment from './payment.jsx';
-import { createFinishOrder, createProcessingStarted } from '../actions';
+import { createFinishOrder, createPaymentError, createProcessingStarted } from '../actions';
 
 const PaymentStepContent = ({
   email,
@@ -15,6 +15,7 @@ const PaymentStepContent = ({
   shoppingCart,
   finishOrder,
   startProcessing,
+  stopProcessing,
 }) => {
   if (email) {
     return (
@@ -28,6 +29,8 @@ const PaymentStepContent = ({
         }))}
         finishOrder={finishOrder}
         startProcessing={startProcessing}
+        stopProcessing={stopProcessing}
+        paymentError={order.paymentError}
       />
     );
   }
@@ -43,6 +46,7 @@ PaymentStepContent.propTypes = {
   shoppingCart: ShoppingCartPropType.isRequired,
   finishOrder: PropTypes.func.isRequired,
   startProcessing: PropTypes.func.isRequired,
+  stopProcessing: PropTypes.func.isRequired,
   order: OrderStatePropType.isRequired,
 };
 
@@ -58,6 +62,9 @@ export default connect(
     },
     finishOrder() {
       dispatch(createFinishOrder());
+    },
+    stopProcessing(error) {
+      dispatch(createPaymentError(error));
     },
   }),
 )(PaymentStepContent);

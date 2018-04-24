@@ -22,6 +22,7 @@ export const HIDE_SHOPPING_CART_NOTIFICATION = 'HIDE_SHOPPING_CART_NOTIFICATION'
 export const SET_SHOPPING_CART_AMOUNT = 'SET_AMOUNT';
 export const ORDER_FINISHED = 'ORDER_FINISHED';
 export const PROCESSING_STARTED = 'PROCESSING_STARTED';
+export const PAYMENT_ERROR = 'PAYMENT_ERROR';
 export const SAVE_ADDRESS = 'SAVE_ADDRESS';
 export const ADDRESSES_LOADED = 'ADDRESSES_LOADED';
 export const SELECT_ADDRESS = 'SELECT_ADDRESS';
@@ -142,6 +143,11 @@ export const createSelectStep = step => ({
 
 export const createProcessingStarted = () => ({
   type: PROCESSING_STARTED,
+});
+
+export const createPaymentError = error => ({
+  type: PAYMENT_ERROR,
+  data: error,
 });
 
 export const createFinishOrder = () => ({

@@ -76,6 +76,7 @@ export const OrderStatePropType = PropTypes.shape({
   addresses: UserAddressesPropType.isRequired,
   selectedAddress: UserAddressPropType,
   processing: PropTypes.bool.isRequired,
+  paymentError: PropTypes.string.isRequired,
 });
 
 export const AddressPropType = PropTypes.shape({

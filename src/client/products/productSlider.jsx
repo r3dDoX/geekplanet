@@ -36,6 +36,7 @@ const ProductSlider = ({ product }) => [
     dots
     infinite
     speed={500}
+    lazyLoad
   >
     {product.files.map(image => (
       <div key={`productImage_${image}`}>

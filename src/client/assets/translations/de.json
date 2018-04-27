@@ -86,7 +86,8 @@
       "ACCEPT": "AGB akzeptieren"
     },
     "SUMMARY": {
-      "TITLE": "Übersicht"
+      "TITLE": "Übersicht",
+      "CONFIRM_ORDER": "Bezahlungspflichtig bestellen"
     },
     "CONFIRMATION": {
       "TITLE": "Bestätigung",

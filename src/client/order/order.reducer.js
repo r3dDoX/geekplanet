@@ -2,7 +2,7 @@ import {
   ADDRESSES_LOADED,
   AGB_ACCEPTED,
   ORDER_FINISHED,
-  PAYMENT_ERROR,
+  PAYMENT_ERROR, PAYMENT_METHOD_SELECTED,
   PROCESSING_STARTED,
   SAVE_ADDRESS,
   SAVING_ADDRESS,
@@ -14,6 +14,7 @@ export const OrderSteps = {
   ADDRESS: 'address',
   AGB: 'agb',
   PAYMENT: 'payment',
+  SUMMARY: 'summary',
   CONFIRMATION: 'confirmation',
 };
 
@@ -50,6 +51,10 @@ export default function auth(state = initialState, { type, data }) {
     case SELECT_ADDRESS:
       return Object.assign({}, state, {
         selectedAddress: data,
+      });
+    case PAYMENT_METHOD_SELECTED:
+      return Object.assign({}, state, {
+        step: OrderSteps.SUMMARY,
       });
     case ORDER_FINISHED:
       return Object.assign({}, state, {

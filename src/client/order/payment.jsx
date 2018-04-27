@@ -32,7 +32,7 @@ class Payment extends React.Component {
     const {
       email,
       shoppingCart,
-      finishOrder,
+      finishPaymentStep,
       startProcessing,
       processing,
       paymentError,
@@ -51,7 +51,7 @@ class Payment extends React.Component {
         startProcessing();
 
         Xhr.post('/api/payment/cleared', { token, shoppingCartId: shoppingCart.id })
-          .then(finishOrder)
+          .then(finishPaymentStep)
           .catch(stopProcessing);
       },
     });
@@ -87,7 +87,7 @@ class Payment extends React.Component {
                 .post('/api/payment/prepayment', {
                   shoppingCartId: shoppingCart.id,
                 })
-                .then(finishOrder, () => () => window.location.assign('/error'));
+                .then(finishPaymentStep, () => () => window.location.assign('/error'));
             }}
             label={<FormattedMessage id="ORDER.PAYMENT.PREPAYMENT" />}
             primary
@@ -103,7 +103,7 @@ class Payment extends React.Component {
                 .post('/api/payment/none', {
                   shoppingCartId: shoppingCart.id,
                 })
-                .then(finishOrder, () => () => window.location.assign('/error'))
+                .then(finishPaymentStep, () => () => window.location.assign('/error'))
             }
             label={<FormattedMessage id="ORDER.PAYMENT.FINISH" />}
             primary
@@ -119,7 +119,7 @@ Payment.propTypes = {
   processing: PropTypes.bool.isRequired,
   shoppingCart: ShoppingCartPropType.isRequired,
   startOrder: PropTypes.func.isRequired,
-  finishOrder: PropTypes.func.isRequired,
+  finishPaymentStep: PropTypes.func.isRequired,
   startProcessing: PropTypes.func.isRequired,
   stopProcessing: PropTypes.func.isRequired,
   paymentError: PropTypes.string.isRequired,

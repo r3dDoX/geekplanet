@@ -23,6 +23,7 @@ export const SET_SHOPPING_CART_AMOUNT = 'SET_AMOUNT';
 export const ORDER_FINISHED = 'ORDER_FINISHED';
 export const PROCESSING_STARTED = 'PROCESSING_STARTED';
 export const PAYMENT_ERROR = 'PAYMENT_ERROR';
+export const PAYMENT_METHOD_SELECTED = 'PAYMENT_METHOD_SELECTED';
 export const SAVE_ADDRESS = 'SAVE_ADDRESS';
 export const ADDRESSES_LOADED = 'ADDRESSES_LOADED';
 export const SELECT_ADDRESS = 'SELECT_ADDRESS';
@@ -148,6 +149,10 @@ export const createProcessingStarted = () => ({
 export const createPaymentError = error => ({
   type: PAYMENT_ERROR,
   data: error,
+});
+
+export const createFinishPaymentStep = () => ({
+  type: PAYMENT_METHOD_SELECTED,
 });
 
 export const createFinishOrder = () => ({

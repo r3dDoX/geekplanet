@@ -85,6 +85,9 @@
       "TITLE": "AGB",
       "ACCEPT": "AGB akzeptieren"
     },
+    "SUMMARY": {
+      "TITLE": "Übersicht"
+    },
     "CONFIRMATION": {
       "TITLE": "Bestätigung",
       "TEXT": "Danke für deine Bestellung. In Kürze erhältst du eine Email mit der Bestätigung."

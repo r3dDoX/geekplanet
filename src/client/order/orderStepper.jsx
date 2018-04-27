@@ -76,6 +76,9 @@ class OrderStepper extends React.Component {
       case OrderSteps.PAYMENT:
         this.props.history.push(`${this.props.match.url}/payment`);
         break;
+      case OrderSteps.SUMMARY:
+        this.props.history.push(`${this.props.match.url}/summary`);
+        break;
       case OrderSteps.CONFIRMATION:
         this.props.history.push(`${this.props.match.url}/confirmation`);
         break;
@@ -131,8 +134,8 @@ class OrderStepper extends React.Component {
           </StepContent>
         </Step>
         <Step
-          completed={orderStep === OrderSteps.CONFIRMATION}
-          disabled={orderStep !== OrderSteps.PAYMENT}
+          completed={orderStep === OrderSteps.CONFIRMATION || orderStep === OrderSteps.SUMMARY}
+          disabled={orderStep !== OrderSteps.PAYMENT || orderStep !== OrderSteps.SUMMARY}
           active={orderStep === OrderSteps.PAYMENT}
         >
           <StepButton>
@@ -143,6 +146,18 @@ class OrderStepper extends React.Component {
               path={`${match.url}/${OrderSteps.PAYMENT}`}
               component={PaymentStepContent}
             />
+          </StepContent>
+        </Step>
+        <Step
+          completed={orderStep === OrderSteps.CONFIRMATION}
+          disabled={orderStep !== OrderSteps.SUMMARY && orderStep !== OrderSteps.CONFIRMATION}
+          active={orderStep === OrderSteps.SUMMARY}
+        >
+          <StepButton>
+            <FormattedMessage id="ORDER.SUMMARY.TITLE" />
+          </StepButton>
+          <StepContent>
+            <h1>Order Summary</h1>
           </StepContent>
         </Step>
         <Step

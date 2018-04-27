@@ -13,6 +13,7 @@ import AgbStepContent from './agbStepContent.jsx';
 import ConfirmationStepContent from './confirmationStepContent.jsx';
 import { OrderSteps } from './order.reducer';
 import PaymentStepContent from './paymentStepContent.jsx';
+import Summary from './summary.jsx';
 
 const styles = {
   container: {
@@ -157,7 +158,10 @@ class OrderStepper extends React.Component {
             <FormattedMessage id="ORDER.SUMMARY.TITLE" />
           </StepButton>
           <StepContent>
-            <h1>Order Summary</h1>
+            <PrivateRoute
+              path={`${match.url}/${OrderSteps.SUMMARY}`}
+              component={Summary}
+            />
           </StepContent>
         </Step>
         <Step

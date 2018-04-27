@@ -86,7 +86,8 @@
       "ACCEPT": "Accept GTC"
     },
     "SUMMARY": {
-      "TITLE": "Summary"
+      "TITLE": "Summary",
+      "CONFIRM_ORDER": "Buy now"
     },
     "CONFIRMATION": {
       "TITLE": "Confirmation",

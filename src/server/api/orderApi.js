@@ -36,67 +36,85 @@ function updateCoupons(itemTotal, coupons) {
   ));
 }
 
+function createAndSendEsr(order, email) {
+  const { address, total } = order;
+
+  Invoice
+    .findOneAndUpdate(
+      { _id: order.invoice },
+      { $set: { value: total, address } },
+      { new: true })
+    .then((invoice) => {
+      const esr = esrCodeHelpers.generateInvoiceNumberCode(invoice.invoiceNumber);
+
+      return esrGenerator
+        .generate(esr, order._id, invoice.value, invoice.address)
+        .then(pdfPath => Promise.all([
+          mail.sendESR(order, email, pdfPath).then(() =>
+            fs.unlink(pdfPath), err => err && Logger(err)
+          ),
+          Invoice.findOneAndUpdate({ _id: invoice._id }, { $set: { esr } }),
+        ]));
+    });
+}
+
 module.exports = {
   registerEndpoints(app) {
-    app.get('/api/orders', authorization, isAdmin,
-      (req, res) =>
-        Order
-          .find()
-          .sort({ date: -1 })
-          .then(orders => Promise.all(orders.map((order) => {
-            if (order.invoice) {
-              return Invoice.findOne({ _id: order.invoice })
-                .then(invoice => Object.assign({}, order.toObject(), {
-                  esr: invoice.esr,
-                }));
-            }
+    app.get('/api/orders', authorization, isAdmin, (req, res) =>
+      Order
+        .find()
+        .sort({ date: -1 })
+        .then(orders => Promise.all(orders.map((order) => {
+          if (order.invoice) {
+            return Invoice.findOne({ _id: order.invoice })
+              .then(invoice => Object.assign({}, order.toObject(), {
+                esr: invoice.esr,
+              }));
+          }
 
-            return order;
-          })))
-          .then(orders => res.send(orders))
-          .catch((err) => {
-            Logger.error(err);
-            res.status(500).send('Fetching orders failed!');
-          })
-    );
+          return order;
+        })))
+        .then(orders => res.send(orders))
+        .catch((err) => {
+          Logger.error(err);
+          res.status(500).send('Fetching orders failed!');
+        }));
 
-    app.put('/api/orders', authorization, bodyParser.json(),
-      (req, res) => {
-        const itemPromises = Promise.all(req.body.items.map(
-          item => Product.findOne({ _id: item.product._id })
-            .then(product => ({
-              amount: item.amount,
-              product,
-            }))
-        ));
-        const couponPromises = Promise.all(
-          req.body.coupons.map(coupon => Coupon.findOne({ _id: coupon._id }))
+    app.put('/api/orders', authorization, bodyParser.json(), (req, res) => {
+      const itemPromises = Promise.all(req.body.items.map(
+        item => Product.findOne({ _id: item.product._id })
+          .then(product => ({
+            amount: item.amount,
+            product,
+          }))
+      ));
+      const couponPromises = Promise.all(
+        req.body.coupons.map(coupon => Coupon.findOne({ _id: coupon._id }))
+      );
+
+      Promise.all([itemPromises, couponPromises]).then(([items, coupons]) => {
+        const itemTotal = items.reduce(
+          (sum, { amount, product }) => ((sum * 100) + ((amount * product.price) * 100)) / 100,
+          0
         );
 
-        Promise.all([itemPromises, couponPromises]).then(([items, coupons]) => {
-          const itemTotal = items.reduce(
-            (sum, { amount, product }) => ((sum * 100) + ((amount * product.price) * 100)) / 100,
-            0
-          );
-
-          saveOrUpdate(Order, Object.assign(
-            req.body,
-            {
-              _id: req.body.id,
-              user: req.user.sub,
-              state: OrderState.STARTED,
-              date: Date.now(),
-              items,
-              coupons,
-              itemTotal,
-              total: priceCalculation.calculateGrandTotal(itemTotal, coupons),
-            }
-          ))
-            .then(() => res.sendStatus(200))
-            .catch(error => handleGenericError(error, res));
-        });
-      }
-    );
+        saveOrUpdate(Order, Object.assign(
+          req.body,
+          {
+            _id: req.body.id,
+            user: req.user.sub,
+            state: OrderState.STARTED,
+            date: Date.now(),
+            items,
+            coupons,
+            itemTotal,
+            total: priceCalculation.calculateGrandTotal(itemTotal, coupons),
+          }
+        ))
+          .then(() => res.sendStatus(200))
+          .catch(error => handleGenericError(error, res));
+      });
+    });
 
     app.post('/api/order/sent', authorization, isAdmin, bodyParser.json(), (req, res) =>
       Order
@@ -105,71 +123,43 @@ module.exports = {
         .catch(error => handleGenericError(error, res))
     );
 
-    app.put('/api/userAddress', authorization, bodyParser.json(),
-      (req, res) =>
-        saveOrUpdate(UserAddress, Object.assign(req.body, { user: req.user.sub }))
-          .then(address => res.status(200).send(address._id))
-          .catch(error => handleGenericError(error, res))
-    );
+    app.put('/api/userAddress', authorization, bodyParser.json(), (req, res) =>
+      saveOrUpdate(UserAddress, Object.assign(req.body, { user: req.user.sub }))
+        .then(address => res.status(200).send(address._id))
+        .catch(error => handleGenericError(error, res)));
 
-    app.get('/api/userAddresses', authorization,
-      (req, res) =>
-        UserAddress
-          .find({ user: req.user.sub }, { user: 0 })
-          .then(addresses => res.status(200).send(JSON.stringify(addresses)))
-          .catch(error => handleGenericError(error, res))
-    );
+    app.get('/api/userAddresses', authorization, (req, res) =>
+      UserAddress
+        .find({ user: req.user.sub }, { user: 0 })
+        .then(addresses => res.status(200).send(JSON.stringify(addresses)))
+        .catch(error => handleGenericError(error, res)));
 
-    app.post('/api/payment/cleared', bodyParser.json(), authorization,
-      (req, res) =>
-        Order
-          .findOne({ _id: req.body.shoppingCartId, user: req.user.sub })
-          .then(order => stripe.charges
-            .create({
-              amount: order.total * 100,
-              description: order._id,
-              currency: 'chf',
-              source: req.body.token.id,
-            })
-            .catch(({ message, detail }) =>
-              Promise.reject(new Error(`${message} ${detail || ''}`))
-            )
-            .then(() => {
-              updateCoupons(order.itemTotal, order.coupons);
-              updateProductStocks(order.items);
-            }))
-          .then(() => res.sendStatus(200))
-          .then(() => Order
-            .findOneAndUpdate(
-              { _id: req.body.shoppingCartId, user: req.user.sub },
-              { $set: { state: OrderState.FINISHED } },
-              { new: true }
-            )
-            .then(order => mail.sendConfirmation(order, req.user.email)))
-          .catch(error => handleGenericError(error, res))
-    );
-
-    function createAndSendEsr(order, email) {
-      const { address, total } = order;
-
-      Invoice
-        .findOneAndUpdate(
-          { _id: order.invoice },
-          { $set: { value: total, address } },
-          { new: true })
-        .then((invoice) => {
-          const esr = esrCodeHelpers.generateInvoiceNumberCode(invoice.invoiceNumber);
-
-          return esrGenerator
-            .generate(esr, order._id, invoice.value, invoice.address)
-            .then(pdfPath => Promise.all([
-              mail.sendESR(order, email, pdfPath).then(() =>
-                fs.unlink(pdfPath), err => err && Logger(err)
-              ),
-              Invoice.findOneAndUpdate({ _id: invoice._id }, { $set: { esr } }),
-            ]));
-        });
-    }
+    app.post('/api/payment/cleared', bodyParser.json(), authorization, (req, res) =>
+      Order
+        .findOne({ _id: req.body.shoppingCartId, user: req.user.sub })
+        .then(order => stripe.charges
+          .create({
+            amount: order.total * 100,
+            description: order._id,
+            currency: 'chf',
+            source: req.body.token.id,
+          })
+          .catch(({ message, detail }) =>
+            Promise.reject(new Error(`${message} ${detail || ''}`))
+          )
+          .then(() => {
+            updateCoupons(order.itemTotal, order.coupons);
+            updateProductStocks(order.items);
+          }))
+        .then(() => res.sendStatus(200))
+        .then(() => Order
+          .findOneAndUpdate(
+            { _id: req.body.shoppingCartId, user: req.user.sub },
+            { $set: { state: OrderState.FINISHED } },
+            { new: true }
+          )
+          .then(order => mail.sendConfirmation(order, req.user.email)))
+        .catch(error => handleGenericError(error, res)));
 
     app.post('/api/payment/prepayment', bodyParser.json(), authorization, (req, res) =>
       new Invoice({ user: req.user.sub })

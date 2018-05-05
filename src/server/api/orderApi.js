@@ -58,62 +58,66 @@ function createAndSendEsr(order, email) {
     });
 }
 
+async function mapDbProductsToClientItems(clientItems) {
+  const products = await Product.find({
+    _id: { $in: clientItems.map(item => item.product._id) },
+  });
+  return clientItems.map((item) => {
+    item.product = products.find(product => product.id === item.product._id);
+    return item;
+  });
+}
+
+async function mapDbCouponsToClientCoupons(clientCoupons) {
+  return Coupon.find({
+    _id: { $in: clientCoupons.map(coupon => coupon._id) },
+  });
+}
+
 module.exports = {
   registerEndpoints(app) {
-    app.get('/api/orders', authorization, isAdmin, (req, res) =>
-      Order
-        .find()
-        .sort({ date: -1 })
-        .then(orders => Promise.all(orders.map((order) => {
+    app.get('/api/orders', authorization, isAdmin, async (req, res) => {
+      const orders = await Order.find().sort({ date: -1 });
+
+      try {
+        const updatedOrders = await Promise.all(orders.map(async (order) => {
           if (order.invoice) {
-            return Invoice.findOne({ _id: order.invoice })
-              .then(invoice => Object.assign({}, order.toObject(), {
-                esr: invoice.esr,
-              }));
+            const invoice = Invoice.findOne({ _id: order.invoice });
+            return Object.assign({}, order.toObject(), {
+              esr: invoice.esr,
+            });
           }
 
           return order;
-        })))
-        .then(orders => res.send(orders))
-        .catch((err) => {
-          Logger.error(err);
-          res.status(500).send('Fetching orders failed!');
         }));
 
-    app.put('/api/orders', authorization, bodyParser.json(), (req, res) => {
-      const itemPromises = Promise.all(req.body.items.map(
-        item => Product.findOne({ _id: item.product._id })
-          .then(product => ({
-            amount: item.amount,
-            product,
-          }))
-      ));
-      const couponPromises = Promise.all(
-        req.body.coupons.map(coupon => Coupon.findOne({ _id: coupon._id }))
-      );
+        res.send(updatedOrders);
+      } catch (err) {
+        Logger.error(err);
+        res.status(500).send('Fetching orders failed!');
+      }
+    });
 
-      Promise.all([itemPromises, couponPromises]).then(([items, coupons]) => {
-        const itemTotal = items.reduce(
-          (sum, { amount, product }) => ((sum * 100) + ((amount * product.price) * 100)) / 100,
-          0
-        );
+    app.put('/api/orders', authorization, bodyParser.json(), async (req, res) => {
+      const items = await mapDbProductsToClientItems(req.body.items);
+      const coupons = await mapDbCouponsToClientCoupons(req.body.coupons);
+      const itemTotal = priceCalculation.calculateItemTotal(items);
 
-        saveOrUpdate(Order, Object.assign(
-          req.body,
-          {
-            _id: req.body.id,
-            user: req.user.sub,
-            state: OrderState.STARTED,
-            date: Date.now(),
-            items,
-            coupons,
-            itemTotal,
-            total: priceCalculation.calculateGrandTotal(itemTotal, coupons),
-          }
-        ))
-          .then(() => res.sendStatus(200))
-          .catch(error => handleGenericError(error, res));
-      });
+      saveOrUpdate(Order, Object.assign(
+        req.body,
+        {
+          _id: req.body.id,
+          user: req.user.sub,
+          state: OrderState.STARTED,
+          date: Date.now(),
+          items,
+          coupons,
+          itemTotal,
+          total: priceCalculation.calculateGrandTotal(itemTotal, coupons),
+        }
+      ))
+        .then(() => res.sendStatus(200))
+        .catch(error => handleGenericError(error, res));
     });
 
     app.post('/api/order/sent', authorization, isAdmin, bodyParser.json(), (req, res) =>

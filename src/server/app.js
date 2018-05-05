@@ -56,6 +56,15 @@ app.use('/', express.static('dist/', {
 
 api.registerEndpoints(app);
 
+app.use((err, req, res, next) => {
+  Logger.error(err);
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  return res.status(500).send(err.toString());
+});
+
 app.get('/*', (req /* : express$Request */, res /* : express$Response */) =>
   res.sendFile(path.join(__dirname, '../../dist', 'index.html'))
 );
@@ -63,4 +72,3 @@ app.get('/*', (req /* : express$Request */, res /* : express$Response */) =>
 const server = app.listen(process.env.PORT || 3000, () => {
   Logger.info(`Listening on port ${server.address().port}`);
 });
-

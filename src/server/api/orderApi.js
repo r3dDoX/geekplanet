@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { authorization, isAdmin } = require('./auth');
 const bodyParser = require('body-parser');
+const asyncHandler = require('express-async-handler');
 const Logger = require('../logger');
 const envConfig = require('../../config/envConfig');
 const stripe = require('stripe')(envConfig.getSecretKey('PAYMENT_SECRET'));
@@ -23,9 +24,9 @@ const {
 } = require('../db/models');
 
 function updateProductStocks(items) {
-  items.forEach(({ amount, product }) =>
+  return Promise.all(items.map(({ amount, product }) =>
     Product.update({ _id: product._id }, { $inc: { stock: amount * -1 } }).exec()
-  );
+  ));
 }
 
 function updateCoupons(itemTotal, coupons) {
@@ -39,7 +40,7 @@ function updateCoupons(itemTotal, coupons) {
 function createAndSendEsr(order, email) {
   const { address, total } = order;
 
-  Invoice
+  return Invoice
     .findOneAndUpdate(
       { _id: order.invoice },
       { $set: { value: total, address } },
@@ -74,31 +75,37 @@ async function mapDbCouponsToClientCoupons(clientCoupons) {
   });
 }
 
+async function chargeCreditCard(order, userId) {
+  await stripe.charges
+    .create({
+      amount: order.total * 100,
+      description: order._id,
+      currency: 'chf',
+      source: userId,
+    })
+    .catch(({ message, detail }) => Promise.reject(new Error(`${message} ${detail || ''}`)));
+}
+
 module.exports = {
   registerEndpoints(app) {
-    app.get('/api/orders', authorization, isAdmin, async (req, res) => {
+    app.get('/api/orders', authorization, isAdmin, asyncHandler(async (req, res) => {
       const orders = await Order.find().sort({ date: -1 });
 
-      try {
-        const updatedOrders = await Promise.all(orders.map(async (order) => {
-          if (order.invoice) {
-            const invoice = Invoice.findOne({ _id: order.invoice });
-            return Object.assign({}, order.toObject(), {
-              esr: invoice.esr,
-            });
-          }
+      const updatedOrders = await Promise.all(orders.map(async (order) => {
+        if (order.invoice) {
+          const invoice = Invoice.findOne({ _id: order.invoice });
+          return Object.assign({}, order.toObject(), {
+            esr: invoice.esr,
+          });
+        }
 
-          return order;
-        }));
+        return order;
+      }));
 
-        res.send(updatedOrders);
-      } catch (err) {
-        Logger.error(err);
-        res.status(500).send('Fetching orders failed!');
-      }
-    });
+      res.send(updatedOrders);
+    }));
 
-    app.put('/api/orders', authorization, bodyParser.json(), async (req, res) => {
+    app.put('/api/orders', authorization, bodyParser.json(), asyncHandler(async (req, res) => {
       const items = await mapDbProductsToClientItems(req.body.items);
       const coupons = await mapDbCouponsToClientCoupons(req.body.coupons);
       const itemTotal = priceCalculation.calculateItemTotal(items);
@@ -118,7 +125,7 @@ module.exports = {
       ))
         .then(() => res.sendStatus(200))
         .catch(error => handleGenericError(error, res));
-    });
+    }));
 
     app.post('/api/order/sent', authorization, isAdmin, bodyParser.json(), (req, res) =>
       Order
@@ -138,32 +145,23 @@ module.exports = {
         .then(addresses => res.status(200).send(JSON.stringify(addresses)))
         .catch(error => handleGenericError(error, res)));
 
-    app.post('/api/payment/cleared', bodyParser.json(), authorization, (req, res) =>
-      Order
-        .findOne({ _id: req.body.shoppingCartId, user: req.user.sub })
-        .then(order => stripe.charges
-          .create({
-            amount: order.total * 100,
-            description: order._id,
-            currency: 'chf',
-            source: req.body.token.id,
-          })
-          .catch(({ message, detail }) =>
-            Promise.reject(new Error(`${message} ${detail || ''}`))
-          )
-          .then(() => {
-            updateCoupons(order.itemTotal, order.coupons);
-            updateProductStocks(order.items);
-          }))
-        .then(() => res.sendStatus(200))
-        .then(() => Order
-          .findOneAndUpdate(
-            { _id: req.body.shoppingCartId, user: req.user.sub },
-            { $set: { state: OrderState.FINISHED } },
-            { new: true }
-          )
-          .then(order => mail.sendConfirmation(order, req.user.email)))
-        .catch(error => handleGenericError(error, res)));
+    app.post('/api/payment/cleared', bodyParser.json(), authorization,
+      asyncHandler(async (req, res) => {
+        const order = await Order.findOne({ _id: req.body.shoppingCartId, user: req.user.sub });
+
+        await chargeCreditCard(order, req.body.token.id);
+        await updateCoupons(order.itemTotal, order.coupons);
+        await updateProductStocks(order.items);
+        await Order.findOneAndUpdate(
+          { _id: req.body.shoppingCartId, user: req.user.sub },
+          { $set: { state: OrderState.FINISHED } },
+          { new: true }
+        );
+
+        res.sendStatus(200);
+        await mail.sendConfirmation(order, req.user.email);
+      })
+    );
 
     app.post('/api/payment/prepayment', bodyParser.json(), authorization, (req, res) =>
       new Invoice({ user: req.user.sub })

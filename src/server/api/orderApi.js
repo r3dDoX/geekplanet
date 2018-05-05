@@ -39,7 +39,7 @@ function updateCoupons(itemTotal, coupons) {
 async function createAndSendEsr(order, email) {
   const { address, total } = order;
 
-  const invoice = Invoice.findOneAndUpdate(
+  const invoice = await Invoice.findOneAndUpdate(
     { _id: order.invoice },
     { $set: { value: total, address } },
     { new: true });

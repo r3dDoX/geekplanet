@@ -110,7 +110,7 @@ module.exports = {
       const coupons = await mapDbCouponsToClientCoupons(req.body.coupons);
       const itemTotal = priceCalculation.calculateItemTotal(items);
 
-      saveOrUpdate(Order, Object.assign(
+      await saveOrUpdate(Order, Object.assign(
         req.body,
         {
           _id: req.body.id,
@@ -122,9 +122,8 @@ module.exports = {
           itemTotal,
           total: priceCalculation.calculateGrandTotal(itemTotal, coupons),
         }
-      ))
-        .then(() => res.sendStatus(200))
-        .catch(error => handleGenericError(error, res));
+      ));
+      res.sendStatus(200);
     }));
 
     app.post('/api/order/sent', authorization, isAdmin, bodyParser.json(), (req, res) =>

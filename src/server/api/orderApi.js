@@ -45,7 +45,7 @@ async function createAndSendEsr(order, email) {
     { new: true });
 
   const esr = esrCodeHelpers.generateInvoiceNumberCode(invoice.invoiceNumber);
-  const pdfPath = await esrGenerator.generate(esr, order._id, invoice.value, invoice.address);
+  const pdfPath = await esrGenerator.generate(esr, order._id, invoice.value, address);
 
   await mail.sendESR(order, email, pdfPath);
   fs.unlink(pdfPath);

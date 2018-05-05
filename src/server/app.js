@@ -1,7 +1,3 @@
-require('babel-core/register')({
-  presets: ['react'],
-});
-
 const config = require('../config/envConfig').getEnvironmentSpecificConfig();
 
 if (config.NEWRELIC) {

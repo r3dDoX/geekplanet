@@ -6,6 +6,7 @@ const envConfig = require('../../config/envConfig');
 const stripe = require('stripe')(envConfig.getSecretKey('PAYMENT_SECRET'));
 const esrGenerator = require('../esr/esrGenerator');
 const mail = require('../email/mail');
+const Logger = require('../logger');
 const { saveOrUpdate } = require('../db/mongoHelper');
 const esrCodeHelpers = require('../esr/esrCodeHelpers');
 
@@ -48,7 +49,7 @@ async function createAndSendEsr(order, email) {
   const pdfPath = await esrGenerator.generate(esr, order._id, invoice.value, address);
 
   await mail.sendESR(order, email, pdfPath);
-  fs.unlink(pdfPath);
+  fs.unlink(pdfPath, err => err && Logger.error(err));
   await Invoice.findOneAndUpdate({ _id: invoice._id }, { $set: { esr } });
 }
 

@@ -16,10 +16,6 @@ const SummaryContainer = styled.div`
   margin: 20px 0;
 `;
 
-const HeaderCell = styled.th`
-  padding: 10px;
-`;
-
 const TableBody = styled.tbody`
   tr:nth-child(2n) {
     background-color: ${grey300};
@@ -34,11 +30,13 @@ const Cell = styled.td`
   padding: 10px;
 `;
 
-const AmountCell = styled(Cell)`
+const HeaderCell = Cell.withComponent('th');
+
+const AmountCell = Cell.extend`
   text-align: center;
 `;
 
-const FooterTitleCell = styled(Cell)`
+const FooterTitleCell = Cell.extend`
   font-weight: bold;
 `;
 

@@ -121,10 +121,10 @@ module.exports = {
       res.sendStatus(200);
     }));
 
-    app.post('/api/order/sent', authorization, isAdmin, bodyParser.json(),
+    app.post('/api/order/:id/sent', authorization, isAdmin,
       asyncHandler(async (req, res) =>
         Order
-          .findOneAndUpdate({ _id: req.body.orderId }, { $set: { state: OrderState.SENT } })
+          .findOneAndUpdate({ _id: req.params.id }, { $set: { state: OrderState.SENT } })
           .then(() => res.sendStatus(200))));
 
     app.put('/api/userAddress', authorization, bodyParser.json(), asyncHandler(async (req, res) =>
@@ -136,10 +136,10 @@ module.exports = {
         .find({ user: req.user.sub }, { user: 0 })
         .then(addresses => res.status(200).send(JSON.stringify(addresses)))));
 
-    app.post('/api/payment/prepayment/cleared', bodyParser.json(), authorization, isAdmin,
+    app.post('/api/order/:id/clearPayment', authorization, isAdmin,
       asyncHandler(async (req, res) => Order
         .findOneAndUpdate(
-          { _id: req.body.orderId },
+          { _id: req.params.id },
           { $set: { state: OrderState.FINISHED } })
         .then(() => res.sendStatus(200))
       ));

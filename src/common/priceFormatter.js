@@ -9,6 +9,6 @@ function addDashForNonDecimalNumbers(price) {
 }
 
 module.exports = {
-  formatPriceWithCurrency: price => `CHF ${addDashForNonDecimalNumbers(price)}`,
+  formatPriceWithCurrency: price => `CHF\u00a0${addDashForNonDecimalNumbers(price)}`,
   formatPriceWithoutCurrency: price => addDashForNonDecimalNumbers(price),
 };

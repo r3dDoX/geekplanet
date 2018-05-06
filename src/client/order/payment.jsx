@@ -50,7 +50,7 @@ class Payment extends React.Component {
       token: (token) => {
         startProcessing();
 
-        Xhr.post('/api/payment/cleared', { token, shoppingCartId: shoppingCart.id })
+        Xhr.post(`/api/order/${shoppingCart.id}/paymentMethod/credit_card`, { token })
           .then(finishPaymentStep)
           .catch(stopProcessing);
       },
@@ -84,9 +84,7 @@ class Payment extends React.Component {
               startProcessing();
 
               Xhr
-                .post('/api/payment/prepayment', {
-                  shoppingCartId: shoppingCart.id,
-                })
+                .post(`/api/order/${shoppingCart.id}/paymentMethod/prepayment`)
                 .then(finishPaymentStep, () => () => window.location.assign('/error'));
             }}
             label={<FormattedMessage id="ORDER.PAYMENT.PREPAYMENT" />}
@@ -100,9 +98,7 @@ class Payment extends React.Component {
             key="buttonNoPayment"
             onClick={() =>
               Xhr
-                .post('/api/payment/none', {
-                  shoppingCartId: shoppingCart.id,
-                })
+                .post(`/api/order/${shoppingCart.id}/paymentMethod/none`)
                 .then(finishPaymentStep, () => () => window.location.assign('/error'))
             }
             label={<FormattedMessage id="ORDER.PAYMENT.FINISH" />}

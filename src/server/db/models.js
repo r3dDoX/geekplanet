@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 const OrderState = require('../../common/orderState');
+const PaymentMethod = require('../../common/paymentMethod');
 
 const models = {};
 
@@ -190,8 +191,12 @@ models.Order = mongoose.model('Order', {
     type: Number,
   },
   invoice: mongoose.Schema.Types.ObjectId,
+  paymentMethod: {
+    type: String,
+    enum: Object.keys(PaymentMethod),
+  },
+  paymentToken: String,
 });
-
 
 const HomeTileName = mongoose.Schema({
   name: String,

@@ -9,6 +9,7 @@ const mail = require('../email/mail');
 const Logger = require('../logger');
 const { saveOrUpdate } = require('../db/mongoHelper');
 const esrCodeHelpers = require('../esr/esrCodeHelpers');
+const PaymentMethod = require('../../common/paymentMethod');
 
 const orderConfig = envConfig.getEnvironmentSpecificConfig().ORDER;
 const priceCalculation = require('../../common/priceCalculation')
@@ -135,39 +136,6 @@ module.exports = {
         .find({ user: req.user.sub }, { user: 0 })
         .then(addresses => res.status(200).send(JSON.stringify(addresses)))));
 
-    app.post('/api/payment/cleared', bodyParser.json(), authorization,
-      asyncHandler(async (req, res) => {
-        const order = await Order.findOne({ _id: req.body.shoppingCartId, user: req.user.sub });
-
-        await chargeCreditCard(order, req.body.token.id);
-        await updateCoupons(order.itemTotal, order.coupons);
-        await updateProductStocks(order.items);
-        await Order.findOneAndUpdate(
-          { _id: req.body.shoppingCartId, user: req.user.sub },
-          { $set: { state: OrderState.FINISHED } },
-          { new: true }
-        );
-
-        res.sendStatus(200);
-        await mail.sendConfirmation(order, req.user.email);
-      })
-    );
-
-    app.post('/api/payment/prepayment', bodyParser.json(), authorization,
-      asyncHandler(async (req, res) => {
-        const invoice = await new Invoice({ user: req.user.sub }).save();
-        const updatedOrder = await Order.findOneAndUpdate(
-          { _id: req.body.shoppingCartId, user: req.user.sub },
-          { $set: { state: OrderState.WAITING, invoice: invoice._id } },
-          { new: true });
-
-        await updateCoupons(updatedOrder.itemTotal, updatedOrder.coupons);
-        await updateProductStocks(updatedOrder.items);
-        res.sendStatus(200);
-
-        await createAndSendEsr(updatedOrder, req.user.email);
-      }));
-
     app.post('/api/payment/prepayment/cleared', bodyParser.json(), authorization, isAdmin,
       asyncHandler(async (req, res) => Order
         .findOneAndUpdate(
@@ -176,19 +144,61 @@ module.exports = {
         .then(() => res.sendStatus(200))
       ));
 
-    app.post('/api/payment/none', bodyParser.json(), authorization,
+    app.post('/api/order/:id/paymentMethod/:method', bodyParser.json(), authorization,
       asyncHandler(async (req, res) => {
-        const order = await Order.findOneAndUpdate(
-          { _id: req.body.shoppingCartId, user: req.user.sub, total: 0 },
-          { $set: { state: OrderState.FINISHED } },
-          { new: true }
+        if (!req.params.method
+          || !Object.prototype.hasOwnProperty.call(PaymentMethod, req.params.method.toUpperCase())
+        ) {
+          throw new Error('Selected payment method not supported');
+        }
+
+        await Order.findOneAndUpdate(
+          {
+            _id: req.params.id,
+            user: req.user.sub,
+            state: { $in: [OrderState.STARTED, OrderState.PAYMENT_METHOD_SELECTED] },
+          },
+          {
+            $set: {
+              state: OrderState.PAYMENT_METHOD_SELECTED,
+              paymentMethod: PaymentMethod[req.params.method.toUpperCase()],
+              paymentToken: req.body.token && req.body.token.id,
+            },
+          },
         );
+        res.sendStatus(200);
+      }));
+
+    app.post('/api/order/:id/finish', bodyParser.json(), authorization,
+      asyncHandler(async (req, res) => {
+        let order = await Order.findOne({ _id: req.params.id, user: req.user.sub });
+
+        if (order.state !== OrderState.PAYMENT_METHOD_SELECTED) {
+          throw new Error('Order is not in the correct state to be finished');
+        }
+
+        if (order.paymentMethod === PaymentMethod.CREDIT_CARD) {
+          await chargeCreditCard(order, order.paymentToken);
+        } else if (order.paymentMethod === PaymentMethod.PREPAYMENT) {
+          const invoice = await new Invoice({ user: req.user.sub }).save();
+          order.invoice = invoice._id;
+          order = await order.save();
+        } else if (order.total > 0) {
+          throw new Error('Payment method not allowed');
+        }
 
         await updateCoupons(order.itemTotal, order.coupons);
         await updateProductStocks(order.items);
         res.sendStatus(200);
 
-        await mail.sendConfirmation(order, req.user.email);
+        if (order.paymentMethod === PaymentMethod.PREPAYMENT) {
+          order.state = OrderState.WAITING;
+          await createAndSendEsr(order, req.user.email);
+        } else {
+          order.state = OrderState.FINISHED;
+          await mail.sendConfirmation(order, req.user.email);
+        }
+        await order.save();
       }));
   },
 };

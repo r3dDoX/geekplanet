@@ -23,20 +23,19 @@ class AddressStep extends React.Component {
       order,
     } = this.props;
 
-    return (
-      <div>
-        <AddressChooser
-          addresses={order.addresses}
-          selectedAddressId={order.selectedAddress && order.selectedAddress._id}
-          selectAddress={
-            addressId => selectAddress(
-              order.addresses.find(address => address._id === addressId),
-            )
-          }
-        />
-        <UserAddress onSubmit={saveAddress} />
-      </div>
-    );
+    return [
+      <AddressChooser
+        key="addressChooserSelectBox"
+        addresses={order.addresses}
+        selectedAddressId={order.selectedAddress && order.selectedAddress._id}
+        selectAddress={
+          addressId => selectAddress(
+            order.addresses.find(address => address._id === addressId),
+          )
+        }
+      />,
+      <UserAddress key="addressForm" onSubmit={saveAddress} />,
+    ];
   }
 }
 

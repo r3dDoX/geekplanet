@@ -19,20 +19,19 @@ const initialState = {
   step: OrderSteps.ADDRESS,
   processing: false,
   paymentError: undefined,
-  savingAddress: false,
 };
 
 export default function auth(state = initialState, { type, data }) {
   switch (type) {
     case SAVING_ADDRESS:
       return Object.assign({}, state, {
-        savingAddress: true,
+        processing: true,
       });
     case SAVE_ADDRESS:
       return Object.assign({}, state, {
         address: data,
         step: OrderSteps.AGB,
-        savingAddress: false,
+        processing: false,
       });
     case AGB_ACCEPTED:
       return Object.assign({}, state, {
@@ -55,6 +54,7 @@ export default function auth(state = initialState, { type, data }) {
       return Object.assign({}, state, {
         step: OrderSteps.CONFIRMATION,
         paymentError: undefined,
+        processing: false,
       });
     case SELECT_ORDER_STEP:
       return Object.assign({}, state, {

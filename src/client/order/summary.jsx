@@ -59,9 +59,15 @@ const Summary = ({
       <table cellPadding={0} cellSpacing={0}>
         <thead>
           <tr>
-            <HeaderCell>Product</HeaderCell>
-            <HeaderCell>Amount</HeaderCell>
-            <HeaderCell>Price</HeaderCell>
+            <HeaderCell>
+              <FormattedMessage id="COMMON.PRODUCT" />
+            </HeaderCell>
+            <HeaderCell>
+              <FormattedMessage id="COMMON.QUANTITY" />
+            </HeaderCell>
+            <HeaderCell>
+              <FormattedMessage id="COMMON.AMOUNT" />
+            </HeaderCell>
           </tr>
         </thead>
         <TableBody>
@@ -81,38 +87,40 @@ const Summary = ({
         </TableBody>
         <tfoot>
           <tr>
-            <FooterTitleCell>Zwischentotal</FooterTitleCell>
+            <FooterTitleCell>
+              <FormattedMessage id="COMMON.SUBTOTAL" />
+            </FooterTitleCell>
             <Cell />
             <Cell>
               {formatPriceWithCurrency(itemTotal)}
             </Cell>
           </tr>
-          {priceCalculation.isInShippingCostRange(itemTotal)
-            ? (
-              <tr>
-                <Cell>Versandkosten</Cell>
-                <AmountCell>+</AmountCell>
-                <Cell>
-                  {formatPriceWithCurrency(ORDER.SHIPPING_COST)}
-                </Cell>
-              </tr>
-            )
-            : null
-          }
-          {coupons.length
-            ? (
-              <tr>
-                <Cell>Gutscheine</Cell>
-                <AmountCell>-</AmountCell>
-                <Cell>
-                  {formatPriceWithCurrency(priceCalculation.calculateCouponsTotal(coupons))}
-                </Cell>
-              </tr>
-            )
-            : null
-          }
+          {priceCalculation.isInShippingCostRange(itemTotal) && (
+            <tr>
+              <Cell>
+                <FormattedMessage id="COMMON.SHIPPING_COSTS" />
+              </Cell>
+              <AmountCell>+</AmountCell>
+              <Cell>
+                {formatPriceWithCurrency(ORDER.SHIPPING_COST)}
+              </Cell>
+            </tr>
+          )}
+          {coupons.length && (
+            <tr>
+              <Cell>
+                <FormattedMessage id="COMMON.COUPONS" />
+              </Cell>
+              <AmountCell>-</AmountCell>
+              <Cell>
+                {formatPriceWithCurrency(priceCalculation.calculateCouponsTotal(coupons))}
+              </Cell>
+            </tr>
+          )}
           <GrandTotalRow>
-            <FooterTitleCell>Total</FooterTitleCell>
+            <FooterTitleCell>
+              <FormattedMessage id="ORDERS.TOTAL" />
+            </FooterTitleCell>
             <Cell />
             <Cell>
               {formatPriceWithCurrency(

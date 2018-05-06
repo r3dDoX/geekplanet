@@ -11,6 +11,7 @@ import PrivateRoute from '../router/privateRoute.jsx';
 import AddressStepContent from './addressStepContent.jsx';
 import AgbStepContent from './agbStepContent.jsx';
 import ConfirmationStepContent from './confirmationStepContent.jsx';
+import StepSpinner from './stepSpinner.jsx';
 import OrderSteps from './orderSteps';
 import PaymentStepContent from './paymentStepContent.jsx';
 import Summary from './summary.jsx';
@@ -101,6 +102,7 @@ class OrderStepper extends React.Component {
     const {
       match,
       orderStep,
+      isProcessing,
       selectStep,
     } = this.props;
 
@@ -127,10 +129,12 @@ class OrderStepper extends React.Component {
             <FormattedMessage id="ORDER.ADDRESS.TITLE" />
           </StepButton>
           <StepContent>
-            <PrivateRoute
-              path={`${match.url}/address`}
-              component={AddressStepContent}
-            />
+            <StepSpinner isProcessing={isProcessing}>
+              <PrivateRoute
+                path={`${match.url}/address`}
+                component={AddressStepContent}
+              />
+            </StepSpinner>
           </StepContent>
         </Step>
         <Step
@@ -144,7 +148,9 @@ class OrderStepper extends React.Component {
             <FormattedMessage id="ORDER.AGB.TITLE" />
           </StepButton>
           <StepContent>
-            <PrivateRoute path={`${match.url}/agb`} component={AgbStepContent} />
+            <StepSpinner isProcessing={isProcessing}>
+              <PrivateRoute path={`${match.url}/agb`} component={AgbStepContent} />
+            </StepSpinner>
           </StepContent>
         </Step>
         <Step
@@ -160,10 +166,12 @@ class OrderStepper extends React.Component {
             <FormattedMessage id="ORDER.PAYMENT.TITLE" />
           </StepButton>
           <StepContent>
-            <PrivateRoute
-              path={`${match.url}/payment`}
-              component={PaymentStepContent}
-            />
+            <StepSpinner isProcessing={isProcessing}>
+              <PrivateRoute
+                path={`${match.url}/payment`}
+                component={PaymentStepContent}
+              />
+            </StepSpinner>
           </StepContent>
         </Step>
         <Step
@@ -179,10 +187,12 @@ class OrderStepper extends React.Component {
             <FormattedMessage id="ORDER.SUMMARY.TITLE" />
           </StepButton>
           <StepContent>
-            <PrivateRoute
-              path={`${match.url}/summary`}
-              component={Summary}
-            />
+            <StepSpinner isProcessing={isProcessing}>
+              <PrivateRoute
+                path={`${match.url}/summary`}
+                component={Summary}
+              />
+            </StepSpinner>
           </StepContent>
         </Step>
         <Step
@@ -194,10 +204,12 @@ class OrderStepper extends React.Component {
             <FormattedMessage id="ORDER.CONFIRMATION.TITLE" />
           </StepButton>
           <StepContent>
-            <PrivateRoute
-              path={`${match.url}/confirmation`}
-              component={ConfirmationStepContent}
-            />
+            <StepSpinner isProcessing={isProcessing}>
+              <PrivateRoute
+                path={`${match.url}/confirmation`}
+                component={ConfirmationStepContent}
+              />
+            </StepSpinner>
           </StepContent>
         </Step>
       </Stepper>,
@@ -211,6 +223,7 @@ OrderStepper.propTypes = {
   }).isRequired,
   shoppingCart: ShoppingCartPropType.isRequired,
   orderStep: PropTypes.string.isRequired,
+  isProcessing: PropTypes.boolean.isRequired,
   selectStep: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
@@ -219,6 +232,7 @@ export default withRouter(connect(
   state => ({
     shoppingCart: state.shoppingCart,
     orderStep: state.order.step,
+    isProcessing: state.order.processing,
   }),
   dispatch => ({
     selectStep(step) {

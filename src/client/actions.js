@@ -156,6 +156,10 @@ export const createFinishPaymentStep = () => ({
 });
 
 export const createFinishOrder = orderId => (dispatch) => {
+  dispatch({
+    type: PROCESSING_STARTED,
+  });
+
   Xhr.post(`/api/order/${orderId}/finish`)
     .then(() => dispatch({
       type: ORDER_FINISHED,

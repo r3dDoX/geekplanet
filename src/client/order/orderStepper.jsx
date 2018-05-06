@@ -10,7 +10,7 @@ import { ShoppingCartPropType } from '../propTypes';
 import PrivateRoute from '../router/privateRoute.jsx';
 import AddressStepContent from './addressStepContent.jsx';
 import AgbStepContent from './agbStepContent.jsx';
-import ConfirmationStepContent from './confirmationStepContent.jsx';
+import ConfirmationText from './confirmationText.jsx';
 import StepSpinner from './stepSpinner.jsx';
 import OrderSteps from './orderSteps';
 import PaymentStepContent from './paymentStepContent.jsx';
@@ -130,10 +130,7 @@ class OrderStepper extends React.Component {
           </StepButton>
           <StepContent>
             <StepSpinner isProcessing={isProcessing}>
-              <PrivateRoute
-                path={`${match.url}/address`}
-                component={AddressStepContent}
-              />
+              <PrivateRoute path={`${match.url}/address`} component={AddressStepContent} />
             </StepSpinner>
           </StepContent>
         </Step>
@@ -167,10 +164,7 @@ class OrderStepper extends React.Component {
           </StepButton>
           <StepContent>
             <StepSpinner isProcessing={isProcessing}>
-              <PrivateRoute
-                path={`${match.url}/payment`}
-                component={PaymentStepContent}
-              />
+              <PrivateRoute path={`${match.url}/payment`} component={PaymentStepContent} />
             </StepSpinner>
           </StepContent>
         </Step>
@@ -188,10 +182,7 @@ class OrderStepper extends React.Component {
           </StepButton>
           <StepContent>
             <StepSpinner isProcessing={isProcessing}>
-              <PrivateRoute
-                path={`${match.url}/summary`}
-                component={Summary}
-              />
+              <PrivateRoute path={`${match.url}/summary`} component={Summary} />
             </StepSpinner>
           </StepContent>
         </Step>
@@ -205,10 +196,7 @@ class OrderStepper extends React.Component {
           </StepButton>
           <StepContent>
             <StepSpinner isProcessing={isProcessing}>
-              <PrivateRoute
-                path={`${match.url}/confirmation`}
-                component={ConfirmationStepContent}
-              />
+              <PrivateRoute path={`${match.url}/confirmation`} component={ConfirmationText} />
             </StepSpinner>
           </StepContent>
         </Step>

@@ -1,10 +1,15 @@
 import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import { createFinishOrder } from '../actions';
 import { CouponPropType, ShoppingCartItemsPropType } from '../propTypes';
+
+const SummaryContainer = styled.div`
+  margin-top: 20px;
+`;
 
 const Summary = ({
   orderId,
@@ -12,10 +17,10 @@ const Summary = ({
   coupons,
   finishOrder,
 }) => [
-  <div key="orderSummary">
-    {items.map(item => <p>{item.product.de.name}</p>)}
-    {coupons.map(coupon => <p>{coupon._id}</p>)}
-  </div>,
+  <SummaryContainer key="orderSummary">
+    {items.map(item => <p key={item.product._id}>{item.product.de.name}</p>)}
+    {coupons.map(coupon => <p key={coupon._id}>{coupon._id}</p>)}
+  </SummaryContainer>,
   <RaisedButton
     key="finishOrderButton"
     label={<FormattedMessage id="ORDER.SUMMARY.CONFIRM_ORDER" />}

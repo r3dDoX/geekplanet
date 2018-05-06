@@ -11,7 +11,7 @@ import PrivateRoute from '../router/privateRoute.jsx';
 import AddressStepContent from './addressStepContent.jsx';
 import AgbStepContent from './agbStepContent.jsx';
 import ConfirmationStepContent from './confirmationStepContent.jsx';
-import { OrderSteps } from './order.reducer';
+import OrderSteps from './orderSteps';
 import PaymentStepContent from './paymentStepContent.jsx';
 import Summary from './summary.jsx';
 
@@ -55,7 +55,9 @@ class OrderStepper extends React.Component {
   }
 
   componentDidUpdate() {
-    if (!this.props.history.location.pathname.includes(this.props.orderStep)) {
+    const orderStepName = OrderSteps.getLowerCaseNameByNumber(this.props.orderStep);
+
+    if (!this.props.history.location.pathname.includes(orderStepName)) {
       this.navigateToCorrectStep();
     }
   }
@@ -86,6 +88,15 @@ class OrderStepper extends React.Component {
     }
   }
 
+  isStepDisabled(step) {
+    const { orderStep } = this.props;
+    return orderStep < step || orderStep === OrderStepper.CONFIRMATION;
+  }
+
+  isStepCompleted(step) {
+    return this.props.orderStep > step;
+  }
+
   render() {
     const {
       match,
@@ -104,69 +115,79 @@ class OrderStepper extends React.Component {
         style={styles.container}
       >
         <Step
-          completed={orderStep !== OrderSteps.ADDRESS}
-          disabled={orderStep === OrderSteps.CONFIRMATION}
+          completed={this.isStepCompleted(OrderSteps.ADDRESS)}
+          disabled={this.isStepDisabled(OrderSteps.ADDRESS)}
           active={orderStep === OrderSteps.ADDRESS}
         >
           <StepButton
-            onClick={() => orderStep !== OrderSteps.CONFIRMATION && selectStep(OrderSteps.ADDRESS)}
+            onClick={() =>
+              !this.isStepDisabled(OrderSteps.ADDRESS) && selectStep(OrderSteps.ADDRESS)
+            }
           >
             <FormattedMessage id="ORDER.ADDRESS.TITLE" />
           </StepButton>
           <StepContent>
             <PrivateRoute
-              path={`${match.url}/${OrderSteps.ADDRESS}`}
+              path={`${match.url}/address`}
               component={AddressStepContent}
             />
           </StepContent>
         </Step>
         <Step
-          completed={orderStep !== OrderSteps.ADDRESS && orderStep !== OrderSteps.AGB}
-          disabled={orderStep === OrderSteps.CONFIRMATION}
+          completed={this.isStepCompleted(OrderSteps.AGB)}
+          disabled={this.isStepDisabled(OrderSteps.AGB)}
           active={orderStep === OrderSteps.AGB}
         >
           <StepButton
-            onClick={() => orderStep !== OrderSteps.CONFIRMATION && selectStep(OrderSteps.AGB)}
+            onClick={() => !this.isStepDisabled(OrderSteps.AGB) && selectStep(OrderSteps.AGB)}
           >
             <FormattedMessage id="ORDER.AGB.TITLE" />
           </StepButton>
           <StepContent>
-            <PrivateRoute path={`${match.url}/${OrderSteps.AGB}`} component={AgbStepContent} />
+            <PrivateRoute path={`${match.url}/agb`} component={AgbStepContent} />
           </StepContent>
         </Step>
         <Step
-          completed={orderStep === OrderSteps.CONFIRMATION || orderStep === OrderSteps.SUMMARY}
-          disabled={orderStep !== OrderSteps.PAYMENT || orderStep !== OrderSteps.SUMMARY}
+          completed={this.isStepCompleted(OrderSteps.PAYMENT)}
+          disabled={this.isStepDisabled(OrderSteps.PAYMENT)}
           active={orderStep === OrderSteps.PAYMENT}
         >
-          <StepButton>
+          <StepButton
+            onClick={() =>
+              !this.isStepDisabled(OrderSteps.PAYMENT) && selectStep(OrderSteps.PAYMENT)
+            }
+          >
             <FormattedMessage id="ORDER.PAYMENT.TITLE" />
           </StepButton>
           <StepContent>
             <PrivateRoute
-              path={`${match.url}/${OrderSteps.PAYMENT}`}
+              path={`${match.url}/payment`}
               component={PaymentStepContent}
             />
           </StepContent>
         </Step>
         <Step
-          completed={orderStep === OrderSteps.CONFIRMATION}
-          disabled={orderStep !== OrderSteps.SUMMARY && orderStep !== OrderSteps.CONFIRMATION}
+          completed={this.isStepCompleted(OrderSteps.SUMMARY)}
+          disabled={this.isStepDisabled(OrderSteps.SUMMARY)}
           active={orderStep === OrderSteps.SUMMARY}
         >
-          <StepButton>
+          <StepButton
+            onClick={() =>
+              !this.isStepDisabled(OrderSteps.SUMMARY) && selectStep(OrderSteps.PAYMENT)
+            }
+          >
             <FormattedMessage id="ORDER.SUMMARY.TITLE" />
           </StepButton>
           <StepContent>
             <PrivateRoute
-              path={`${match.url}/${OrderSteps.SUMMARY}`}
+              path={`${match.url}/summary`}
               component={Summary}
             />
           </StepContent>
         </Step>
         <Step
           completed={orderStep === OrderSteps.CONFIRMATION}
-          disabled={orderStep !== OrderSteps.CONFIRMATION}
+          disabled={this.isStepDisabled(OrderSteps.CONFIRMATION)}
           active={orderStep === OrderSteps.CONFIRMATION}
         >
           <StepButton>
@@ -174,7 +195,7 @@ class OrderStepper extends React.Component {
           </StepButton>
           <StepContent>
             <PrivateRoute
-              path={`${match.url}/${OrderSteps.CONFIRMATION}`}
+              path={`${match.url}/confirmation`}
               component={ConfirmationStepContent}
             />
           </StepContent>

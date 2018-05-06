@@ -2,21 +2,15 @@ import {
   ADDRESSES_LOADED,
   AGB_ACCEPTED,
   ORDER_FINISHED,
-  PAYMENT_ERROR, PAYMENT_METHOD_SELECTED,
+  PAYMENT_ERROR,
+  PAYMENT_METHOD_SELECTED,
   PROCESSING_STARTED,
   SAVE_ADDRESS,
   SAVING_ADDRESS,
   SELECT_ADDRESS,
   SELECT_ORDER_STEP,
 } from '../actions';
-
-export const OrderSteps = {
-  ADDRESS: 'address',
-  AGB: 'agb',
-  PAYMENT: 'payment',
-  SUMMARY: 'summary',
-  CONFIRMATION: 'confirmation',
-};
+import OrderSteps from './orderSteps';
 
 const initialState = {
   address: undefined,
@@ -55,11 +49,11 @@ export default function auth(state = initialState, { type, data }) {
     case PAYMENT_METHOD_SELECTED:
       return Object.assign({}, state, {
         step: OrderSteps.SUMMARY,
+        processing: false,
       });
     case ORDER_FINISHED:
       return Object.assign({}, state, {
         step: OrderSteps.CONFIRMATION,
-        processing: false,
         paymentError: undefined,
       });
     case SELECT_ORDER_STEP:

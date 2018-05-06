@@ -1,19 +1,12 @@
-/* eslint-disable no-eval */
 const fs = require('fs');
 const nodemailer = require('nodemailer');
 const envConfig = require('../../config/envConfig');
 const Logger = require('../logger');
-const babel = require('babel-core');
+const transformJsxModule = require('./transformJsxModule');
 
-let renderOrderConfirmationTemplate;
-(function transformJSX() {
-  const module = {};
-  eval(babel.transformFileSync(
-    './src/server/email/orderConfirmation.jsx',
-    { presets: ['react'] }
-  ).code);
-  renderOrderConfirmationTemplate = module.exports;
-}());
+const renderOrderConfirmationTemplate = transformJsxModule(
+  'src/server/email/orderConfirmation.jsx'
+);
 
 const transporter = nodemailer.createTransport({
   host: envConfig.getSecretKey('SMTP_SERVER'),

@@ -1,3 +1,4 @@
+
 const config = require('../config/envConfig').getEnvironmentSpecificConfig();
 
 if (config.NEWRELIC) {
@@ -8,6 +9,7 @@ const path = require('path');
 const express = require('express');
 const mongoSanitize = require('express-mongo-sanitize');
 const mime = require('mime-types');
+const { PaymentError } = require('../common/errors');
 const Logger = require('./logger');
 const mongo = require('./db/mongoHelper');
 const api = require('./api');
@@ -62,7 +64,13 @@ app.use((err, req, res, next) => {
     return next(err);
   }
 
-  return res.status(500).send(err.toString());
+  if (err instanceof PaymentError) {
+    return res.status(500).send({
+      type: 'PaymentError',
+      message: err.toString(),
+    });
+  }
+  return res.sendStatus(500);
 });
 
 app.get('/*', (req /* : express$Request */, res /* : express$Response */) =>

@@ -66,6 +66,7 @@ export default function auth(state = initialState, { type, data }) {
       });
     case PAYMENT_ERROR:
       return Object.assign({}, state, {
+        step: OrderSteps.PAYMENT,
         processing: false,
         paymentError: data,
       });

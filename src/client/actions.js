@@ -1,4 +1,5 @@
 import { reset } from 'redux-form';
+import { ErrorTypes } from '../common/errors';
 import TranslationService from '../common/translationService';
 import { formName as productFilterFormName } from './products/productFilter.jsx';
 import Xhr from './xhr';
@@ -163,7 +164,12 @@ export const createFinishOrder = orderId => (dispatch) => {
   Xhr.post(`/api/order/${orderId}/finish`)
     .then(() => dispatch({
       type: ORDER_FINISHED,
-    }));
+    }))
+    .catch((error) => {
+      if (error && error.type === ErrorTypes.PaymentError) {
+        dispatch(createPaymentError(error.message));
+      }
+    });
 };
 
 export const createLoadProduct = productId => (dispatch) => {

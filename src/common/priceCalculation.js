@@ -45,7 +45,7 @@ const PriceCalculation = {
         amount = 0;
       }
 
-      return Object.assign({}, coupon, { amount });
+      return Object.assign({}, coupon.toObject(), { amount });
     });
   },
 };

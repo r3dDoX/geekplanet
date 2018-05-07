@@ -106,7 +106,7 @@ const Summary = ({
               </Cell>
             </tr>
           )}
-          {coupons.length && (
+          {coupons.length ? (
             <tr>
               <Cell>
                 <FormattedMessage id="COMMON.COUPONS" />
@@ -116,7 +116,7 @@ const Summary = ({
                 {formatPriceWithCurrency(priceCalculation.calculateCouponsTotal(coupons))}
               </Cell>
             </tr>
-          )}
+          ) : null}
           <GrandTotalRow>
             <FooterTitleCell>
               <FormattedMessage id="ORDERS.TOTAL" />

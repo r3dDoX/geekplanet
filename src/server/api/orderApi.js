@@ -6,6 +6,7 @@ const envConfig = require('../../config/envConfig');
 const stripe = require('stripe')(envConfig.getSecretKey('PAYMENT_SECRET'));
 const esrGenerator = require('../esr/esrGenerator');
 const mail = require('../email/mail');
+const { PaymentError } = require('../../common/errors');
 const Logger = require('../logger');
 const { saveOrUpdate } = require('../db/mongoHelper');
 const esrCodeHelpers = require('../esr/esrCodeHelpers');
@@ -78,7 +79,7 @@ async function chargeCreditCard(order, userId) {
       currency: 'chf',
       source: userId,
     })
-    .catch(({ message, detail }) => Promise.reject(new Error(`${message} ${detail || ''}`)));
+    .catch(({ message, detail }) => Promise.reject(new PaymentError(message, detail)));
 }
 
 module.exports = {

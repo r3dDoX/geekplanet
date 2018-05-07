@@ -24,7 +24,11 @@ function wrapXhrPromise(path, method, data, contentType) {
         window.location.assign('/login');
       } else {
         const { response } = request;
-        reject(response);
+        try {
+          reject(JSON.parse(response));
+        } catch (e) {
+          reject(response);
+        }
       }
     });
 

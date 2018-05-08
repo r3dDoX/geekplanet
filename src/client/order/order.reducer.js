@@ -1,21 +1,18 @@
 import {
+  ADD_COUPON_TO_SHOPPING_CART,
+  ADD_ITEM_TO_SHOPPING_CART,
   ADDRESSES_LOADED,
   AGB_ACCEPTED,
   ORDER_FINISHED,
   PAYMENT_ERROR,
-  PROCESSING_STARTED,
+  PAYMENT_METHOD_SELECTED,
+  PROCESSING_STARTED, REMOVE_COUPON_FROM_SHOPPING_CART,
   SAVE_ADDRESS,
   SAVING_ADDRESS,
   SELECT_ADDRESS,
-  SELECT_ORDER_STEP,
+  SELECT_ORDER_STEP, SET_SHOPPING_CART_AMOUNT,
 } from '../actions';
-
-export const OrderSteps = {
-  ADDRESS: 'address',
-  AGB: 'agb',
-  PAYMENT: 'payment',
-  CONFIRMATION: 'confirmation',
-};
+import OrderSteps from './orderSteps';
 
 const initialState = {
   address: undefined,
@@ -24,20 +21,19 @@ const initialState = {
   step: OrderSteps.ADDRESS,
   processing: false,
   paymentError: undefined,
-  savingAddress: false,
 };
 
 export default function auth(state = initialState, { type, data }) {
   switch (type) {
     case SAVING_ADDRESS:
       return Object.assign({}, state, {
-        savingAddress: true,
+        processing: true,
       });
     case SAVE_ADDRESS:
       return Object.assign({}, state, {
         address: data,
         step: OrderSteps.AGB,
-        savingAddress: false,
+        processing: false,
       });
     case AGB_ACCEPTED:
       return Object.assign({}, state, {
@@ -51,11 +47,16 @@ export default function auth(state = initialState, { type, data }) {
       return Object.assign({}, state, {
         selectedAddress: data,
       });
+    case PAYMENT_METHOD_SELECTED:
+      return Object.assign({}, state, {
+        step: OrderSteps.SUMMARY,
+        processing: false,
+      });
     case ORDER_FINISHED:
       return Object.assign({}, state, {
         step: OrderSteps.CONFIRMATION,
-        processing: false,
         paymentError: undefined,
+        processing: false,
       });
     case SELECT_ORDER_STEP:
       return Object.assign({}, state, {
@@ -67,9 +68,21 @@ export default function auth(state = initialState, { type, data }) {
       });
     case PAYMENT_ERROR:
       return Object.assign({}, state, {
+        step: OrderSteps.PAYMENT,
         processing: false,
         paymentError: data,
       });
+    case ADD_ITEM_TO_SHOPPING_CART:
+    case SET_SHOPPING_CART_AMOUNT:
+    case ADD_COUPON_TO_SHOPPING_CART:
+    case REMOVE_COUPON_FROM_SHOPPING_CART: {
+      if (state.step > OrderSteps.PAYMENT) {
+        return Object.assign({}, state, {
+          step: OrderSteps.PAYMENT,
+        });
+      }
+      return state;
+    }
     default:
       return state;
   }

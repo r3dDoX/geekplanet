@@ -20,6 +20,9 @@ import { FINISHED, SENT, WAITING } from '../../../common/orderState';
 import { formatPriceWithCurrency } from '../../../common/priceFormatter';
 import { OrdersPropType } from '../../propTypes';
 import { createClearPayment, createLoadOrders, createOrderSent } from '../adminActions';
+import PriceCalculation from '../../../common/priceCalculation';
+
+const priceCalculation = PriceCalculation.create(ORDER.MIN_PRICE_SHIPPING, ORDER.SHIPPING_COST);
 
 const Container = styled.div`
   overflow-X: auto;
@@ -206,9 +209,9 @@ class Orders extends React.Component {
                   {order.state}
                 </td>
                 <td>
-                  {formatPriceWithCurrency(order.items.reduce(
-                    (sum, { amount, product }) => sum + (amount * product.price),
-                    0
+                  {formatPriceWithCurrency(priceCalculation.calculateGrandTotal(
+                    priceCalculation.calculateItemTotal(order.items),
+                    order.coupons
                   ))}
                 </td>
                 <CenteredCell>

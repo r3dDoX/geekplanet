@@ -10,9 +10,11 @@ import { ShoppingCartPropType } from '../propTypes';
 import PrivateRoute from '../router/privateRoute.jsx';
 import AddressStepContent from './addressStepContent.jsx';
 import AgbStepContent from './agbStepContent.jsx';
-import ConfirmationStepContent from './confirmationStepContent.jsx';
-import { OrderSteps } from './order.reducer';
+import ConfirmationText from './confirmationText.jsx';
+import StepSpinner from './stepSpinner.jsx';
+import OrderSteps from './orderSteps';
 import PaymentStepContent from './paymentStepContent.jsx';
+import Summary from './summary.jsx';
 
 const styles = {
   container: {
@@ -54,7 +56,9 @@ class OrderStepper extends React.Component {
   }
 
   componentDidUpdate() {
-    if (!this.props.history.location.pathname.includes(this.props.orderStep)) {
+    const orderStepName = OrderSteps.getLowerCaseNameByNumber(this.props.orderStep);
+
+    if (!this.props.history.location.pathname.includes(orderStepName)) {
       this.navigateToCorrectStep();
     }
   }
@@ -76,16 +80,29 @@ class OrderStepper extends React.Component {
       case OrderSteps.PAYMENT:
         this.props.history.push(`${this.props.match.url}/payment`);
         break;
+      case OrderSteps.SUMMARY:
+        this.props.history.push(`${this.props.match.url}/summary`);
+        break;
       case OrderSteps.CONFIRMATION:
         this.props.history.push(`${this.props.match.url}/confirmation`);
         break;
     }
   }
 
+  isStepDisabled(step) {
+    const { orderStep } = this.props;
+    return orderStep < step || orderStep === OrderStepper.CONFIRMATION;
+  }
+
+  isStepCompleted(step) {
+    return this.props.orderStep > step;
+  }
+
   render() {
     const {
       match,
       orderStep,
+      isProcessing,
       selectStep,
     } = this.props;
 
@@ -100,64 +117,87 @@ class OrderStepper extends React.Component {
         style={styles.container}
       >
         <Step
-          completed={orderStep !== OrderSteps.ADDRESS}
-          disabled={orderStep === OrderSteps.CONFIRMATION}
+          completed={this.isStepCompleted(OrderSteps.ADDRESS)}
+          disabled={this.isStepDisabled(OrderSteps.ADDRESS)}
           active={orderStep === OrderSteps.ADDRESS}
         >
           <StepButton
-            onClick={() => orderStep !== OrderSteps.CONFIRMATION && selectStep(OrderSteps.ADDRESS)}
+            onClick={() =>
+              !this.isStepDisabled(OrderSteps.ADDRESS) && selectStep(OrderSteps.ADDRESS)
+            }
           >
             <FormattedMessage id="ORDER.ADDRESS.TITLE" />
           </StepButton>
           <StepContent>
-            <PrivateRoute
-              path={`${match.url}/${OrderSteps.ADDRESS}`}
-              component={AddressStepContent}
-            />
+            <StepSpinner isProcessing={isProcessing}>
+              <PrivateRoute path={`${match.url}/address`} component={AddressStepContent} />
+            </StepSpinner>
           </StepContent>
         </Step>
         <Step
-          completed={orderStep !== OrderSteps.ADDRESS && orderStep !== OrderSteps.AGB}
-          disabled={orderStep === OrderSteps.CONFIRMATION}
+          completed={this.isStepCompleted(OrderSteps.AGB)}
+          disabled={this.isStepDisabled(OrderSteps.AGB)}
           active={orderStep === OrderSteps.AGB}
         >
           <StepButton
-            onClick={() => orderStep !== OrderSteps.CONFIRMATION && selectStep(OrderSteps.AGB)}
+            onClick={() => !this.isStepDisabled(OrderSteps.AGB) && selectStep(OrderSteps.AGB)}
           >
             <FormattedMessage id="ORDER.AGB.TITLE" />
           </StepButton>
           <StepContent>
-            <PrivateRoute path={`${match.url}/${OrderSteps.AGB}`} component={AgbStepContent} />
+            <StepSpinner isProcessing={isProcessing}>
+              <PrivateRoute path={`${match.url}/agb`} component={AgbStepContent} />
+            </StepSpinner>
           </StepContent>
         </Step>
         <Step
-          completed={orderStep === OrderSteps.CONFIRMATION}
-          disabled={orderStep !== OrderSteps.PAYMENT}
+          completed={this.isStepCompleted(OrderSteps.PAYMENT)}
+          disabled={this.isStepDisabled(OrderSteps.PAYMENT)}
           active={orderStep === OrderSteps.PAYMENT}
         >
-          <StepButton>
+          <StepButton
+            onClick={() =>
+              !this.isStepDisabled(OrderSteps.PAYMENT) && selectStep(OrderSteps.PAYMENT)
+            }
+          >
             <FormattedMessage id="ORDER.PAYMENT.TITLE" />
           </StepButton>
           <StepContent>
-            <PrivateRoute
-              path={`${match.url}/${OrderSteps.PAYMENT}`}
-              component={PaymentStepContent}
-            />
+            <StepSpinner isProcessing={isProcessing}>
+              <PrivateRoute path={`${match.url}/payment`} component={PaymentStepContent} />
+            </StepSpinner>
+          </StepContent>
+        </Step>
+        <Step
+          completed={this.isStepCompleted(OrderSteps.SUMMARY)}
+          disabled={this.isStepDisabled(OrderSteps.SUMMARY)}
+          active={orderStep === OrderSteps.SUMMARY}
+        >
+          <StepButton
+            onClick={() =>
+              !this.isStepDisabled(OrderSteps.SUMMARY) && selectStep(OrderSteps.PAYMENT)
+            }
+          >
+            <FormattedMessage id="ORDER.SUMMARY.TITLE" />
+          </StepButton>
+          <StepContent>
+            <StepSpinner isProcessing={isProcessing}>
+              <PrivateRoute path={`${match.url}/summary`} component={Summary} />
+            </StepSpinner>
           </StepContent>
         </Step>
         <Step
           completed={orderStep === OrderSteps.CONFIRMATION}
-          disabled={orderStep !== OrderSteps.CONFIRMATION}
+          disabled={this.isStepDisabled(OrderSteps.CONFIRMATION)}
           active={orderStep === OrderSteps.CONFIRMATION}
         >
           <StepButton>
             <FormattedMessage id="ORDER.CONFIRMATION.TITLE" />
           </StepButton>
           <StepContent>
-            <PrivateRoute
-              path={`${match.url}/${OrderSteps.CONFIRMATION}`}
-              component={ConfirmationStepContent}
-            />
+            <StepSpinner isProcessing={isProcessing}>
+              <PrivateRoute path={`${match.url}/confirmation`} component={ConfirmationText} />
+            </StepSpinner>
           </StepContent>
         </Step>
       </Stepper>,
@@ -171,6 +211,7 @@ OrderStepper.propTypes = {
   }).isRequired,
   shoppingCart: ShoppingCartPropType.isRequired,
   orderStep: PropTypes.string.isRequired,
+  isProcessing: PropTypes.boolean.isRequired,
   selectStep: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
@@ -179,6 +220,7 @@ export default withRouter(connect(
   state => ({
     shoppingCart: state.shoppingCart,
     orderStep: state.order.step,
+    isProcessing: state.order.processing,
   }),
   dispatch => ({
     selectStep(step) {

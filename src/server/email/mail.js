@@ -2,7 +2,11 @@ const fs = require('fs');
 const nodemailer = require('nodemailer');
 const envConfig = require('../../config/envConfig');
 const Logger = require('../logger');
-const renderOrderConfirmationTemplate = require('./orderConfirmation.jsx');
+const transformJsxModule = require('./transformJsxModule');
+
+const renderOrderConfirmationTemplate = transformJsxModule(
+  'src/server/email/orderConfirmation.jsx'
+);
 
 const transporter = nodemailer.createTransport({
   host: envConfig.getSecretKey('SMTP_SERVER'),

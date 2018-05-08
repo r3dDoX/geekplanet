@@ -7,13 +7,13 @@ import {
 } from '../propTypes';
 import Xhr from '../xhr';
 import Payment from './payment.jsx';
-import { createFinishOrder, createPaymentError, createProcessingStarted } from '../actions';
+import { createFinishPaymentStep, createPaymentError, createProcessingStarted } from '../actions';
 
 const PaymentStepContent = ({
   email,
   order,
   shoppingCart,
-  finishOrder,
+  finishPaymentStep,
   startProcessing,
   stopProcessing,
 }) => {
@@ -27,7 +27,7 @@ const PaymentStepContent = ({
           address: order.selectedAddress,
           ...shoppingCart,
         }))}
-        finishOrder={finishOrder}
+        finishPaymentStep={finishPaymentStep}
         startProcessing={startProcessing}
         stopProcessing={stopProcessing}
         paymentError={order.paymentError}
@@ -44,7 +44,7 @@ PaymentStepContent.defaultProps = {
 PaymentStepContent.propTypes = {
   email: PropTypes.string,
   shoppingCart: ShoppingCartPropType.isRequired,
-  finishOrder: PropTypes.func.isRequired,
+  finishPaymentStep: PropTypes.func.isRequired,
   startProcessing: PropTypes.func.isRequired,
   stopProcessing: PropTypes.func.isRequired,
   order: OrderStatePropType.isRequired,
@@ -60,8 +60,8 @@ export default connect(
     startProcessing() {
       dispatch(createProcessingStarted());
     },
-    finishOrder() {
-      dispatch(createFinishOrder());
+    finishPaymentStep() {
+      dispatch(createFinishPaymentStep());
     },
     stopProcessing(error) {
       dispatch(createPaymentError(error));

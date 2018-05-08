@@ -24,6 +24,6 @@ describe('formatPriceWithCurrency', () => {
 
     const result = underTest.formatPriceWithCurrency(price);
 
-    expect(result).toBe('CHF 456.-');
+    expect(result).toBe('CHF\u00a0456.-');
   });
 });

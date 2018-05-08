@@ -85,6 +85,10 @@
       "TITLE": "GTC",
       "ACCEPT": "Accept GTC"
     },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "CONFIRM_ORDER": "Buy now"
+    },
     "CONFIRMATION": {
       "TITLE": "Confirmation",
       "TEXT": "Thank you for your order. You should receive an email with the confirmation shortly."

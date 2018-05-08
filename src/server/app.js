@@ -1,6 +1,3 @@
-require('babel-core/register')({
-  presets: ['react'],
-});
 
 const config = require('../config/envConfig').getEnvironmentSpecificConfig();
 
@@ -12,6 +9,7 @@ const path = require('path');
 const express = require('express');
 const mongoSanitize = require('express-mongo-sanitize');
 const mime = require('mime-types');
+const { ErrorTypes } = require('../common/errors');
 const Logger = require('./logger');
 const mongo = require('./db/mongoHelper');
 const api = require('./api');
@@ -60,6 +58,26 @@ app.use('/', express.static('dist/', {
 
 api.registerEndpoints(app);
 
+app.use((err, req, res, next) => {
+  Logger.error(err);
+
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  switch (err.name) {
+    case ErrorTypes.UnauthorizedError:
+      return res.sendStatus(401);
+    case ErrorTypes.PaymentError:
+      return res.status(500).send({
+        type: ErrorTypes.PaymentError,
+        message: err.toString(),
+      });
+    default:
+      return res.sendStatus(500);
+  }
+});
+
 app.get('/*', (req /* : express$Request */, res /* : express$Response */) =>
   res.sendFile(path.join(__dirname, '../../dist', 'index.html'))
 );
@@ -67,4 +85,3 @@ app.get('/*', (req /* : express$Request */, res /* : express$Response */) =>
 const server = app.listen(process.env.PORT || 3000, () => {
   Logger.info(`Listening on port ${server.address().port}`);
 });
-

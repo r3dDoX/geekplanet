@@ -1,4 +1,5 @@
 import { reset } from 'redux-form';
+import { ErrorTypes } from '../common/errors';
 import TranslationService from '../common/translationService';
 import { formName as productFilterFormName } from './products/productFilter.jsx';
 import Xhr from './xhr';
@@ -23,6 +24,7 @@ export const SET_SHOPPING_CART_AMOUNT = 'SET_AMOUNT';
 export const ORDER_FINISHED = 'ORDER_FINISHED';
 export const PROCESSING_STARTED = 'PROCESSING_STARTED';
 export const PAYMENT_ERROR = 'PAYMENT_ERROR';
+export const PAYMENT_METHOD_SELECTED = 'PAYMENT_METHOD_SELECTED';
 export const SAVE_ADDRESS = 'SAVE_ADDRESS';
 export const ADDRESSES_LOADED = 'ADDRESSES_LOADED';
 export const SELECT_ADDRESS = 'SELECT_ADDRESS';
@@ -150,9 +152,25 @@ export const createPaymentError = error => ({
   data: error,
 });
 
-export const createFinishOrder = () => ({
-  type: ORDER_FINISHED,
+export const createFinishPaymentStep = () => ({
+  type: PAYMENT_METHOD_SELECTED,
 });
+
+export const createFinishOrder = orderId => (dispatch) => {
+  dispatch({
+    type: PROCESSING_STARTED,
+  });
+
+  Xhr.post(`/api/order/${orderId}/finish`)
+    .then(() => dispatch({
+      type: ORDER_FINISHED,
+    }))
+    .catch((error) => {
+      if (error && error.type === ErrorTypes.PaymentError) {
+        dispatch(createPaymentError(error.message));
+      }
+    });
+};
 
 export const createLoadProduct = productId => (dispatch) => {
   dispatch({

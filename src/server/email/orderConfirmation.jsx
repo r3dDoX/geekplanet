@@ -74,6 +74,7 @@ const styles = {
     padding: '10px 0',
   },
   quantityCell: {
+    borderTop: '1px solid #CFD8DC',
     textAlign: 'center',
   },
   productPicture: {
@@ -191,7 +192,7 @@ module.exports = function renderTemplate(order) {
               </td>
             </tr>
             <tr>
-              <td colSpan={Math.floor(colCount / 2)} style={styles.contentPadding}>
+              <td colSpan={2} style={styles.contentPadding}>
                 <FormattedMessage id="COMMON.SUBTOTAL" />
               </td>
               <td />
@@ -219,7 +220,7 @@ module.exports = function renderTemplate(order) {
                 </td>
                 <td>-</td>
                 <td style={styles.totals}>
-                  {formatPriceWithCurrency(-priceCalculation.calculateCouponsTotal(order.coupons))}
+                  {formatPriceWithCurrency(priceCalculation.calculateCouponsTotal(order.coupons))}
                 </td>
               </tr>
             ) : null}

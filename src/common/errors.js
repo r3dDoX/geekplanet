@@ -1,5 +1,6 @@
 const ErrorTypes = {
   PaymentError: 'PaymentError',
+  UnauthorizedError: 'UnauthorizedError',
 };
 
 function PaymentError(message, detail) {

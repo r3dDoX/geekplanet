@@ -1,3 +1,4 @@
+import Avatar from 'material-ui/Avatar';
 import RaisedButton from 'material-ui/RaisedButton';
 import { grey300, grey600 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
@@ -5,15 +6,17 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import PriceCalculation from '../../common/priceCalculation';
 import { formatPriceWithCurrency } from '../../common/priceFormatter';
 import { createFinishOrder } from '../actions';
 import { CouponPropType, ShoppingCartItemsPropType } from '../propTypes';
-import PriceCalculation from '../../common/priceCalculation';
+import { accent1Color, brandSecondary, xsMaxSize } from '../theme';
 
 const priceCalculation = PriceCalculation.create(ORDER.MIN_PRICE_SHIPPING, ORDER.SHIPPING_COST);
 
 const SummaryContainer = styled.div`
   margin: 20px 0;
+  overflow-x: auto;
 `;
 
 const TableBody = styled.tbody`
@@ -28,6 +31,20 @@ const TableBody = styled.tbody`
 
 const Cell = styled.td`
   padding: 10px;
+  
+  @media screen and (min-width: ${xsMaxSize}) {
+    padding: 15px;
+  }
+`;
+
+const StyledAvatar = styled(Avatar)`
+  object-fit: cover;
+  vertical-align: middle;
+  margin-right: 10px;
+  
+  @media screen and (max-width: ${xsMaxSize}) {
+    display: none !important;
+  }
 `;
 
 const HeaderCell = Cell.withComponent('th');
@@ -43,6 +60,15 @@ const FooterTitleCell = Cell.extend`
 const GrandTotalRow = styled.tr`
   td {
     border-top: 1px solid ${grey600};
+  }
+`;
+
+const ProductLink = styled.a`
+  color: ${brandSecondary};
+  text-decoration: none;
+  
+  &:hover {
+    color: ${accent1Color};
   }
 `;
 
@@ -74,7 +100,14 @@ const Summary = ({
           {items.map(item => (
             <tr key={item.product._id}>
               <Cell>
-                {item.product.de.name}
+                <StyledAvatar
+                  src={(item.product.files.length) ?
+                    `/api/products/pictures/${item.product.files[0]}_s` : '/assets/images/notFound.jpg'
+                  }
+                />
+                <ProductLink href={`/products/${item.product._id}`} target="_blank">
+                  {item.product.de.name}
+                </ProductLink>
               </Cell>
               <AmountCell>
                 {item.amount}

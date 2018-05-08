@@ -1,14 +1,16 @@
 import {
+  ADD_COUPON_TO_SHOPPING_CART,
+  ADD_ITEM_TO_SHOPPING_CART,
   ADDRESSES_LOADED,
   AGB_ACCEPTED,
   ORDER_FINISHED,
   PAYMENT_ERROR,
   PAYMENT_METHOD_SELECTED,
-  PROCESSING_STARTED,
+  PROCESSING_STARTED, REMOVE_COUPON_FROM_SHOPPING_CART,
   SAVE_ADDRESS,
   SAVING_ADDRESS,
   SELECT_ADDRESS,
-  SELECT_ORDER_STEP,
+  SELECT_ORDER_STEP, SET_SHOPPING_CART_AMOUNT,
 } from '../actions';
 import OrderSteps from './orderSteps';
 
@@ -70,6 +72,17 @@ export default function auth(state = initialState, { type, data }) {
         processing: false,
         paymentError: data,
       });
+    case ADD_ITEM_TO_SHOPPING_CART:
+    case SET_SHOPPING_CART_AMOUNT:
+    case ADD_COUPON_TO_SHOPPING_CART:
+    case REMOVE_COUPON_FROM_SHOPPING_CART: {
+      if (state.step > OrderSteps.PAYMENT) {
+        return Object.assign({}, state, {
+          step: OrderSteps.PAYMENT,
+        });
+      }
+      return state;
+    }
     default:
       return state;
   }

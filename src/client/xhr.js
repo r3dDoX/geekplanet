@@ -14,17 +14,22 @@ function wrapXhrPromise(path, method, data, contentType) {
 
     request.addEventListener('load', () => {
       if (request.status === 200) {
-        let { response } = request;
+        const { response } = request;
         try {
-          response = JSON.parse(response);
-        } catch (e) { /* Nothing to do when no JSON returned */ }
-        resolve(response);
+          resolve(JSON.parse(response));
+        } catch (e) {
+          resolve(response);
+        }
       } else if (request.status === 401) {
         AuthService.logout();
         window.location.assign('/login');
       } else {
         const { response } = request;
-        reject(response);
+        try {
+          reject(JSON.parse(response));
+        } catch (e) {
+          reject(response);
+        }
       }
     });
 

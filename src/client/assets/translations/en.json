@@ -85,6 +85,10 @@
       "TITLE": "GTC",
       "ACCEPT": "Accept GTC"
     },
+    "SUMMARY": {
+      "TITLE": "Summary",
+      "CONFIRM_ORDER": "Buy now"
+    },
     "CONFIRMATION": {
       "TITLE": "Confirmation",
       "TEXT": "Thank you for your order. You should receive an email with the confirmation shortly."
@@ -130,7 +134,8 @@
     "PRODUCERS_TITLE": "Producer",
     "APPLY": "Apply",
     "MORE_FILTERS": "Weitere Filter",
-    "NOTHING_FOUND": "No products match your search :("
+    "NOTHING_FOUND": "Unfortunately we can't find any product for your search.",
+    "PRODUCT_WISH": "Write an email to us with the product you wish to: info@geekplanet.ch."
   },
   "EMAIL": {
     "ORDER_CONFIRMATION": "Thank you for your purchase, {firstName}!",

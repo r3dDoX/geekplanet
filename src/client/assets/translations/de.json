@@ -134,7 +134,8 @@
     "PRODUCERS_TITLE": "Hersteller",
     "APPLY": "Anwenden",
     "MORE_FILTERS": "Weitere Filter",
-    "NOTHING_FOUND": "Keine Produkte entsprechen deiner Suche :("
+    "NOTHING_FOUND": "Leider finden wir keine Produkte zu deiner Suche.",
+    "PRODUCT_WISH": "Schreib uns doch deinen Produktwunsch via email an: info@geekplanet.ch."
   },
   "EMAIL": {
     "ORDER_CONFIRMATION": "Vielen Dank für deinen Einkauf, {firstName}!",

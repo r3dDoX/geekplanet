@@ -1,20 +1,31 @@
 const PriceCalculation = require('./priceCalculation');
 
+const MongooseModelPrototype = {
+  toObject() {
+    return this;
+  },
+};
+
+const createCouponMock = (coupon) => {
+  const couponMock = Object.create(MongooseModelPrototype);
+  return Object.assign(couponMock, coupon);
+};
+
 describe('calculateItemTotal', () => {
   it('should add all given products multiplied by amount', () => {
     const items = [
-      {
+      createCouponMock({
         amount: 3,
         product: {
           price: 4.75,
         },
-      },
-      {
+      }),
+      createCouponMock({
         amount: 1,
         product: {
           price: 1.50,
         },
-      },
+      }),
     ];
 
     const underTest = PriceCalculation.create();
@@ -58,8 +69,8 @@ describe('calculateItemTotal', () => {
 describe('calculateCouponsTotal', () => {
   it('should add all given coupons', () => {
     const coupons = [
-      { amount: 3 },
-      { amount: 1 },
+      createCouponMock({ amount: 3 }),
+      createCouponMock({ amount: 1 }),
     ];
 
     const underTest = PriceCalculation.create();
@@ -70,8 +81,8 @@ describe('calculateCouponsTotal', () => {
 
   it('should handle number rounding issues', () => {
     const coupons = [
-      { amount: 15.2 },
-      { amount: 11.1 },
+      createCouponMock({ amount: 15.2 }),
+      createCouponMock({ amount: 11.1 }),
     ];
 
     const underTest = PriceCalculation.create();
@@ -117,7 +128,10 @@ describe('calculateGrandTotal', () => {
 
 describe('getRemainingCouponsAmount', () => {
   it('should set coupons amount to 0 when total including shipping is greater than coupons', () => {
-    const coupons = [{ _id: '1', amount: 10 }, { _id: '2', amount: 5 }];
+    const coupons = [
+      createCouponMock({ _id: '1', amount: 10 }),
+      createCouponMock({ _id: '2', amount: 5 }),
+    ];
 
     const underTest = PriceCalculation.create(50, 9);
     const result = underTest.getRemainingCouponsAmount(6, coupons);
@@ -129,7 +143,10 @@ describe('getRemainingCouponsAmount', () => {
   });
 
   it('should leave remaining amount on coupons exceeding total including shipping', () => {
-    const coupons = [{ _id: '1', amount: 30 }, { _id: '2', amount: 20 }];
+    const coupons = [
+      createCouponMock({ _id: '1', amount: 30 }),
+      createCouponMock({ _id: '2', amount: 20 }),
+    ];
 
     const underTest = PriceCalculation.create(50, 9);
     const result = underTest.getRemainingCouponsAmount(30, coupons);
@@ -141,7 +158,7 @@ describe('getRemainingCouponsAmount', () => {
   });
 
   it('should work correctly with total exceeding min shipping', () => {
-    const coupons = [{ _id: '1', amount: 60 }];
+    const coupons = [createCouponMock({ _id: '1', amount: 60 })];
 
     const underTest = PriceCalculation.create(50, 9);
     const result = underTest.getRemainingCouponsAmount(50, coupons);
@@ -161,7 +178,7 @@ describe('getRemainingCouponsAmount', () => {
   });
 
   it('should handle number rounding issues', () => {
-    const coupons = [{ _id: '1', amount: 60.1 }];
+    const coupons = [createCouponMock({ _id: '1', amount: 60.1 })];
 
     const underTest = PriceCalculation.create(50, 9);
     const result = underTest.getRemainingCouponsAmount(51.4, coupons);

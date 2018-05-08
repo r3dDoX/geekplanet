@@ -65,9 +65,16 @@ const styles = {
   headingCell: {
     padding: '10px 0',
   },
+  headingQuantityCell: {
+    padding: '10px 0',
+    textAlign: 'center',
+  },
   productCell: {
     borderTop: '1px solid #CFD8DC',
     padding: '10px 0',
+  },
+  quantityCell: {
+    textAlign: 'center',
   },
   productPicture: {
     maxWidth: '100px',
@@ -145,7 +152,7 @@ module.exports = function renderTemplate(order) {
               <th style={styles.headingCell}>
                 <FormattedMessage id="COMMON.PRODUCT" />
               </th>
-              <th style={styles.headingCell}>
+              <th style={styles.headingQuantityCell}>
                 <FormattedMessage id="COMMON.QUANTITY" />
               </th>
               <th style={styles.headingCell}>
@@ -168,7 +175,7 @@ module.exports = function renderTemplate(order) {
                   {product.de.name}<br />
                   {formatPriceWithCurrency(product.price)}
                 </td>
-                <td style={styles.productCell}>
+                <td style={styles.quantityCell}>
                   {amount}
                 </td>
                 <td style={styles.productCell}>
@@ -187,15 +194,17 @@ module.exports = function renderTemplate(order) {
               <td colSpan={Math.floor(colCount / 2)} style={styles.contentPadding}>
                 <FormattedMessage id="COMMON.SUBTOTAL" />
               </td>
-              <td colSpan={Math.ceil(colCount / 2)} style={styles.totals}>
+              <td />
+              <td style={styles.totals}>
                 {formatPriceWithCurrency(order.itemTotal)}
               </td>
             </tr>
             <tr>
-              <td colSpan={Math.floor(colCount / 2)} style={styles.contentPadding}>
+              <td colSpan={2} style={styles.contentPadding}>
                 <FormattedMessage id="COMMON.SHIPPING_COSTS" />
               </td>
-              <td colSpan={Math.ceil(colCount / 2)} style={styles.totals}>
+              <td>+</td>
+              <td style={styles.totals}>
                 {formatPriceWithCurrency(
                   priceCalculation.isInShippingCostRange(order.itemTotal)
                     ? config.ORDER.SHIPPING_COST
@@ -205,19 +214,20 @@ module.exports = function renderTemplate(order) {
             </tr>
             {order.coupons.length ? (
               <tr>
-                <td colSpan={Math.floor(colCount / 2)} style={styles.contentPadding}>
+                <td colSpan={2} style={styles.contentPadding}>
                   <FormattedMessage id="COMMON.COUPONS" />
                 </td>
-                <td colSpan={Math.ceil(colCount / 2)} style={styles.totals}>
+                <td>-</td>
+                <td style={styles.totals}>
                   {formatPriceWithCurrency(-priceCalculation.calculateCouponsTotal(order.coupons))}
                 </td>
               </tr>
             ) : null}
             <tr>
-              <td colSpan={Math.floor(colCount / 2)} style={styles.contentPadding}>
+              <td colSpan={2} style={styles.contentPadding}>
                 <strong><FormattedMessage id="COMMON.TOTAL" /></strong>
               </td>
-              <td colSpan={Math.ceil(colCount / 2)} style={styles.totals}>
+              <td colSpan={2} style={styles.totals}>
                 <strong>
                   {formatPriceWithCurrency(
                     priceCalculation.calculateGrandTotal(order.itemTotal, order.coupons)

@@ -9,7 +9,7 @@ const path = require('path');
 const express = require('express');
 const mongoSanitize = require('express-mongo-sanitize');
 const mime = require('mime-types');
-const { PaymentError } = require('../common/errors');
+const { ErrorTypes } = require('../common/errors');
 const Logger = require('./logger');
 const mongo = require('./db/mongoHelper');
 const api = require('./api');
@@ -60,17 +60,22 @@ api.registerEndpoints(app);
 
 app.use((err, req, res, next) => {
   Logger.error(err);
+
   if (res.headersSent) {
     return next(err);
   }
 
-  if (err instanceof PaymentError) {
-    return res.status(500).send({
-      type: 'PaymentError',
-      message: err.toString(),
-    });
+  switch (err.name) {
+    case ErrorTypes.UnauthorizedError:
+      return res.sendStatus(401);
+    case ErrorTypes.PaymentError:
+      return res.status(500).send({
+        type: ErrorTypes.PaymentError,
+        message: err.toString(),
+      });
+    default:
+      return res.sendStatus(500);
   }
-  return res.sendStatus(500);
 });
 
 app.get('/*', (req /* : express$Request */, res /* : express$Response */) =>

@@ -101,8 +101,9 @@ const Summary = ({
             <tr key={item.product._id}>
               <Cell>
                 <StyledAvatar
-                  src={(item.product.files.length) ?
-                    `/api/products/pictures/${item.product.files[0]}_s` : '/assets/images/notFound.jpg'
+                  src={(item.product.files.length)
+                    ? `/api/products/pictures/${item.product.files[0]}_s`
+                    : '/assets/images/notFound.jpg'
                   }
                 />
                 <ProductLink href={`/products/${item.product._id}`} target="_blank">

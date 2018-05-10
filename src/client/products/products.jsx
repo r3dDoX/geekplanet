@@ -80,13 +80,19 @@ class Products extends React.Component {
 
   render() {
     const {
+      location,
       products,
       filteredProducts,
       filterShown,
       intl,
       categoriesToFilter,
       filterString,
+      history,
     } = this.props;
+
+    const parentCategories = categoriesToFilter
+      .filter(category =>
+        !categoriesToFilter.some(parentCategory => parentCategory._id === category.parentCategory));
 
     return (
       <div>
@@ -96,13 +102,24 @@ class Products extends React.Component {
               { id: 'PRODUCTS.TITLE' },
               {
                 searchTerm: filterString ? `${filterString} | ` : '',
-                categoryCount: categoriesToFilter.length,
-                categories: categoriesToFilter.map(category => category.de.name).join(', '),
+                categoryCount: parentCategories.length,
+                categories: parentCategories.map(category => category.de.name).join(', '),
               }
             )}
           </title>
         </Helmet>
-        <ProductFilter />
+        <ProductFilter
+          categories={parentCategories}
+          removeCategoryFromFilter={(categoryId) => {
+            const query = queryString.parse(location.search);
+            query.categories = query.categories
+              .split(',')
+              .filter(queryCategoryId => queryCategoryId !== categoryId)
+              .join(',');
+
+            history.push(`/products?${queryString.stringify(query)}`);
+          }}
+        />
         {
           products.length
             ? filteredProducts.length
@@ -129,6 +146,7 @@ Products.propTypes = {
   filterShown: PropTypes.bool.isRequired,
   filterString: PropTypes.string.isRequired,
   intl: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
   }).isRequired,

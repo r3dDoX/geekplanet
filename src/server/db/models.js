@@ -27,9 +27,10 @@ models.ProductCategory = mongoose.model('ProductCategory', {
   },
   parentCategory: mongoose.Schema.Types.Object,
   de: ProductCategoryTranslationsSchema,
-  en: ProductCategoryTranslationsSchema,
-  fr: ProductCategoryTranslationsSchema,
-  it: ProductCategoryTranslationsSchema,
+  // TODO: translate all our productcategories
+  // en: ProductCategoryTranslationsSchema,
+  // fr: ProductCategoryTranslationsSchema,
+  // it: ProductCategoryTranslationsSchema,
 });
 
 models.Tag = mongoose.model('Tag', {

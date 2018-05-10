@@ -17,7 +17,14 @@
     "jsx-a11y/anchor-is-valid": 0,
     "jsx-a11y/click-events-have-key-events": 0,
     "no-restricted-globals": 0,
-    "no-nested-ternary": 0
+    "no-nested-ternary": 0,
+    "max-len": ["error", 120, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": false,
+      "ignoreRegExpLiterals": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true
+    }]
   },
   "globals": {
     "jest": false,

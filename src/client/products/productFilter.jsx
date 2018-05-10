@@ -1,3 +1,4 @@
+import Chip from 'material-ui/Chip';
 import { grey700 } from 'material-ui/styles/colors';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
@@ -7,15 +8,24 @@ import { withRouter } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import SmallTextField from '../formHelpers/smallTextField.jsx';
-import { laMinSize, mdMinSize } from '../theme';
+import { ProductCategoryPropType } from '../propTypes';
+import { laMinSize, mdMinSize, mdMaxSize } from '../theme';
 
 export const formName = 'productFilter';
 
 const FilterContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   background: #FFF;
   padding: 4px 20px;
   box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.3);
   max-height: 68px;
+  overflow-x: auto;
+  
+  @media screen and (max-width: ${mdMaxSize}) {
+    justify-content: space-between;
+  }
   
   @media screen and (min-width: ${mdMinSize}) {
     position: fixed;
@@ -27,6 +37,20 @@ const FilterContainer = styled.div`
   @media screen and (min-width: ${laMinSize}) {
     padding-left: 276px;
   }
+`;
+
+const SearchField = styled(Field)`
+  min-width: 100px;
+`;
+
+const ChipContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+const CategoryChip = styled(Chip)`
+  margin-left: 10px !important;
 `;
 
 const styles = {
@@ -47,9 +71,13 @@ function debounce(fn, millis = 200) {
   timeoutId = setTimeout(fn, millis);
 }
 
-const ProductFilter = ({ history }) => (
+const ProductFilter = ({
+  categories,
+  removeCategoryFromFilter,
+  history,
+}) => (
   <FilterContainer>
-    <Field
+    <SearchField
       component={SmallTextField}
       name="search"
       label={<FormattedMessage id="PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER" />}
@@ -57,17 +85,25 @@ const ProductFilter = ({ history }) => (
       underlineStyle={styles.filterHint}
       onKeyUp={({ target }) => debounce(() => {
         const query = queryString.parse(history.location.search);
-
         query.search = target.value;
 
         history.push(`?${queryString.stringify(query)}`);
       })}
       type="text"
     />
+    <ChipContainer>
+      {categories.map(category => (
+        <CategoryChip key={category._id} onRequestDelete={() => removeCategoryFromFilter(category._id)}>
+          {category.de.name}
+        </CategoryChip>
+      ))}
+    </ChipContainer>
   </FilterContainer>
 );
 
 ProductFilter.propTypes = {
+  categories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
+  removeCategoryFromFilter: PropTypes.func.isRequired,
   history: PropTypes.shape({
     location: PropTypes.shape({
       search: PropTypes.string.isRequired,

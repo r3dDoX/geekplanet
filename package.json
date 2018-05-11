@@ -1,6 +1,6 @@
 {
   "name": "geekplanet",
-  "version": "1.9.2",
+  "version": "1.10.0",
   "description": "A Webshop built with React/Redux, Node JS and Mongo DB",
   "repository": "https://github.com/r3dDoX/geekplanet",
   "engines": {

@@ -88,8 +88,8 @@ module.exports = {
       const orders = await Order.find().sort({ date: -1 });
 
       const updatedOrders = await Promise.all(orders.map(async (order) => {
-        if (order.invoice) {
-          const invoice = Invoice.findOne({ _id: order.invoice });
+        if (order.invoice) { // TODO use aggregate statement from mongo
+          const invoice = await Invoice.findOne({ _id: order.invoice });
           return Object.assign({}, order.toObject(), {
             esr: invoice.esr,
           });

@@ -183,8 +183,9 @@ class Orders extends React.Component {
                         <Item key={item.product._id}>
                           <ItemAvatar
                             size={64}
-                            src={(item.product.files.length) ?
-                              `/api/products/pictures/${item.product.files[0]}_s` : '/assets/images/notFound.jpg'
+                            src={(item.product.files.length)
+                              ? `/api/products/pictures/${item.product.files[0]}_s`
+                              : '/assets/images/notFound.jpg'
                             }
                           />
                           {item.amount}&nbsp;*&nbsp;

@@ -197,7 +197,10 @@ class Orders extends React.Component {
                   </Dialog>
                 </td>
                 <BreakingCell>
-                  {order.esr ? order.esr : <CreditCardIcon />}
+                  {order.esr
+                    ? order.esr
+                    : <CreditCardIcon />
+                  }
                 </BreakingCell>
                 <td>
                   {`${order.address.title} ${order.address.firstName} ${order.address.lastName}`}<br />

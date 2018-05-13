@@ -1,6 +1,6 @@
 FROM r3ddox/node-pdftk:9.9.0
 
-ARG BUILD_ENV="production"
+ARG BUILD_ENV="staging"
 
 RUN adduser -D -u 1001 geekplanet
 

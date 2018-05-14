@@ -1,5 +1,4 @@
 /* eslint-disable import/first */
-import 'babel-polyfill';
 import './errorHandler';
 import React from 'react';
 import { render } from 'react-dom';

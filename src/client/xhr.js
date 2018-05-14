@@ -51,7 +51,7 @@ function multipartRequest(path, method, data) {
 }
 
 function jsonRequest(path, method, data) {
-  return wrapXhrPromise(path, method, JSON.stringify(data), 'application/json');
+  return wrapXhrPromise(path, method, data ? JSON.stringify(data) : '', 'application/json');
 }
 
 export default {

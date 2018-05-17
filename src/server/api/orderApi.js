@@ -1,4 +1,5 @@
 const fs = require('fs');
+const compression = require('compression');
 const { authorization, isAdmin } = require('./auth');
 const bodyParser = require('body-parser');
 const asyncHandler = require('express-async-handler');
@@ -84,22 +85,23 @@ async function chargeCreditCard(order, userId) {
 
 module.exports = {
   registerEndpoints(app) {
-    app.get('/api/orders', authorization, isAdmin, asyncHandler(async (req, res) => {
-      const orders = await Order.find().sort({ date: -1 });
+    app.get('/api/orders', authorization, isAdmin, compression(),
+      asyncHandler(async (req, res) => {
+        const orders = await Order.find().sort({ date: -1 });
 
-      const updatedOrders = await Promise.all(orders.map(async (order) => {
-        if (order.invoice) { // TODO use aggregate statement from mongo
-          const invoice = await Invoice.findOne({ _id: order.invoice });
-          return Object.assign({}, order.toObject(), {
-            esr: invoice.esr,
-          });
-        }
+        const updatedOrders = await Promise.all(orders.map(async (order) => {
+          if (order.invoice) { // TODO use aggregate statement from mongo
+            const invoice = await Invoice.findOne({ _id: order.invoice });
+            return Object.assign({}, order.toObject(), {
+              esr: invoice.esr,
+            });
+          }
 
-        return order;
+          return order;
+        }));
+
+        res.send(updatedOrders);
       }));
-
-      res.send(updatedOrders);
-    }));
 
     app.put('/api/orders', authorization, bodyParser.json(), asyncHandler(async (req, res) => {
       const items = await mapDbProductsToClientItems(req.body.items);

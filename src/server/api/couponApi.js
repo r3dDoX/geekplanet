@@ -1,3 +1,4 @@
+const compression = require('compression');
 const { authorization, isAdmin } = require('./auth');
 const { handleGenericError } = require('../db/mongoHelper');
 const cc = require('coupon-code');
@@ -8,7 +9,7 @@ const {
 
 module.exports = {
   registerEndpoints(app) {
-    app.get('/api/coupons', authorization, isAdmin,
+    app.get('/api/coupons', authorization, isAdmin, compression(),
       (req, res) => Coupon
         .find({ amount: { $gt: 0 } })
         .sort({ date: -1 })

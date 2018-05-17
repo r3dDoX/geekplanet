@@ -199,7 +199,7 @@ module.exports = {
           .catch(handleGenericError)
     );
 
-    app.get('/api/productcategories',
+    app.get('/api/productcategories', compression(),
       (req, res) =>
         ProductCategory.find().sort({ order: 1, 'de.name': 1 })
           .then(categories => res.send(categories))

@@ -55,14 +55,7 @@ app.use('/', express.static('dist/', {
   },
 }));
 
-app.use('/orders', require('./api/orders.api'));
-app.use('/producers', require('./api/producers.api'));
-app.use('/products', require('./api/products.api'));
-app.use('/suppliers', require('./api/suppliers.api'));
-app.use('/tags', require('./api/tags.api'));
-app.use('/home', require('./api/home.api'));
-app.use('/error', require('./api/error.api'));
-app.use('/coupons', require('./api/coupons.api'));
+app.use('/api', require('./api'));
 
 app.use((err, req, res, next) => {
   Logger.error(err);

@@ -6,10 +6,10 @@ const bodyParser = require('body-parser');
 const multer = require('multer')();
 const streamifier = require('streamifier');
 const sharp = require('sharp');
-const Logger = require('../logger');
 const mongoHelper = require('../db/mongoHelper');
-const { saveOrUpdate, handleGenericError } = require('../db/mongoHelper');
+const { saveOrUpdate } = require('../db/mongoHelper');
 const fs = require('fs');
+const asyncHandler = require('express-async-handler');
 
 const {
   Product,
@@ -91,25 +91,20 @@ const productListFilter = {
 };
 
 router.get('/', compression(),
-  (req, res) =>
-    Product.find({}, productListFilter).sort({ number: 1 })
-      .then(products => res.send(products))
-      .catch((err) => {
-        Logger.error(err);
-        res.status(500).send('Fetching products failed!');
-      })
-);
+  asyncHandler(async (req, res) => {
+    const products = await Product.find({}, productListFilter).sort({ number: 1 });
+    res.send(products);
+  }));
 
 router.put('/', authorization, isAdmin, bodyParser.json(),
-  (req, res) =>
-    saveOrUpdate(Product, req.body)
-      .then(() => res.sendStatus(200))
-      .catch(handleGenericError)
-);
+  asyncHandler(async (req, res) => {
+    await saveOrUpdate(Product, req.body);
+    res.sendStatus(200);
+  }));
 
 router.post('/pictures', authorization, isAdmin, multer.any(),
-  (req, res) =>
-    Promise.all(req.files.map((file) => {
+  asyncHandler(async (req, res) => {
+    const files = await Promise.all(req.files.map((file) => {
       const id = shortId.generate();
 
       return Promise.all([
@@ -118,10 +113,10 @@ router.post('/pictures', authorization, isAdmin, multer.any(),
         saveFileInSize(id, file, 'l', 1600),
       ])
         .then(() => id);
-    }))
-      .then(files => res.status(200).send(JSON.stringify(files)))
-      .catch(error => handleGenericError(error, res))
-);
+    }));
+
+    res.status(200).send(JSON.stringify(files));
+  }));
 
 router.get('/pictures/:id',
   (req, res) => {
@@ -143,89 +138,63 @@ router.get('/pictures/:id',
   });
 
 router.delete('/pictures/:id', authorization, isAdmin,
-  (req, res) =>
-    removeFile(req.params.id)
-      .then(() => Product.update({}, { $pull: { files: req.params.id } }, { multi: true }))
-      .then(() => res.sendStatus(200))
-      .catch(error => handleGenericError(error, res))
-);
+  asyncHandler(async (req, res) => {
+    await removeFile(req.params.id);
+    await Product.update({}, { $pull: { files: req.params.id } }, { multi: true });
+    res.sendStatus(200);
+  }));
 
 router.get('/complete', authorization, isAdmin, compression(),
-  (req, res) =>
-    Product.find().sort({ number: 1 })
-      .then(products => res.send(products))
-      .catch((err) => {
-        Logger.error(err);
-        res.status(500).send('Fetching products failed!');
-      })
-);
+  asyncHandler(async (req, res) => {
+    const products = await Product.find().sort({ number: 1 });
+    res.send(products);
+  }));
 
 router.get('/categories', compression(),
-  (req, res) =>
-    ProductCategory.find().sort({ order: 1, 'de.name': 1 })
-      .then(categories => res.send(categories))
-      .catch((err) => {
-        Logger.error(err);
-        res.status(500).send('Fetching product categories failed!');
-      })
-);
+  asyncHandler(async (req, res) => {
+    const categories = await ProductCategory.find().sort({ order: 1, 'de.name': 1 });
+    res.send(categories);
+  }));
 
 router.put('/categories', authorization, isAdmin, bodyParser.json(),
-  ({ body }, res) => {
-    const promises = [];
+  asyncHandler(async ({ body }, res) => {
     if (body._id) {
-      ProductCategory.findOne({ _id: body._id })
-        .then(({ name }) => {
-          if (name !== body.name) {
-            promises.push(ProductCategory.update(
-              { parentCategory: name },
-              { $set: { parentCategory: body.name } },
-              { multi: true }).exec());
-          }
-        });
+      const { name } = await ProductCategory.findOne({ _id: body._id });
+      if (name !== body.name) {
+        await ProductCategory.update(
+          { parentCategory: name },
+          { $set: { parentCategory: body.name } },
+          { multi: true }).exec();
+      }
     }
-    promises.push(saveOrUpdate(ProductCategory, body));
-    Promise.all(promises)
-      .then(() => res.sendStatus(200))
-      .catch(error => handleGenericError(error, res));
-  });
+    await saveOrUpdate(ProductCategory, body);
+    res.sendStatus(200);
+  }));
 
 router.get('/:id',
-  (req, res) =>
-    Product.findOne({ _id: req.params.id }, productFilter)
-      .then(product =>
-        Promise.all([
-          ProductCategory.findOne({ _id: product.category }),
-          Producer.findOne({ _id: product.producer }),
-        ])
-          .then(([category, producer]) =>
-            res.send(Object.assign({}, product.toObject(), {
-              category,
-              producer,
-            }))
-          )
-      )
-      .catch((err) => {
-        Logger.error(err);
-        res.status(500).send('Fetching product failed!');
-      })
-);
+  asyncHandler(async (req, res) => {
+    const product = await Product.findOne({ _id: req.params.id }, productFilter);
+    const [category, producer] = await Promise.all([
+      ProductCategory.findOne({ _id: product.category }),
+      Producer.findOne({ _id: product.producer }),
+    ]);
+
+    res.send(Object.assign({}, product.toObject(), {
+      category,
+      producer,
+    }));
+  }));
 
 router.delete('/:id', authorization, isAdmin,
-  (req, res) =>
-    Product.findOne({ _id: req.params.id })
-      .then((product) => {
-        const pictureRemovePromises = product.files.length ?
-          product.files.map(productFile => removeFile(productFile)) : [];
+  asyncHandler(async (req, res) => {
+    const product = Product.findOne({ _id: req.params.id });
+    const pictureRemovePromises = product.files.length
+      ? product.files.map(productFile => removeFile(productFile))
+      : [];
 
-        return Promise.all(pictureRemovePromises)
-          .then(() => Product.remove({ _id: req.params.id }))
-          .then(res.sendStatus(200));
-      })
-      .catch((err) => {
-        Logger.error(err);
-        res.status(500).send('Removing product or assigned images failed!');
-      })
-);
+    await Promise.all(pictureRemovePromises);
+    await Product.remove({ _id: req.params.id });
+    res.sendStatus(200);
+  }));
 
 module.exports = router;

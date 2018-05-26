@@ -12,7 +12,6 @@ const mime = require('mime-types');
 const { ErrorTypes } = require('../common/errors');
 const Logger = require('./logger');
 const mongo = require('./db/mongoHelper');
-const api = require('./api');
 
 mongo.init();
 const app = express();
@@ -56,7 +55,14 @@ app.use('/', express.static('dist/', {
   },
 }));
 
-api.registerEndpoints(app);
+app.use('/orders', require('./api/orders.api'));
+app.use('/producers', require('./api/producers.api'));
+app.use('/products', require('./api/products.api'));
+app.use('/suppliers', require('./api/suppliers.api'));
+app.use('/tags', require('./api/tags.api'));
+app.use('/home', require('./api/home.api'));
+app.use('/error', require('./api/error.api'));
+app.use('/coupons', require('./api/coupons.api'));
 
 app.use((err, req, res, next) => {
   Logger.error(err);

@@ -92,7 +92,7 @@ export const createHideShoppingCartNotification = () => ({
 });
 
 const loadAndDispatchAddresses = dispatch =>
-  Xhr.get('/api/userAddresses')
+  Xhr.get('/api/orders/userAddresses')
     .then(addresses => dispatch({
       type: ADDRESSES_LOADED,
       data: addresses,
@@ -115,12 +115,12 @@ export const createSaveAddress = address => (dispatch) => {
   });
 
   Xhr.put(
-    '/api/userAddress',
+    '/api/orders/userAddress',
     address,
     'application/json',
   )
     .then((addressId) => {
-      Xhr.get('/api/userAddresses')
+      Xhr.get('/api/orders/userAddresses')
         .then((addresses) => {
           dispatch({
             type: ADDRESSES_LOADED,
@@ -161,7 +161,7 @@ export const createFinishOrder = orderId => (dispatch) => {
     type: PROCESSING_STARTED,
   });
 
-  Xhr.post(`/api/order/${orderId}/finish`)
+  Xhr.post(`/api/orders/${orderId}/finish`)
     .then(() => dispatch({
       type: ORDER_FINISHED,
     }))
@@ -206,13 +206,13 @@ export const createLoadProducts = () => dispatch =>
   }));
 
 export const createLoadProductCategories = () => dispatch =>
-  Xhr.get('/api/productCategories').then(productCategories => dispatch({
+  Xhr.get('/api/products/categories').then(productCategories => dispatch({
     type: PRODUCT_CATEGORIES_LOADED,
     productCategories,
   }));
 
 export const createLoadPublicProducers = () => dispatch =>
-  Xhr.get('/api/publicproducers').then(producers => dispatch({
+  Xhr.get('/api/producers/public').then(producers => dispatch({
     type: PUBLIC_PRODUCERS_LOADED,
     producers,
   }));
@@ -245,7 +245,7 @@ export const createResetFilter = () => (dispatch) => {
 };
 
 export const createLoadHomeTiles = () => dispatch =>
-  Xhr.get('/api/hometiles').then(tiles => dispatch({
+  Xhr.get('/api/home/tiles').then(tiles => dispatch({
     type: HOME_TILES_LOADED,
     tiles,
   }));

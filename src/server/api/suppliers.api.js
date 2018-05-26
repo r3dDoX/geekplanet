@@ -1,28 +1,23 @@
 const router = require('express').Router();
 const { authorization, isAdmin } = require('./auth');
 const bodyParser = require('body-parser');
-const Logger = require('../logger');
-const { saveOrUpdate, handleGenericError } = require('../db/mongoHelper');
+const { saveOrUpdate } = require('../db/mongoHelper');
+const asyncHandler = require('express-async-handler');
 
 const {
   Supplier,
 } = require('../db/models');
 
 router.get('/', authorization, isAdmin,
-  (req, res) =>
-    Supplier.find().sort({ name: 1 })
-      .then(suppliers => res.send(suppliers))
-      .catch((err) => {
-        Logger.error(err);
-        res.status(500).send('Fetching suppliers failed!');
-      })
-);
+  asyncHandler(async (req, res) => {
+    const suppliers = await Supplier.find().sort({ name: 1 });
+    res.send(suppliers);
+  }));
 
 router.put('/', authorization, isAdmin, bodyParser.json(),
-  (req, res) =>
-    saveOrUpdate(Supplier, req.body)
-      .then(() => res.sendStatus(200))
-      .catch(error => handleGenericError(error, res))
-);
+  asyncHandler(async (req, res) => {
+    await saveOrUpdate(Supplier, req.body);
+    res.sendStatus(200);
+  }));
 
 module.exports = router;

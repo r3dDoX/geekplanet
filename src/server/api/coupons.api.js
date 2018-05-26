@@ -1,48 +1,46 @@
 const router = require('express').Router();
 const compression = require('compression');
 const { authorization, isAdmin } = require('./auth');
-const { handleGenericError } = require('../db/mongoHelper');
 const cc = require('coupon-code');
+const asyncHandler = require('express-async-handler');
 
 const {
   Coupon,
 } = require('../db/models');
 
 router.get('/', authorization, isAdmin, compression(),
-  (req, res) => Coupon
-    .find({ amount: { $gt: 0 } })
-    .sort({ date: -1 })
-    .then(coupons => res.send(coupons))
-);
+  asyncHandler(async (req, res) => {
+    const coupons = await Coupon
+      .find({ amount: { $gt: 0 } })
+      .sort({ date: -1 });
+
+    res.send(coupons);
+  }));
 
 router.post('/:amount', authorization, isAdmin,
-  (req, res) =>
-    new Coupon({
+  asyncHandler(async (req, res) => {
+    const coupon = await new Coupon({
       _id: cc.generate({ parts: 4 }),
       amount: req.params.amount,
       date: Date.now(),
-    })
-      .save()
-      .then(coupon => res.send(coupon))
-      .catch(handleGenericError)
-);
+    }).save();
 
-router.get('/:id', (req, res) => {
+    res.send(coupon);
+  }));
+
+router.get('/:id', asyncHandler(async (req, res) => {
   if (!cc.validate(req.params.id, { parts: 4 })) {
     res.sendStatus(404);
     return;
   }
 
-  Coupon
-    .findOne({ _id: req.params.id, amount: { $gt: 0 } })
-    .then((coupon) => {
-      if (!coupon) {
-        res.sendStatus(404);
-      } else {
-        res.send(coupon);
-      }
-    })
-    .catch(handleGenericError);
-});
+  const coupon = await Coupon.findOne({ _id: req.params.id, amount: { $gt: 0 } });
+
+  if (!coupon) {
+    res.sendStatus(404);
+  } else {
+    res.send(coupon);
+  }
+}));
 
 module.exports = router;

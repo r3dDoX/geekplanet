@@ -24,7 +24,7 @@ class HomeTiles extends React.Component {
   componentDidMount() {
     const drake = Dragula([this.dragulaContainer], {});
     drake.on('drop', (element, target, source, sibling) =>
-      Xhr.post('/api/hometiles/order', {
+      Xhr.post('/api/home/tiles/order', {
         element: element.dataset.id,
         sibling: sibling && sibling.dataset.id,
       }).then(this.props.loadHomeTiles)

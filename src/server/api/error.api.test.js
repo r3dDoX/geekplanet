@@ -3,12 +3,6 @@ const httpMocks = require('node-mocks-http');
 const Logger = require('../logger');
 
 describe('error api', () => {
-  let mockResponse;
-
-  beforeEach(() => {
-    mockResponse = {};
-  });
-
   describe('log', () => {
     it('should log all given params', (done) => {
       Logger.error = jest.fn();
@@ -24,7 +18,7 @@ describe('error api', () => {
         },
       });
 
-      errorRouter.handle(mockRequest, mockResponse, () => {
+      errorRouter.handle(mockRequest, {}, () => {
         expect(Logger.error.mock.calls).toHaveLength(1);
         const logParams = Logger.error.mock.calls[0][0];
         expect(logParams).toContain('testMessage');
@@ -48,7 +42,7 @@ describe('error api', () => {
         },
       });
 
-      errorRouter.handle(mockRequest, mockResponse, () => {
+      errorRouter.handle(mockRequest, {}, () => {
         expect(Logger.error.mock.calls).toHaveLength(2);
         expect(Logger.error.mock.calls[1][0]).toContain('errorStack');
         done();

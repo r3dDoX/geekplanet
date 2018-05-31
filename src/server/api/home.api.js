@@ -26,12 +26,15 @@ router.put('/tiles', authorization, isAdmin, bodyParser.json(),
 
 router.post('/tiles/order', authorization, isAdmin, bodyParser.json(),
   asyncHandler(async ({ body }, res) => {
-    const [{ _id, order: originalPosition }, siblingTile] = await Promise.all([
-      HomeTile.findOne({ _id: body.element }),
-      body.sibling ? HomeTile.findOne({ _id: body.sibling }) : HomeTile.count(),
-    ]);
+    const { _id, order: originalPosition } = await HomeTile.findOne({ _id: body.element });
+    const siblingTile = await body.sibling
+      ? HomeTile.findOne({ _id: body.sibling })
+      : HomeTile.count();
 
-    let positionToTake = (typeof siblingTile === 'number') ? siblingTile : siblingTile.order;
+    let positionToTake = (typeof siblingTile === 'number')
+      ? siblingTile
+      : siblingTile.order;
+
     if (originalPosition < positionToTake) {
       positionToTake -= 1;
       await HomeTile.updateMany(
@@ -45,10 +48,7 @@ router.post('/tiles/order', authorization, isAdmin, bodyParser.json(),
       );
     }
 
-    await HomeTile.update(
-      { _id },
-      { $set: { order: positionToTake } }
-    );
+    await HomeTile.update({ _id }, { $set: { order: positionToTake } });
 
     res.sendStatus(200);
   }));

@@ -12,8 +12,6 @@ services:
       - "9229:9229"
     depends_on:
       - mongo
-    links:
-      - mongo
     environment:
       MONGODB_URI: "mongodb://mongo:27017/geekplanet"
 

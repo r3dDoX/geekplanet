@@ -223,7 +223,13 @@ class ProductDetails extends React.Component {
                 <DescriptionList>
                   {product[locale].downloads.map(downloadLink => (
                     <DescriptionListItem key={downloadLink.text}>
-                      <a href={downloadLink.href} target="_blank">{downloadLink.text}</a>
+                      <a
+                        href={downloadLink.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {downloadLink.text}
+                      </a>
                     </DescriptionListItem>
                   ))}
                 </DescriptionList>

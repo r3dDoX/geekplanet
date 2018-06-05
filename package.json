@@ -80,7 +80,7 @@
     "jwt-decode": "2.2.0",
     "material-ui": "0.20.0",
     "node-mocks-http": "1.7.0",
-    "nodemon": "1.17.4",
+    "nodemon": "1.17.5",
     "prop-types": "15.6.1",
     "query-string": "^5.1.0",
     "react-countup": "3.0.3",

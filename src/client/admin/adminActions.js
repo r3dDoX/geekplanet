@@ -97,7 +97,7 @@ export const createRemoveTag = (tags, tag) => (dispatch) => {
 };
 
 export const createLoadCompleteProducts = () => dispatch =>
-  Xhr.get('/api/completeProducts').then(products => dispatch({
+  Xhr.get('/api/products/complete').then(products => dispatch({
     type: COMPLETE_PRODUCTS_LOADED,
     products,
   }));
@@ -109,15 +109,15 @@ export const createLoadOrders = () => dispatch =>
   }));
 
 export const createClearPayment = orderId => dispatch =>
-  Xhr.post(`/api/order/${orderId}/clearPayment`)
+  Xhr.post(`/api/orders/${orderId}/clearPayment`)
     .then(() => createLoadOrders()(dispatch));
 
 export const createOrderSent = orderId => dispatch =>
-  Xhr.post(`/api/order/${orderId}/sent`)
+  Xhr.post(`/api/orders/${orderId}/sent`)
     .then(() => createLoadOrders()(dispatch));
 
 export const createSaveTile = tile => dispatch =>
-  Xhr.put('/api/hometiles', tile)
+  Xhr.put('/api/home/tiles', tile)
     .then(() => createLoadHomeTiles()(dispatch));
 
 export const createLoadCoupons = () => dispatch =>

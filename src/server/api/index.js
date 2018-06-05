@@ -1,21 +1,12 @@
-const orderApi = require('./orderApi');
-const producerApi = require('./producerApi');
-const productApi = require('./productApi');
-const supplierApi = require('./supplierApi');
-const tagApi = require('./tagApi');
-const homeApi = require('./homeApi');
-const errorApi = require('./errorApi');
-const couponApi = require('./couponApi');
+const router = require('express').Router();
 
-module.exports = {
-  registerEndpoints(app) {
-    orderApi.registerEndpoints(app);
-    producerApi.registerEndpoints(app);
-    productApi.registerEndpoints(app);
-    supplierApi.registerEndpoints(app);
-    tagApi.registerEndpoints(app);
-    homeApi.registerEndpoints(app);
-    errorApi.registerEndpoints(app);
-    couponApi.registerEndpoints(app);
-  },
-};
+router.use('/orders', require('./orders.api'));
+router.use('/producers', require('./producers.api'));
+router.use('/products', require('./products.api'));
+router.use('/suppliers', require('./suppliers.api'));
+router.use('/tags', require('./tags.api'));
+router.use('/home', require('./home.api'));
+router.use('/error', require('./error.api'));
+router.use('/coupons', require('./coupons.api'));
+
+module.exports = router;

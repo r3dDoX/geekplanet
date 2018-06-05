@@ -12,7 +12,6 @@ const mime = require('mime-types');
 const { ErrorTypes } = require('../common/errors');
 const Logger = require('./logger');
 const mongo = require('./db/mongoHelper');
-const api = require('./api');
 
 mongo.init();
 const app = express();
@@ -56,7 +55,7 @@ app.use('/', express.static('dist/', {
   },
 }));
 
-api.registerEndpoints(app);
+app.use('/api', require('./api'));
 
 app.use((err, req, res, next) => {
   Logger.error(err);

@@ -1,11 +1,10 @@
 const errorRouter = require('./error.api');
 const httpMocks = require('node-mocks-http');
 const Logger = require('../logger');
-const { handleRoute } = require('../../test/test.helpers');
 
 describe('error api', () => {
   describe('log', () => {
-    it('should log all given params', async () => {
+    it('should log all given params', () => {
       Logger.error = jest.fn();
 
       const mockRequest = httpMocks.createRequest({
@@ -19,7 +18,7 @@ describe('error api', () => {
         },
       });
 
-      await handleRoute(errorRouter, mockRequest, {});
+      errorRouter.handle(mockRequest, httpMocks.createResponse());
 
       expect(Logger.error.mock.calls).toHaveLength(1);
       const logParams = Logger.error.mock.calls[0][0];
@@ -29,7 +28,7 @@ describe('error api', () => {
       expect(logParams).toContain('Col: 2');
     });
 
-    it('should log stack if given', async () => {
+    it('should log stack if given', () => {
       Logger.error = jest.fn();
 
       const mockRequest = httpMocks.createRequest({
@@ -42,7 +41,7 @@ describe('error api', () => {
         },
       });
 
-      await handleRoute(errorRouter, mockRequest, {});
+      errorRouter.handle(mockRequest, httpMocks.createResponse());
 
       expect(Logger.error.mock.calls).toHaveLength(2);
       expect(Logger.error.mock.calls[1][0]).toContain('errorStack');

@@ -1,8 +1,14 @@
 sudo: required
 
+addons:
+  apt:
+    sources:
+      - heroku
+    packages:
+      - heroku-toolbelt
+
 services:
 - docker
-- heroku
 
 env:
   global:

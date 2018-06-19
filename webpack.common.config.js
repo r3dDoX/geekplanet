@@ -60,6 +60,10 @@ module.exports = {
         from: `src/config/robots${envConfig.getEnvKey() === 'production' ? '_prod' : ''}.txt`,
         to: 'robots.txt',
       },
+      {
+        from: 'src/config/manifest.json',
+        to: 'manifest.json',
+      },
     ]),
   ],
 };

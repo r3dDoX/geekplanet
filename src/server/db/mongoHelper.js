@@ -3,7 +3,6 @@ const Grid = require('gridfs-stream');
 const Logger = require('../logger');
 
 const mongoURI = process.env.MONGODB_URI || process.env.MONGOHQ_URL;
-mongoose.Promise = global.Promise;
 
 const mongoHelper = {
   init() {

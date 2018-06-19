@@ -1,6 +1,5 @@
 version: '3'
 services:
-
   web:
     image: r3ddox/node-pdftk:10.4.1
     volumes:
@@ -16,7 +15,7 @@ services:
       MONGODB_URI: "mongodb://mongo:27017/geekplanet"
 
   mongo:
-    image: mongo:3.0.15
+    image: mongo:3.4.15
     command: mongod --smallfiles
     ports:
       - "27017:27017"

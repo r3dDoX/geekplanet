@@ -1,0 +1,15 @@
+{
+  "short_name": "geekplanet",
+  "name": "geekplanet.ch webshop",
+  "icons": [
+    {
+      "src": "/assets/images/favicon.png",
+      "sizes": "32x32 24x24 16x16",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#27AAE1",
+  "background_color": "#131E31"
+}

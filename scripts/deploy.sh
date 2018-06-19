@@ -1,5 +1,4 @@
 #!/bin/bash
 
-echo "$1" | docker login -u=_ --password-stdin registry.heroku.com
-docker build . --build-arg BUILD_ENV="production" -t registry.heroku.com/geekplanet/web
-docker push registry.heroku.com/geekplanet/web
+HEROKU_API_KEY="$1" heroku container:login
+heroku container:push web --app geekplanet-staging --arg BUILD_ENV="production"

@@ -21,10 +21,6 @@ const mongoHelper = {
     }
     return new Collection(document).save();
   },
-  handleGenericError(error, response) {
-    Logger.error(error);
-    response.status(500).send(error.toString());
-  },
 };
 
 module.exports = mongoHelper;

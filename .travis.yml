@@ -18,8 +18,6 @@ after_script: docker run -it -v "$(pwd)":/usr/app -w /usr/app --env GH_TOKEN=$GH
 script:
 - docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk:10.4.1 npm test
 
-before_deploy: heroku update
-
 deploy:
   - provider: script
     script: scripts/deploy-staging.sh $HEROKU_TOKEN

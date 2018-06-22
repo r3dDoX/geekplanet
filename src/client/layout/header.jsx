@@ -21,7 +21,11 @@ const Header = ({
   toggleDrawer,
 }) => (
   <StyledAppBar
-    title={<Title to="/">{APP.TITLE}</Title>}
+    title={
+      <Title to="/">
+        {APP.TITLE}
+      </Title>
+    }
     onLeftIconButtonClick={toggleDrawer}
     iconElementRight={<ShoppingCartIcon />}
     zDepth={0}

@@ -1,8 +1,8 @@
-const router = require('express').Router();
-const { authorization, isAdmin } = require('./auth');
 const bodyParser = require('body-parser');
-const { saveOrUpdate } = require('../db/mongoHelper');
+const router = require('express').Router();
 const asyncHandler = require('express-async-handler');
+const { authorization, isAdmin } = require('./auth');
+const { saveOrUpdate } = require('../db/mongoHelper');
 
 const {
   Supplier,

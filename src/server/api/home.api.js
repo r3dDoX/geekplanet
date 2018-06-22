@@ -1,8 +1,8 @@
+const asyncHandler = require('express-async-handler');
+const bodyParser = require('body-parser');
 const router = require('express').Router();
 const { authorization, isAdmin } = require('./auth');
-const bodyParser = require('body-parser');
 const { saveOrUpdate } = require('../db/mongoHelper');
-const asyncHandler = require('express-async-handler');
 
 const {
   HomeTile,

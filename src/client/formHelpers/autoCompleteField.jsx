@@ -4,8 +4,8 @@ import AutoComplete from 'material-ui/AutoComplete';
 // eslint-disable-next-line
 export default ({ input: { onChange, value }, label, meta: { touched, error }, dataSource, dataSourceConfig, ...rest }) => (
   <AutoComplete
-    hintText={value ?
-      (dataSource.find(data => data[dataSourceConfig.value] === value) || {})[dataSourceConfig.text]
+    hintText={value
+      ? (dataSource.find(data => data[dataSourceConfig.value] === value) || {})[dataSourceConfig.text]
       : label
     }
     errorText={touched && error}
@@ -21,4 +21,3 @@ export default ({ input: { onChange, value }, label, meta: { touched, error }, d
     {...rest}
   />
 );
-

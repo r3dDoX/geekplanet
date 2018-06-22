@@ -26,7 +26,9 @@ const PictureField = ({
   pictures,
 }) => (
   <div>
-    <h4>{label}</h4>
+    <h4>
+      {label}
+    </h4>
     <PictureContainer>
       {pictures.map(picture => (
         <ProductPicture
@@ -53,4 +55,3 @@ PictureField.propTypes = {
 };
 
 export default PictureField;
-

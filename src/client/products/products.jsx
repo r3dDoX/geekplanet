@@ -13,7 +13,7 @@ import {
   createSetFilter,
 } from '../actions';
 import MainSpinner from '../layout/mainSpinner.jsx';
-import ProductList from '../products/productList.jsx';
+import ProductList from './productList.jsx';
 import { ProducerPropType, ProductCategoryPropType, ProductPropType } from '../propTypes';
 import NothingFound from './nothingFound.jsx';
 import ProductFilter, { formName } from './productFilter.jsx';
@@ -123,8 +123,8 @@ class Products extends React.Component {
         {
           products.length
             ? filteredProducts.length
-            ? <ProductList products={filteredProducts} filterShown={filterShown} />
-            : <NothingFound />
+              ? <ProductList products={filteredProducts} filterShown={filterShown} />
+              : <NothingFound />
             : <MainSpinner />
         }
       </div>

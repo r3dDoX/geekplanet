@@ -48,7 +48,8 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         type="text"
         validate={required}
         autoComplete="shipping given-name"
-      />&nbsp;
+      />
+      &nbsp;
       <Field
         component={TextField}
         name="lastName"
@@ -76,7 +77,8 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         validate={requiredZIP}
         autoComplete="shipping postal-code"
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.ZIP" />}
-      />&nbsp;
+      />
+&nbsp;
       <Field
         component={TextField}
         name="city"

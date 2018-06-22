@@ -42,7 +42,10 @@ export default () => (
       <FormattedMessage id="ERROR.TEXT" />
     </Text>
     <ProTip>
-      <strong>Protip</strong><br />
+      <strong>
+        Protip
+      </strong>
+      <br />
       <FormattedHTMLMessage id="ERROR.PROTIP" />
     </ProTip>
   </Container>

@@ -79,7 +79,8 @@ const Footer = () => (
         <FormattedMessage id="FOOTER.CONTACT" />
       </TextTitle>
       <MailLink style={styles.links} href="mailto:info@geekplanet.ch">
-        <StyledEmailIcon />info@geekplanet.ch
+        <StyledEmailIcon />
+info@geekplanet.ch
       </MailLink>
     </TextContainer>
     <TextContainer>

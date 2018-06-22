@@ -24,7 +24,9 @@ const styles = {
 export default () => (
   <SpinnerContainer>
     <svg id="geekplanet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1731.4 1013.7">
-      <title>geekplanet</title>
+      <title>
+geekplanet
+      </title>
       <g id="logo">
         <path id="shadow" style={styles.cls1} d="M453.1,979.7c0,18.8,182.7,34,408,34s408-15.2,408-34c0-13.8-99.3-25.7-241.6-31a492.1,492.1,0,0,1-215,24.3,486.3,486.3,0,0,1-116.2-24.5C553,953.8,453.1,965.8,453.1,979.7Z" transform="translate(0 0)" />
         <g id="inner">

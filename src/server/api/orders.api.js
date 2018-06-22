@@ -1,11 +1,11 @@
-const router = require('express').Router();
-const fs = require('fs');
-const compression = require('compression');
-const { authorization, isAdmin } = require('./auth');
 const bodyParser = require('body-parser');
+const compression = require('compression');
+const router = require('express').Router();
 const asyncHandler = require('express-async-handler');
+const fs = require('fs');
+const createStripe = require('stripe');
 const envConfig = require('../../config/envConfig');
-const stripe = require('stripe')(envConfig.getSecretKey('PAYMENT_SECRET'));
+const { authorization, isAdmin } = require('./auth');
 const esrGenerator = require('../esr/esrGenerator');
 const mail = require('../email/mail');
 const { PaymentError } = require('../../common/errors');
@@ -14,6 +14,7 @@ const { saveOrUpdate } = require('../db/mongoHelper');
 const esrCodeHelpers = require('../esr/esrCodeHelpers');
 const PaymentMethod = require('../../common/paymentMethod');
 
+const stripe = createStripe(envConfig.getSecretKey('PAYMENT_SECRET'));
 const orderConfig = envConfig.getEnvironmentSpecificConfig().ORDER;
 const priceCalculation = require('../../common/priceCalculation')
   .create(orderConfig.MIN_PRICE_SHIPPING, orderConfig.SHIPPING_COST);

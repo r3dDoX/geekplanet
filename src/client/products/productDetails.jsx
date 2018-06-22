@@ -166,7 +166,8 @@ class ProductDetails extends React.Component {
               <OrderButton product={product} />
             </OrderContainer>
             <ProductStock>
-              <StockIcon stock={product.stock} />&nbsp;&nbsp;&nbsp;
+              <StockIcon stock={product.stock} />
+              &nbsp;&nbsp;&nbsp;
               {product.stock > 0 ? (
                 <InStockMessage>
                   <FormattedMessage id="PRODUCT.IN_STOCK" values={{ stock: product.stock }} />

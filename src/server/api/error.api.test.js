@@ -1,5 +1,5 @@
-const errorRouter = require('./error.api');
 const httpMocks = require('node-mocks-http');
+const errorRouter = require('./error.api');
 const Logger = require('../logger');
 
 describe('error api', () => {

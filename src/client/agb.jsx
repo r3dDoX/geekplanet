@@ -14,17 +14,27 @@ const StyledList = styled.ul`
 export default () => (
   <Container>
     <FormattedMessage id="FOOTER.AGB">
-      {message => (<Helmet><title>{message}</title></Helmet>)}
+      {message => (
+        <Helmet>
+          <title>
+            {message}
+          </title>
+        </Helmet>
+      )}
     </FormattedMessage>
-    <h3>Allgemeine Geschäftsbedingungen (AGB)</h3>
+    <h3>
+      Allgemeine Geschäftsbedingungen (AGB)
+    </h3>
     <p>
-      Geltung<br />
+      Geltung
+      <br />
       Mit der Bestätigung der Bestellung oder durch das Ausführen eines Downloads erklärt sich der
       Kunde ausdrücklich mit den AGB von geekplanet GmbH einverstanden. Abweichungen von den AGB
       sind nur wirksam, wenn geekplanet GmbH sie schriftlich bestätigt.
     </p>
     <p>
-      Datenschutz<br />
+      Datenschutz
+      <br />
       Sämtliche Kundendaten werden vertraulich behandelt. geekplanet GmbH nimmt beim Bestellvorgang
       nur die zwingend benötigten Daten auf und benutzt diese im Rahmen der Abwicklung der
       Bestellung sowie mit dem Zweck, dem wiederkehrenden Kunden das Einkaufen so einfach wie
@@ -32,7 +42,8 @@ export default () => (
       Dritte weitergeben oder zu Werbezwecken verwenden.
     </p>
     <p>
-      Bestellung<br />
+      Bestellung
+      <br />
       Durch das Abschicken und Bestätigen einer Bestellung ist der Kauf endgültig. Ein Rücktritt vom
       Kauf ist nicht möglich. Alle offenen Forderungen sind innert 14 Tagen zu begleichen (auch wenn
       nicht alle Artikel an Lager sind), ansonsten wird die Bestellung komplett oder teilweise
@@ -43,14 +54,16 @@ export default () => (
       ist oder das Einverständnis seiner Eltern hat, die Bestellung vorzunehmen.
     </p>
     <p>
-      Preise<br />
+      Preise
+      <br />
       Für Bestellungen gelten die zum Zeitpunkt der Bestellung im Angebot aufgeführten Preise. Alle
       angegebenen Preise sind Brutto-Endpreise. Rabatte und Sonderkonditonen werden separat
       ausgewiesen. Irrtümer und Preisänderungen vorbehalten.
       Sämtliche Preise sind in Schweizer Franken (CHF) inklusive MwSt. angegeben.
     </p>
     <p>
-      Produkte<br />
+      Produkte
+      <br />
       Bei den angebotenen Produkten handelt es sich um Modellbauartikel und nicht um Spielzeug.
       Generell sind die Produkte, wo nicht explizit erwähnt, im Rohzustand, d.h. sie müssen teils
       aus ihrem Gussrahmen gelöst werden, sind noch unbemalt und noch nicht zusammengebaut.
@@ -62,7 +75,8 @@ export default () => (
       Eigentum der jeweiligen Hersteller.
     </p>
     <p>
-      Lieferung<br />
+      Lieferung
+      <br />
       Wir liefern in die gesamte Schweiz und ins Fürstentum Liechtenstein. Lieferungen beschränken
       sich entsprechend nur auf Lieferadressen innerhalb der Schweiz oder dem Fürstentum
       Liechtenstein. Lieferungen ins Ausland werden nur auf Anfrage durchgeführt und können von
@@ -76,7 +90,8 @@ export default () => (
       nie zu einer Reduktion des Verkaufspreises.
     </p>
     <p>
-      Gewährleistung<br />
+      Gewährleistung
+      <br />
       Ein Rücktritt vom Vertrag ist nicht möglich. Defekte oder fehlerhafte Ware wird innert
       angemessener/möglicher Frist ausgetauscht.
       Reklamationen sind schriftlich und mit Bildern der Ware innert 14 Tagen ab Lieferdatum
@@ -94,13 +109,18 @@ export default () => (
       werden zurückerstattet.
     </p>
     <p>
-      Zahlungsmethoden/-bedingungen<br />
+      Zahlungsmethoden/-bedingungen
+      <br />
       Rechnungen sind innert 10 Tagen netto nach Rechnungsdatum zu begleichen. Folgende
       Zahlungsmethoden werden akzeptiert:
     </p>
     <StyledList>
-      <li>Vorkasse durch Überweisung (oranger Einzahlungsschein)</li>
-      <li>Kreditkarte (online) während dem Bestellvorgang</li>
+      <li>
+Vorkasse durch Überweisung (oranger Einzahlungsschein)
+      </li>
+      <li>
+Kreditkarte (online) während dem Bestellvorgang
+      </li>
     </StyledList>
     <p>
       Lieferung gegen Rechnung wird nach Ermessen von geekplanet GmbH je nach Kundenaccount als
@@ -109,7 +129,8 @@ export default () => (
       eine Umtriebsentschädigung verrechnet werden.
     </p>
     <p>
-      Rücknahme/Umtausch<br />
+      Rücknahme/Umtausch
+      <br />
       Umtausch/Rückgabe bei Irrtum oder Nichtgefallens ist ausgeschlossen.
       Fehllieferungen und/oder falsche oder fehlende Teile sind umgehend und mit Foto zu melden. Für
       Ersatz wird, falls bei geekplanet GmbH oder beim Lieferanten weiterhin an Lager, gesorgt.
@@ -117,29 +138,34 @@ export default () => (
       verpackt. Für Beschädigungen die auf dem Transportweg entstehen übernehmen wir keine Haftung.
     </p>
     <p>
-      Transportschäden<br />
+      Transportschäden
+      <br />
       Bei Transportschäden ist die Ware in ihrem Zustand zu belassen und der Schaden umgehend oder
       innerhalb einer zweitägigen Frist mit Foto zu reklamieren.
     </p>
     <p>
-      Restposten<br />
+      Restposten
+      <br />
       Artikel, die als &quot;Restposten&quot; gekennzeichnet sind, sind explizit von Umtausch-,
       Rückgabe- und Reklamationsmöglichkeiten ausgeschlossen. Dies gilt auch, wenn ein Artikel
       fehlerhaft ist. Es kann kein Anspruch auf Ersatz, Umtausch, Rückgabe oder Ansprüche in sonst
       einer Form erhoben werden.
     </p>
     <p>
-      Eigentumsvorbehalt<br />
+      Eigentumsvorbehalt
+      <br />
       Die gelieferte Ware bleibt bis zur vollständigen Bezahlung Eigentum von geekplanet GmbH.
     </p>
     <p>
-      Annahmeverweigerung<br />
+      Annahmeverweigerung
+      <br />
       Bei unberechtigter Annahmeverweigerung der von uns gelieferten Ware, sind wir berechtigt, die
       uns entstandenen Kosten zu berechnen. Bei wiederholter Annahmeverweigerung wird die
       Kundennummer gesperrt.
     </p>
     <p>
-      Haftungsbeschränkung<br />
+      Haftungsbeschränkung
+      <br />
       geekplanet GmbH schliesst im Rahmen des gesetzlich Zulässigen jede Haftung für die gelieferten
       und verkauften Produkte aus. geekplanet GmbH übernimmt keinerlei Gewähr hinsichtlich der
       inhaltlichen Richtigkeit, Genauigkeit, Aktualität, Zuverlässigkeit und Vollständigkeit der
@@ -153,12 +179,14 @@ export default () => (
       löschen oder die Veröffentlichung zeitweise oder endgültig einzustellen.
     </p>
     <p>
-      Gerichtsstand<br />
+      Gerichtsstand
+      <br />
       Die Rechtsverhältnisse unterstehen schweizerischem Recht. Ausschliesslicher Gerichtsstand für
       sämtliche Streitigkeiten ist Kulm AG.
     </p>
     <p>
-      Salvatorische Klausel<br />
+      Salvatorische Klausel
+      <br />
       Sollten einzelne Bestimmungen dieser Nutzungsbedingungen ganz oder teilweise nichtig und /
       oder unwirksam sein, bleibt die Gültigkeit und / oder Wirksamkeit der übrigen Bestimmungen
       oder Teile solcher Bestimmungen unberührt. Die ungültigen und / oder unwirksamen Bestimmungen

@@ -188,7 +188,8 @@ class Orders extends React.Component {
                               : '/assets/images/notFound.jpg'
                             }
                           />
-                          {item.amount}&nbsp;*&nbsp;
+                          {item.amount}
+&nbsp;*&nbsp;
                           <Link to={`/products/${item.product._id}`}>
                             {item.product.de.name}
                           </Link>
@@ -204,9 +205,12 @@ class Orders extends React.Component {
                   }
                 </BreakingCell>
                 <td>
-                  {`${order.address.title} ${order.address.firstName} ${order.address.lastName}`}<br />
-                  {order.address.streetAddress}<br />
-                  {`${order.address.zip} ${order.address.city}`}<br />
+                  {`${order.address.title} ${order.address.firstName} ${order.address.lastName}`}
+                  <br />
+                  {order.address.streetAddress}
+                  <br />
+                  {`${order.address.zip} ${order.address.city}`}
+                  <br />
                   {order.address.country}
                 </td>
                 <td>

@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const compression = require('compression');
-const { authorization, isAdmin } = require('./auth');
 const cc = require('coupon-code');
 const asyncHandler = require('express-async-handler');
+const { authorization, isAdmin } = require('./auth');
 
 const {
   Coupon,

@@ -131,7 +131,8 @@ module.exports = function renderTemplate(order) {
                   id="EMAIL.ORDER_CONFIRMATION"
                   values={{ firstName: order.address.firstName }}
                 />
-                <br /><br />
+                <br />
+                <br />
                 {(order.state === OrderState.WAITING)
                   ? <FormattedMessage id="EMAIL.ORDER_PREPAYMENT" />
                   : <FormattedMessage id="EMAIL.ORDER_PAYED" />
@@ -173,7 +174,8 @@ module.exports = function renderTemplate(order) {
                   />
                 </td>
                 <td style={styles.productCell}>
-                  {product.de.name}<br />
+                  {product.de.name}
+                  <br />
                   {formatPriceWithCurrency(product.price)}
                 </td>
                 <td style={styles.quantityCell}>
@@ -187,7 +189,9 @@ module.exports = function renderTemplate(order) {
             <tr>
               <td colSpan={colCount}>
                 <div style={styles.title}>
-                  <strong><FormattedMessage id="COMMON.TOTAL" /></strong>
+                  <strong>
+                    <FormattedMessage id="COMMON.TOTAL" />
+                  </strong>
                 </div>
               </td>
             </tr>
@@ -204,7 +208,9 @@ module.exports = function renderTemplate(order) {
               <td colSpan={2} style={styles.contentPadding}>
                 <FormattedMessage id="COMMON.SHIPPING_COSTS" />
               </td>
-              <td>+</td>
+              <td>
+                +
+              </td>
               <td style={styles.totals}>
                 {formatPriceWithCurrency(
                   priceCalculation.isInShippingCostRange(order.itemTotal)
@@ -218,7 +224,9 @@ module.exports = function renderTemplate(order) {
                 <td colSpan={2} style={styles.contentPadding}>
                   <FormattedMessage id="COMMON.COUPONS" />
                 </td>
-                <td>-</td>
+                <td>
+                  -
+                </td>
                 <td style={styles.totals}>
                   {formatPriceWithCurrency(priceCalculation.calculateCouponsTotal(order.coupons))}
                 </td>
@@ -226,7 +234,9 @@ module.exports = function renderTemplate(order) {
             ) : null}
             <tr>
               <td colSpan={2} style={styles.contentPadding}>
-                <strong><FormattedMessage id="COMMON.TOTAL" /></strong>
+                <strong>
+                  <FormattedMessage id="COMMON.TOTAL" />
+                </strong>
               </td>
               <td colSpan={2} style={styles.totals}>
                 <strong>
@@ -239,7 +249,9 @@ module.exports = function renderTemplate(order) {
               </td>
             </tr>
             <tr>
-              <td colSpan={colCount}>&nbsp;</td>
+              <td colSpan={colCount}>
+                &nbsp;
+              </td>
             </tr>
             <tr>
               <td colSpan={colCount}>
@@ -280,7 +292,8 @@ module.exports = function renderTemplate(order) {
                   style={Object.assign({}, styles.textCenter, styles.contentPadding)}
                 >
                   <FormattedHTMLMessage id="EMAIL.BANK_DETAILS_HINT" values={{ id: order._id }} />
-                  <br /><br />
+                  <br />
+                  <br />
                   <FormattedHTMLMessage id="EMAIL.BANK_DETAILS" />
                 </td>
               </tr>,

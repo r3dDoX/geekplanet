@@ -1,4 +1,5 @@
 
+// eslint-disable-next-line import/order
 const config = require('../config/envConfig').getEnvironmentSpecificConfig();
 
 if (config.NEWRELIC) {

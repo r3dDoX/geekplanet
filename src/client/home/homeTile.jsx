@@ -80,7 +80,9 @@ const HomeTile = ({
       src={tile.picture ? getPictureUrl(tile.picture) : '/assets/images/notFound.jpg'}
       alt="Product Category"
     />
-    <TileTitle itemProp="name">{tile.de.name}</TileTitle>
+    <TileTitle itemProp="name">
+      {tile.de.name}
+    </TileTitle>
   </Tile>
 );
 

@@ -58,7 +58,9 @@ class Coupons extends React.Component {
         <CouponTable cellPadding="0" cellSpacing="1px">
           <thead>
             <tr>
-              <th>Code</th>
+              <th>
+Code
+              </th>
               <th>
                 <FormattedMessage id="COUPONS.AMOUNT" />
               </th>
@@ -70,8 +72,12 @@ class Coupons extends React.Component {
           <tbody>
             {coupons.map(coupon => (
               <tr key={coupon._id}>
-                <td>{coupon._id}</td>
-                <td>{formatPriceWithCurrency(coupon.amount)}</td>
+                <td>
+                  {coupon._id}
+                </td>
+                <td>
+                  {formatPriceWithCurrency(coupon.amount)}
+                </td>
                 <td>
                   {(() => {
                     const date = new Date(coupon.date);

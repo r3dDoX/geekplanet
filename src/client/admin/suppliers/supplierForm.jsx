@@ -56,20 +56,24 @@ const SupplierForm = ({
       name="name"
       label="Name"
       type="text"
-    />&nbsp;
+    />
+&nbsp;
     <Field
       component={TextField}
       name="vatNumber"
       label="VAT Number"
       type="text"
-    />&nbsp;
+    />
+&nbsp;
     <Field
       component={TextField}
       name="customerNumber"
       label="Customer Number"
       type="text"
     />
-    <h3>Address</h3>
+    <h3>
+Address
+    </h3>
     <Field
       component={TextField}
       name="address.streetAddress"
@@ -82,7 +86,8 @@ const SupplierForm = ({
       name="address.zip"
       label="Zip"
       type="number"
-    />&nbsp;
+    />
+&nbsp;
     <Field
       component={TextField}
       name="address.city"
@@ -96,19 +101,23 @@ const SupplierForm = ({
       label="Country"
       type="text"
     />
-    <h3>Bank</h3>
+    <h3>
+Bank
+    </h3>
     <Field
       component={TextField}
       name="bank"
       label="Bank"
       type="text"
-    />&nbsp;
+    />
+&nbsp;
     <Field
       component={TextField}
       name="iban"
       label="IBAN"
       type="text"
-    />&nbsp;
+    />
+&nbsp;
     <Field
       component={TextField}
       name="bic"
@@ -123,19 +132,23 @@ const SupplierForm = ({
       type="text"
       multiLine
     />
-    <h3>Contact</h3>
+    <h3>
+Contact
+    </h3>
     <Field
       component={TextField}
       name="contactName"
       label="Contact Name"
       type="text"
-    />&nbsp;
+    />
+&nbsp;
     <Field
       component={TextField}
       name="contactEmail"
       label="Contact Email"
       type="email"
-    />&nbsp;
+    />
+&nbsp;
     <Field
       component={TextField}
       name="contactPhone"

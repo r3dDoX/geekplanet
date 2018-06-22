@@ -121,7 +121,11 @@ class LayoutDrawer extends React.Component {
             </Title>
           }
           onLeftIconButtonClick={toggleDrawer}
-          iconElementLeft={<IconButton><NavigationClose /></IconButton>}
+          iconElementLeft={
+            <IconButton>
+              <NavigationClose />
+            </IconButton>
+          }
           iconStyleLeft={{
             display: this.state.width < laMinSizeNumber
               ? 'block'

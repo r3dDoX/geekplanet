@@ -66,8 +66,8 @@ class HomeTileForm extends React.Component {
       history,
     } = this.props;
 
-    const categoriesToFilter = (selectedCategory && productCategories.length) ?
-      mapSubCategoriesRecursive(
+    const categoriesToFilter = (selectedCategory && productCategories.length)
+      ? mapSubCategoriesRecursive(
         productCategories.find(category => category._id === selectedCategory)
       ) : [];
 
@@ -110,8 +110,8 @@ class HomeTileForm extends React.Component {
           component={PictureField}
           name="picture"
           label="Picture"
-          pictures={selectedCategory ?
-            products
+          pictures={selectedCategory
+            ? products
               .filter(product => categoriesToFilter.includes(product.category))
               .map(product => product.files[0])
               .filter(picture => !!picture)
@@ -123,7 +123,8 @@ class HomeTileForm extends React.Component {
           label={<FormattedMessage id="COMMON.SAVE" />}
           type="submit"
           primary
-        />&nbsp;
+        />
+&nbsp;
         <RaisedButton
           label={<FormattedMessage id="COMMON.CANCEL" />}
           type="button"

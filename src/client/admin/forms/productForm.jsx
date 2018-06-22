@@ -181,14 +181,16 @@ class ProductForm extends React.Component {
           name="number"
           label="Number"
           type="number"
-        />&nbsp;
+        />
+&nbsp;
         <Field
           component={TextField}
           name="de.name"
           label="Name"
           type="text"
           validate={required}
-        />&nbsp;
+        />
+&nbsp;
         <Field
           component={SelectField}
           name="category"
@@ -227,21 +229,27 @@ class ProductForm extends React.Component {
         <Divider />
         <DescriptionContainer>
           <DescriptionPart>
-            <DescriptionPartTitle>Specifications</DescriptionPartTitle>
+            <DescriptionPartTitle>
+Specifications
+            </DescriptionPartTitle>
             <FieldArray
               name="de.specifications"
               component={TextAreaArray}
             />
           </DescriptionPart>
           <DescriptionPart>
-            <DescriptionPartTitle>Delivery</DescriptionPartTitle>
+            <DescriptionPartTitle>
+Delivery
+            </DescriptionPartTitle>
             <FieldArray
               name="de.delivery"
               component={TextAreaArray}
             />
           </DescriptionPart>
           <DescriptionPart>
-            <DescriptionPartTitle>Downloads</DescriptionPartTitle>
+            <DescriptionPartTitle>
+Downloads
+            </DescriptionPartTitle>
             <FieldArray
               name="de.downloads"
               component={LinkArray}
@@ -254,21 +262,24 @@ class ProductForm extends React.Component {
           label="Price"
           type="number"
           step="any"
-        />&nbsp;
+        />
+&nbsp;
         <Field
           component={TextField}
           name="originalPrice"
           label="Original Price"
           type="number"
           step="any"
-        />&nbsp;
+        />
+&nbsp;
         <Field
           component={TextField}
           name="purchasePrice"
           label="Purchase Price"
           type="number"
           step="any"
-        />&nbsp;
+        />
+&nbsp;
         <Field
           component={TextField}
           name="purchasePackageSize"
@@ -281,7 +292,8 @@ class ProductForm extends React.Component {
           name="stock"
           label="Stock"
           type="number"
-        />&nbsp;
+        />
+&nbsp;
         <Field
           component={TextField}
           name="minStock"
@@ -302,7 +314,8 @@ class ProductForm extends React.Component {
               primaryText={name}
             />
           ))}
-        </Field>&nbsp;
+        </Field>
+&nbsp;
         <Field
           component={TextField}
           name="supplierProductCode"

@@ -134,7 +134,9 @@ const Summary = ({
               <Cell>
                 <FormattedMessage id="COMMON.SHIPPING_COSTS" />
               </Cell>
-              <AmountCell>+</AmountCell>
+              <AmountCell>
+                +
+              </AmountCell>
               <Cell>
                 {formatPriceWithCurrency(ORDER.SHIPPING_COST)}
               </Cell>
@@ -145,7 +147,9 @@ const Summary = ({
               <Cell>
                 <FormattedMessage id="COMMON.COUPONS" />
               </Cell>
-              <AmountCell>-</AmountCell>
+              <AmountCell>
+                -
+              </AmountCell>
               <Cell>
                 {formatPriceWithCurrency(priceCalculation.calculateCouponsTotal(coupons))}
               </Cell>

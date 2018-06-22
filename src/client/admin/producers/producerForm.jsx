@@ -56,14 +56,17 @@ const ProducerForm = ({
       name="name"
       label="Name"
       type="text"
-    />&nbsp;
+    />
+&nbsp;
     <Field
       component={TextField}
       name="vatNumber"
       label="VAT Number"
       type="text"
     />
-    <h3>Address</h3>
+    <h3>
+Address
+    </h3>
     <Field
       component={TextField}
       name="address.streetAddress"
@@ -76,7 +79,8 @@ const ProducerForm = ({
       name="address.zip"
       label="Zip"
       type="number"
-    />&nbsp;
+    />
+&nbsp;
     <Field
       component={TextField}
       name="address.city"
@@ -90,19 +94,23 @@ const ProducerForm = ({
       label="Country"
       type="text"
     />
-    <h3>Contact</h3>
+    <h3>
+Contact
+    </h3>
     <Field
       component={TextField}
       name="contactName"
       label="Contact Name"
       type="text"
-    />&nbsp;
+    />
+&nbsp;
     <Field
       component={TextField}
       name="contactEmail"
       label="Contact Email"
       type="email"
-    />&nbsp;
+    />
+&nbsp;
     <Field
       component={TextField}
       name="contactPhone"

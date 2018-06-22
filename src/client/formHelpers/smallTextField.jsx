@@ -10,4 +10,3 @@ export default ({ input, label, meta: { touched, error }, ...rest }) => (
     {...rest}
   />
 );
-

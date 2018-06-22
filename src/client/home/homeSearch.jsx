@@ -80,4 +80,3 @@ HomeSearch.propTypes = {
 };
 
 export default withRouter(injectIntl(HomeSearch));
-

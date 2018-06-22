@@ -33,7 +33,13 @@ export const LoginComponent = ({
 
     return [
       <FormattedMessage key="loginTitle" id="NAVIGATION.LOGIN">
-        {message => (<Helmet><title>{message}</title></Helmet>)}
+        {message => (
+          <Helmet>
+            <title>
+              {message}
+            </title>
+          </Helmet>
+        )}
       </FormattedMessage>,
       <LoginForm
         key="loginForm"

@@ -1,15 +1,15 @@
-const router = require('express').Router();
-const compression = require('compression');
-const { authorization, isAdmin } = require('./auth');
-const shortId = require('shortid');
 const bodyParser = require('body-parser');
+const compression = require('compression');
+const router = require('express').Router();
+const asyncHandler = require('express-async-handler');
+const fs = require('fs');
 const multer = require('multer')();
-const streamifier = require('streamifier');
 const sharp = require('sharp');
+const shortId = require('shortid');
+const streamifier = require('streamifier');
 const mongoHelper = require('../db/mongoHelper');
 const { saveOrUpdate } = require('../db/mongoHelper');
-const fs = require('fs');
-const asyncHandler = require('express-async-handler');
+const { authorization, isAdmin } = require('./auth');
 
 const {
   Product,

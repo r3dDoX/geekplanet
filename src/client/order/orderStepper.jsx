@@ -108,7 +108,13 @@ class OrderStepper extends React.Component {
 
     return [
       <FormattedMessage key="orderTitle" id="COMMON.ORDER">
-        {message => (<Helmet><title>{message}</title></Helmet>)}
+        {message => (
+          <Helmet>
+            <title>
+              {message}
+            </title>
+          </Helmet>
+        )}
       </FormattedMessage>,
       <Stepper
         key="orderStepper"

@@ -17,7 +17,8 @@ const Container = styled.p`
 
 export default () => (
   <Container>
-    <FormattedMessage id="PRODUCT_FILTER.NOTHING_FOUND" /><br />
+    <FormattedMessage id="PRODUCT_FILTER.NOTHING_FOUND" />
+    <br />
     <FormattedMessage id="PRODUCT_FILTER.PRODUCT_WISH" />
   </Container>
 );

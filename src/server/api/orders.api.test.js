@@ -1,8 +1,8 @@
 const mockingoose = require('mockingoose').default;
 const mongoose = require('mongoose');
-const ordersRouter = require('./orders.api');
 const httpMocks = require('node-mocks-http');
 const events = require('events');
+const ordersRouter = require('./orders.api');
 
 function createMockResponse() {
   return httpMocks.createResponse({

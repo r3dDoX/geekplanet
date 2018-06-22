@@ -14,8 +14,8 @@ const PrivateRoute = ({
 }) => (
   <Route
     render={(props) => {
-      if (authService.loggedIn() &&
-        (allowedRoles.length === 0 || allowedRoles.some(role => roles.indexOf(role) >= 0))) {
+      if (authService.loggedIn()
+        && (allowedRoles.length === 0 || allowedRoles.some(role => roles.indexOf(role) >= 0))) {
         return <Component {...props} />;
       }
 

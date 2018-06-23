@@ -1,4 +1,3 @@
-import grey from '@material-ui/core/colors/grey';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -12,17 +11,10 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Link from 'react-router-dom/Link';
 import withRouter from 'react-router-dom/withRouter';
-import styled from 'styled-components';
 import { ProductCategoryPropType } from '../propTypes';
 import { laMinSize } from '../theme';
 import CategoryDivider from './categoryDivider.jsx';
 import CategoryListItem from './categoryListItem.jsx';
-
-const grey300 = grey['300'];
-
-const StyledDrawer = styled(Drawer)`
-  width: 256px;
-`;
 
 const styles = theme => ({
   drawerPaper: {
@@ -74,7 +66,7 @@ class LayoutDrawer extends React.Component {
       : [];
 
     return (
-      <StyledDrawer
+      <Drawer
         anchor="left"
         open={this.state.width >= laMinSizeNumber || drawerOpened}
         onRequestChange={toggleDrawerOnMobile}
@@ -176,7 +168,7 @@ class LayoutDrawer extends React.Component {
               />
             ))}
         </List>
-      </StyledDrawer>
+      </Drawer>
     );
   }
 }

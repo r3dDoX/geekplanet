@@ -14,8 +14,12 @@ export const laMinSize = '1024px';
 export default createMuiTheme({
   fontFamily: 'PT Sans, sans-serif',
   palette: {
-    primary1Color: backgroundColor,
-    accent1Color,
-    accent2Color,
+    primary: {
+      main: backgroundColor,
+    },
+    secondary: {
+      main: accent1Color,
+      contrastText: accent2Color,
+    },
   },
 });

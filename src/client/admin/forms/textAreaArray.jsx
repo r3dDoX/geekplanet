@@ -1,6 +1,6 @@
-import IconButton from 'material-ui/IconButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import DeleteIcon from 'material-ui/svg-icons/action/delete-forever';
+import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/DeleteForever';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -27,13 +27,14 @@ const TextAreaArray = ({ fields }) => (
           rows={2}
         />
         <IconButton onClick={() => fields.remove(index)}>
-          <DeleteIcon color={accent1Color} />
+          <DeleteIcon nativeColor={accent1Color} />
         </IconButton>
       </li>
     ))}
     <li>
-      <RaisedButton
-        primary
+      <Button
+        variant="contained"
+        color="primary"
         label={<FormattedMessage id="COMMON.ADD" />}
         onClick={() => fields.push()}
       />

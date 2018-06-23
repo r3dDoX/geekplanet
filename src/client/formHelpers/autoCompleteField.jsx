@@ -1,9 +1,10 @@
 import React from 'react';
-import AutoComplete from 'material-ui/AutoComplete';
+// TODO implement Autocomplete
+// import AutoComplete from '@material-ui/core/AutoComplete';
 
 // eslint-disable-next-line
-export default ({ input: { onChange, value }, label, meta: { touched, error }, dataSource, dataSourceConfig, ...rest }) => (
-  <AutoComplete
+export default ({ input: { onChange, value }, label, meta: { touched, error }, dataSource, dataSourceConfig, ...rest }) => ({
+  /* <AutoComplete
     hintText={value
       ? (dataSource.find(data => data[dataSourceConfig.value] === value) || {})[dataSourceConfig.text]
       : label
@@ -19,5 +20,5 @@ export default ({ input: { onChange, value }, label, meta: { touched, error }, d
       }
     }}
     {...rest}
-  />
-);
+  /> */
+});

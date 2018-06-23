@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Divider from '@material-ui/core/Divider';
 import { UserAddressesPropType } from '../propTypes';
 
 const AddressChooser = ({
@@ -11,7 +11,7 @@ const AddressChooser = ({
   selectAddress,
   selectedAddressId,
 }) => (
-  <SelectField
+  <Select
     autoWidth
     floatingLabelText={<FormattedMessage id="ORDER.ADDRESS.FORM.NO_ADDRESS" />}
     onChange={(event, index, value) => selectAddress(value)}
@@ -30,7 +30,7 @@ const AddressChooser = ({
         primaryText={streetAddress}
       />
     ))}
-  </SelectField>
+  </Select>
 );
 
 AddressChooser.defaultProps = {

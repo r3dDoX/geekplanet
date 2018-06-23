@@ -1,15 +1,14 @@
-import Avatar from 'material-ui/Avatar';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import { grey200 } from 'material-ui/styles/colors';
-import CreditCardIcon from 'material-ui/svg-icons/action/credit-card';
-import DoneIcon from 'material-ui/svg-icons/action/done';
-import ThumbUpIcon from 'material-ui/svg-icons/action/thumb-up';
-import ViewIcon from 'material-ui/svg-icons/action/visibility';
-import AttentionIcon from 'material-ui/svg-icons/content/report';
-import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
-import ShippedIcon from 'material-ui/svg-icons/maps/local-shipping';
+import Avatar from '@material-ui/core/Avatar';
+import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
+import grey from '@material-ui/core/colors/grey';
+import CreditCardIcon from '@material-ui/icons/CreditCard';
+import DoneIcon from '@material-ui/icons/Done';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ViewIcon from '@material-ui/icons/Visibility';
+import AttentionIcon from '@material-ui/icons/Report';
+import EditIcon from '@material-ui/icons/ModeEdit';
+import ShippedIcon from '@material-ui/icons/LocalShipping';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -22,6 +21,7 @@ import { OrdersPropType } from '../../propTypes';
 import { createClearPayment, createLoadOrders, createOrderSent } from '../adminActions';
 import PriceCalculation from '../../../common/priceCalculation';
 
+const grey200 = grey['200'];
 const priceCalculation = PriceCalculation.create(ORDER.MIN_PRICE_SHIPPING, ORDER.SHIPPING_COST);
 
 const Container = styled.div`
@@ -110,16 +110,18 @@ class Orders extends React.Component {
     switch (state) {
       case WAITING:
         return (
-          <RaisedButton
-            primary
+          <Button
+            color="primary"
+            variant="contained"
             icon={<DoneIcon />}
             onClick={() => this.props.clearPayment(id)}
           />
         );
       case FINISHED:
         return (
-          <RaisedButton
-            primary
+          <Button
+            color="primary"
+            variant="contained"
             icon={<ShippedIcon />}
             onClick={() => this.props.orderSent(id)}
           />
@@ -171,9 +173,9 @@ class Orders extends React.Component {
                     open={this.state.open === order._id}
                     onRequestClose={() => this.handleClose()}
                     actions={
-                      <FlatButton
+                      <Button
                         label="Ok"
-                        primary
+                        color="primary"
                         onClick={() => this.handleClose()}
                       />
                     }

@@ -1,13 +1,17 @@
-import Avatar from 'material-ui/Avatar';
-import ListItem from 'material-ui/List/ListItem';
-import { pinkA400, transparent } from 'material-ui/styles/colors';
-import Subheader from 'material-ui/Subheader';
+import Avatar from '@material-ui/core/Avatar';
+import ListItem from '@material-ui/core/ListItem';
+import pink from '@material-ui/core/colors/pink';
+import common from '@material-ui/core/colors/common';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { formatPriceWithoutCurrency } from '../../common/priceFormatter';
 import { ShoppingCartItemPropType } from '../propTypes';
 import AmountAdjuster from './amountAdjuster.jsx';
+
+const pinkA400 = pink.A400;
+const { transparent } = common;
 
 const styles = {
   avatar: {
@@ -49,13 +53,13 @@ const ShoppingCartItem = ({
     innerDivStyle={styles.productName}
   />,
   shoppingCartItem.product.stock <= 0 && (
-    <Subheader
+    <ListSubheader
       key={`${shoppingCartItem.product._id}_stock`}
       inset
       style={styles.notInStockMessage}
     >
       <FormattedMessage id="SHOPPING_CART.NOT_IN_STOCK" />
-    </Subheader>
+    </ListSubheader>
   ),
 ];
 

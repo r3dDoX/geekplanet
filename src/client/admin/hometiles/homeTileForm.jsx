@@ -1,5 +1,6 @@
-import AutoComplete from 'material-ui/AutoComplete';
-import RaisedButton from 'material-ui/RaisedButton';
+// TODO implement AutoComplete
+// import AutoComplete from '@material-ui/core/AutoComplete';
+import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -95,7 +96,7 @@ class HomeTileForm extends React.Component {
             name: category.de.name,
           }))}
           dataSourceConfig={{ text: 'name', value: 'id' }}
-          filter={AutoComplete.caseInsensitiveFilter}
+          // filter={AutoComplete.caseInsensitiveFilter}
         />
         <br />
         <Field
@@ -119,13 +120,15 @@ class HomeTileForm extends React.Component {
           }
         />
         <br />
-        <RaisedButton
+        <Button
+          variant="contained"
           label={<FormattedMessage id="COMMON.SAVE" />}
           type="submit"
-          primary
+          color="primary"
         />
 &nbsp;
-        <RaisedButton
+        <Button
+          variant="contained"
           label={<FormattedMessage id="COMMON.CANCEL" />}
           type="button"
           containerElement={

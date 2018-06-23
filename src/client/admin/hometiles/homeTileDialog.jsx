@@ -1,4 +1,4 @@
-import Dialog from 'material-ui/Dialog';
+import Dialog from '@material-ui/core/Dialog';
 import PropTypes from 'prop-types';
 import React from 'react';
 import HomeTileForm from './homeTileForm.jsx';

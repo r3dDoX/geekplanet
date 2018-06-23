@@ -1,7 +1,7 @@
-import Divider from 'material-ui/Divider';
-import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
-import { grey500 } from 'material-ui/styles/colors';
+import Divider from '@material-ui/core/Divider';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
+import grey from '@material-ui/core/colors/grey';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDrafts from 'react-drafts';
@@ -34,6 +34,8 @@ import LinkArray from './linkArray.jsx';
 import TextAreaArray from './textAreaArray.jsx';
 import UploadImagePreview from './uploadImagePreview.jsx';
 
+const grey500 = grey['500'];
+
 const Container = styled.form`
   padding: 24px;
 `;
@@ -63,11 +65,11 @@ const FileUploadInput = styled.input`
   opacity: 0;
 `;
 
-const UploadButton = styled(RaisedButton)`
+const UploadButton = styled(Button)`
   margin-top: 10px;
 `;
 
-const DeleteButton = styled(RaisedButton)`
+const DeleteButton = styled(Button)`
   margin-left: 10px;
 `;
 
@@ -154,22 +156,20 @@ class ProductForm extends React.Component {
           }}
           selectedValue={match.params.id || ''}
         >
-          <MenuItem
-            value=""
-            primaryText="Create new"
-          />
+          <MenuItem>
+            Create new
+          </MenuItem>
           <Divider />
           {products.map(({ _id, de: { name } }) => (
-            <MenuItem
-              key={_id}
-              value={_id}
-              primaryText={name}
-            />
+            <MenuItem key={_id} value={_id}>
+              {name}
+            </MenuItem>
           ))}
         </Field>
         {match.params.id && (
           <DeleteButton
-            secondary
+            variant="contained"
+            color="secondary"
             label="Remove"
             onClick={() => removeProduct(match.params.id).then(() => history.push('/admin/forms/products'))}
           />
@@ -346,6 +346,7 @@ Downloads
         />
         <br />
         <UploadButton
+          variant="contained"
           label="Choose images"
           labelPosition="before"
           containerElement="label"
@@ -358,7 +359,7 @@ Downloads
           />
         </UploadButton>
         <UploadImagePreview files={selectedFiles} removeFile={removeFile} />
-        <RaisedButton label="Save" type="submit" primary />
+        <Button variant="contained" label="Save" type="submit" color="primary" />
       </Container>
     );
   }

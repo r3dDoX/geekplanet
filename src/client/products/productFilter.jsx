@@ -1,5 +1,5 @@
-import Chip from 'material-ui/Chip';
-import { grey700 } from 'material-ui/styles/colors';
+import Chip from '@material-ui/core/Chip';
+import grey from '@material-ui/core/colors/grey';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import React from 'react';
@@ -11,6 +11,7 @@ import SmallTextField from '../formHelpers/smallTextField.jsx';
 import { ProductCategoryPropType } from '../propTypes';
 import { laMinSize, mdMinSize, mdMaxSize } from '../theme';
 
+const grey700 = grey['700'];
 export const formName = 'productFilter';
 
 const FilterContainer = styled.div`

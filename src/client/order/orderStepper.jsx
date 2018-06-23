@@ -1,4 +1,7 @@
-import { Step, StepButton, StepContent, Stepper } from 'material-ui/Stepper';
+import Step from '@material-ui/core/Step';
+import StepButton from '@material-ui/core/StepButton';
+import StepContent from '@material-ui/core/StepContent';
+import Stepper from '@material-ui/core/Stepper';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Helmet } from 'react-helmet';

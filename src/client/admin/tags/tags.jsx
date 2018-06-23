@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AutoComplete from 'material-ui/AutoComplete';
-import Chip from 'material-ui/Chip';
+// TODO implement Autocomplete
+// import AutoComplete from '@material-ui/core/AutoComplete';
+import Chip from '@material-ui/core/Chip';
 
 const styles = {
   container: {
@@ -20,12 +21,12 @@ const Tags = ({
   removeTag,
 }) => (
   <div>
-    <AutoComplete
+    {/* <AutoComplete
       floatingLabelText="Tags"
       filter={AutoComplete.caseInsensitiveFilter}
       dataSource={savedTags}
       onNewRequest={(item, index) => selectTag(tags, item, index)}
-    />
+    /> */}
     <br />
     <div style={styles.container}>
       {tags.map(tag => (

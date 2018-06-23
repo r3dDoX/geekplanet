@@ -1,11 +1,10 @@
-import AppBar from 'material-ui/AppBar';
-import Divider from 'material-ui/Divider';
-import Drawer from 'material-ui/Drawer';
-import IconButton from 'material-ui/IconButton';
-import { List, ListItem } from 'material-ui/List';
-import { grey300 } from 'material-ui/styles/colors';
-import Subheader from 'material-ui/Subheader';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import grey from '@material-ui/core/colors/grey';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import React from 'react';
@@ -16,20 +15,23 @@ import styled from 'styled-components';
 import { ProductCategoryPropType } from '../propTypes';
 import { laMinSize } from '../theme';
 
-const Title = styled(Link)`
-  text-decoration: none;
-  color: inherit;
+const grey300 = grey['300'];
+
+const StyledDrawer = styled(Drawer)`
+  width: 256px;
 `;
 
 const CategoryDivider = styled(Divider)`
   margin-left: 16px !important;
 `;
 
-const style = {
-  selectedItem: {
-    backgroundColor: grey300,
+const styles = theme => ({
+  drawerPaper: {
+    position: 'relative',
+    width: '256px',
   },
-};
+  toolbar: theme.mixins.toolbar,
+});
 
 function mapSubCategoryIds(category) {
   return category.subCategories
@@ -67,6 +69,7 @@ class LayoutDrawer extends React.Component {
       toggleDrawer,
       history,
       productCategories,
+      classes,
     } = this.props;
     const laMinSizeNumber = Number(laMinSize.slice(0, -2));
     const toggleDrawerOnMobile = () => this.state.width < laMinSizeNumber && toggleDrawer();
@@ -109,34 +112,21 @@ class LayoutDrawer extends React.Component {
     }
 
     return (
-      <Drawer
+      <StyledDrawer
+        anchor="left"
         open={this.state.width >= laMinSizeNumber || drawerOpened}
-        docked={this.state.width >= laMinSizeNumber}
         onRequestChange={toggleDrawerOnMobile}
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper,
+        }}
       >
-        <AppBar
-          title={
-            <Title to="/" onClick={toggleDrawer}>
-              {APP.TITLE}
-            </Title>
-          }
-          onLeftIconButtonClick={toggleDrawer}
-          iconElementLeft={
-            <IconButton>
-              <NavigationClose />
-            </IconButton>
-          }
-          iconStyleLeft={{
-            display: this.state.width < laMinSizeNumber
-              ? 'block'
-              : 'none',
-          }}
-        />
+        <div className={classes.toolbar} />
         <List>
           {roles.includes('admin') ? ([
-            <Subheader key="admin">
+            <ListSubheader key="admin">
               <FormattedMessage id="NAVIGATION.ADMIN" />
-            </Subheader>,
+            </ListSubheader>,
             <ListItem
               key="homeTiles"
               primaryText={<FormattedMessage id="NAVIGATION.HOME_TILES" />}
@@ -202,9 +192,9 @@ class LayoutDrawer extends React.Component {
             )
           }
           <Divider />
-          <Subheader>
+          <ListSubheader>
             <FormattedMessage id="NAVIGATION.PRODUCTS" />
-          </Subheader>
+          </ListSubheader>
           <ListItem
             primaryText={<FormattedMessage id="NAVIGATION.ALL_PRODUCTS" />}
             containerElement={
@@ -220,12 +210,13 @@ class LayoutDrawer extends React.Component {
           {productCategories
             .map(category => recursivelyRenderCategoryMenus(category))}
         </List>
-      </Drawer>
+      </StyledDrawer>
     );
   }
 }
 
 LayoutDrawer.propTypes = {
+  classes: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   roles: PropTypes.arrayOf(PropTypes.string).isRequired,
   logout: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
@@ -239,4 +230,4 @@ LayoutDrawer.propTypes = {
   }).isRequired,
 };
 
-export default withRouter(LayoutDrawer);
+export default withStyles(styles)(withRouter(LayoutDrawer));

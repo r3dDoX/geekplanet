@@ -44,23 +44,27 @@ class CategoryListItem extends React.Component {
         key={category._id}
         role="link"
         onClick={(event) => {
-          if (!this.toggleContainer.current.contains(event.target)) {
+          if (!this.toggleContainer.current
+            || !this.toggleContainer.current.contains(event.target)) {
             onSelect(category._id);
           }
         }}
       >
         <ListItemText primary={category.de.name} />
-        <a
-          role="button"
-          ref={this.toggleContainer}
-          onClick={() => {
-            this.setState({
-              isOpen: !this.state.isOpen,
-            });
-          }}
-        >
-          {this.state.isOpen ? <ExpandLess /> : <ExpandMore />}
-        </a>
+        {category.subCategories.length > 0 && (
+          <a
+            role="button"
+            tabIndex={0}
+            ref={this.toggleContainer}
+            onClick={() => {
+              this.setState(prevState => ({
+                isOpen: !prevState.isOpen,
+              }));
+            }}
+          >
+            {this.state.isOpen ? <ExpandLess /> : <ExpandMore />}
+          </a>
+        )}
       </ListItem>,
       category.subCategories.length > 0 && (
         <Collapse

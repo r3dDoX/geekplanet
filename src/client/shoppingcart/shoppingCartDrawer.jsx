@@ -1,11 +1,13 @@
-import AppBar from '@material-ui/core/AppBar';
+import grey from '@material-ui/core/colors/grey';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
-import MenuItem from '@material-ui/core/MenuItem';
-import grey from '@material-ui/core/colors/grey';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import MenuItem from '@material-ui/core/MenuItem';
+import { withStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import NavigationClose from '@material-ui/icons/Close';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -15,7 +17,9 @@ import Link from 'react-router-dom/Link';
 import styled from 'styled-components';
 import { formatPriceWithCurrency } from '../../common/priceFormatter';
 import {
-  createAddCouponToShoppingCart, createRemoveCouponFromShoppingCart, createSetShoppingCartamount,
+  createAddCouponToShoppingCart,
+  createRemoveCouponFromShoppingCart,
+  createSetShoppingCartamount,
   createToggleShoppingCartDrawer,
 } from '../actions';
 import { CouponPropType, ShoppingCartItemsPropType } from '../propTypes';
@@ -34,7 +38,14 @@ const Total = styled(MenuItem)`
   color: ${accent1Color} !important;
 `;
 
+const styles = () => ({
+  drawerPaper: {
+    width: '350px',
+  },
+});
+
 const ShoppingCartDrawer = ({
+  classes,
   shoppingCart,
   setAmount,
   locale,
@@ -47,21 +58,22 @@ const ShoppingCartDrawer = ({
   removeCouponIdFromShoppingCart,
 }) => (
   <Drawer
+    anchor="right"
+    variant="temporary"
     open={shoppingCartDrawerOpened}
-    onRequestChange={toggleDrawer}
-    disableSwipeToOpen
-    openSecondary
-    width={350}
+    onClose={toggleDrawer}
+    classes={{
+      paper: classes.drawerPaper,
+    }}
   >
-    <AppBar
-      title={<FormattedMessage id="SHOPPING_CART.TITLE" />}
-      onLeftIconButtonClick={toggleDrawer}
-      iconElementLeft={
-        <IconButton>
-          <NavigationClose />
-        </IconButton>
-      }
-    />
+    <Toolbar>
+      <IconButton color="inherit" aria-label="Menu" onClick={toggleDrawer}>
+        <NavigationClose />
+      </IconButton>
+      <Typography variant="title">
+        <FormattedMessage id="SHOPPING_CART.TITLE" />
+      </Typography>
+    </Toolbar>
     {shoppingCart.length ? (
       <List>
         {shoppingCart.map(item => (
@@ -129,6 +141,7 @@ const ShoppingCartDrawer = ({
 );
 
 ShoppingCartDrawer.propTypes = {
+  classes: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   shoppingCart: ShoppingCartItemsPropType.isRequired,
   coupons: PropTypes.arrayOf(CouponPropType).isRequired,
   shoppingCartDrawerOpened: PropTypes.bool.isRequired,
@@ -164,4 +177,4 @@ export default connect(
       dispatch(createRemoveCouponFromShoppingCart(couponId));
     },
   }),
-)(ShoppingCartDrawer);
+)(withStyles(styles)(ShoppingCartDrawer));

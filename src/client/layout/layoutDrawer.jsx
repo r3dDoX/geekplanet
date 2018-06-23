@@ -16,12 +16,11 @@ import { laMinSize } from '../theme';
 import CategoryDivider from './categoryDivider.jsx';
 import CategoryListItem from './categoryListItem.jsx';
 
-const styles = theme => ({
+const styles = () => ({
   drawerPaper: {
     position: 'relative',
     width: '256px',
   },
-  toolbar: theme.mixins.toolbar,
 });
 
 class LayoutDrawer extends React.Component {
@@ -69,13 +68,11 @@ class LayoutDrawer extends React.Component {
       <Drawer
         anchor="left"
         open={this.state.width >= laMinSizeNumber || drawerOpened}
-        onRequestChange={toggleDrawerOnMobile}
         variant="permanent"
         classes={{
           paper: classes.drawerPaper,
         }}
       >
-        <div className={classes.toolbar} />
         <List>
           {roles.includes('admin') ? ([
             <ListSubheader key="admin">
@@ -159,6 +156,7 @@ class LayoutDrawer extends React.Component {
           {productCategories
             .map(category => (
               <CategoryListItem
+                key={category._id}
                 category={category}
                 selectedCategories={selectedCategories}
                 onSelect={(categoryId) => {

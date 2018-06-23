@@ -90,67 +90,64 @@ class LayoutDrawer extends React.Component {
               <FormattedMessage id="NAVIGATION.ADMIN" />
             </ListSubheader>,
             <ListItem
+              button
               key="homeTiles"
-              primaryText={<FormattedMessage id="NAVIGATION.HOME_TILES" />}
-              containerElement={
-                <Link to="/admin/hometiles">
-                  <FormattedMessage id="NAVIGATION.HOME_TILES" />
-                </Link>
-              }
+              component={Link}
+              to="/admin/hometiles"
               onClick={toggleDrawerOnMobile}
-            />,
+            >
+              <ListItemText primary={<FormattedMessage id="NAVIGATION.HOME_TILES" />} />
+            </ListItem>,
             <ListItem
+              button
               key="forms"
-              primaryText={<FormattedMessage id="NAVIGATION.FORMS" />}
-              containerElement={
-                <Link to="/admin/forms">
-                  <FormattedMessage id="NAVIGATION.FORMS" />
-                </Link>
-              }
+              component={Link}
+              to="/admin/forms"
               onClick={toggleDrawerOnMobile}
-            />,
+            >
+              <ListItemText primary={<FormattedMessage id="NAVIGATION.FORMS" />} />
+            </ListItem>,
             <ListItem
+              button
               key="orders"
-              primaryText={<FormattedMessage id="NAVIGATION.ORDERS" />}
-              containerElement={
-                <Link to="/admin/orders">
-                  <FormattedMessage id="NAVIGATION.ORDERS" />
-                </Link>
-              }
+              component={Link}
+              to="/admin/orders"
               onClick={toggleDrawer}
-            />,
+            >
+              <ListItemText primary={<FormattedMessage id="NAVIGATION.ORDERS" />} />
+            </ListItem>,
             <ListItem
+              button
               key="coupons"
-              primaryText={<FormattedMessage id="NAVIGATION.COUPONS" />}
-              containerElement={
-                <Link to="/admin/coupons">
-                  <FormattedMessage id="NAVIGATION.COUPONS" />
-                </Link>
-              }
+              component={Link}
+              to="/admin/coupons"
               onClick={toggleDrawerOnMobile}
-            />,
+            >
+              <ListItemText primary={<FormattedMessage id="NAVIGATION.COUPONS" />} />
+            </ListItem>,
             <Divider key="AdminDivider" />,
           ]) : null}
           {
             loggedIn ? (
               <ListItem
-                primaryText={<FormattedMessage id="NAVIGATION.LOGOUT" />}
+                button
                 onClick={() => {
                   toggleDrawerOnMobile();
                   logout();
                   history.push('/');
                 }}
-              />
+              >
+                <ListItemText primary={<FormattedMessage id="NAVIGATION.LOGOUT" />} />
+              </ListItem>
             ) : (
               <ListItem
-                primaryText={<FormattedMessage id="NAVIGATION.LOGIN" />}
-                containerElement={
-                  <Link to="/login">
-                    <FormattedMessage id="NAVIGATION.LOGIN" />
-                  </Link>
-                }
+                button
+                component={Link}
+                to="/login"
                 onClick={toggleDrawerOnMobile}
-              />
+              >
+                <ListItemText primary={<FormattedMessage id="NAVIGATION.LOGIN" />} />
+              </ListItem>
             )
           }
           <Divider />
@@ -160,14 +157,12 @@ class LayoutDrawer extends React.Component {
           <ListItem
             button
             role="link"
-            ContainerComponent={<Link to="/products" />}
+            component={Link}
+            to="/products"
             onClick={() => toggleDrawerOnMobile()}
           >
             <ListItemText primary={<FormattedMessage id="NAVIGATION.ALL_PRODUCTS" />} />
           </ListItem>
-          <ListItem
-            onClick={toggleDrawerOnMobile}
-          />
           <CategoryDivider />
           {productCategories
             .map(category => (

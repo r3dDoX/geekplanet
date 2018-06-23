@@ -1,8 +1,9 @@
+import grey from '@material-ui/core/colors/grey';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import grey from '@material-ui/core/colors/grey';
+import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -14,15 +15,13 @@ import withRouter from 'react-router-dom/withRouter';
 import styled from 'styled-components';
 import { ProductCategoryPropType } from '../propTypes';
 import { laMinSize } from '../theme';
+import CategoryDivider from './categoryDivider.jsx';
+import CategoryListItem from './categoryListItem.jsx';
 
 const grey300 = grey['300'];
 
 const StyledDrawer = styled(Drawer)`
   width: 256px;
-`;
-
-const CategoryDivider = styled(Divider)`
-  margin-left: 16px !important;
 `;
 
 const styles = theme => ({
@@ -32,11 +31,6 @@ const styles = theme => ({
   },
   toolbar: theme.mixins.toolbar,
 });
-
-function mapSubCategoryIds(category) {
-  return category.subCategories
-    .flatMap(subCategory => [subCategory._id].concat(mapSubCategoryIds(subCategory)));
-}
 
 class LayoutDrawer extends React.Component {
   constructor(props) {
@@ -78,38 +72,6 @@ class LayoutDrawer extends React.Component {
     const selectedCategories = query.categories
       ? query.categories.split(',')
       : [];
-
-    function recursivelyRenderCategoryMenus(category) {
-      const categoryIds = mapSubCategoryIds(category);
-      return [
-        <ListItem
-          key={category._id}
-          role="link"
-          primaryText={category.de.name}
-          primaryTogglesNestedList
-          initiallyOpen={selectedCategories.some(
-            categoryId => categoryIds.includes(categoryId)
-          )}
-          nestedItems={
-            category.subCategories.flatMap(
-              subCategory => recursivelyRenderCategoryMenus(subCategory, toggleDrawerOnMobile)
-            )
-          }
-          onClick={() => {
-            toggleDrawerOnMobile();
-            history.push(`/products?categories=${category._id}`);
-          }}
-          style={selectedCategories.includes(category._id)
-            ? style.selectedItem
-            : null
-          }
-          hoverColor={grey300}
-        />,
-        !category.parentCategory
-          ? <CategoryDivider key={`${category._id}Divider`} />
-          : null,
-      ];
-    }
 
     return (
       <StyledDrawer
@@ -196,19 +158,28 @@ class LayoutDrawer extends React.Component {
             <FormattedMessage id="NAVIGATION.PRODUCTS" />
           </ListSubheader>
           <ListItem
-            primaryText={<FormattedMessage id="NAVIGATION.ALL_PRODUCTS" />}
-            containerElement={
-              <Link to="/products" />
-            }
-            style={selectedCategories.length === 0 && location.pathname.includes('products')
-              ? style.selectedItem
-              : null
-            }
+            button
+            role="link"
+            ContainerComponent={<Link to="/products" />}
+            onClick={() => toggleDrawerOnMobile()}
+          >
+            <ListItemText primary={<FormattedMessage id="NAVIGATION.ALL_PRODUCTS" />} />
+          </ListItem>
+          <ListItem
             onClick={toggleDrawerOnMobile}
           />
           <CategoryDivider />
           {productCategories
-            .map(category => recursivelyRenderCategoryMenus(category))}
+            .map(category => (
+              <CategoryListItem
+                category={category}
+                selectedCategories={selectedCategories}
+                onSelect={(categoryId) => {
+                  toggleDrawerOnMobile();
+                  history.push(`/products?categories=${categoryId}`);
+                }}
+              />
+            ))}
         </List>
       </StyledDrawer>
     );

@@ -77,6 +77,7 @@ class CategoryListItem extends React.Component {
             .flatMap(
               subCategory => (
                 <CategoryListItem
+                  key={subCategory._id}
                   selectedCategories={selectedCategories}
                   category={subCategory}
                   onSelect={onSelect}

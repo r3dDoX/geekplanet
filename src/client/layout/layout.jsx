@@ -15,7 +15,6 @@ import {
 import authService from '../auth/authService';
 import { ProductCategoryPropType } from '../propTypes';
 import ShoppingCartDrawer from '../shoppingcart/shoppingCartDrawer.jsx';
-import { laMinSize } from '../theme';
 import Footer from './footer.jsx';
 import Header from './header.jsx';
 import LayoutDrawer from './layoutDrawer.jsx';
@@ -24,10 +23,8 @@ import MainSpinner from './mainSpinner.jsx';
 const Body = styled(Paper)`
   position: relative;
   padding-top: 64px;
-  
-  @media screen and (min-width: ${laMinSize}) {
-    padding-left: 256px;
-  }
+  display: flex;
+  align-items: stretch;
 `;
 
 class Layout extends React.Component {
@@ -63,22 +60,22 @@ class Layout extends React.Component {
         <IntlProvider locale={language} messages={translations}>
           <div>
             <Header toggleDrawer={toggleDrawer} />
-            <LayoutDrawer
-              roles={roles}
-              logout={() => {
-                authService.logout();
-                logout();
-              }}
-              loggedIn={loggedIn}
-              drawerOpened={drawerOpened}
-              toggleDrawer={toggleDrawer}
-              productCategories={productCategories}
-            />
-            <ShoppingCartDrawer />
             <Body>
+              <LayoutDrawer
+                roles={roles}
+                logout={() => {
+                  authService.logout();
+                  logout();
+                }}
+                loggedIn={loggedIn}
+                drawerOpened={drawerOpened}
+                toggleDrawer={toggleDrawer}
+                productCategories={productCategories}
+              />
               {children}
             </Body>
             <Footer />
+            <ShoppingCartDrawer />
             <Snackbar
               open={shoppingCartNotification}
               message={

@@ -1,4 +1,5 @@
 import AppBar from '@material-ui/core/AppBar';
+import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -34,7 +35,9 @@ const Header = ({
         <MenuIcon />
       </IconButton>
       <Title to="/">
-        {APP.TITLE}
+        <Typography variant="title" color="inherit">
+          {APP.TITLE}
+        </Typography>
       </Title>
       <ShoppingCartIcon />
     </Toolbar>

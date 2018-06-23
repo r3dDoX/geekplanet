@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "auth0-js": "9.6.1",
-    "babel-eslint": "8.2.4",
+    "babel-eslint": "8.2.5",
     "babel-jest": "23.0.1",
     "babel-loader": "7.1.4",
     "babel-plugin-dynamic-import-node": "1.2.0",

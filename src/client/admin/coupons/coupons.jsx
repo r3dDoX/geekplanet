@@ -1,6 +1,6 @@
-import RaisedButton from 'material-ui/RaisedButton';
-import { grey200 } from 'material-ui/styles/colors';
-import TextField from 'material-ui/TextField';
+import Button from '@material-ui/core/Button';
+import grey from '@material-ui/core/colors/grey';
+import TextField from '@material-ui/core/TextField';
 import propTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -10,11 +10,13 @@ import { formatPriceWithCurrency } from '../../../common/priceFormatter';
 import { CouponPropType } from '../../propTypes';
 import { createCoupon, createLoadCoupons } from '../adminActions';
 
+const grey200 = grey['200'];
+
 const Container = styled.div`
   padding: 20px;
 `;
 
-const CreateButton = styled(RaisedButton)`
+const CreateButton = styled(Button)`
   margin-left: 20px;
 `;
 
@@ -47,7 +49,8 @@ class Coupons extends React.Component {
           type="number"
         />
         <CreateButton
-          primary
+          variant="contained"
+          color="primary"
           label={<FormattedMessage id="COUPONS.CREATE" />}
           onClick={() => {
             createNewCoupon(this.couponInput.input.value);

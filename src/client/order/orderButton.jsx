@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import RaisedButton from 'material-ui/RaisedButton';
-import ShoppingCart from 'material-ui/svg-icons/action/add-shopping-cart';
+import Button from '@material-ui/core/Button';
+import ShoppingCart from '@material-ui/icons/AddShoppingCart';
 import { createAddItemToShoppingCart } from '../actions';
 import { ProductPropType } from '../propTypes';
 
 const OrderButton = ({ product, addItemToShoppingCart }) => (
-  <RaisedButton
+  <Button
+    variant="contained"
     onClick={() => addItemToShoppingCart(product)}
     label={
       <span>
@@ -16,7 +17,7 @@ const OrderButton = ({ product, addItemToShoppingCart }) => (
       </span>
     }
     icon={<ShoppingCart />}
-    primary
+    color="primary"
   />
 );
 

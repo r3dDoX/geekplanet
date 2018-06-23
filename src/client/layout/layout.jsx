@@ -1,5 +1,5 @@
-import Paper from 'material-ui/Paper';
-import Snackbar from 'material-ui/Snackbar';
+import Paper from '@material-ui/core/Paper';
+import Snackbar from '@material-ui/core/Snackbar';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, IntlProvider } from 'react-intl';

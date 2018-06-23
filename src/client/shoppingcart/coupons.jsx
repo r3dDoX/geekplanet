@@ -1,7 +1,7 @@
-import Divider from 'material-ui/Divider';
-import MenuItem from 'material-ui/MenuItem';
-import Subheader from 'material-ui/Subheader';
-import ClearIcon from 'material-ui/svg-icons/content/clear';
+import Divider from '@material-ui/core/Divider';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import ClearIcon from '@material-ui/icons/Clear';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -11,9 +11,9 @@ import AddCoupon from './addCoupon.jsx';
 
 const Coupons = ({ coupons, onAdd, onRemove }) => [
   <Divider key="couponsDivider" />,
-  <Subheader key="couponsHeader" inset>
+  <ListSubheader key="couponsHeader" inset>
     <FormattedMessage id="COUPONS.TITLE" />
-  </Subheader>,
+  </ListSubheader>,
   coupons.map(coupon => (
     <MenuItem
       key={coupon._id}

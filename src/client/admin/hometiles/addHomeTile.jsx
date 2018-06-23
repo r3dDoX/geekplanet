@@ -1,7 +1,9 @@
 import React from 'react';
-import AddIcon from 'material-ui/svg-icons/content/add';
+import AddIcon from '@material-ui/icons/Add';
 import styled from 'styled-components';
-import { grey500 } from 'material-ui/styles/colors';
+import grey from '@material-ui/core/colors/grey';
+
+const grey500 = grey['500'];
 
 const Container = styled.div`
   border: 4px dashed ${grey500};
@@ -18,7 +20,7 @@ const StyledAddIcon = styled(AddIcon)`
 
 const AddHomeTile = () => (
   <Container>
-    <StyledAddIcon color={grey500} />
+    <StyledAddIcon nativeColor={grey500} />
   </Container>
 );
 

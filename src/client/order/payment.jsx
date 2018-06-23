@@ -1,8 +1,8 @@
-import Avatar from 'material-ui/Avatar';
-import Chip from 'material-ui/Chip';
-import RaisedButton from 'material-ui/RaisedButton';
-import { redA100 } from 'material-ui/styles/colors';
-import CreditCardIcon from 'material-ui/svg-icons/action/credit-card';
+import Avatar from '@material-ui/core/Avatar';
+import Chip from '@material-ui/core/Chip';
+import Button from '@material-ui/core/Button';
+import red from '@material-ui/core/colors/red';
+import CreditCardIcon from '@material-ui/icons/CreditCard';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -11,6 +11,7 @@ import { ShoppingCartPropType } from '../propTypes';
 import { accent1Color } from '../theme';
 import Xhr from '../xhr';
 
+const redA100 = red.A100;
 const styles = {
   container: {
     marginTop: '20px',
@@ -65,7 +66,8 @@ class Payment extends React.Component {
           </Chip>
         )}
         {shoppingCart.total > 0 ? [
-          <RaisedButton
+          <Button
+            variant="contained"
             key="buttonCreditCard"
             style={styles.paymentButton}
             onClick={() => stripeHandler.open({
@@ -75,9 +77,10 @@ class Payment extends React.Component {
               amount: shoppingCart.total * 100,
             })}
             label={<FormattedMessage id="ORDER.PAYMENT.CREDIT_CARD" />}
-            primary
+            color="primary"
           />,
-          <RaisedButton
+          <Button
+            variant="contained"
             key="buttonPrepayment"
             style={styles.paymentButton}
             onClick={() => {
@@ -88,13 +91,14 @@ class Payment extends React.Component {
                 .then(finishPaymentStep, () => () => window.location.assign('/error'));
             }}
             label={<FormattedMessage id="ORDER.PAYMENT.PREPAYMENT" />}
-            primary
+            color="primary"
           />,
         ] : [
           <p key="textNoPayment">
             <FormattedMessage id="ORDER.PAYMENT.NO_PAYMENT" />
           </p>,
-          <RaisedButton
+          <Button
+            variant="contained"
             key="buttonNoPayment"
             onClick={() =>
               Xhr
@@ -102,7 +106,7 @@ class Payment extends React.Component {
                 .then(finishPaymentStep, () => () => window.location.assign('/error'))
             }
             label={<FormattedMessage id="ORDER.PAYMENT.FINISH" />}
-            primary
+            color="primary"
           />,
         ]}
       </div>

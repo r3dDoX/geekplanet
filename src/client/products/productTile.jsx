@@ -1,7 +1,11 @@
-import Badge from 'material-ui/Badge';
-import { Card, CardActions, CardMedia, CardText, CardTitle } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
-import { grey500 } from 'material-ui/styles/colors';
+import Badge from '@material-ui/core/Badge';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import grey from '@material-ui/core/colors/grey';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -14,6 +18,8 @@ import OrderButton from '../order/orderButton.jsx';
 import { ProductPropType } from '../propTypes';
 import { getPictureUrl } from './productService';
 import StockIcon from './stockIcon.jsx';
+
+const grey500 = grey['500'];
 
 const StyledCard = styled(Card)`
   flex: 1 1 300px;
@@ -32,14 +38,14 @@ const StyledCardMedia = styled(CardMedia)`
   cursor: pointer;
 `;
 
-const StyledCardTitle = styled(CardTitle)`
+const StyledCardTitle = styled(Typography)`
   flex: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
-const StyledCardText = styled(CardText)`
+const StyledCardText = styled(Typography)`
   flex: 1;
   text-align: justify;
 `;
@@ -71,7 +77,7 @@ const OriginalPriceTag = styled.span`
   color: ${grey500};
 `;
 
-const EditButton = styled(RaisedButton)`
+const EditButton = styled(Button)`
   margin-top: 10px;
 `;
 
@@ -79,25 +85,11 @@ const StyledLink = styled(Link)`
   flex: none;
 `;
 
-const styles = {
-  cardContainer: {
-    flex: '1 1 auto',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  stockBadge: {
-    top: '5px',
-    right: '5px',
-  },
-};
-
 export const ProductTileComponent = ({
   locale,
   product,
 }) => (
-  <StyledCard
-    containerStyle={styles.cardContainer}
-  >
+  <StyledCard>
     <StyledLink to={`/products/${product._id}`}>
       <StyledCardMedia>
         <img
@@ -107,25 +99,23 @@ export const ProductTileComponent = ({
         />
       </StyledCardMedia>
     </StyledLink>
-    <StyledCardTitle
-      title={
+    <CardContent>
+      <StyledCardTitle gutterBottom variant="headline" component="h2">
         <TitleLink to={`/products/${product._id}`}>
           {product[locale].name}
         </TitleLink>
-      }
-    >
-      <Badge
-        badgeContent={product.stock < 0 ? 0 : product.stock}
-        primary={product.stock > 0}
-        secondary={product.stock <= 0}
-        badgeStyle={styles.stockBadge}
-      >
-        <StockIcon stock={product.stock} />
-      </Badge>
-    </StyledCardTitle>
-    <StyledCardText>
-      {product[locale].shortDescription}
-    </StyledCardText>
+        <Badge
+          badgeContent={product.stock < 0 ? 0 : product.stock}
+          primary={product.stock > 0}
+          secondary={product.stock <= 0}
+        >
+          <StockIcon stock={product.stock} />
+        </Badge>
+      </StyledCardTitle>
+      <StyledCardText component="p">
+        {product[locale].shortDescription}
+      </StyledCardText>
+    </CardContent>
     <StyledCardActions>
       <PriceTag>
         {formatPriceWithCurrency(product.price)}
@@ -138,9 +128,10 @@ export const ProductTileComponent = ({
       <OrderButton product={product} />
       <Authorized allowedRoles={['admin']}>
         <EditButton
+          variant="contained"
           label={<FormattedMessage id="COMMON.EDIT" />}
           fullWidth
-          secondary
+          color="secondary"
           containerElement={<Link to={`/admin/forms/products/${product._id}`} />}
         />
       </Authorized>

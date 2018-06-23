@@ -1,5 +1,5 @@
-import Divider from 'material-ui/Divider';
-import RaisedButton from 'material-ui/RaisedButton';
+import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -20,15 +20,15 @@ const Container = styled.div`
   max-width: 450px;
 `;
 
-const SocialButton = styled(RaisedButton)`
+const SocialButton = styled(Button)`
   margin-bottom: 20px;
 `;
 
-const LoginButton = styled(RaisedButton)`
+const LoginButton = styled(Button)`
   margin-top: 20px;
 `;
 
-const RegisterButton = styled(RaisedButton)`
+const RegisterButton = styled(Button)`
   margin-top: 10px;
 `;
 
@@ -72,6 +72,7 @@ const LoginForm = ({
 }) => (
   <Container>
     <SocialButton
+      variant="contained"
       label={<FormattedMessage id="LOGIN.FACEBOOK" />}
       backgroundColor="#4267b2"
       labelColor="#FFF"
@@ -94,6 +95,7 @@ const LoginForm = ({
       }
     />
     <SocialButton
+      variant="contained"
       label={<FormattedMessage id="LOGIN.GOOGLE" />}
       onClick={() => authService.authorize('google-oauth2')}
       icon={
@@ -137,16 +139,18 @@ const LoginForm = ({
         validate={required}
       />
       <LoginButton
+        variant="contained"
         type="submit"
         label={<FormattedMessage id="LOGIN.LOGIN" />}
-        primary
+        color="primary"
         fullWidth
         onClick={handleSubmit(values => onSubmit({ ...values, submit: 'login' }))}
       />
       <RegisterButton
+        variant="contained"
         type="submit"
         label={<FormattedMessage id="LOGIN.REGISTER" />}
-        secondary
+        color="secondary"
         fullWidth
         onClick={handleSubmit(values => onSubmit({ ...values, submit: 'register' }))}
       />

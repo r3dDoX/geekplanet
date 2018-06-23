@@ -1,6 +1,6 @@
-import Avatar from 'material-ui/Avatar';
-import RaisedButton from 'material-ui/RaisedButton';
-import { grey300, grey600 } from 'material-ui/styles/colors';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import grey from '@material-ui/core/colors/grey';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -12,6 +12,8 @@ import { createFinishOrder } from '../actions';
 import { CouponPropType, ShoppingCartItemsPropType } from '../propTypes';
 import { accent1Color, brandSecondary, xsMaxSize } from '../theme';
 
+const grey300 = grey['300'];
+const grey600 = grey['600'];
 const priceCalculation = PriceCalculation.create(ORDER.MIN_PRICE_SHIPPING, ORDER.SHIPPING_COST);
 
 const SummaryContainer = styled.div`
@@ -172,10 +174,11 @@ const Summary = ({
         </tfoot>
       </table>
     </SummaryContainer>,
-    <RaisedButton
+    <Button
+      variant="contained"
       key="finishOrderButton"
       label={<FormattedMessage id="ORDER.SUMMARY.CONFIRM_ORDER" />}
-      primary
+      color="primary"
       onClick={() => finishOrder(orderId)}
     />,
   ];

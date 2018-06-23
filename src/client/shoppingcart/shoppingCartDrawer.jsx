@@ -1,12 +1,12 @@
-import AppBar from 'material-ui/AppBar';
-import Divider from 'material-ui/Divider';
-import Drawer from 'material-ui/Drawer';
-import IconButton from 'material-ui/IconButton';
-import List from 'material-ui/List';
-import MenuItem from 'material-ui/MenuItem';
-import { grey900 } from 'material-ui/styles/colors';
-import Subheader from 'material-ui/Subheader';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import AppBar from '@material-ui/core/AppBar';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import MenuItem from '@material-ui/core/MenuItem';
+import grey from '@material-ui/core/colors/grey';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import NavigationClose from '@material-ui/icons/Close';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -23,6 +23,8 @@ import { accent1Color } from '../theme';
 import xhr from '../xhr';
 import Coupons from './coupons.jsx';
 import ShoppingCartItem from './shoppingCartItem.jsx';
+
+const grey900 = grey['900'];
 
 const ShippingCost = styled(MenuItem)`
   color: ${grey900} !important;
@@ -72,18 +74,18 @@ const ShoppingCartDrawer = ({
         ))}
       </List>
     ) : (
-      <Subheader inset>
+      <ListSubheader inset>
         <FormattedMessage id="SHOPPING_CART.NO_ITEMS" />
-      </Subheader>
+      </ListSubheader>
     )}
     {hasShippingCosts && [
       <Divider key="shippingCostDivider" />,
-      <Subheader key="shippingCostHeader" inset>
+      <ListSubheader key="shippingCostHeader" inset>
         <FormattedMessage
           id="SHOPPING_CART.SHIPPING_COST"
           values={{ amount: formatPriceWithCurrency(ORDER.MIN_PRICE_SHIPPING) }}
         />
-      </Subheader>,
+      </ListSubheader>,
       <ShippingCost
         key="shippingCostBody"
         disabled
@@ -101,9 +103,9 @@ const ShoppingCartDrawer = ({
       onRemove={removeCouponIdFromShoppingCart}
     />
     <Divider />
-    <Subheader inset>
+    <ListSubheader inset>
       <FormattedMessage id="SHOPPING_CART.TOTAL" />
-    </Subheader>
+    </ListSubheader>
     <Total
       disabled
       insetChildren

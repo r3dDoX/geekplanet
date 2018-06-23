@@ -1,9 +1,9 @@
 import React from 'react';
-import SelectField from 'material-ui/SelectField';
+import Select from '@material-ui/core/Select';
 
 // eslint-disable-next-line
 export default ({ input, label, style, selectedValue, multiple = false, meta: { touched, error }, children }) => (
-  <SelectField
+  <Select
     floatingLabelText={label}
     errorText={touched && error}
     {...input}
@@ -14,5 +14,5 @@ export default ({ input, label, style, selectedValue, multiple = false, meta: { 
     multiple={multiple}
   >
     {children}
-  </SelectField>
+  </Select>
 );

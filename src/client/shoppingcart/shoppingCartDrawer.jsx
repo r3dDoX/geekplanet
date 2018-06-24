@@ -1,14 +1,15 @@
-import grey from '@material-ui/core/colors/grey';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText/index';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import NavigationClose from '@material-ui/icons/Close';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -28,14 +29,10 @@ import xhr from '../xhr';
 import Coupons from './coupons.jsx';
 import ShoppingCartItem from './shoppingCartItem.jsx';
 
-const grey900 = grey['900'];
-
-const ShippingCost = styled(MenuItem)`
-  color: ${grey900} !important;
-`;
-
-const Total = styled(MenuItem)`
-  color: ${accent1Color} !important;
+const Total = styled(ListItem)`
+  span {
+    color: ${accent1Color} !important;
+  }
 `;
 
 const styles = () => ({
@@ -66,77 +63,70 @@ const ShoppingCartDrawer = ({
       paper: classes.drawerPaper,
     }}
   >
-    <Toolbar>
-      <IconButton color="inherit" aria-label="Menu" onClick={toggleDrawer}>
-        <NavigationClose />
-      </IconButton>
-      <Typography variant="title">
-        <FormattedMessage id="SHOPPING_CART.TITLE" />
-      </Typography>
-    </Toolbar>
-    {shoppingCart.length ? (
-      <List>
-        {shoppingCart.map(item => (
-          <ShoppingCartItem
-            key={item.product._id}
-            shoppingCartItem={item}
-            setAmount={setAmount}
-            locale={locale}
+    <List>
+      <Toolbar>
+        <IconButton color="inherit" aria-label="Menu" onClick={toggleDrawer}>
+          <ChevronRightIcon />
+        </IconButton>
+        <Typography variant="title">
+          <FormattedMessage id="SHOPPING_CART.TITLE" />
+        </Typography>
+      </Toolbar>
+      {shoppingCart.length ? (
+        <List>
+          {shoppingCart.map(item => (
+            <ShoppingCartItem
+              key={item.product._id}
+              shoppingCartItem={item}
+              setAmount={setAmount}
+              locale={locale}
+            />
+          ))}
+        </List>
+      ) : (
+        <ListSubheader inset>
+          <FormattedMessage id="SHOPPING_CART.NO_ITEMS" />
+        </ListSubheader>
+      )}
+      {hasShippingCosts && [
+        <Divider key="shippingCostDivider" />,
+        <ListSubheader key="shippingCostHeader" inset>
+          <FormattedMessage
+            id="SHOPPING_CART.SHIPPING_COST"
+            values={{ amount: formatPriceWithCurrency(ORDER.MIN_PRICE_SHIPPING) }}
           />
-        ))}
-      </List>
-    ) : (
+        </ListSubheader>,
+        <ListItem key="shippingCostBody">
+          <ListItemText inset primary={formatPriceWithCurrency(ORDER.SHIPPING_COST)} />
+        </ListItem>,
+      ]}
+      <Coupons
+        coupons={coupons}
+        onAdd={(couponId) => {
+          const checkCoupon = xhr.get(`/api/coupons/${couponId}`);
+          checkCoupon.then(coupon => addCouponToShoppingCart(coupon));
+          return checkCoupon;
+        }}
+        onRemove={removeCouponIdFromShoppingCart}
+      />
+      <Divider />
       <ListSubheader inset>
-        <FormattedMessage id="SHOPPING_CART.NO_ITEMS" />
+        <FormattedMessage id="SHOPPING_CART.TOTAL" />
       </ListSubheader>
-    )}
-    {hasShippingCosts && [
-      <Divider key="shippingCostDivider" />,
-      <ListSubheader key="shippingCostHeader" inset>
-        <FormattedMessage
-          id="SHOPPING_CART.SHIPPING_COST"
-          values={{ amount: formatPriceWithCurrency(ORDER.MIN_PRICE_SHIPPING) }}
-        />
-      </ListSubheader>,
-      <ShippingCost
-        key="shippingCostBody"
-        disabled
-        insetChildren
-        primaryText={formatPriceWithCurrency(ORDER.SHIPPING_COST)}
-      />,
-    ]}
-    <Coupons
-      coupons={coupons}
-      onAdd={(couponId) => {
-        const checkCoupon = xhr.get(`/api/coupons/${couponId}`);
-        checkCoupon.then(coupon => addCouponToShoppingCart(coupon));
-        return checkCoupon;
-      }}
-      onRemove={removeCouponIdFromShoppingCart}
-    />
-    <Divider />
-    <ListSubheader inset>
-      <FormattedMessage id="SHOPPING_CART.TOTAL" />
-    </ListSubheader>
-    <Total
-      disabled
-      insetChildren
-      primaryText={formatPriceWithCurrency(shoppingCartTotal)}
-    />
-    <Divider />
-    <MenuItem
-      insetChildren
-      disabled={shoppingCart.length === 0}
-      containerElement={
-        <Link to="/order">
-          <FormattedMessage id="SHOPPING_CART.CHECKOUT" />
-        </Link>
-      }
-      primaryText={
-        <FormattedMessage id="SHOPPING_CART.CHECKOUT" />
-      }
-      onClick={toggleDrawer}
-    />
+      <Total>
+        <ListItemText inset primary={formatPriceWithCurrency(shoppingCartTotal)} />
+      </Total>
+      <Divider />
+      <ListItem
+        button
+        disabled={shoppingCart.length === 0}
+        component={Link}
+        to="/order"
+        onClick={toggleDrawer}
+      >
+        <ListItemText inset primary={<FormattedMessage id="SHOPPING_CART.CHECKOUT" />} />
+      </ListItem>
+    </List>
   </Drawer>
 );
 

@@ -6,14 +6,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { ShoppingCartItemPropType } from '../propTypes';
 
-const Container = styled.div`
+const Container = styled.span`
   display: flex;
   align-items: center;
   justify-content: space-around;
   margin: 8px 0 0;
 `;
 
-const AmountIncreaser = ({
+const AmountAdjuster = ({
   shoppingCartItem: {
     amount,
     product,
@@ -31,9 +31,9 @@ const AmountIncreaser = ({
   </Container>
 );
 
-AmountIncreaser.propTypes = {
+AmountAdjuster.propTypes = {
   shoppingCartItem: ShoppingCartItemPropType.isRequired,
   setAmount: PropTypes.func.isRequired,
 };
 
-export default AmountIncreaser;
+export default AmountAdjuster;

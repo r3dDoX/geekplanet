@@ -1,4 +1,6 @@
-import MenuItem from '@material-ui/core/MenuItem';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import green from '@material-ui/core/colors/green';
 import grey from '@material-ui/core/colors/grey';
 import orange from '@material-ui/core/colors/orange';
@@ -37,6 +39,7 @@ class AddCoupon extends React.Component {
   constructor() {
     super();
 
+    this.textInput = React.createRef();
     this.state = {
       inputState: inputState.NONE,
     };
@@ -70,43 +73,46 @@ class AddCoupon extends React.Component {
 
   render() {
     return (
-      <MenuItem insetChildren leftIcon={this.getIcon()}>
-        <TextField
-          ref={(input) => { this.textInput = input; }}
-          disabled={this.state.inputState === inputState.CHECKING}
-          underlineStyle={{
-            borderColor: this.getColor(),
-          }}
-          underlineDisabledStyle={{
-            borderColor: this.getColor(),
-          }}
-          onKeyPress={(event) => {
-            if (event.which === 13 && event.target.value.length === 19) {
-              this.setState({
-                inputState: inputState.CHECKING,
-              });
-
-              this.props.onAdd(event.target.value)
-                .then(() => {
+      <ListItem>
+        <ListItemIcon>
+          {this.getIcon()}
+        </ListItemIcon>
+        <ListItemText
+          primary={
+            <TextField
+              inputRef={this.textInput}
+              disabled={this.state.inputState === inputState.CHECKING}
+              error={this.state.inputState === inputState.ERROR}
+              onKeyPress={(event) => {
+                if (event.which === 13 && event.target.value.length === 19) {
                   this.setState({
-                    inputState: inputState.SUCCESS,
+                    inputState: inputState.CHECKING,
                   });
 
-                  setTimeout(() => {
-                    this.setState({
-                      inputState: inputState.NONE,
-                    });
-                    this.textInput.input.value = '';
-                  }, 2000);
-                })
-                .catch(() => this.setState({
-                  inputState: inputState.ERROR,
-                }));
-            }
-          }}
-          hintText="ABCD-EFGH-IJKL-MNOP"
+                  this.props.onAdd(event.target.value)
+                    .then(() => {
+                      this.setState({
+                        inputState: inputState.SUCCESS,
+                      });
+
+                      setTimeout(() => {
+                        this.setState({
+                          inputState: inputState.NONE,
+                        });
+                        this.textInput.current.value = '';
+                      }, 2000);
+                    })
+                    .catch(() => this.setState({
+                      inputState: inputState.ERROR,
+                    }));
+                }
+              }}
+              placeholder="ABCD-EFGH-IJKL-MNOP"
+              fullWidth
+            />
+          }
         />
-      </MenuItem>
+      </ListItem>
     );
   }
 }

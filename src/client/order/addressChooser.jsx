@@ -13,22 +13,21 @@ const AddressChooser = ({
 }) => (
   <Select
     autoWidth
-    floatingLabelText={<FormattedMessage id="ORDER.ADDRESS.FORM.NO_ADDRESS" />}
+    label={<FormattedMessage id="ORDER.ADDRESS.FORM.NO_ADDRESS" />}
     onChange={(event, index, value) => selectAddress(value)}
     value={selectedAddressId}
   >
-    <MenuItem
-      value=""
-      primaryText={<FormattedMessage id="ORDER.ADDRESS.FORM.NO_ADDRESS" />}
-    />
+    <MenuItem value="">
+      <FormattedMessage id="ORDER.ADDRESS.FORM.NO_ADDRESS" />
+    </MenuItem>
     <Divider />
-    <MenuItem primaryText={<FormattedMessage id="ORDER.ADDRESS.FORM.RECENTLY" />} disabled />
     {addresses.map(({ _id, streetAddress }) => (
       <MenuItem
         key={_id}
         value={_id}
-        primaryText={streetAddress}
-      />
+      >
+        {streetAddress}
+      </MenuItem>
     ))}
   </Select>
 );

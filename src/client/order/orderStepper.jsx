@@ -121,7 +121,6 @@ class OrderStepper extends React.Component {
       </FormattedMessage>,
       <Stepper
         key="orderStepper"
-        linear={false}
         orientation="vertical"
         style={styles.container}
       >

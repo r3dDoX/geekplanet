@@ -26,7 +26,7 @@ const inputState = {
 };
 
 const CheckingIcon = styled(AutorenewIcon)`
-  ransform-origin: center center;
+  transform-origin: center center;
   transform-box: fill-box;
   animation-name: rotation;
   animation-duration: 2s;
@@ -36,8 +36,8 @@ const CheckingIcon = styled(AutorenewIcon)`
 `;
 
 class AddCoupon extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.textInput = React.createRef();
     this.state = {

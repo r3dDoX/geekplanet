@@ -19,12 +19,17 @@ import Footer from './footer.jsx';
 import Header from './header.jsx';
 import LayoutDrawer from './layoutDrawer.jsx';
 import MainSpinner from './mainSpinner.jsx';
+import theme from '../theme';
 
 const Body = styled(Paper)`
   position: relative;
-  padding-top: 64px;
+  padding-top: 56px;
   display: flex;
   align-items: stretch;
+  
+  @media screen and (min-width: ${theme.breakpoints.values.sm}px) {
+    padding-top: 64px;
+  }
 `;
 
 class Layout extends React.Component {

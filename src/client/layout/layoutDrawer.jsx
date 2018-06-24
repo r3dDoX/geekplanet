@@ -1,10 +1,13 @@
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
+import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { withStyles } from '@material-ui/core/styles';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import React from 'react';
@@ -12,15 +15,29 @@ import { FormattedMessage } from 'react-intl';
 import Link from 'react-router-dom/Link';
 import withRouter from 'react-router-dom/withRouter';
 import { ProductCategoryPropType } from '../propTypes';
-import { laMinSize } from '../theme';
 import CategoryDivider from './categoryDivider.jsx';
 import CategoryListItem from './categoryListItem.jsx';
 
-const styles = () => ({
+const drawerWidth = '256px';
+
+const styles = theme => ({
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
   drawerPaper: {
     position: 'relative',
-    width: '256px',
+    width: drawerWidth,
     height: '100%',
+  },
+  drawerDocked: {
+    height: '100%',
+  },
+  drawerMobile: {
+    width: drawerWidth,
   },
 });
 
@@ -46,129 +63,167 @@ class LayoutDrawer extends React.Component {
     this.setState({ width: window.innerWidth });
   }
 
-  render() {
+  toggleDrawerOnMobile(laMinSizeNumber, toggleDrawer) {
+    return this.state.width < laMinSizeNumber && toggleDrawer();
+  }
+
+  renderDrawerContent() {
     const {
       roles,
       logout,
       loggedIn,
-      drawerOpened,
       toggleDrawer,
       history,
       productCategories,
-      classes,
+      location: {
+        search,
+      },
     } = this.props;
-    const laMinSizeNumber = Number(laMinSize.slice(0, -2));
-    const toggleDrawerOnMobile = () => this.state.width < laMinSizeNumber && toggleDrawer();
 
-    const query = queryString.parse(this.props.location.search);
+    const query = queryString.parse(search);
     const selectedCategories = query.categories
       ? query.categories.split(',')
       : [];
 
     return (
-      <Drawer
-        anchor="left"
-        open={this.state.width >= laMinSizeNumber || drawerOpened}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <List>
-          {roles.includes('admin') ? ([
-            <ListSubheader key="admin">
-              <FormattedMessage id="NAVIGATION.ADMIN" />
-            </ListSubheader>,
-            <ListItem
-              button
-              key="homeTiles"
-              component={Link}
-              to="/admin/hometiles"
-              onClick={toggleDrawerOnMobile}
-            >
-              <ListItemText primary={<FormattedMessage id="NAVIGATION.HOME_TILES" />} />
-            </ListItem>,
-            <ListItem
-              button
-              key="forms"
-              component={Link}
-              to="/admin/forms"
-              onClick={toggleDrawerOnMobile}
-            >
-              <ListItemText primary={<FormattedMessage id="NAVIGATION.FORMS" />} />
-            </ListItem>,
-            <ListItem
-              button
-              key="orders"
-              component={Link}
-              to="/admin/orders"
-              onClick={toggleDrawer}
-            >
-              <ListItemText primary={<FormattedMessage id="NAVIGATION.ORDERS" />} />
-            </ListItem>,
-            <ListItem
-              button
-              key="coupons"
-              component={Link}
-              to="/admin/coupons"
-              onClick={toggleDrawerOnMobile}
-            >
-              <ListItemText primary={<FormattedMessage id="NAVIGATION.COUPONS" />} />
-            </ListItem>,
-            <Divider key="AdminDivider" />,
-          ]) : null}
-          {
-            loggedIn ? (
-              <ListItem
-                button
-                onClick={() => {
-                  toggleDrawerOnMobile();
-                  logout();
-                  history.push('/');
-                }}
-              >
-                <ListItemText primary={<FormattedMessage id="NAVIGATION.LOGOUT" />} />
-              </ListItem>
-            ) : (
-              <ListItem
-                button
-                component={Link}
-                to="/login"
-                onClick={toggleDrawerOnMobile}
-              >
-                <ListItemText primary={<FormattedMessage id="NAVIGATION.LOGIN" />} />
-              </ListItem>
-            )
-          }
-          <Divider />
-          <ListSubheader>
-            <FormattedMessage id="NAVIGATION.PRODUCTS" />
-          </ListSubheader>
+      <List>
+        {roles.includes('admin') ? ([
+          <ListSubheader key="admin">
+            <FormattedMessage id="NAVIGATION.ADMIN" />
+          </ListSubheader>,
           <ListItem
             button
-            role="link"
+            key="homeTiles"
             component={Link}
-            to="/products"
-            onClick={() => toggleDrawerOnMobile()}
+            to="/admin/hometiles"
+            onClick={() => this.toggleDrawerOnMobile()}
           >
-            <ListItemText primary={<FormattedMessage id="NAVIGATION.ALL_PRODUCTS" />} />
-          </ListItem>
-          <CategoryDivider />
-          {productCategories
-            .map(category => (
-              <CategoryListItem
-                key={category._id}
-                category={category}
-                selectedCategories={selectedCategories}
-                onSelect={(categoryId) => {
-                  toggleDrawerOnMobile();
-                  history.push(`/products?categories=${categoryId}`);
-                }}
-              />
-            ))}
-        </List>
-      </Drawer>
+            <ListItemText primary={<FormattedMessage id="NAVIGATION.HOME_TILES" />} />
+          </ListItem>,
+          <ListItem
+            button
+            key="forms"
+            component={Link}
+            to="/admin/forms"
+            onClick={() => this.toggleDrawerOnMobile()}
+          >
+            <ListItemText primary={<FormattedMessage id="NAVIGATION.FORMS" />} />
+          </ListItem>,
+          <ListItem
+            button
+            key="orders"
+            component={Link}
+            to="/admin/orders"
+            onClick={toggleDrawer}
+          >
+            <ListItemText primary={<FormattedMessage id="NAVIGATION.ORDERS" />} />
+          </ListItem>,
+          <ListItem
+            button
+            key="coupons"
+            component={Link}
+            to="/admin/coupons"
+            onClick={() => this.toggleDrawerOnMobile()}
+          >
+            <ListItemText primary={<FormattedMessage id="NAVIGATION.COUPONS" />} />
+          </ListItem>,
+          <Divider key="AdminDivider" />,
+        ]) : null}
+        {
+          loggedIn ? (
+            <ListItem
+              button
+              onClick={() => {
+                this.toggleDrawerOnMobile();
+                logout();
+                history.push('/');
+              }}
+            >
+              <ListItemText primary={<FormattedMessage id="NAVIGATION.LOGOUT" />} />
+            </ListItem>
+          ) : (
+            <ListItem
+              button
+              component={Link}
+              to="/login"
+              onClick={this.toggleDrawerOnMobile}
+            >
+              <ListItemText primary={<FormattedMessage id="NAVIGATION.LOGIN" />} />
+            </ListItem>
+          )
+        }
+        <Divider />
+        <ListSubheader>
+          <FormattedMessage id="NAVIGATION.PRODUCTS" />
+        </ListSubheader>
+        <ListItem
+          button
+          role="link"
+          component={Link}
+          to="/products"
+          onClick={() => this.toggleDrawerOnMobile()}
+        >
+          <ListItemText primary={<FormattedMessage id="NAVIGATION.ALL_PRODUCTS" />} />
+        </ListItem>
+        <CategoryDivider />
+        {productCategories
+          .map(category => (
+            <CategoryListItem
+              key={category._id}
+              category={category}
+              selectedCategories={selectedCategories}
+              onSelect={(categoryId) => {
+                this.toggleDrawerOnMobile();
+                history.push(`/products?categories=${categoryId}`);
+              }}
+            />
+          ))}
+      </List>
     );
+  }
+
+  render() {
+    const {
+      classes,
+      drawerOpened,
+      toggleDrawer,
+    } = this.props;
+
+    return [
+      <Hidden smDown implementation="css" key="drawerMd">
+        <Drawer
+          variant="permanent"
+          open
+          classes={{
+            paper: classes.drawerPaper,
+            docked: classes.drawerDocked,
+          }}
+        >
+          {this.renderDrawerContent()}
+        </Drawer>
+      </Hidden>,
+      <Hidden mdUp implementation="css" key="drawerSm">
+        <Drawer
+          variant="temporary"
+          open={drawerOpened}
+          onClose={toggleDrawer}
+          classes={{
+            paper: classes.drawerMobile,
+          }}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+        >
+          <div className={classes.toolbar}>
+            <IconButton onClick={toggleDrawer}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </div>
+          <Divider />
+          {this.renderDrawerContent()}
+        </Drawer>
+      </Hidden>,
+    ];
   }
 }
 

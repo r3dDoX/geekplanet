@@ -1,12 +1,18 @@
 import Collapse from '@material-ui/core/Collapse';
+import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from 'styled-components';
 import { ProductCategoryPropType } from '../propTypes';
 import CategoryDivider from './categoryDivider.jsx';
+
+const ArrowButton = styled.a`
+  outline: none;
+`;
 
 class CategoryListItem extends React.Component {
   constructor(props) {
@@ -52,10 +58,10 @@ class CategoryListItem extends React.Component {
       >
         <ListItemText primary={category.de.name} />
         {category.subCategories.length > 0 && (
-          <a
+          <ArrowButton
             role="button"
             tabIndex={0}
-            ref={this.toggleContainer}
+            innerRef={this.toggleContainer}
             onClick={() => {
               this.setState(prevState => ({
                 isOpen: !prevState.isOpen,
@@ -63,7 +69,7 @@ class CategoryListItem extends React.Component {
             }}
           >
             {this.state.isOpen ? <ExpandLess /> : <ExpandMore />}
-          </a>
+          </ArrowButton>
         )}
       </ListItem>,
       category.subCategories.length > 0 && (
@@ -73,18 +79,20 @@ class CategoryListItem extends React.Component {
           timeout="auto"
           unmountOnExit
         >
-          {category.subCategories
-            .flatMap(
-              subCategory => (
-                <CategoryListItem
-                  key={subCategory._id}
-                  selectedCategories={selectedCategories}
-                  category={subCategory}
-                  onSelect={onSelect}
-                />
+          <List disablePadding>
+            {category.subCategories
+              .flatMap(
+                subCategory => (
+                  <CategoryListItem
+                    key={subCategory._id}
+                    selectedCategories={selectedCategories}
+                    category={subCategory}
+                    onSelect={onSelect}
+                  />
+                )
               )
-            )
-          }
+            }
+          </List>
         </Collapse>
       ),
       !category.parentCategory

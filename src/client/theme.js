@@ -15,7 +15,8 @@ export default createMuiTheme({
   fontFamily: 'PT Sans, sans-serif',
   palette: {
     primary: {
-      main: backgroundColor,
+      main: brandPrimary,
+      contrastText: accent2Color,
     },
     secondary: {
       main: accent1Color,

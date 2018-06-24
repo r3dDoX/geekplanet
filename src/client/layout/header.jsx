@@ -1,4 +1,5 @@
 import AppBar from '@material-ui/core/AppBar';
+import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core/styles';
@@ -31,9 +32,15 @@ const Header = ({
     className={classes.appBar}
   >
     <Toolbar>
-      <IconButton color="inherit" aria-label="Menu" onClick={toggleDrawer}>
-        <MenuIcon />
-      </IconButton>
+      <Hidden mdUp>
+        <IconButton
+          color="inherit"
+          aria-label="Menu"
+          onClick={toggleDrawer}
+        >
+          <MenuIcon />
+        </IconButton>
+      </Hidden>
       <Title to="/">
         <Typography variant="title" color="inherit">
           {APP.TITLE}

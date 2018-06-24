@@ -13,7 +13,7 @@ const Container = styled.p`
   text-align: center;
   
   @media screen and (min-width: ${mdMinSize}) {
-    padding-top: 90px;
+    padding-top: 80px;
   }
 `;
 

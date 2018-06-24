@@ -11,14 +11,11 @@ const OrderButton = ({ product, addItemToShoppingCart }) => (
   <Button
     variant="contained"
     onClick={() => addItemToShoppingCart(product)}
-    label={
-      <span>
-        <FormattedMessage id="COMMON.ADD" />
-      </span>
-    }
-    icon={<ShoppingCart />}
     color="primary"
-  />
+  >
+    <ShoppingCart />
+    <FormattedMessage id="COMMON.ADD" />
+  </Button>
 );
 
 OrderButton.propTypes = {

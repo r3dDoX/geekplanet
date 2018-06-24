@@ -10,6 +10,7 @@ import React from 'react';
 import Link from 'react-router-dom/Link';
 import styled from 'styled-components';
 import ShoppingCartIcon from '../shoppingcart/shoppingCartIcon.jsx';
+import { backgroundColor } from '../theme';
 
 const Title = styled(Link)`
   flex: 1;
@@ -20,6 +21,7 @@ const Title = styled(Link)`
 const styles = theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    backgroundColor,
   },
 });
 

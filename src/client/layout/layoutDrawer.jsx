@@ -20,6 +20,7 @@ const styles = () => ({
   drawerPaper: {
     position: 'relative',
     width: '256px',
+    height: '100%',
   },
 });
 

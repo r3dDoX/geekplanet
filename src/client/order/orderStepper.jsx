@@ -220,7 +220,7 @@ OrderStepper.propTypes = {
   }).isRequired,
   shoppingCart: ShoppingCartPropType.isRequired,
   orderStep: PropTypes.string.isRequired,
-  isProcessing: PropTypes.boolean.isRequired,
+  isProcessing: PropTypes.bool.isRequired,
   selectStep: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };

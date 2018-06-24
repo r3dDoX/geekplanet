@@ -11,7 +11,7 @@ const StepSpinner = ({ isProcessing, children }) => {
 };
 
 StepSpinner.propTypes = {
-  isProcessing: PropTypes.boolean.isRequired,
+  isProcessing: PropTypes.bool.isRequired,
   children: PropTypes.element.isRequired,
 };
 

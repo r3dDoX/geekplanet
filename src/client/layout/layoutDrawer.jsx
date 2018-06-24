@@ -146,7 +146,7 @@ class LayoutDrawer extends React.Component {
               button
               component={Link}
               to="/login"
-              onClick={this.toggleDrawerOnMobile}
+              onClick={() => this.toggleDrawerOnMobile()}
             >
               <ListItemText primary={<FormattedMessage id="NAVIGATION.LOGIN" />} />
             </ListItem>

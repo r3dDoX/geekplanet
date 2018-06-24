@@ -1,11 +1,11 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
 
 // eslint-disable-next-line
 export default ({ input, label, meta: { touched, error }, ...rest }) => (
-  <TextField
-    hintText={label}
-    errorText={touched && error}
+  <Input
+    placeholder={label}
+    error={touched && error !== undefined}
     {...input}
     {...rest}
   />

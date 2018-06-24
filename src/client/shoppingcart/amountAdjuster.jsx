@@ -1,18 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import ContentAdd from '@material-ui/icons/Add';
 import ContentRemove from '@material-ui/icons/Remove';
+import PropTypes from 'prop-types';
+import React from 'react';
+import styled from 'styled-components';
 import { ShoppingCartItemPropType } from '../propTypes';
 
-const styles = {
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    margin: '8px 0 0',
-  },
-};
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 8px 0 0;
+`;
 
 const AmountIncreaser = ({
   shoppingCartItem: {
@@ -21,11 +20,15 @@ const AmountIncreaser = ({
   },
   setAmount,
 }) => (
-  <div style={styles.container}>
-    <Button color="secondary" icon={<ContentRemove />} onClick={() => setAmount(amount - 1, product)} />
+  <Container>
+    <IconButton color="secondary" onClick={() => setAmount(amount - 1, product)}>
+      <ContentRemove />
+    </IconButton>
     {amount}
-    <Button color="primary" icon={<ContentAdd />} onClick={() => setAmount(amount + 1, product)} />
-  </div>
+    <IconButton color="primary" onClick={() => setAmount(amount + 1, product)}>
+      <ContentAdd />
+    </IconButton>
+  </Container>
 );
 
 AmountIncreaser.propTypes = {

@@ -4,8 +4,9 @@ import TextField from '@material-ui/core/TextField';
 // eslint-disable-next-line
 export default ({ input, label, meta: { touched, error }, ...rest }) => (
   <TextField
-    floatingLabelText={label}
-    errorText={touched && error}
+    label={label}
+    error={touched && error !== undefined}
+    helperText={touched && error}
     {...input}
     {...rest}
   />

@@ -1,24 +1,38 @@
 import Avatar from '@material-ui/core/Avatar';
-import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 import red from '@material-ui/core/colors/red';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
+import InvoiceIcon from '@material-ui/icons/Receipt';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import MainSpinner from '../layout/mainSpinner.jsx';
+import styled from 'styled-components';
 import { ShoppingCartPropType } from '../propTypes';
 import { accent1Color } from '../theme';
 import Xhr from '../xhr';
 
 const redA100 = red.A100;
+
+const Container = styled.div`
+  margin-top: 20px;
+`;
+
+const PaymentButton = styled(Button)`
+  margin: 10px !important;
+`;
+
+const StyledAvatar = styled(Avatar)`
+  background-color: ${accent1Color} !important;
+  color: #FFF !important;
+`;
+
+const StyledChip = styled(Chip)`
+  margin: 10px;
+  background-color: ${redA100} !important;
+`;
+
 const styles = {
-  container: {
-    marginTop: '20px',
-  },
-  paymentButton: {
-    margin: '10px',
-  },
   paymentError: {
     margin: '0 0 10px 10px',
   },
@@ -35,14 +49,9 @@ class Payment extends React.Component {
       shoppingCart,
       finishPaymentStep,
       startProcessing,
-      processing,
       paymentError,
       stopProcessing,
     } = this.props;
-
-    if (processing) {
-      return <MainSpinner />;
-    }
 
     const stripeHandler = StripeCheckout.configure({
       key: PAYMENT.PUBLIC,
@@ -58,15 +67,21 @@ class Payment extends React.Component {
     });
 
     return (
-      <div style={styles.container}>
-        {paymentError && (
-          <Chip backgroundColor={redA100} style={styles.paymentError}>
-            <Avatar size={32} backgroundColor={accent1Color} icon={<CreditCardIcon />} />
-            {paymentError}
-          </Chip>
-        )}
+      <Container>
+        {paymentError && [
+          <StyledChip
+            key="creditCardError"
+            avatar={
+              <StyledAvatar>
+                <CreditCardIcon />
+              </StyledAvatar>
+            }
+            label={paymentError}
+          />,
+          <br key="creditCardErrorBreak" />,
+        ]}
         {shoppingCart.total > 0 ? [
-          <Button
+          <PaymentButton
             variant="contained"
             key="buttonCreditCard"
             style={styles.paymentButton}
@@ -76,13 +91,14 @@ class Payment extends React.Component {
               currency: 'chf',
               amount: shoppingCart.total * 100,
             })}
-            label={<FormattedMessage id="ORDER.PAYMENT.CREDIT_CARD" />}
-            color="primary"
-          />,
-          <Button
+          >
+            <CreditCardIcon />
+            &nbsp;&nbsp;
+            <FormattedMessage id="ORDER.PAYMENT.CREDIT_CARD" />
+          </PaymentButton>,
+          <PaymentButton
             variant="contained"
             key="buttonPrepayment"
-            style={styles.paymentButton}
             onClick={() => {
               startProcessing();
 
@@ -90,9 +106,11 @@ class Payment extends React.Component {
                 .post(`/api/orders/${shoppingCart.id}/paymentMethod/prepayment`)
                 .then(finishPaymentStep, () => () => window.location.assign('/error'));
             }}
-            label={<FormattedMessage id="ORDER.PAYMENT.PREPAYMENT" />}
-            color="primary"
-          />,
+          >
+            <InvoiceIcon />
+            &nbsp;&nbsp;
+            <FormattedMessage id="ORDER.PAYMENT.PREPAYMENT" />
+          </PaymentButton>,
         ] : [
           <p key="textNoPayment">
             <FormattedMessage id="ORDER.PAYMENT.NO_PAYMENT" />
@@ -109,14 +127,13 @@ class Payment extends React.Component {
             color="primary"
           />,
         ]}
-      </div>
+      </Container>
     );
   }
 }
 
 Payment.propTypes = {
   email: PropTypes.string.isRequired,
-  processing: PropTypes.bool.isRequired,
   shoppingCart: ShoppingCartPropType.isRequired,
   startOrder: PropTypes.func.isRequired,
   finishPaymentStep: PropTypes.func.isRequired,

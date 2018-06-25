@@ -167,7 +167,7 @@ class LayoutDrawer extends React.Component {
         </ListItem>
         <CategoryDivider />
         {productCategories
-          .map(category => (
+          .map((category, index) => (
             <CategoryListItem
               key={category._id}
               category={category}
@@ -176,6 +176,7 @@ class LayoutDrawer extends React.Component {
                 this.toggleDrawerOnMobile();
                 history.push(`/products?categories=${categoryId}`);
               }}
+              isLast={index === productCategories.length - 1}
             />
           ))}
       </List>

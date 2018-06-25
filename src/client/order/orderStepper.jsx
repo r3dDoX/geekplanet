@@ -8,46 +8,21 @@ import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import withRouter from 'react-router-dom/withRouter';
+import styled from 'styled-components';
 import { createSelectStep } from '../actions';
 import { ShoppingCartPropType } from '../propTypes';
 import PrivateRoute from '../router/privateRoute.jsx';
 import AddressStepContent from './addressStepContent.jsx';
 import AgbStepContent from './agbStepContent.jsx';
 import ConfirmationText from './confirmationText.jsx';
-import StepSpinner from './stepSpinner.jsx';
 import OrderSteps from './orderSteps';
 import PaymentStepContent from './paymentStepContent.jsx';
+import StepSpinner from './stepSpinner.jsx';
 import Summary from './summary.jsx';
 
-const styles = {
-  container: {
-    padding: '24px',
-  },
-  productAvatar: {
-    margin: '10px 0',
-  },
-  footerRow: {
-    fontSize: '22px',
-    fontWeight: 'bold',
-  },
-  amount: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  buttonRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  deleteButton: {
-    marginRight: '8px',
-  },
-  itemsContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    padding: '8px',
-  },
-};
+const StyledStepContent = styled(StepContent)`
+  position: relative;
+`;
 
 class OrderStepper extends React.Component {
   componentWillMount() {
@@ -92,15 +67,6 @@ class OrderStepper extends React.Component {
     }
   }
 
-  isStepDisabled(step) {
-    const { orderStep } = this.props;
-    return orderStep < step || orderStep === OrderStepper.CONFIRMATION;
-  }
-
-  isStepCompleted(step) {
-    return this.props.orderStep > step;
-  }
-
   render() {
     const {
       match,
@@ -119,94 +85,56 @@ class OrderStepper extends React.Component {
           </Helmet>
         )}
       </FormattedMessage>,
-      <Stepper
-        key="orderStepper"
-        orientation="vertical"
-        style={styles.container}
-      >
-        <Step
-          completed={this.isStepCompleted(OrderSteps.ADDRESS)}
-          disabled={this.isStepDisabled(OrderSteps.ADDRESS)}
-          active={orderStep === OrderSteps.ADDRESS}
-        >
-          <StepButton
-            onClick={() =>
-              !this.isStepDisabled(OrderSteps.ADDRESS) && selectStep(OrderSteps.ADDRESS)
-            }
-          >
+      <Stepper key="orderStepper" orientation="vertical" activeStep={orderStep}>
+        <Step>
+          <StepButton onClick={() => selectStep(OrderSteps.ADDRESS)}>
             <FormattedMessage id="ORDER.ADDRESS.TITLE" />
           </StepButton>
-          <StepContent>
+          <StyledStepContent>
             <StepSpinner isProcessing={isProcessing}>
               <PrivateRoute path={`${match.url}/address`} component={AddressStepContent} />
             </StepSpinner>
-          </StepContent>
+          </StyledStepContent>
         </Step>
-        <Step
-          completed={this.isStepCompleted(OrderSteps.AGB)}
-          disabled={this.isStepDisabled(OrderSteps.AGB)}
-          active={orderStep === OrderSteps.AGB}
-        >
-          <StepButton
-            onClick={() => !this.isStepDisabled(OrderSteps.AGB) && selectStep(OrderSteps.AGB)}
-          >
+        <Step>
+          <StepButton onClick={() => selectStep(OrderSteps.AGB)}>
             <FormattedMessage id="ORDER.AGB.TITLE" />
           </StepButton>
-          <StepContent>
+          <StyledStepContent>
             <StepSpinner isProcessing={isProcessing}>
               <PrivateRoute path={`${match.url}/agb`} component={AgbStepContent} />
             </StepSpinner>
-          </StepContent>
+          </StyledStepContent>
         </Step>
-        <Step
-          completed={this.isStepCompleted(OrderSteps.PAYMENT)}
-          disabled={this.isStepDisabled(OrderSteps.PAYMENT)}
-          active={orderStep === OrderSteps.PAYMENT}
-        >
-          <StepButton
-            onClick={() =>
-              !this.isStepDisabled(OrderSteps.PAYMENT) && selectStep(OrderSteps.PAYMENT)
-            }
-          >
+        <Step>
+          <StepButton onClick={() => selectStep(OrderSteps.PAYMENT)}>
             <FormattedMessage id="ORDER.PAYMENT.TITLE" />
           </StepButton>
-          <StepContent>
+          <StyledStepContent>
             <StepSpinner isProcessing={isProcessing}>
               <PrivateRoute path={`${match.url}/payment`} component={PaymentStepContent} />
             </StepSpinner>
-          </StepContent>
+          </StyledStepContent>
         </Step>
-        <Step
-          completed={this.isStepCompleted(OrderSteps.SUMMARY)}
-          disabled={this.isStepDisabled(OrderSteps.SUMMARY)}
-          active={orderStep === OrderSteps.SUMMARY}
-        >
-          <StepButton
-            onClick={() =>
-              !this.isStepDisabled(OrderSteps.SUMMARY) && selectStep(OrderSteps.PAYMENT)
-            }
-          >
+        <Step>
+          <StepButton onClick={() => selectStep(OrderSteps.PAYMENT)}>
             <FormattedMessage id="ORDER.SUMMARY.TITLE" />
           </StepButton>
-          <StepContent>
+          <StyledStepContent>
             <StepSpinner isProcessing={isProcessing}>
               <PrivateRoute path={`${match.url}/summary`} component={Summary} />
             </StepSpinner>
-          </StepContent>
+          </StyledStepContent>
         </Step>
-        <Step
-          completed={orderStep === OrderSteps.CONFIRMATION}
-          disabled={this.isStepDisabled(OrderSteps.CONFIRMATION)}
-          active={orderStep === OrderSteps.CONFIRMATION}
-        >
+        <Step>
           <StepButton>
             <FormattedMessage id="ORDER.CONFIRMATION.TITLE" />
           </StepButton>
-          <StepContent>
+          <StyledStepContent>
             <StepSpinner isProcessing={isProcessing}>
               <PrivateRoute path={`${match.url}/confirmation`} component={ConfirmationText} />
             </StepSpinner>
-          </StepContent>
+          </StyledStepContent>
         </Step>
       </Stepper>,
     ];

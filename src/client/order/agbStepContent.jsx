@@ -29,12 +29,14 @@ const AgbStepContent = ({ acceptAgb }) => (
     <ScrollableContainer>
       <Agb />
     </ScrollableContainer>
+    <br />
     <AcceptButton
       variant="contained"
       color="primary"
-      label={<FormattedMessage id="ORDER.AGB.ACCEPT" />}
       onClick={acceptAgb}
-    />
+    >
+      <FormattedMessage id="ORDER.AGB.ACCEPT" />
+    </AcceptButton>
   </Container>
 );
 

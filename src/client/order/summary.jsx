@@ -17,7 +17,7 @@ const grey600 = grey['600'];
 const priceCalculation = PriceCalculation.create(ORDER.MIN_PRICE_SHIPPING, ORDER.SHIPPING_COST);
 
 const SummaryContainer = styled.div`
-  margin: 20px 0;
+  margin: 10px;
   overflow-x: auto;
 `;
 
@@ -40,6 +40,7 @@ const Cell = styled.td`
 `;
 
 const StyledAvatar = styled(Avatar)`
+  display: inline-block !important;
   object-fit: cover;
   vertical-align: middle;
   margin-right: 10px;
@@ -177,10 +178,11 @@ const Summary = ({
     <Button
       variant="contained"
       key="finishOrderButton"
-      label={<FormattedMessage id="ORDER.SUMMARY.CONFIRM_ORDER" />}
       color="primary"
       onClick={() => finishOrder(orderId)}
-    />,
+    >
+      <FormattedMessage id="ORDER.SUMMARY.CONFIRM_ORDER" />
+    </Button>,
   ];
 };
 

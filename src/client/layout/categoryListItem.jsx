@@ -14,6 +14,10 @@ const ArrowButton = styled.a`
   outline: none;
 `;
 
+const SpacedCollapse = styled(Collapse)`
+  padding-left: 12px;
+`;
+
 class CategoryListItem extends React.Component {
   constructor(props) {
     super(props);
@@ -42,6 +46,7 @@ class CategoryListItem extends React.Component {
       category,
       onSelect,
       selectedCategories,
+      isLast,
     } = this.props;
 
     return [
@@ -73,7 +78,7 @@ class CategoryListItem extends React.Component {
         )}
       </ListItem>,
       category.subCategories.length > 0 && (
-        <Collapse
+        <SpacedCollapse
           key={`${category._id}_nested`}
           in={this.state.isOpen}
           timeout="auto"
@@ -88,14 +93,15 @@ class CategoryListItem extends React.Component {
                     selectedCategories={selectedCategories}
                     category={subCategory}
                     onSelect={onSelect}
+                    isLast={isLast}
                   />
                 )
               )
             }
           </List>
-        </Collapse>
+        </SpacedCollapse>
       ),
-      !category.parentCategory
+      !category.parentCategory && !isLast
         ? <CategoryDivider key={`${category._id}Divider`} />
         : null,
     ];
@@ -103,6 +109,7 @@ class CategoryListItem extends React.Component {
 }
 
 CategoryListItem.propTypes = {
+  isLast: PropTypes.bool.isRequired,
   selectedCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   category: ProductCategoryPropType.isRequired,
   onSelect: PropTypes.func.isRequired,

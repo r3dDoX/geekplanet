@@ -1,7 +1,7 @@
-import Divider from '@material-ui/core/Divider';
-import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import grey from '@material-ui/core/colors/grey';
+import Divider from '@material-ui/core/Divider';
+import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDrafts from 'react-drafts';
@@ -14,8 +14,14 @@ import { createLoadProducts } from '../../actions';
 import SelectField from '../../formHelpers/selectField.jsx';
 import TextField from '../../formHelpers/textField.jsx';
 import { required } from '../../formHelpers/validations.jsx';
+import MainSpinner from '../../layout/mainSpinner.jsx';
 import * as ProductService from '../../products/productService';
-import { ProducerPropType, ProductCategoryPropType, ProductPropType, SupplierPropType } from '../../propTypes';
+import {
+  ProducerPropType,
+  ProductCategoryPropType,
+  ProductPropType,
+  SupplierPropType,
+} from '../../propTypes';
 import {
   createLoadCompleteProducts,
   createLoadProducers,
@@ -135,6 +141,10 @@ class ProductForm extends React.Component {
       history,
     } = this.props;
 
+    if (!products.length) {
+      return <MainSpinner />;
+    }
+
     return (
       <Container
         name={productFormName}
@@ -170,9 +180,10 @@ class ProductForm extends React.Component {
           <DeleteButton
             variant="contained"
             color="secondary"
-            label="Remove"
             onClick={() => removeProduct(match.params.id).then(() => history.push('/admin/forms/products'))}
-          />
+          >
+            Remove
+          </DeleteButton>
         )}
         <br />
 
@@ -201,8 +212,9 @@ class ProductForm extends React.Component {
             <MenuItem
               key={category._id}
               value={category._id}
-              primaryText={category.de.name}
-            />
+            >
+              {category.de.name}
+            </MenuItem>
           ))}
         </Field>
         <br />
@@ -218,7 +230,7 @@ class ProductForm extends React.Component {
           name="de.shortDescription"
           label="Short Description"
           type="text"
-          multiLine
+          multiline
           rows={3}
         />
         <br />
@@ -342,15 +354,11 @@ Downloads
           name="remarks"
           label="Remarks"
           type="text"
-          multiLine
+          multiline
         />
         <br />
-        <UploadButton
-          variant="contained"
-          label="Choose images"
-          labelPosition="before"
-          containerElement="label"
-        >
+        <UploadButton variant="contained">
+          Choose images
           <FileUploadInput
             type="file"
             accept="image/jpeg,image/png"
@@ -359,7 +367,9 @@ Downloads
           />
         </UploadButton>
         <UploadImagePreview files={selectedFiles} removeFile={removeFile} />
-        <Button variant="contained" label="Save" type="submit" color="primary" />
+        <Button variant="contained" type="submit" color="primary">
+          Save
+        </Button>
       </Container>
     );
   }

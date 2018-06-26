@@ -37,17 +37,17 @@ const ProducerForm = ({
         producers.find(producer => producer._id === value)
       )}
     >
-      <MenuItem
-        value=""
-        primaryText="Create new"
-      />
+      <MenuItem value="">
+        Create new
+      </MenuItem>
       <Divider />
       {producers.map(({ _id, name }) => (
         <MenuItem
           key={_id}
           value={_id}
-          primaryText={name}
-        />
+        >
+          {name}
+        </MenuItem>
       ))}
     </Field>
     <br />
@@ -123,10 +123,12 @@ Contact
       name="remarks"
       label="Remarks"
       type="text"
-      multiLine
+      multiline
     />
     <br />
-    <Button variant="contained" label="Save" color="primary" type="submit" />
+    <Button variant="contained" color="primary" type="submit">
+      Save
+    </Button>
   </form>
 );
 

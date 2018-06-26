@@ -37,17 +37,17 @@ const SupplierForm = ({
         suppliers.find(supplier => supplier._id === value)
       )}
     >
-      <MenuItem
-        value=""
-        primaryText="Create new"
-      />
+      <MenuItem value="">
+        Create new
+      </MenuItem>
       <Divider />
       {suppliers.map(({ _id, name }) => (
         <MenuItem
           key={_id}
           value={_id}
-          primaryText={name}
-        />
+        >
+          {name}
+        </MenuItem>
       ))}
     </Field>
     <br />
@@ -130,7 +130,7 @@ Bank
       name="bankRemarks"
       label="Remarks"
       type="text"
-      multiLine
+      multiline
     />
     <h3>
 Contact
@@ -161,10 +161,12 @@ Contact
       name="remarks"
       label="Remarks"
       type="text"
-      multiLine
+      multiline
     />
     <br />
-    <Button variant="contained" label="Save" color="primary" type="submit" />
+    <Button variant="contained" color="primary" type="submit">
+      Save
+    </Button>
   </form>
 );
 

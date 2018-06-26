@@ -116,7 +116,7 @@ class LayoutDrawer extends React.Component {
             key="orders"
             component={Link}
             to="/admin/orders"
-            onClick={this.toggleDrawerOnMobile()}
+            onClick={() => this.toggleDrawerOnMobile()}
           >
             <ListItemText primary={<FormattedMessage id="NAVIGATION.ORDERS" />} />
           </ListItem>,

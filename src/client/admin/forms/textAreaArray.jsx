@@ -23,7 +23,7 @@ const TextAreaArray = ({ fields }) => (
           name={fieldValue}
           component={TextField}
           type="text"
-          multiLine
+          multiline
           rows={2}
         />
         <IconButton onClick={() => fields.remove(index)}>

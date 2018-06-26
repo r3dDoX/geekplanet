@@ -35,9 +35,10 @@ const TextAreaArray = ({ fields }) => (
       <Button
         variant="contained"
         color="primary"
-        label={<FormattedMessage id="COMMON.ADD" />}
         onClick={() => fields.push()}
-      />
+      >
+        <FormattedMessage id="COMMON.ADD" />
+      </Button>
     </li>
   </List>
 );

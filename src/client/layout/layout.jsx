@@ -32,6 +32,10 @@ const Body = styled(Paper)`
   }
 `;
 
+const Content = styled.div`
+  flex: 1;
+`;
+
 class Layout extends React.Component {
   componentWillMount() {
     if (!this.props.productCategories.length) {
@@ -77,9 +81,9 @@ class Layout extends React.Component {
                 toggleDrawer={toggleDrawer}
                 productCategories={productCategories}
               />
-              <div>
+              <Content>
                 {children}
-              </div>
+              </Content>
             </Body>
             <Footer />
             <ShoppingCartDrawer />

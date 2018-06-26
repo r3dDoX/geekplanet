@@ -77,7 +77,9 @@ class Layout extends React.Component {
                 toggleDrawer={toggleDrawer}
                 productCategories={productCategories}
               />
-              {children}
+              <div>
+                {children}
+              </div>
             </Body>
             <Footer />
             <ShoppingCartDrawer />

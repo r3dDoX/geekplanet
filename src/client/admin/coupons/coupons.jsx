@@ -39,22 +39,29 @@ class Coupons extends React.Component {
     }
   }
 
+  createCoupon() {
+    this.props.createNewCoupon(this.couponInput.value);
+    this.couponInput.value = '';
+  }
+
   render() {
-    const { coupons, createNewCoupon } = this.props;
+    const { coupons } = this.props;
     return (
       <Container>
         <TextField
           inputRef={(couponInput) => { this.couponInput = couponInput; }}
           label={<FormattedMessage id="COUPONS.AMOUNT" />}
           type="number"
+          onKeyDown={(event) => {
+            if (event.keyCode === 13) {
+              this.createCoupon();
+            }
+          }}
         />
         <CreateButton
           variant="contained"
           color="primary"
-          onClick={() => {
-            createNewCoupon(this.couponInput.value);
-            this.couponInput.value = '';
-          }}
+          onClick={() => this.createCoupon()}
         >
           <FormattedMessage id="COUPONS.CREATE" />
         </CreateButton>

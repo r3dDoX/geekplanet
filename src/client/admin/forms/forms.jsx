@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import Redirect from 'react-router-dom/Redirect';
 import withRouter from 'react-router-dom/withRouter';
 import { createLoadProductCategories } from '../../actions';
-import MainSpinner from '../../layout/mainSpinner.jsx';
-import { ProductPropType } from '../../propTypes';
 import PrivateRoute from '../../router/privateRoute.jsx';
 import {
   createLoadCompleteProducts,
@@ -47,43 +45,42 @@ class Forms extends React.Component {
       );
     }
 
-    return (
+    return [
       <Tabs
-        onChange={path => this.props.history.push(path)}
+        key="tabBar"
+        onChange={(event, path) => this.props.history.push(path)}
         value={paths.find(path => this.props.location.pathname === path)}
       >
-        <Tab label="Products" value={paths[0]}>
-          {this.props.products.length ? (
-            <PrivateRoute
-              path={`${paths[0]}/:id?`}
-              allowedRoles={allowedRoles}
-              component={ProductForm}
-            />
-          ) : <MainSpinner />}
-        </Tab>
-        <Tab label="Product Categories" value={paths[1]}>
-          <PrivateRoute
-            path={paths[1]}
-            allowedRoles={allowedRoles}
-            component={ProductCategoryForm}
-          />
-        </Tab>
-        <Tab label="Suppliers" value={paths[2]}>
-          <PrivateRoute
-            path={paths[2]}
-            allowedRoles={allowedRoles}
-            component={SupplierForm}
-          />
-        </Tab>
-        <Tab label="Producers" value={paths[3]}>
-          <PrivateRoute
-            path={paths[3]}
-            allowedRoles={allowedRoles}
-            component={ProducerForm}
-          />
-        </Tab>
-      </Tabs>
-    );
+        <Tab label="Products" value={paths[0]} />
+        <Tab label="Product Categories" value={paths[1]} />
+        <Tab label="Suppliers" value={paths[2]} />
+        <Tab label="Producers" value={paths[3]} />
+      </Tabs>,
+      <PrivateRoute
+        key="containerProducts"
+        path={`${paths[0]}/:id?`}
+        allowedRoles={allowedRoles}
+        component={ProductForm}
+      />,
+      <PrivateRoute
+        key="containerProductCategories"
+        path={paths[1]}
+        allowedRoles={allowedRoles}
+        component={ProductCategoryForm}
+      />,
+      <PrivateRoute
+        key="containerSuppliers"
+        path={paths[2]}
+        allowedRoles={allowedRoles}
+        component={SupplierForm}
+      />,
+      <PrivateRoute
+        key="containerProducers"
+        path={paths[3]}
+        allowedRoles={allowedRoles}
+        component={ProducerForm}
+      />,
+    ];
   }
 }
 
@@ -93,7 +90,6 @@ Forms.propTypes = {
   loadProducers: PropTypes.func.isRequired,
   loadSuppliers: PropTypes.func.isRequired,
   loadTags: PropTypes.func.isRequired,
-  products: PropTypes.arrayOf(ProductPropType).isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,

@@ -17,16 +17,17 @@ import withRouter from 'react-router-dom/withRouter';
 import { ProductCategoryPropType } from '../propTypes';
 import CategoryDivider from './categoryDivider.jsx';
 import CategoryListItem from './categoryListItem.jsx';
+import theme from '../theme';
 
 const drawerWidth = '256px';
 
-const styles = theme => ({
+const styles = stylesTheme => ({
   toolbar: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: '0 8px',
-    ...theme.mixins.toolbar,
+    ...stylesTheme.mixins.toolbar,
   },
   drawerPaper: {
     position: 'relative',
@@ -63,8 +64,10 @@ class LayoutDrawer extends React.Component {
     this.setState({ width: window.innerWidth });
   }
 
-  toggleDrawerOnMobile(laMinSizeNumber, toggleDrawer) {
-    return this.state.width < laMinSizeNumber && toggleDrawer();
+  toggleDrawerOnMobile() {
+    if (this.state.width < theme.breakpoints.values.md) {
+      this.props.toggleDrawer();
+    }
   }
 
   renderDrawerContent() {
@@ -72,7 +75,6 @@ class LayoutDrawer extends React.Component {
       roles,
       logout,
       loggedIn,
-      toggleDrawer,
       history,
       productCategories,
       location: {
@@ -114,7 +116,7 @@ class LayoutDrawer extends React.Component {
             key="orders"
             component={Link}
             to="/admin/orders"
-            onClick={toggleDrawer}
+            onClick={this.toggleDrawerOnMobile()}
           >
             <ListItemText primary={<FormattedMessage id="NAVIGATION.ORDERS" />} />
           </ListItem>,

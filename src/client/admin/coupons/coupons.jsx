@@ -17,7 +17,7 @@ const Container = styled.div`
 `;
 
 const CreateButton = styled(Button)`
-  margin-left: 20px;
+  margin-left: 20px !important;
 `;
 
 const CouponTable = styled.table`
@@ -44,19 +44,20 @@ class Coupons extends React.Component {
     return (
       <Container>
         <TextField
-          ref={(couponInput) => { this.couponInput = couponInput; }}
-          hintText={<FormattedMessage id="COUPONS.AMOUNT" />}
+          inputRef={(couponInput) => { this.couponInput = couponInput; }}
+          label={<FormattedMessage id="COUPONS.AMOUNT" />}
           type="number"
         />
         <CreateButton
           variant="contained"
           color="primary"
-          label={<FormattedMessage id="COUPONS.CREATE" />}
           onClick={() => {
-            createNewCoupon(this.couponInput.input.value);
-            this.couponInput.input.value = '';
+            createNewCoupon(this.couponInput.value);
+            this.couponInput.value = '';
           }}
-        />
+        >
+          <FormattedMessage id="COUPONS.CREATE" />
+        </CreateButton>
         <br />
         <CouponTable cellPadding="0" cellSpacing="1px">
           <thead>

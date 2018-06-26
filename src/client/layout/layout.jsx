@@ -93,7 +93,7 @@ class Layout extends React.Component {
                 <FormattedMessage id="NOTIFICATION.SHOPPING_CART_ITEM_ADDED" />
               }
               autoHideDuration={4000}
-              onRequestClose={hideShoppingCartNotification}
+              onClose={hideShoppingCartNotification}
             />
           </div>
         </IntlProvider>

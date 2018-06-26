@@ -5,6 +5,11 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import InputLabel from '@material-ui/core/InputLabel';
 import styled from 'styled-components';
 
+const StyledFormControl = styled(FormControl)`
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+`;
+
 const StyledSelect = styled(Select)`
   min-width: 140px;
 `;
@@ -18,7 +23,7 @@ export default ({
   meta: { touched, error },
   children,
 }) => (
-  <FormControl error={touched && error !== undefined}>
+  <StyledFormControl error={touched && error !== undefined}>
     <InputLabel htmlFor={input.name}>
       {label}
     </InputLabel>
@@ -40,5 +45,5 @@ export default ({
         {error}
       </FormHelperText>
     )}
-  </FormControl>
+  </StyledFormControl>
 );

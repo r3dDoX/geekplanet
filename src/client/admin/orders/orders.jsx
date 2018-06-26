@@ -180,7 +180,7 @@ class Orders extends React.Component {
                     onClose={() => this.handleClose()}
                   >
                     <DialogContent>
-                      <DialogContentText>
+                      <DialogContentText component="div">
                         <ItemList>
                           {order.items.map(item => (
                             <Item key={item.product._id}>

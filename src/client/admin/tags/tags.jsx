@@ -32,11 +32,10 @@ const Tags = ({
       {tags.map(tag => (
         <Chip
           key={tag}
-          onRequestDelete={() => removeTag(tags, tag)}
+          onDelete={() => removeTag(tags, tag)}
           style={styles.chip}
-        >
-          {tag}
-        </Chip>
+          label={tag}
+        />
       ))}
     </div>
   </div>

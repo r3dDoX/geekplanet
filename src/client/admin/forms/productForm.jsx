@@ -72,11 +72,11 @@ const FileUploadInput = styled.input`
 `;
 
 const UploadButton = styled(Button)`
-  margin-top: 10px;
+  margin-top: 10px !important;
 `;
 
 const DeleteButton = styled(Button)`
-  margin-left: 10px;
+  margin-left: 10px !important;
 `;
 
 const styles = {
@@ -357,15 +357,18 @@ Downloads
           multiline
         />
         <br />
-        <UploadButton variant="contained">
-          Choose images
-          <FileUploadInput
-            type="file"
-            accept="image/jpeg,image/png"
-            multiple
-            onChange={event => selectFiles(event.target.files, selectedFiles)}
-          />
-        </UploadButton>
+        <label htmlFor="productPictureUpload">
+          <UploadButton variant="contained">
+            Choose images
+            <FileUploadInput
+              id="productPictureUpload"
+              type="file"
+              accept="image/jpeg,image/png"
+              multiple
+              onChange={event => selectFiles(event.target.files, selectedFiles)}
+            />
+          </UploadButton>
+        </label>
         <UploadImagePreview files={selectedFiles} removeFile={removeFile} />
         <Button variant="contained" type="submit" color="primary">
           Save

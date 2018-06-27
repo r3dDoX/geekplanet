@@ -1,3 +1,4 @@
+import GridListTileBar from '@material-ui/core/GridListTileBar';
 import React from 'react';
 import PropTypes from 'prop-types';
 import GridList from '@material-ui/core/GridList';
@@ -29,13 +30,15 @@ const UploadImagePreview = ({ files, removeFile }) => (
           <GridListTile
             key={file}
             title={file}
-            actionIcon={
-              <IconButton onClick={() => removeFile(files, file)}>
-                <Delete nativeColor="rgb(255, 255, 255)" />
-              </IconButton>
-            }
           >
             <img alt="Product" src={getPictureUrl(file)} />
+            <GridListTileBar
+              actionIcon={
+                <IconButton onClick={() => removeFile(files, file)}>
+                  <Delete nativeColor="rgb(255, 255, 255)" />
+                </IconButton>
+              }
+            />
           </GridListTile>
         ))}
       </GridList>

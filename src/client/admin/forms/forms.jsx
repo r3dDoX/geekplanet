@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import Redirect from 'react-router-dom/Redirect';
 import withRouter from 'react-router-dom/withRouter';
 import { createLoadProductCategories } from '../../actions';
+import MainSpinner from '../../layout/mainSpinner.jsx';
+import { ProductPropType } from '../../propTypes';
 import PrivateRoute from '../../router/privateRoute.jsx';
 import {
   createLoadCompleteProducts,
@@ -49,19 +51,23 @@ class Forms extends React.Component {
       <Tabs
         key="tabBar"
         onChange={(event, path) => this.props.history.push(path)}
-        value={paths.find(path => this.props.location.pathname === path)}
+        value={paths.find(path => this.props.location.pathname.includes(path))}
       >
         <Tab label="Products" value={paths[0]} />
         <Tab label="Product Categories" value={paths[1]} />
         <Tab label="Suppliers" value={paths[2]} />
         <Tab label="Producers" value={paths[3]} />
       </Tabs>,
-      <PrivateRoute
-        key="containerProducts"
-        path={`${paths[0]}/:id?`}
-        allowedRoles={allowedRoles}
-        component={ProductForm}
-      />,
+      this.props.products.length
+        ? (
+          <PrivateRoute
+            key="containerProducts"
+            path={`${paths[0]}/:id?`}
+            allowedRoles={allowedRoles}
+            component={ProductForm}
+          />
+        )
+        : <MainSpinner key="productLoadingSpinner" />,
       <PrivateRoute
         key="containerProductCategories"
         path={paths[1]}
@@ -90,6 +96,7 @@ Forms.propTypes = {
   loadProducers: PropTypes.func.isRequired,
   loadSuppliers: PropTypes.func.isRequired,
   loadTags: PropTypes.func.isRequired,
+  products: PropTypes.arrayOf(ProductPropType).isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
   }).isRequired,

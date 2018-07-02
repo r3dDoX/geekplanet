@@ -80,8 +80,8 @@ export const createSetTags = tags => ({
   data: tags,
 });
 
-export const createSelectTag = (tags, item, index) => (dispatch) => {
-  if (index < 0) {
+export const createSelectTag = (tags, item, isNew) => (dispatch) => {
+  if (isNew) {
     TagService.saveTag({ name: item })
       .then(() => TagService.loadTags().then(loadedTags => dispatch(createTagsLoaded(loadedTags))));
   }

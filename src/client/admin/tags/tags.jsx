@@ -22,6 +22,15 @@ class Tags extends React.Component {
     };
   }
 
+  onSelect(tag) {
+    const { tags, selectTag } = this.props;
+
+    selectTag(tags, tag, false);
+    this.setState({
+      inputValue: '',
+    });
+  }
+
   handleKeyDown(event) {
     const { tags, removeTag } = this.props;
     const { inputValue } = this.state;
@@ -29,15 +38,6 @@ class Tags extends React.Component {
     if (tags.length && !inputValue.length && keycode(event) === 'backspace') {
       removeTag(tags, tags[tags.length - 1]);
     }
-  }
-
-  handleChange(tag) {
-    const { tags, selectTag } = this.props;
-
-    selectTag(tags, tag, false);
-    this.setState({
-      inputValue: '',
-    });
   }
 
   render() {
@@ -51,7 +51,7 @@ class Tags extends React.Component {
       <div>
         <Downshift
           inputValue={this.state.inputValue}
-          onChange={tag => this.handleChange(tag)}
+          onSelect={tag => this.onSelect(tag)}
           selectedItem={tags}
         >
           {({

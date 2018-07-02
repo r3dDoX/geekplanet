@@ -450,8 +450,8 @@ export default connect(
       loadTags() {
         dispatch(createLoadTags());
       },
-      selectTag(tags, item, index) {
-        dispatch(createSelectTag(tags, item, index));
+      selectTag(tags, item) {
+        dispatch(createSelectTag(tags, item));
       },
       removeTag(tags, tag) {
         dispatch(createRemoveTag(tags, tag));

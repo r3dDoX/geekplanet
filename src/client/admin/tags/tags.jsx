@@ -25,7 +25,7 @@ class Tags extends React.Component {
   onSelect(tag) {
     const { tags, selectTag } = this.props;
 
-    selectTag(tags, tag, false);
+    selectTag(tags, tag);
     this.setState({
       inputValue: '',
     });

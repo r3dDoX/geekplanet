@@ -165,6 +165,7 @@ class ProductForm extends React.Component {
             history.push(`/admin/forms/products/${value}`);
           }}
           selectedValue={match.params.id || ''}
+          label="Create new"
         >
           <MenuItem>
             Create new
@@ -231,6 +232,7 @@ class ProductForm extends React.Component {
           label="Short Description"
           type="text"
           multiline
+          fullWidth
           rows={3}
         />
         <br />

@@ -35,7 +35,7 @@ import {
   createSelectTag,
   productFormName,
 } from '../adminActions';
-import Tags from '../tags/tags.jsx';
+import TagSelector from '../tags/tagSelector.jsx';
 import LinkArray from './linkArray.jsx';
 import TextAreaArray from './textAreaArray.jsx';
 import UploadImagePreview from './uploadImagePreview.jsx';
@@ -219,7 +219,7 @@ class ProductForm extends React.Component {
           ))}
         </Field>
         <br />
-        <Tags
+        <TagSelector
           savedTags={savedTags}
           tags={tags}
           selectTag={selectTag}

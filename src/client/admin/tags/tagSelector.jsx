@@ -13,7 +13,7 @@ const StyledTag = styled(Chip)`
   margin-right: 4px !important;
 `;
 
-class Tags extends React.Component {
+class TagSelector extends React.Component {
   constructor(props) {
     super(props);
 
@@ -74,7 +74,7 @@ class Tags extends React.Component {
                   )),
                   onChange: event => this.setState({ inputValue: event.target.value }),
                   onKeyDown: event => this.handleKeyDown(event),
-                  placeholder: 'Tags',
+                  placeholder: 'TagSelector',
                 })}
                 fullWidth
               />
@@ -106,11 +106,11 @@ class Tags extends React.Component {
   }
 }
 
-Tags.propTypes = {
+TagSelector.propTypes = {
   savedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectTag: PropTypes.func.isRequired,
   removeTag: PropTypes.func.isRequired,
 };
 
-export default Tags;
+export default TagSelector;

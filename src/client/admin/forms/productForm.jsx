@@ -20,7 +20,7 @@ import {
   ProducerPropType,
   ProductCategoryPropType,
   ProductPropType,
-  SupplierPropType,
+  SupplierPropType, TagPropType,
 } from '../../propTypes';
 import {
   createLoadCompleteProducts,
@@ -393,7 +393,7 @@ ProductForm.propTypes = {
   removeFile: PropTypes.func.isRequired,
   removeProduct: PropTypes.func.isRequired,
   selectProduct: PropTypes.func.isRequired,
-  savedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  savedTags: PropTypes.arrayOf(TagPropType).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectTag: PropTypes.func.isRequired,
   removeTag: PropTypes.func.isRequired,

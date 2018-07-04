@@ -7,6 +7,7 @@ import keycode from 'keycode';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
+import { TagPropType } from '../../propTypes';
 
 const StyledTag = styled(Chip)`
   margin-bottom: 4px !important;
@@ -22,10 +23,10 @@ class TagSelector extends React.Component {
     };
   }
 
-  onSelect(tag) {
+  onSelect({ name }) {
     const { tags, selectTag } = this.props;
 
-    selectTag(tags, tag);
+    selectTag(tags, name);
     this.setState({
       inputValue: '',
     });
@@ -53,6 +54,7 @@ class TagSelector extends React.Component {
           inputValue={this.state.inputValue}
           onSelect={tag => this.onSelect(tag)}
           selectedItem={tags}
+          itemToString={({ name }) => name}
         >
           {({
             getInputProps,
@@ -81,18 +83,18 @@ class TagSelector extends React.Component {
               {isOpen ? (
                 <Paper square>
                   {savedTags
-                    .filter(tag =>
-                      !selectedItem.includes(tag)
-                      && tag.toLowerCase().includes(this.state.inputValue.toLowerCase())
+                    .filter(({ name }) =>
+                      !selectedItem.includes(name)
+                      && name.toLowerCase().includes(this.state.inputValue.toLowerCase())
                     )
                     .map((tag, index) => (
                       <MenuItem
                         {...getItemProps({ item: tag })}
-                        key={tag}
+                        key={tag._id}
                         selected={highlightedIndex === index}
                         component="div"
                       >
-                        {tag}
+                        {tag.name}
                       </MenuItem>
                     ))
                   }
@@ -107,7 +109,7 @@ class TagSelector extends React.Component {
 }
 
 TagSelector.propTypes = {
-  savedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  savedTags: PropTypes.arrayOf(TagPropType).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectTag: PropTypes.func.isRequired,
   removeTag: PropTypes.func.isRequired,

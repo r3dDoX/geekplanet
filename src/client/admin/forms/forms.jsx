@@ -18,6 +18,7 @@ import {
 import ProducerForm from '../producers/producerForm.jsx';
 import ProductCategoryForm from '../productcategories/productCategoryForm.jsx';
 import SupplierForm from '../suppliers/supplierForm.jsx';
+import TagForm from '../tags/tagForm.jsx';
 import ProductForm from './productForm.jsx';
 
 const paths = [
@@ -25,6 +26,7 @@ const paths = [
   '/admin/forms/productcategories',
   '/admin/forms/suppliers',
   '/admin/forms/producers',
+  '/admin/forms/tags',
 ];
 const allowedRoles = ['admin'];
 
@@ -57,6 +59,7 @@ class Forms extends React.Component {
         <Tab label="Product Categories" value={paths[1]} />
         <Tab label="Suppliers" value={paths[2]} />
         <Tab label="Producers" value={paths[3]} />
+        <Tab label="Tags" value={paths[4]} />
       </Tabs>,
       this.props.products.length
         ? (
@@ -85,6 +88,12 @@ class Forms extends React.Component {
         path={paths[3]}
         allowedRoles={allowedRoles}
         component={ProducerForm}
+      />,
+      <PrivateRoute
+        key="containerTags"
+        path={paths[4]}
+        allowedRoles={allowedRoles}
+        component={TagForm}
       />,
     ];
   }

@@ -54,6 +54,10 @@ class Forms extends React.Component {
         key="tabBar"
         onChange={(event, path) => this.props.history.push(path)}
         value={paths.find(path => this.props.location.pathname.includes(path))}
+        indicatorColor="primary"
+        textColor="primary"
+        scrollable
+        scrollButtons="auto"
       >
         <Tab label="Products" value={paths[0]} />
         <Tab label="Product Categories" value={paths[1]} />

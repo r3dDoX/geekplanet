@@ -17,6 +17,10 @@ const FormContainer = styled.form`
   padding: 24px;
 `;
 
+const ClearButton = styled(Button)`
+  margin-right: 10px !important;
+`;
+
 const formName = 'tags';
 
 class TagForm extends React.Component {
@@ -31,6 +35,7 @@ class TagForm extends React.Component {
       handleSubmit,
       onSubmit,
       selectTag,
+      clearForm,
       savedTags: tags,
     } = this.props;
 
@@ -44,7 +49,7 @@ class TagForm extends React.Component {
       >
         <Downshift
           onSelect={selectTag}
-          itemToString={({ name }) => name}
+          itemToString={tag => (tag ? tag.name : '')}
           ref={this.downshiftInstance}
         >
           {({ getInputProps, getItemProps, isOpen, inputValue, highlightedIndex }) => (
@@ -80,11 +85,30 @@ class TagForm extends React.Component {
         <br />
         <Field
           component={TextField}
+          name="_id"
+          label=""
+          type="text"
+          style={{ display: 'none' }}
+        />
+        <Field
+          component={TextField}
           name="name"
           label="Name"
           type="text"
         />
         <br />
+        {this.downshiftInstance.current && this.downshiftInstance.current.state.inputValue && (
+          <ClearButton
+            onClick={() => {
+              this.downshiftInstance.current.clearSelection();
+              clearForm();
+            }}
+            variant="contained"
+            type="button"
+          >
+            Clear
+          </ClearButton>
+        )}
         <Button variant="contained" color="primary" type="submit">
           Save
         </Button>
@@ -97,6 +121,7 @@ TagForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   selectTag: PropTypes.func.isRequired,
+  clearForm: PropTypes.func.isRequired,
   savedTags: PropTypes.arrayOf(TagPropType).isRequired,
 };
 
@@ -112,6 +137,7 @@ export default connect(
     }
 
     return {
+      clearForm,
       selectTag(tag) {
         dispatch(initialize(formName, tag));
       },

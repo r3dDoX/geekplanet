@@ -1,11 +1,10 @@
-import AutoComplete from 'material-ui/AutoComplete';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { Field, formValueSelector, initialize, reduxForm } from 'redux-form';
+import { Field, initialize, reduxForm } from 'redux-form';
 import { createLoadProductCategories, createLoadProducts } from '../../actions';
 import AutoCompleteField from '../../formHelpers/autoCompleteField.jsx';
 import TextField from '../../formHelpers/textField.jsx';
@@ -15,7 +14,6 @@ import { createSaveTile } from '../adminActions';
 import PictureField from './pictureField.jsx';
 
 export const formName = 'homeTiles';
-const selector = formValueSelector(formName);
 
 function mapSubCategoriesRecursive(category) {
   return [
@@ -31,6 +29,7 @@ class HomeTileForm extends React.Component {
 
     this.state = {
       initWhenLoaded: !!props.selectedTileId,
+      selectedCategory: null,
     };
   }
 
@@ -48,17 +47,18 @@ class HomeTileForm extends React.Component {
       && nextProps.productCategories.length
       && nextProps.products.length
     ) {
+      const selectedTile = this.props.tiles.find(tile => tile._id === this.props.selectedTileId);
       this.setState({
         initWhenLoaded: false,
+        selectedCategory: { value: selectedTile.category },
       });
-      this.props.initForm(this.props.tiles.find(tile => tile._id === this.props.selectedTileId));
+      this.props.initForm(selectedTile);
     }
   }
 
   render() {
     const {
       selectedTileId,
-      selectedCategory,
       productCategories,
       products,
       handleSubmit,
@@ -66,9 +66,9 @@ class HomeTileForm extends React.Component {
       history,
     } = this.props;
 
-    const categoriesToFilter = (selectedCategory && productCategories.length)
+    const categoriesToFilter = (this.state.selectedCategory && productCategories.length)
       ? mapSubCategoriesRecursive(
-        productCategories.find(category => category._id === selectedCategory)
+        productCategories.find(category => category._id === this.state.selectedCategory.value)
       ) : [];
 
     return (
@@ -90,12 +90,11 @@ class HomeTileForm extends React.Component {
           component={AutoCompleteField}
           name="category"
           label="Product Category"
+          onSelect={category => this.setState({ selectedCategory: category })}
           dataSource={productCategories.map(category => ({
-            id: category._id,
+            value: category._id,
             name: category.de.name,
           }))}
-          dataSourceConfig={{ text: 'name', value: 'id' }}
-          filter={AutoComplete.caseInsensitiveFilter}
         />
         <br />
         <Field
@@ -110,7 +109,7 @@ class HomeTileForm extends React.Component {
           component={PictureField}
           name="picture"
           label="Picture"
-          pictures={selectedCategory
+          pictures={this.state.selectedCategory
             ? products
               .filter(product => categoriesToFilter.includes(product.category))
               .map(product => product.files[0])
@@ -119,21 +118,22 @@ class HomeTileForm extends React.Component {
           }
         />
         <br />
-        <RaisedButton
-          label={<FormattedMessage id="COMMON.SAVE" />}
-          type="submit"
-          primary
-        />
-&nbsp;
-        <RaisedButton
-          label={<FormattedMessage id="COMMON.CANCEL" />}
+        <Button
+          variant="contained"
           type="button"
-          containerElement={
-            <Link to="/admin/hometiles">
-              <FormattedMessage id="COMMON.CANCEL" />
-            </Link>
-          }
-        />
+          component={Link}
+          to="/admin/hometiles"
+        >
+          <FormattedMessage id="COMMON.CANCEL" />
+        </Button>
+        &nbsp;&nbsp;
+        <Button
+          variant="contained"
+          type="submit"
+          color="primary"
+        >
+          <FormattedMessage id="COMMON.SAVE" />
+        </Button>
       </form>
     );
   }
@@ -142,7 +142,6 @@ class HomeTileForm extends React.Component {
 HomeTileForm.propTypes = {
   tiles: HomeTilePropType.isRequired,
   selectedTileId: PropTypes.string.isRequired,
-  selectedCategory: PropTypes.string.isRequired,
   productCategories: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   products: PropTypes.arrayOf(ProductPropType).isRequired,
   loadProducts: PropTypes.func.isRequired,
@@ -158,7 +157,6 @@ export default connect(
     tiles: state.home.tiles,
     productCategories: state.products.productCategories,
     products: state.products.products,
-    selectedCategory: selector(state, 'category'),
   }),
   dispatch => ({
     loadProducts() {

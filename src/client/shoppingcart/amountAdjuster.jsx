@@ -1,36 +1,39 @@
-import React from 'react';
+import IconButton from '@material-ui/core/IconButton';
+import ContentAdd from '@material-ui/icons/Add';
+import ContentRemove from '@material-ui/icons/Remove';
 import PropTypes from 'prop-types';
-import FlatButton from 'material-ui/FlatButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import ContentRemove from 'material-ui/svg-icons/content/remove';
+import React from 'react';
+import styled from 'styled-components';
 import { ShoppingCartItemPropType } from '../propTypes';
 
-const styles = {
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    margin: '8px 0 0',
-  },
-};
+const Container = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 8px 0 0;
+`;
 
-const AmountIncreaser = ({
+const AmountAdjuster = ({
   shoppingCartItem: {
     amount,
     product,
   },
   setAmount,
 }) => (
-  <div style={styles.container}>
-    <FlatButton secondary icon={<ContentRemove />} onClick={() => setAmount(amount - 1, product)} />
+  <Container>
+    <IconButton color="secondary" onClick={() => setAmount(amount - 1, product)}>
+      <ContentRemove />
+    </IconButton>
     {amount}
-    <FlatButton primary icon={<ContentAdd />} onClick={() => setAmount(amount + 1, product)} />
-  </div>
+    <IconButton color="primary" onClick={() => setAmount(amount + 1, product)}>
+      <ContentAdd />
+    </IconButton>
+  </Container>
 );
 
-AmountIncreaser.propTypes = {
+AmountAdjuster.propTypes = {
   shoppingCartItem: ShoppingCartItemPropType.isRequired,
   setAmount: PropTypes.func.isRequired,
 };
 
-export default AmountIncreaser;
+export default AmountAdjuster;

@@ -80,11 +80,7 @@ export const createSetTags = tags => ({
   data: tags,
 });
 
-export const createSelectTag = (tags, item, index) => (dispatch) => {
-  if (index < 0) {
-    TagService.saveTag({ name: item })
-      .then(() => TagService.loadTags().then(loadedTags => dispatch(createTagsLoaded(loadedTags))));
-  }
+export const createSelectTag = (tags, item) => (dispatch) => {
   const newTags = tags.concat(item);
   dispatch(createSetTags(newTags));
   dispatch(change(productFormName, 'tags', newTags));

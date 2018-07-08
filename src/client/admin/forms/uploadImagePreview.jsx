@@ -1,8 +1,10 @@
+import GridListTileBar from '@material-ui/core/GridListTileBar';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { GridList, GridTile } from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
-import Delete from 'material-ui/svg-icons/action/delete';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import IconButton from '@material-ui/core/IconButton';
+import Delete from '@material-ui/icons/Delete';
 import { getPictureUrl } from '../../products/productService';
 
 const styles = {
@@ -25,17 +27,19 @@ const UploadImagePreview = ({ files, removeFile }) => (
     { files ? (
       <GridList cols={2.2} style={styles.gridList}>
         {Array.from(files).map(file => (
-          <GridTile
+          <GridListTile
             key={file}
             title={file}
-            actionIcon={
-              <IconButton onClick={() => removeFile(files, file)}>
-                <Delete color="rgb(255, 255, 255)" />
-              </IconButton>
-            }
           >
             <img alt="Product" src={getPictureUrl(file)} />
-          </GridTile>
+            <GridListTileBar
+              actionIcon={
+                <IconButton onClick={() => removeFile(files, file)}>
+                  <Delete nativeColor="rgb(255, 255, 255)" />
+                </IconButton>
+              }
+            />
+          </GridListTile>
         ))}
       </GridList>
     ) : null}

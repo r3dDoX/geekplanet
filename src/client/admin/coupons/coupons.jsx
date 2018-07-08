@@ -1,6 +1,6 @@
-import RaisedButton from 'material-ui/RaisedButton';
-import { grey200 } from 'material-ui/styles/colors';
-import TextField from 'material-ui/TextField';
+import Button from '@material-ui/core/Button';
+import grey from '@material-ui/core/colors/grey';
+import TextField from '@material-ui/core/TextField';
 import propTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -10,12 +10,14 @@ import { formatPriceWithCurrency } from '../../../common/priceFormatter';
 import { CouponPropType } from '../../propTypes';
 import { createCoupon, createLoadCoupons } from '../adminActions';
 
+const grey200 = grey['200'];
+
 const Container = styled.div`
   padding: 20px;
 `;
 
-const CreateButton = styled(RaisedButton)`
-  margin-left: 20px;
+const CreateButton = styled(Button)`
+  margin-left: 20px !important;
 `;
 
 const CouponTable = styled.table`
@@ -37,23 +39,32 @@ class Coupons extends React.Component {
     }
   }
 
+  createCoupon() {
+    this.props.createNewCoupon(this.couponInput.value);
+    this.couponInput.value = '';
+  }
+
   render() {
-    const { coupons, createNewCoupon } = this.props;
+    const { coupons } = this.props;
     return (
       <Container>
         <TextField
-          ref={(couponInput) => { this.couponInput = couponInput; }}
-          hintText={<FormattedMessage id="COUPONS.AMOUNT" />}
+          inputRef={(couponInput) => { this.couponInput = couponInput; }}
+          label={<FormattedMessage id="COUPONS.AMOUNT" />}
           type="number"
-        />
-        <CreateButton
-          primary
-          label={<FormattedMessage id="COUPONS.CREATE" />}
-          onClick={() => {
-            createNewCoupon(this.couponInput.input.value);
-            this.couponInput.input.value = '';
+          onKeyDown={(event) => {
+            if (event.keyCode === 13) {
+              this.createCoupon();
+            }
           }}
         />
+        <CreateButton
+          variant="contained"
+          color="primary"
+          onClick={() => this.createCoupon()}
+        >
+          <FormattedMessage id="COUPONS.CREATE" />
+        </CreateButton>
         <br />
         <CouponTable cellPadding="0" cellSpacing="1px">
           <thead>

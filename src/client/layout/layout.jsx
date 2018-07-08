@@ -1,5 +1,5 @@
-import Paper from 'material-ui/Paper';
-import Snackbar from 'material-ui/Snackbar';
+import Paper from '@material-ui/core/Paper';
+import Snackbar from '@material-ui/core/Snackbar';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, IntlProvider } from 'react-intl';
@@ -15,19 +15,25 @@ import {
 import authService from '../auth/authService';
 import { ProductCategoryPropType } from '../propTypes';
 import ShoppingCartDrawer from '../shoppingcart/shoppingCartDrawer.jsx';
-import { laMinSize } from '../theme';
 import Footer from './footer.jsx';
 import Header from './header.jsx';
 import LayoutDrawer from './layoutDrawer.jsx';
 import MainSpinner from './mainSpinner.jsx';
+import theme from '../theme';
 
 const Body = styled(Paper)`
   position: relative;
-  padding-top: 64px;
+  padding-top: 56px;
+  display: flex;
+  align-items: stretch;
   
-  @media screen and (min-width: ${laMinSize}) {
-    padding-left: 256px;
+  @media screen and (min-width: ${theme.breakpoints.values.sm}px) {
+    padding-top: 64px;
   }
+`;
+
+const Content = styled.div`
+  flex: 1;
 `;
 
 class Layout extends React.Component {
@@ -63,29 +69,31 @@ class Layout extends React.Component {
         <IntlProvider locale={language} messages={translations}>
           <div>
             <Header toggleDrawer={toggleDrawer} />
-            <LayoutDrawer
-              roles={roles}
-              logout={() => {
-                authService.logout();
-                logout();
-              }}
-              loggedIn={loggedIn}
-              drawerOpened={drawerOpened}
-              toggleDrawer={toggleDrawer}
-              productCategories={productCategories}
-            />
-            <ShoppingCartDrawer />
             <Body>
-              {children}
+              <LayoutDrawer
+                roles={roles}
+                logout={() => {
+                  authService.logout();
+                  logout();
+                }}
+                loggedIn={loggedIn}
+                drawerOpened={drawerOpened}
+                toggleDrawer={toggleDrawer}
+                productCategories={productCategories}
+              />
+              <Content>
+                {children}
+              </Content>
             </Body>
             <Footer />
+            <ShoppingCartDrawer />
             <Snackbar
               open={shoppingCartNotification}
               message={
                 <FormattedMessage id="NOTIFICATION.SHOPPING_CART_ITEM_ADDED" />
               }
               autoHideDuration={4000}
-              onRequestClose={hideShoppingCartNotification}
+              onClose={hideShoppingCartNotification}
             />
           </div>
         </IntlProvider>

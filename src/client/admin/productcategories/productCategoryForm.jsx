@@ -1,6 +1,6 @@
-import Divider from 'material-ui/Divider';
-import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
+import Divider from '@material-ui/core/Divider';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -37,17 +37,17 @@ const ProductCategoriesForm = ({
         productCategories.find(productCategory => productCategory._id === value)
       )}
     >
-      <MenuItem
-        value=""
-        primaryText="Create new"
-      />
+      <MenuItem value="">
+        Create new
+      </MenuItem>
       <Divider />
       {productCategories.map(category => (
         <MenuItem
           key={category._id}
           value={category._id}
-          primaryText={category.de.name}
-        />
+        >
+          {category.de.name}
+        </MenuItem>
       ))}
     </Field>
     <br />
@@ -70,18 +70,23 @@ const ProductCategoriesForm = ({
       name="parentCategory"
       label="Parent Category"
     >
-      <MenuItem value={null} primaryText="None" />
+      <MenuItem value={null}>
+        None
+      </MenuItem>
       <Divider />
       {productCategories.map(category => (
         <MenuItem
           key={category._id}
           value={category._id}
-          primaryText={category.de.name}
-        />
+        >
+          {category.de.name}
+        </MenuItem>
       ))}
     </Field>
     <br />
-    <RaisedButton label="Save" primary type="submit" />
+    <Button variant="contained" color="primary" type="submit">
+      Save
+    </Button>
   </form>
 );
 

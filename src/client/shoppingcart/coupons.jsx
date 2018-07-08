@@ -10,10 +10,10 @@ import ClearIcon from '@material-ui/icons/Clear';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import styled from 'styled-components';
 import { formatPriceWithoutCurrency } from '../../common/priceFormatter';
 import { CouponPropType } from '../propTypes';
 import AddCoupon from './addCoupon.jsx';
-import styled from 'styled-components';
 
 const CouponPrice = styled.span`
   padding: 0 12px;

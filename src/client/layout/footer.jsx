@@ -1,20 +1,19 @@
-import { blueGrey100, grey800 } from 'material-ui/styles/colors';
-import EmailIcon from 'material-ui/svg-icons/communication/email';
+import blueGrey from '@material-ui/core/colors/blueGrey';
+import grey from '@material-ui/core/colors/grey';
+import EmailIcon from '@material-ui/icons/Email';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Link from 'react-router-dom/Link';
 import styled from 'styled-components';
-import { laMinSize } from '../theme';
+
+const blueGrey100 = blueGrey['100'];
+const grey800 = grey['800'];
 
 const Container = styled.div`
   display: flex;
   align-items: flex-start;
   padding: 24px;
   background-color: ${blueGrey100};
-  
-  @media screen and (min-width: ${laMinSize}) {
-    padding-left: 280px;
-  }
 `;
 
 const TextContainer = styled.div`

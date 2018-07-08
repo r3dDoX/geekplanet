@@ -1,8 +1,10 @@
-import SentimentNeutral from 'material-ui/svg-icons/social/sentiment-neutral';
+import SentimentNeutral from '@material-ui/icons/SentimentNeutral';
 import React from 'react';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import styled from 'styled-components';
-import { grey600 } from 'material-ui/styles/colors';
+import grey from '@material-ui/core/colors/grey';
+
+const grey600 = grey['600'];
 
 const Container = styled.div`
   margin: 0 auto;

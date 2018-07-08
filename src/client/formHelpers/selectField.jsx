@@ -1,18 +1,49 @@
 import React from 'react';
-import SelectField from 'material-ui/SelectField';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import InputLabel from '@material-ui/core/InputLabel';
+import styled from 'styled-components';
 
-// eslint-disable-next-line
-export default ({ input, label, style, selectedValue, multiple = false, meta: { touched, error }, children }) => (
-  <SelectField
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    {...selectedValue ? { value: selectedValue } : {}}
-    onChange={(event, index, value) => input.onChange(value)}
-    style={style}
-    autoWidth
-    multiple={multiple}
-  >
-    {children}
-  </SelectField>
+const StyledFormControl = styled(FormControl)`
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+`;
+
+const StyledSelect = styled(Select)`
+  min-width: 140px;
+`;
+
+/* eslint-disable react/prop-types */
+export default ({
+  input,
+  label,
+  selectedValue,
+  multiple = false,
+  meta: { touched, error },
+  children,
+}) => (
+  <StyledFormControl error={touched && error !== undefined}>
+    <InputLabel htmlFor={input.name}>
+      {label}
+    </InputLabel>
+    <StyledSelect
+      {...input}
+      {...selectedValue ? { value: selectedValue } : {}}
+      onChange={event => input.onChange(event.target.value)}
+      autoWidth
+      multiple={multiple}
+      inputProps={{
+        name: input.name,
+        id: input.name,
+      }}
+    >
+      {children}
+    </StyledSelect>
+    {touched && error && (
+      <FormHelperText>
+        {error}
+      </FormHelperText>
+    )}
+  </StyledFormControl>
 );

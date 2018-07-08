@@ -21,7 +21,7 @@ const styles = {
   },
 };
 
-export default () => (
+const MainSpinner = () => (
   <SpinnerContainer>
     <svg id="geekplanet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1731.4 1013.7">
       <title>
@@ -43,3 +43,5 @@ geekplanet
     </svg>
   </SpinnerContainer>
 );
+
+export default MainSpinner;

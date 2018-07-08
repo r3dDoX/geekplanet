@@ -1,10 +1,13 @@
-import { grey300, grey800 } from 'material-ui/styles/colors';
+import grey from '@material-ui/core/colors/grey';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { getPictureUrl } from '../products/productService';
 import { HomeTilePropType } from '../propTypes';
+
+const grey300 = grey['300'];
+const grey800 = grey['800'];
 
 const TileTitle = styled.h1`
   margin: 0;

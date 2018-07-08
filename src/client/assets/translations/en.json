@@ -77,8 +77,7 @@
         "COUNTRY": "Country",
         "NEXT": "Next",
         "REQUIRED_ZIP": "The zip code must be between 1000 and 9999",
-        "NO_ADDRESS": "Add new address",
-        "RECENTLY": "Recently used"
+        "NO_ADDRESS": "Add new address"
       }
     },
     "AGB": {

@@ -142,3 +142,8 @@ export const HomeTilePropType = PropTypes.shape({
 });
 
 export const OrdersPropType = PropTypes.arrayOf(OrderPropType);
+
+export const TagPropType = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+});

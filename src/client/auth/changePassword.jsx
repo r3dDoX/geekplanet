@@ -1,4 +1,4 @@
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -52,10 +52,11 @@ class ChangePassword extends React.Component {
               fullWidth
               validate={required}
             />
-            <RaisedButton
+            <Button
+              variant="contained"
               type="submit"
               label={<FormattedMessage id="LOGIN.RESET_PASSWORD" />}
-              primary
+              color="primary"
               fullWidth
               onClick={handleSubmit(({ email }) =>
                 AuthService.resetPassword(email)

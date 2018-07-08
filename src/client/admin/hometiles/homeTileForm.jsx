@@ -120,19 +120,19 @@ class HomeTileForm extends React.Component {
         <br />
         <Button
           variant="contained"
-          type="submit"
-          color="primary"
-        >
-          <FormattedMessage id="COMMON.SAVE" />
-        </Button>
-        &nbsp;
-        <Button
-          variant="contained"
           type="button"
           component={Link}
           to="/admin/hometiles"
         >
           <FormattedMessage id="COMMON.CANCEL" />
+        </Button>
+        &nbsp;&nbsp;
+        <Button
+          variant="contained"
+          type="submit"
+          color="primary"
+        >
+          <FormattedMessage id="COMMON.SAVE" />
         </Button>
       </form>
     );

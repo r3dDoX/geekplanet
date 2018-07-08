@@ -27,9 +27,9 @@ router.put('/tiles', authorization, isAdmin, bodyParser.json(),
 router.post('/tiles/order', authorization, isAdmin, bodyParser.json(),
   asyncHandler(async ({ body }, res) => {
     const { _id, order: originalPosition } = await HomeTile.findOne({ _id: body.element });
-    const siblingTile = await body.sibling
-      ? HomeTile.findOne({ _id: body.sibling })
-      : HomeTile.count();
+    const siblingTile = body.sibling
+      ? await HomeTile.findOne({ _id: body.sibling })
+      : await HomeTile.count();
 
     let positionToTake = (typeof siblingTile === 'number')
       ? siblingTile

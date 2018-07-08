@@ -77,8 +77,7 @@
         "COUNTRY": "Land",
         "NEXT": "Weiter",
         "REQUIRED_ZIP": "Die Postleitzahl muss zwischen 1000 und 9999 liegen",
-        "NO_ADDRESS": "Neue Adresse erfassen",
-        "RECENTLY": "Kürzlich gebraucht"
+        "NO_ADDRESS": "Neue Adresse erfassen"
       }
     },
     "AGB": {

@@ -14,7 +14,7 @@ const ProductListContainer = styled.div`
   padding: 20px 15px;
   
   @media screen and (min-width: ${mdMinSize}) {
-    padding-top: 90px;
+    padding-top: 80px;
   }
 `;
 

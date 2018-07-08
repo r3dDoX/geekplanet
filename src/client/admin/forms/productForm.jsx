@@ -1,7 +1,7 @@
-import Divider from 'material-ui/Divider';
-import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
-import { grey500 } from 'material-ui/styles/colors';
+import Button from '@material-ui/core/Button';
+import grey from '@material-ui/core/colors/grey';
+import Divider from '@material-ui/core/Divider';
+import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDrafts from 'react-drafts';
@@ -14,8 +14,14 @@ import { createLoadProducts } from '../../actions';
 import SelectField from '../../formHelpers/selectField.jsx';
 import TextField from '../../formHelpers/textField.jsx';
 import { required } from '../../formHelpers/validations.jsx';
+import MainSpinner from '../../layout/mainSpinner.jsx';
 import * as ProductService from '../../products/productService';
-import { ProducerPropType, ProductCategoryPropType, ProductPropType, SupplierPropType } from '../../propTypes';
+import {
+  ProducerPropType,
+  ProductCategoryPropType,
+  ProductPropType,
+  SupplierPropType, TagPropType,
+} from '../../propTypes';
 import {
   createLoadCompleteProducts,
   createLoadProducers,
@@ -29,10 +35,12 @@ import {
   createSelectTag,
   productFormName,
 } from '../adminActions';
-import Tags from '../tags/tags.jsx';
+import TagSelector from '../tags/tagSelector.jsx';
 import LinkArray from './linkArray.jsx';
 import TextAreaArray from './textAreaArray.jsx';
 import UploadImagePreview from './uploadImagePreview.jsx';
+
+const grey500 = grey['500'];
 
 const Container = styled.form`
   padding: 24px;
@@ -63,12 +71,12 @@ const FileUploadInput = styled.input`
   opacity: 0;
 `;
 
-const UploadButton = styled(RaisedButton)`
-  margin-top: 10px;
+const UploadButton = styled(Button)`
+  margin-top: 10px !important;
 `;
 
-const DeleteButton = styled(RaisedButton)`
-  margin-left: 10px;
+const DeleteButton = styled(Button)`
+  margin-left: 10px !important;
 `;
 
 const styles = {
@@ -133,6 +141,10 @@ class ProductForm extends React.Component {
       history,
     } = this.props;
 
+    if (!products.length) {
+      return <MainSpinner />;
+    }
+
     return (
       <Container
         name={productFormName}
@@ -153,26 +165,26 @@ class ProductForm extends React.Component {
             history.push(`/admin/forms/products/${value}`);
           }}
           selectedValue={match.params.id || ''}
+          label="Create new"
         >
-          <MenuItem
-            value=""
-            primaryText="Create new"
-          />
+          <MenuItem>
+            Create new
+          </MenuItem>
           <Divider />
           {products.map(({ _id, de: { name } }) => (
-            <MenuItem
-              key={_id}
-              value={_id}
-              primaryText={name}
-            />
+            <MenuItem key={_id} value={_id}>
+              {name}
+            </MenuItem>
           ))}
         </Field>
         {match.params.id && (
           <DeleteButton
-            secondary
-            label="Remove"
+            variant="contained"
+            color="secondary"
             onClick={() => removeProduct(match.params.id).then(() => history.push('/admin/forms/products'))}
-          />
+          >
+            Remove
+          </DeleteButton>
         )}
         <br />
 
@@ -201,12 +213,13 @@ class ProductForm extends React.Component {
             <MenuItem
               key={category._id}
               value={category._id}
-              primaryText={category.de.name}
-            />
+            >
+              {category.de.name}
+            </MenuItem>
           ))}
         </Field>
         <br />
-        <Tags
+        <TagSelector
           savedTags={savedTags}
           tags={tags}
           selectTag={selectTag}
@@ -218,7 +231,8 @@ class ProductForm extends React.Component {
           name="de.shortDescription"
           label="Short Description"
           type="text"
-          multiLine
+          multiline
+          fullWidth
           rows={3}
         />
         <br />
@@ -342,23 +356,25 @@ Downloads
           name="remarks"
           label="Remarks"
           type="text"
-          multiLine
+          multiline
         />
         <br />
-        <UploadButton
-          label="Choose images"
-          labelPosition="before"
-          containerElement="label"
-        >
-          <FileUploadInput
-            type="file"
-            accept="image/jpeg,image/png"
-            multiple
-            onChange={event => selectFiles(event.target.files, selectedFiles)}
-          />
-        </UploadButton>
+        <label htmlFor="productPictureUpload">
+          <UploadButton variant="contained">
+            Choose images
+            <FileUploadInput
+              id="productPictureUpload"
+              type="file"
+              accept="image/jpeg,image/png"
+              multiple
+              onChange={event => selectFiles(event.target.files, selectedFiles)}
+            />
+          </UploadButton>
+        </label>
         <UploadImagePreview files={selectedFiles} removeFile={removeFile} />
-        <RaisedButton label="Save" type="submit" primary />
+        <Button variant="contained" type="submit" color="primary">
+          Save
+        </Button>
       </Container>
     );
   }
@@ -377,7 +393,7 @@ ProductForm.propTypes = {
   removeFile: PropTypes.func.isRequired,
   removeProduct: PropTypes.func.isRequired,
   selectProduct: PropTypes.func.isRequired,
-  savedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  savedTags: PropTypes.arrayOf(TagPropType).isRequired,
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectTag: PropTypes.func.isRequired,
   removeTag: PropTypes.func.isRequired,
@@ -434,8 +450,8 @@ export default connect(
       loadTags() {
         dispatch(createLoadTags());
       },
-      selectTag(tags, item, index) {
-        dispatch(createSelectTag(tags, item, index));
+      selectTag(tags, item) {
+        dispatch(createSelectTag(tags, item));
       },
       removeTag(tags, tag) {
         dispatch(createRemoveTag(tags, tag));

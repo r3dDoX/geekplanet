@@ -69,7 +69,7 @@
     "babel-preset-react": "6.24.1",
     "compression-webpack-plugin": "1.1.11",
     "copy-webpack-plugin": "4.5.2",
-    "css-loader": "0.28.11",
+    "css-loader": "1.0.0",
     "downshift": "2.0.10",
     "eslint": "5.0.1",
     "eslint-config-airbnb": "17.0.0",

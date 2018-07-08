@@ -1,6 +1,7 @@
 # IDE
 *.iml
 .idea/workspace.xml
+.idea/shelf
 
 # dependencies
 node_modules

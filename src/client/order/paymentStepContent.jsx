@@ -1,13 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
-import {
-  ShoppingCartPropType,
-  OrderStatePropType,
-} from '../propTypes';
+import { createFinishPaymentStep, createPaymentError, createProcessingStarted } from '../actions';
+import { OrderStatePropType, ShoppingCartPropType } from '../propTypes';
 import Xhr from '../xhr';
 import Payment from './payment.jsx';
-import { createFinishPaymentStep, createPaymentError, createProcessingStarted } from '../actions';
 
 const PaymentStepContent = ({
   email,
@@ -21,7 +18,6 @@ const PaymentStepContent = ({
     return (
       <Payment
         email={email}
-        processing={order.processing}
         shoppingCart={shoppingCart}
         startOrder={() => Xhr.put('/api/orders', Object.assign({
           address: order.selectedAddress,

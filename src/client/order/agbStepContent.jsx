@@ -1,5 +1,5 @@
-import RaisedButton from 'material-ui/RaisedButton';
-import { grey300 } from 'material-ui/styles/colors';
+import Button from '@material-ui/core/Button';
+import grey from '@material-ui/core/colors/grey';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { createAcceptAgb } from '../actions';
 import Agb from '../agb.jsx';
+
+const grey300 = grey['300'];
 
 const Container = styled.div`
   margin-top: 20px;
@@ -18,7 +20,7 @@ const ScrollableContainer = styled.div`
   border: 1px solid ${grey300};
 `;
 
-const AcceptButton = styled(RaisedButton)`
+const AcceptButton = styled(Button)`
   margin-top: 10px;
 `;
 
@@ -27,11 +29,14 @@ const AgbStepContent = ({ acceptAgb }) => (
     <ScrollableContainer>
       <Agb />
     </ScrollableContainer>
+    <br />
     <AcceptButton
-      primary
-      label={<FormattedMessage id="ORDER.AGB.ACCEPT" />}
+      variant="contained"
+      color="primary"
       onClick={acceptAgb}
-    />
+    >
+      <FormattedMessage id="ORDER.AGB.ACCEPT" />
+    </AcceptButton>
   </Container>
 );
 

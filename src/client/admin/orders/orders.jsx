@@ -1,15 +1,17 @@
-import Avatar from 'material-ui/Avatar';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import { grey200 } from 'material-ui/styles/colors';
-import CreditCardIcon from 'material-ui/svg-icons/action/credit-card';
-import DoneIcon from 'material-ui/svg-icons/action/done';
-import ThumbUpIcon from 'material-ui/svg-icons/action/thumb-up';
-import ViewIcon from 'material-ui/svg-icons/action/visibility';
-import AttentionIcon from 'material-ui/svg-icons/content/report';
-import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
-import ShippedIcon from 'material-ui/svg-icons/maps/local-shipping';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import grey from '@material-ui/core/colors/grey';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import CreditCardIcon from '@material-ui/icons/CreditCard';
+import DoneIcon from '@material-ui/icons/Done';
+import ShippedIcon from '@material-ui/icons/LocalShipping';
+import EditIcon from '@material-ui/icons/ModeEdit';
+import AttentionIcon from '@material-ui/icons/Report';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ViewIcon from '@material-ui/icons/Visibility';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -17,11 +19,12 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FINISHED, SENT, WAITING } from '../../../common/orderState';
+import PriceCalculation from '../../../common/priceCalculation';
 import { formatPriceWithCurrency } from '../../../common/priceFormatter';
 import { OrdersPropType } from '../../propTypes';
 import { createClearPayment, createLoadOrders, createOrderSent } from '../adminActions';
-import PriceCalculation from '../../../common/priceCalculation';
 
+const grey200 = grey['200'];
 const priceCalculation = PriceCalculation.create(ORDER.MIN_PRICE_SHIPPING, ORDER.SHIPPING_COST);
 
 const Container = styled.div`
@@ -110,19 +113,23 @@ class Orders extends React.Component {
     switch (state) {
       case WAITING:
         return (
-          <RaisedButton
-            primary
-            icon={<DoneIcon />}
+          <Button
+            color="primary"
+            variant="contained"
             onClick={() => this.props.clearPayment(id)}
-          />
+          >
+            <DoneIcon />
+          </Button>
         );
       case FINISHED:
         return (
-          <RaisedButton
-            primary
-            icon={<ShippedIcon />}
+          <Button
+            color="primary"
+            variant="contained"
             onClick={() => this.props.orderSent(id)}
-          />
+          >
+            <ShippedIcon />
+          </Button>
         );
       case SENT:
         return (
@@ -168,34 +175,37 @@ class Orders extends React.Component {
                   {order._id}
                   <StyledViewIcon onClick={() => this.handleOpen(order._id)} role="button" />
                   <Dialog
+                    keepMounted
                     open={this.state.open === order._id}
-                    onRequestClose={() => this.handleClose()}
-                    actions={
-                      <FlatButton
-                        label="Ok"
-                        primary
-                        onClick={() => this.handleClose()}
-                      />
-                    }
+                    onClose={() => this.handleClose()}
                   >
-                    <ItemList>
-                      {order.items.map(item => (
-                        <Item key={item.product._id}>
-                          <ItemAvatar
-                            size={64}
-                            src={(item.product.files.length)
-                              ? `/api/products/pictures/${item.product.files[0]}_s`
-                              : '/assets/images/notFound.jpg'
-                            }
-                          />
-                          {item.amount}
-&nbsp;*&nbsp;
-                          <Link to={`/products/${item.product._id}`}>
-                            {item.product.de.name}
-                          </Link>
-                        </Item>
-                      ))}
-                    </ItemList>
+                    <DialogContent>
+                      <DialogContentText component="div">
+                        <ItemList>
+                          {order.items.map(item => (
+                            <Item key={item.product._id}>
+                              <ItemAvatar
+                                size={64}
+                                src={(item.product.files.length)
+                                  ? `/api/products/pictures/${item.product.files[0]}_s`
+                                  : '/assets/images/notFound.jpg'
+                                }
+                              />
+                              {item.amount}
+                              &nbsp;*&nbsp;
+                              <Link to={`/products/${item.product._id}`}>
+                                {item.product.de.name}
+                              </Link>
+                            </Item>
+                          ))}
+                        </ItemList>
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={() => this.handleClose()}>
+                        Ok
+                      </Button>
+                    </DialogActions>
                   </Dialog>
                 </td>
                 <BreakingCell>

@@ -1,4 +1,5 @@
-import { Tab, Tabs } from 'material-ui/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -17,6 +18,7 @@ import {
 import ProducerForm from '../producers/producerForm.jsx';
 import ProductCategoryForm from '../productcategories/productCategoryForm.jsx';
 import SupplierForm from '../suppliers/supplierForm.jsx';
+import TagForm from '../tags/tagForm.jsx';
 import ProductForm from './productForm.jsx';
 
 const paths = [
@@ -24,6 +26,7 @@ const paths = [
   '/admin/forms/productcategories',
   '/admin/forms/suppliers',
   '/admin/forms/producers',
+  '/admin/forms/tags',
 ];
 const allowedRoles = ['admin'];
 
@@ -46,43 +49,57 @@ class Forms extends React.Component {
       );
     }
 
-    return (
+    return [
       <Tabs
-        onChange={path => this.props.history.push(path)}
-        value={paths.find(path => this.props.location.pathname === path)}
+        key="tabBar"
+        onChange={(event, path) => this.props.history.push(path)}
+        value={paths.find(path => this.props.location.pathname.includes(path))}
+        indicatorColor="primary"
+        textColor="primary"
+        scrollable
+        scrollButtons="auto"
       >
-        <Tab label="Products" value={paths[0]}>
-          {this.props.products.length ? (
-            <PrivateRoute
-              path={`${paths[0]}/:id?`}
-              allowedRoles={allowedRoles}
-              component={ProductForm}
-            />
-          ) : <MainSpinner />}
-        </Tab>
-        <Tab label="Product Categories" value={paths[1]}>
+        <Tab label="Products" value={paths[0]} />
+        <Tab label="Product Categories" value={paths[1]} />
+        <Tab label="Suppliers" value={paths[2]} />
+        <Tab label="Producers" value={paths[3]} />
+        <Tab label="Tags" value={paths[4]} />
+      </Tabs>,
+      this.props.products.length
+        ? (
           <PrivateRoute
-            path={paths[1]}
+            key="containerProducts"
+            path={`${paths[0]}/:id?`}
             allowedRoles={allowedRoles}
-            component={ProductCategoryForm}
+            component={ProductForm}
           />
-        </Tab>
-        <Tab label="Suppliers" value={paths[2]}>
-          <PrivateRoute
-            path={paths[2]}
-            allowedRoles={allowedRoles}
-            component={SupplierForm}
-          />
-        </Tab>
-        <Tab label="Producers" value={paths[3]}>
-          <PrivateRoute
-            path={paths[3]}
-            allowedRoles={allowedRoles}
-            component={ProducerForm}
-          />
-        </Tab>
-      </Tabs>
-    );
+        )
+        : <MainSpinner key="productLoadingSpinner" />,
+      <PrivateRoute
+        key="containerProductCategories"
+        path={paths[1]}
+        allowedRoles={allowedRoles}
+        component={ProductCategoryForm}
+      />,
+      <PrivateRoute
+        key="containerSuppliers"
+        path={paths[2]}
+        allowedRoles={allowedRoles}
+        component={SupplierForm}
+      />,
+      <PrivateRoute
+        key="containerProducers"
+        path={paths[3]}
+        allowedRoles={allowedRoles}
+        component={ProducerForm}
+      />,
+      <PrivateRoute
+        key="containerTags"
+        path={paths[4]}
+        allowedRoles={allowedRoles}
+        component={TagForm}
+      />,
+    ];
   }
 }
 

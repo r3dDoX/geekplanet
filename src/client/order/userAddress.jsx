@@ -1,5 +1,5 @@
-import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -37,8 +37,12 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.TITLE" />}
         validate={required}
       >
-        <MenuItem value="Frau" primaryText={<FormattedMessage id="ORDER.ADDRESS.FORM.MRS" />} />
-        <MenuItem value="Herr" primaryText={<FormattedMessage id="ORDER.ADDRESS.FORM.MR" />} />
+        <MenuItem value="Frau">
+          <FormattedMessage id="ORDER.ADDRESS.FORM.MRS" />
+        </MenuItem>
+        <MenuItem value="Herr">
+          <FormattedMessage id="ORDER.ADDRESS.FORM.MR" />
+        </MenuItem>
       </Field>
       <br />
       <Field
@@ -94,16 +98,22 @@ const UserAddress = ({ handleSubmit, onSubmit }) => (
         label={<FormattedMessage id="ORDER.ADDRESS.FORM.COUNTRY" />}
         validate={required}
       >
-        <MenuItem value="Schweiz" primaryText={<FormattedMessage id="COUNTRIES.CHE" />} />
-        <MenuItem value="Liechtenstein" primaryText={<FormattedMessage id="COUNTRIES.LIE" />} />
+        <MenuItem value="Schweiz">
+          <FormattedMessage id="COUNTRIES.CHE" />
+        </MenuItem>
+        <MenuItem value="Liechtenstein">
+          <FormattedMessage id="COUNTRIES.LIE" />
+        </MenuItem>
       </Field>
       <br />
-      <RaisedButton
-        primary
-        style={styles.submitButton}
-        label={<FormattedMessage id="ORDER.ADDRESS.FORM.NEXT" />}
+      <br />
+      <Button
+        color="primary"
+        variant="contained"
         type="submit"
-      />
+      >
+        <FormattedMessage id="ORDER.ADDRESS.FORM.NEXT" />
+      </Button>
     </form>
   </div>
 );

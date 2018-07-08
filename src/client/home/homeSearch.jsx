@@ -1,5 +1,5 @@
-import IconButton from 'material-ui/IconButton';
-import SearchIcon from 'material-ui/svg-icons/action/search';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import React from 'react';
@@ -67,7 +67,7 @@ const HomeSearch = ({
           }}
         />
         <SearchButton type="submit" onClick={submitFilterString}>
-          <SearchIcon color="white" />
+          <SearchIcon nativeColor="white" />
         </SearchButton>
       </SearchInlay>
     </SearchBar>

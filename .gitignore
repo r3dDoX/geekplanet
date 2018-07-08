@@ -1,5 +1,6 @@
 # IDE
-.idea/
+*.iml
+.idea/workspace.xml
 
 # dependencies
 node_modules

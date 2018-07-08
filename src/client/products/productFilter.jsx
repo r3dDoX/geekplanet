@@ -1,15 +1,14 @@
-import Chip from 'material-ui/Chip';
-import { grey700 } from 'material-ui/styles/colors';
+import Chip from '@material-ui/core/Chip';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import SmallTextField from '../formHelpers/smallTextField.jsx';
 import { ProductCategoryPropType } from '../propTypes';
-import { laMinSize, mdMinSize, mdMaxSize } from '../theme';
+import { laMinSize, mdMaxSize, mdMinSize } from '../theme';
 
 export const formName = 'productFilter';
 
@@ -18,7 +17,7 @@ const FilterContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   background: #FFF;
-  padding: 4px 20px;
+  padding: 12px 20px;
   box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.3);
   max-height: 68px;
   overflow-x: auto;
@@ -53,14 +52,6 @@ const CategoryChip = styled(Chip)`
   margin-left: 10px !important;
 `;
 
-const styles = {
-  filterHint: {
-    color: grey700,
-    borderColor: grey700,
-    fill: grey700,
-  },
-};
-
 let timeoutId;
 
 function debounce(fn, millis = 200) {
@@ -75,14 +66,13 @@ const ProductFilter = ({
   categories,
   removeCategoryFromFilter,
   history,
+  intl,
 }) => (
   <FilterContainer>
     <SearchField
       component={SmallTextField}
       name="search"
-      label={<FormattedMessage id="PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER" />}
-      floatingLabelStyle={styles.filterHint}
-      underlineStyle={styles.filterHint}
+      label={intl.formatMessage({ id: 'PRODUCT_FILTER.FILTERSTRING_PLACEHOLDER' })}
       onKeyUp={({ target }) => debounce(() => {
         const query = queryString.parse(history.location.search);
         query.search = target.value;
@@ -93,9 +83,11 @@ const ProductFilter = ({
     />
     <ChipContainer>
       {categories.map(category => (
-        <CategoryChip key={category._id} onRequestDelete={() => removeCategoryFromFilter(category._id)}>
-          {category.de.name}
-        </CategoryChip>
+        <CategoryChip
+          key={category._id}
+          onDelete={() => removeCategoryFromFilter(category._id)}
+          label={category.de.name}
+        />
       ))}
     </ChipContainer>
   </FilterContainer>
@@ -110,9 +102,10 @@ ProductFilter.propTypes = {
     }).isRequired,
     push: PropTypes.func.isRequired,
   }).isRequired,
+  intl: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default reduxForm({
   form: formName,
   destroyOnUnmount: false,
-})(withRouter(ProductFilter));
+})(withRouter(injectIntl(ProductFilter)));

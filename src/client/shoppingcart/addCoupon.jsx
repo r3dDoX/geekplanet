@@ -1,14 +1,22 @@
-import MenuItem from 'material-ui/MenuItem';
-import { green500, grey600, orange500 } from 'material-ui/styles/colors';
-import AutorenewIcon from 'material-ui/svg-icons/action/autorenew';
-import SuccessIcon from 'material-ui/svg-icons/action/done';
-import AddIcon from 'material-ui/svg-icons/content/add';
-import ErrorIcon from 'material-ui/svg-icons/content/clear';
-import TextField from 'material-ui/TextField';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import green from '@material-ui/core/colors/green';
+import grey from '@material-ui/core/colors/grey';
+import orange from '@material-ui/core/colors/orange';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
+import SuccessIcon from '@material-ui/icons/Done';
+import AddIcon from '@material-ui/icons/Add';
+import ErrorIcon from '@material-ui/icons/Clear';
+import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import { accent1Color } from '../theme';
+
+const green500 = green['500'];
+const grey600 = grey['600'];
+const orange500 = orange['500'];
 
 const inputState = {
   NONE: 'NONE',
@@ -18,7 +26,7 @@ const inputState = {
 };
 
 const CheckingIcon = styled(AutorenewIcon)`
-  ransform-origin: center center;
+  transform-origin: center center;
   transform-box: fill-box;
   animation-name: rotation;
   animation-duration: 2s;
@@ -28,9 +36,10 @@ const CheckingIcon = styled(AutorenewIcon)`
 `;
 
 class AddCoupon extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
+    this.textInput = React.createRef();
     this.state = {
       inputState: inputState.NONE,
     };
@@ -52,55 +61,58 @@ class AddCoupon extends React.Component {
   getIcon() {
     switch (this.state.inputState) {
       case inputState.ERROR:
-        return <ErrorIcon color={this.getColor()} />;
+        return <ErrorIcon nativeColor={this.getColor()} />;
       case inputState.SUCCESS:
-        return <SuccessIcon color={this.getColor()} />;
+        return <SuccessIcon nativeColor={this.getColor()} />;
       case inputState.CHECKING:
-        return <CheckingIcon color={this.getColor()} />;
+        return <CheckingIcon nativeColor={this.getColor()} />;
       default:
-        return <AddIcon color={this.getColor()} />;
+        return <AddIcon nativeColor={this.getColor()} />;
     }
   }
 
   render() {
     return (
-      <MenuItem insetChildren leftIcon={this.getIcon()}>
-        <TextField
-          ref={(input) => { this.textInput = input; }}
-          disabled={this.state.inputState === inputState.CHECKING}
-          underlineStyle={{
-            borderColor: this.getColor(),
-          }}
-          underlineDisabledStyle={{
-            borderColor: this.getColor(),
-          }}
-          onKeyPress={(event) => {
-            if (event.which === 13 && event.target.value.length === 19) {
-              this.setState({
-                inputState: inputState.CHECKING,
-              });
-
-              this.props.onAdd(event.target.value)
-                .then(() => {
+      <ListItem>
+        <ListItemIcon>
+          {this.getIcon()}
+        </ListItemIcon>
+        <ListItemText
+          primary={
+            <TextField
+              inputRef={this.textInput}
+              disabled={this.state.inputState === inputState.CHECKING}
+              error={this.state.inputState === inputState.ERROR}
+              onKeyPress={(event) => {
+                if (event.which === 13 && event.target.value.length === 19) {
                   this.setState({
-                    inputState: inputState.SUCCESS,
+                    inputState: inputState.CHECKING,
                   });
 
-                  setTimeout(() => {
-                    this.setState({
-                      inputState: inputState.NONE,
-                    });
-                    this.textInput.input.value = '';
-                  }, 2000);
-                })
-                .catch(() => this.setState({
-                  inputState: inputState.ERROR,
-                }));
-            }
-          }}
-          hintText="ABCD-EFGH-IJKL-MNOP"
+                  this.props.onAdd(event.target.value)
+                    .then(() => {
+                      this.setState({
+                        inputState: inputState.SUCCESS,
+                      });
+
+                      setTimeout(() => {
+                        this.setState({
+                          inputState: inputState.NONE,
+                        });
+                        this.textInput.current.value = '';
+                      }, 2000);
+                    })
+                    .catch(() => this.setState({
+                      inputState: inputState.ERROR,
+                    }));
+                }
+              }}
+              placeholder="ABCD-EFGH-IJKL-MNOP"
+              fullWidth
+            />
+          }
         />
-      </MenuItem>
+      </ListItem>
     );
   }
 }

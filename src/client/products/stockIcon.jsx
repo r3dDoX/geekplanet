@@ -1,9 +1,13 @@
-import { green500, grey700 } from 'material-ui/styles/colors';
-import InStockIcon from 'material-ui/svg-icons/action/done';
-import OutOfStockIcon from 'material-ui/svg-icons/maps/local-shipping';
+import green from '@material-ui/core/colors/green';
+import grey from '@material-ui/core/colors/grey';
+import InStockIcon from '@material-ui/icons/Done';
+import OutOfStockIcon from '@material-ui/icons/LocalShipping';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
+
+const green500 = green['500'];
+const grey700 = grey['700'];
 
 const StyledInStockIcon = styled(InStockIcon)`
   flex: none;
@@ -16,12 +20,12 @@ const StyledOutOfStockIcon = styled(OutOfStockIcon)`
 
 const StockIcon = ({ stock }) => {
   if (stock > 0) {
-    return <StyledInStockIcon color={green500} />;
+    return <StyledInStockIcon nativeColor={green500} />;
   }
 
   return (
     <StyledOutOfStockIcon
-      color={grey700}
+      nativeColor={grey700}
     />
   );
 };

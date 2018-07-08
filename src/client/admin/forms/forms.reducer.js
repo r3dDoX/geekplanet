@@ -64,7 +64,7 @@ export default function forms(state = initialState, {
       });
     case TAGS_LOADED:
       return Object.assign({}, state, {
-        savedTags: data.map(tag => tag.name),
+        savedTags: data,
       });
     case SET_TAGS:
       return Object.assign({}, state, {

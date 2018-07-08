@@ -1,6 +1,10 @@
-import { createRemoveFile, createRemoveTag, createSelectFiles, createSelectTag } from './adminActions';
 import * as ProductService from '../products/productService';
-import TagService from './tags/tagService';
+import {
+  createRemoveFile,
+  createRemoveTag,
+  createSelectFiles,
+  createSelectTag,
+} from './adminActions';
 
 let dispatchSpy;
 
@@ -61,31 +65,6 @@ describe('createRemoveFile', () => {
 });
 
 describe('createSelectTag', () => {
-  it('should not save tag when existing tag given', () => {
-    TagService.saveTag = jest.fn();
-
-    const asyncDispatchFunction = createSelectTag(['yourTag'], 'myTag', 1);
-    asyncDispatchFunction(dispatchSpy);
-
-    expect(TagService.saveTag.mock.calls.length).toBe(0);
-  });
-
-  it('should save and reload tags when new tag given', () => {
-    const newTag = 'newTag';
-    const resolvedPromise = new Promise(resolve => resolve());
-    TagService.saveTag = jest.fn(() => resolvedPromise);
-    TagService.loadTags = jest.fn(() => resolvedPromise);
-
-    const asyncDispatchFunction = createSelectTag(['myTag', 'yourTag'], newTag, -1);
-    asyncDispatchFunction(dispatchSpy);
-
-    expect(TagService.saveTag.mock.calls.length).toBe(1);
-    return resolvedPromise.then(() => {
-      expect(TagService.saveTag.mock.calls[0][0].name).toBe(newTag);
-      expect(TagService.loadTags.mock.calls.length).toBe(1);
-    });
-  });
-
   it('should dispatch redux-form change with concatenated tags', () => {
     const existingTag = 'existingTag';
     const tags = ['myTag', 'yourTag'];

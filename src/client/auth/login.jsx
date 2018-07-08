@@ -87,7 +87,7 @@ LoginComponent.propTypes = {
       pathname: PropTypes.string.isRequired,
     }),
   }).isRequired,
-  isAuthenticating: PropTypes.boolean.isRequired,
+  isAuthenticating: PropTypes.bool.isRequired,
   loggedIn: PropTypes.func.isRequired,
   signedUp: PropTypes.func.isRequired,
   authenticating: PropTypes.func.isRequired,

@@ -1,5 +1,6 @@
-import Divider from 'material-ui/Divider';
-import { green500, grey300, grey500, grey800 } from 'material-ui/styles/colors';
+import Divider from '@material-ui/core/Divider';
+import green from '@material-ui/core/colors/green';
+import grey from '@material-ui/core/colors/grey';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Helmet } from 'react-helmet';
@@ -16,6 +17,11 @@ import { accent1Color, brandSecondary } from '../theme';
 import PriceCountUp from './priceCountUp.jsx';
 import ProductSlider from './productSlider.jsx';
 import StockIcon from './stockIcon.jsx';
+
+const green500 = green['500'];
+const grey300 = grey['300'];
+const grey500 = grey['500'];
+const grey800 = grey['800'];
 
 const Container = styled.div`
   max-width: 800px;

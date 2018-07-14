@@ -56,7 +56,7 @@
   "devDependencies": {
     "@material-ui/core": "1.2.3",
     "@material-ui/icons": "1.1.0",
-    "auth0-js": "9.6.1",
+    "auth0-js": "9.7.2",
     "babel-eslint": "8.2.5",
     "babel-jest": "23.0.1",
     "babel-loader": "7.1.5",

@@ -56,7 +56,7 @@
   "devDependencies": {
     "@material-ui/core": "1.4.0",
     "@material-ui/icons": "1.1.0",
-    "auth0-js": "9.6.1",
+    "auth0-js": "9.7.2",
     "babel-eslint": "8.2.6",
     "babel-jest": "23.0.1",
     "babel-loader": "7.1.5",
@@ -111,6 +111,9 @@
     "setupTestFrameworkScriptFile": "./src/test/localStorage.mock.js",
     "setupFiles": [
       "./src/test/jest.setup.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!auth0-js)"
     ]
   }
 }

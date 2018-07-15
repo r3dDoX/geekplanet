@@ -70,7 +70,7 @@
     "compression-webpack-plugin": "1.1.11",
     "copy-webpack-plugin": "4.5.2",
     "css-loader": "1.0.0",
-    "downshift": "2.0.10",
+    "downshift": "2.0.11",
     "eslint": "5.0.1",
     "eslint-config-airbnb": "17.0.0",
     "eslint-plugin-import": "2.13.0",

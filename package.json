@@ -84,7 +84,7 @@
     "keycode": "2.2.0",
     "mockingoose": "2.10.1",
     "node-mocks-http": "1.7.0",
-    "nodemon": "1.17.5",
+    "nodemon": "1.18.2",
     "prop-types": "15.6.2",
     "query-string": "^5.1.0",
     "react-countup": "3.0.3",

@@ -54,7 +54,7 @@
     "stripe": "6.2.1"
   },
   "devDependencies": {
-    "@material-ui/core": "1.2.3",
+    "@material-ui/core": "1.4.0",
     "@material-ui/icons": "1.1.0",
     "auth0-js": "9.6.1",
     "babel-eslint": "8.2.5",

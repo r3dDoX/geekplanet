@@ -57,7 +57,7 @@
     "@material-ui/core": "1.4.0",
     "@material-ui/icons": "1.1.0",
     "auth0-js": "9.6.1",
-    "babel-eslint": "8.2.5",
+    "babel-eslint": "8.2.6",
     "babel-jest": "23.0.1",
     "babel-loader": "7.1.5",
     "babel-plugin-dynamic-import-node": "2.0.0",

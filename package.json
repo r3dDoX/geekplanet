@@ -111,6 +111,9 @@
     "setupTestFrameworkScriptFile": "./src/test/localStorage.mock.js",
     "setupFiles": [
       "./src/test/jest.setup.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!auth0-js)"
     ]
   }
 }

@@ -83,7 +83,6 @@ class Products extends React.Component {
       location,
       products,
       filteredProducts,
-      filterShown,
       intl,
       categoriesToFilter,
       filterString,
@@ -123,7 +122,7 @@ class Products extends React.Component {
         {
           products.length
             ? filteredProducts.length
-              ? <ProductList products={filteredProducts} filterShown={filterShown} />
+              ? <ProductList products={filteredProducts} />
               : <NothingFound />
             : <MainSpinner />
         }
@@ -143,7 +142,6 @@ Products.propTypes = {
   producers: PropTypes.arrayOf(ProducerPropType).isRequired,
   categoriesToFilter: PropTypes.arrayOf(ProductCategoryPropType).isRequired,
   filteredProducts: PropTypes.arrayOf(ProductPropType).isRequired,
-  filterShown: PropTypes.bool.isRequired,
   filterString: PropTypes.string.isRequired,
   intl: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
@@ -158,7 +156,6 @@ export default connect(
     productCategories: state.products.productCategories,
     producers: state.products.producers,
     filteredProducts: state.products.filteredProducts,
-    filterShown: state.products.filterShown,
     categoriesToFilter: state.products.categoriesToFilter,
     filterString: state.products.filterString,
   }),

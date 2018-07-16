@@ -43,7 +43,9 @@ class ProductList extends React.Component {
             />
           ))}
       </ProductListContainer>,
-      <Pagination key="paginationComponent" products={this.props.products} />,
+      this.props.products.length / PAGE_SIZE > 1 && (
+        <Pagination key="paginationComponent" products={this.props.products} />
+      ),
     ];
   }
 }

@@ -77,6 +77,7 @@ const ProductFilter = ({
       onKeyUp={({ target }) => debounce(() => {
         const query = queryString.parse(history.location.search);
         query.search = target.value;
+        delete query.page;
 
         history.push(`?${queryString.stringify(query)}`);
       })}

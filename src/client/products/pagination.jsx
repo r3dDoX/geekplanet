@@ -18,7 +18,7 @@ const PaginationContainer = styled.div`
 
 const PaginationButton = styled(Button)`
   margin: 0 ${theme.spacing.unit / 2}px !important;
-  min-width: 48px !important;
+  min-width: 40px !important;
 `;
 
 const PaginationIndicatorButton = styled(Button)`
@@ -53,6 +53,7 @@ const Pagination = ({
   const prevLink = `/products?${queryString.stringify({ ...query, page: page - 1 })}`;
   const nextLink = `/products?${queryString.stringify({ ...query, page: page + 1 })}`;
   const maxPage = Math.ceil(products.length / PAGE_SIZE);
+  const pages = [...Array(maxPage)].map((_, index) => index + 1);
 
   return [
     <Helmet key="productListHeader">
@@ -70,7 +71,7 @@ const Pagination = ({
       >
         <ArrowLeft />
       </PaginationButton>
-      {page > Math.floor(MAX_PAGES_BUTTONS / 2) && (
+      {pages > MAX_PAGES_BUTTONS && page > Math.floor(MAX_PAGES_BUTTONS / 2) && (
         <PaginationIndicatorButton
           color="primary"
           size="small"
@@ -79,7 +80,7 @@ const Pagination = ({
           ...
         </PaginationIndicatorButton>
       )}
-      {getPages([...Array(maxPage)].map((_, index) => index + 1), page)
+      {getPages(pages, page)
         .map((pageIndex) => {
           const isSelected = pageIndex === page;
           return (
@@ -97,7 +98,7 @@ const Pagination = ({
           );
         })
       }
-      {maxPage - page > Math.floor(MAX_PAGES_BUTTONS / 2) && (
+      {pages > MAX_PAGES_BUTTONS && maxPage - page > Math.floor(MAX_PAGES_BUTTONS / 2) && (
         <PaginationIndicatorButton
           color="primary"
           size="small"

@@ -4,7 +4,8 @@ import ArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { ProductPropType } from '../propTypes';
 import theme, { mdMinSize } from '../theme';
@@ -42,17 +43,18 @@ class ProductList extends React.Component {
     return nextPage !== currentPage || nextProps.products !== this.props.products;
   }
 
-  switchToPage(page) {
-    const query = queryString.parse(this.props.location.search);
-    query.page = page;
-    this.props.history.push(`/products?${queryString.stringify(query)}`);
-  }
-
   render() {
     const query = queryString.parse(this.props.location.search);
     const page = Number(query.page) || 1;
+    const prevLink = `/products?${queryString.stringify({ ...query, page: page - 1 })}`;
+    const nextLink = `/products?${queryString.stringify({ ...query, page: page + 1 })}`;
+    const maxPage = Math.ceil(this.props.products.length / PAGE_SIZE);
 
     return [
+      <Helmet key="productListHeader">
+        {page > 1 && <link rel="prev" href={prevLink} />}
+        {page < maxPage && <link rel="next" href={nextLink} />}
+      </Helmet>,
       <ProductListContainer key="productListContainer">
         {this.props.products
           .slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
@@ -69,11 +71,12 @@ class ProductList extends React.Component {
           color="primary"
           size="small"
           disabled={page === 1}
-          onClick={() => this.switchToPage(page - 1)}
+          component={Link}
+          to={prevLink}
         >
           <ArrowLeft />
         </PaginationButton>
-        {[...new Array(Math.floor(this.props.products.length / PAGE_SIZE))]
+        {[...new Array(maxPage)]
           .map((value, index) => {
             const pageIndex = index + 1;
             const isSelected = pageIndex === page;
@@ -87,7 +90,8 @@ class ProductList extends React.Component {
                 color="primary"
                 size="small"
                 disabled={isSelected}
-                onClick={() => this.switchToPage(pageIndex)}
+                component={Link}
+                to={`/products?${queryString.stringify({ ...query, page: pageIndex })}`}
               >
                 {pageIndex}
               </PaginationButton>
@@ -98,8 +102,9 @@ class ProductList extends React.Component {
           variant="outlined"
           color="primary"
           size="small"
-          disabled={page === Math.floor(this.props.products.length / PAGE_SIZE)}
-          onClick={() => this.switchToPage(page + 1)}
+          disabled={page === maxPage}
+          component={Link}
+          to={nextLink}
         >
           <ArrowRight />
         </PaginationButton>
@@ -110,7 +115,6 @@ class ProductList extends React.Component {
 
 ProductList.propTypes = {
   products: PropTypes.arrayOf(ProductPropType).isRequired,
-  history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
   }).isRequired,

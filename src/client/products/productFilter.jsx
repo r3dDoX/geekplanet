@@ -16,6 +16,7 @@ const FilterContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  flex-wrap: nowrap;
   background: #FFF;
   padding: 12px 20px;
   box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.3);

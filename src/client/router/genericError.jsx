@@ -1,4 +1,4 @@
-import SentimentNeutral from '@material-ui/icons/SentimentNeutral';
+import SentimentVeryDissatisfied from '@material-ui/icons/SentimentVeryDissatisfied';
 import React from 'react';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import styled from 'styled-components';
@@ -12,7 +12,7 @@ const Container = styled.div`
   padding: 20px;
 `;
 
-const StyledSentimentNeutral = styled(SentimentNeutral)`
+const StyledSentimentNeutral = styled(SentimentVeryDissatisfied)`
   margin-right: 10px;
   height: 48px !important;
   width: 48px !important;

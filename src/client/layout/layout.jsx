@@ -33,7 +33,7 @@ const Body = styled(Paper)`
 `;
 
 const Content = styled.div`
-  flex: 1 1 auto;
+  flex: 1 1 100%;
   max-width: 100%;
 `;
 

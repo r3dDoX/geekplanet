@@ -13,7 +13,7 @@ import ShoppingCartIcon from '../shoppingcart/shoppingCartIcon.jsx';
 import { backgroundColor } from '../theme';
 
 const Title = styled(Link)`
-  flex: 1;
+  flex: 1 1 auto;
   text-decoration: none;
   color: inherit;
 `;

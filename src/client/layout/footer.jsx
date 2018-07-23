@@ -17,7 +17,7 @@ const Container = styled.div`
 `;
 
 const TextContainer = styled.div`
-  flex: 1;
+  flex: 1 1 auto;
   text-align: center;
   padding: 0 5px;
 `;

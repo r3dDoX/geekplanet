@@ -40,6 +40,9 @@ const styles = stylesTheme => ({
   drawerMobile: {
     width: drawerWidth,
   },
+  listSubheader: {
+    backgroundColor: 'white',
+  },
 });
 
 class LayoutDrawer extends React.Component {
@@ -72,6 +75,7 @@ class LayoutDrawer extends React.Component {
 
   renderDrawerContent() {
     const {
+      classes,
       roles,
       logout,
       loggedIn,
@@ -90,7 +94,12 @@ class LayoutDrawer extends React.Component {
     return (
       <List>
         {roles.includes('admin') ? ([
-          <ListSubheader key="admin">
+          <ListSubheader
+            key="admin"
+            classes={{
+              root: classes.listSubheader,
+            }}
+          >
             <FormattedMessage id="NAVIGATION.ADMIN" />
           </ListSubheader>,
           <ListItem
@@ -155,7 +164,11 @@ class LayoutDrawer extends React.Component {
           )
         }
         <Divider />
-        <ListSubheader>
+        <ListSubheader
+          classes={{
+            root: classes.listSubheader,
+          }}
+        >
           <FormattedMessage id="NAVIGATION.PRODUCTS" />
         </ListSubheader>
         <ListItem

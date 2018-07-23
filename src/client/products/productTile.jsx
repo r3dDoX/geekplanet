@@ -43,7 +43,7 @@ const StyledCardMedia = styled(CardMedia)`
 `;
 
 const StyledCardContent = styled.div`
-  flex: 1;
+  flex: 1 1 auto;
 `;
 
 const StyledCardTitle = styled.h2`
@@ -54,7 +54,7 @@ const StyledCardTitle = styled.h2`
 `;
 
 const StyledCardText = styled(Typography)`
-  flex: 1;
+  flex: 1 1 auto;
   text-align: justify;
 `;
 

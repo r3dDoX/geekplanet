@@ -36,7 +36,7 @@ const Total = styled(ListItem)`
 
 const styles = () => ({
   drawerPaper: {
-    width: '350px',
+    width: '320px',
   },
 });
 

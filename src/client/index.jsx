@@ -19,12 +19,24 @@ const renderApp = () => {
     <AppContainer>
       <WrappedApp store={store} />
     </AppContainer>,
-    document.getElementsByTagName('main')[0]
+    document.getElementsByTagName('main')[0],
   );
 };
 
-renderApp();
+function renderWithHotReload() {
+  renderApp();
 
-if (module.hot) {
-  module.hot.accept('./wrappedApp.jsx', renderApp);
+  if (module.hot) {
+    module.hot.accept('./wrappedApp.jsx', renderApp);
+  }
 }
+
+function renderWhenPolyfillsLoaded() {
+  if (window.polyfillsLoaded) {
+    renderWithHotReload();
+  } else {
+    setTimeout(renderWithHotReload, 5);
+  }
+}
+
+renderWhenPolyfillsLoaded();

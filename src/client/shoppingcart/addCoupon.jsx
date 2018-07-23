@@ -1,22 +1,21 @@
+import green from '@material-ui/core/colors/green';
+import orange from '@material-ui/core/colors/orange';
+import red from '@material-ui/core/colors/red';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import green from '@material-ui/core/colors/green';
-import grey from '@material-ui/core/colors/grey';
-import orange from '@material-ui/core/colors/orange';
-import AutorenewIcon from '@material-ui/icons/Autorenew';
-import SuccessIcon from '@material-ui/icons/Done';
-import AddIcon from '@material-ui/icons/Add';
-import ErrorIcon from '@material-ui/icons/Clear';
 import TextField from '@material-ui/core/TextField';
+import AddIcon from '@material-ui/icons/Add';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
+import ErrorIcon from '@material-ui/icons/Clear';
+import SuccessIcon from '@material-ui/icons/Done';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-import { accent1Color } from '../theme';
 
 const green500 = green['500'];
-const grey600 = grey['600'];
 const orange500 = orange['500'];
+const red500 = red['500'];
 
 const inputState = {
   NONE: 'NONE',
@@ -25,7 +24,16 @@ const inputState = {
   ERROR: 'ERROR',
 };
 
-const CheckingIcon = styled(AutorenewIcon)`
+const StyledErrorIcon = styled(ErrorIcon)`
+  color: ${red500} !important;
+`;
+
+const StyledSuccessIcon = styled(SuccessIcon)`
+  color: ${green500} !important;
+`;
+
+const StyledCheckingIcon = styled(AutorenewIcon)`
+  color: ${orange500} !important;
   transform-origin: center center;
   transform-box: fill-box;
   animation-name: rotation;
@@ -45,30 +53,42 @@ class AddCoupon extends React.Component {
     };
   }
 
-  getColor() {
-    switch (this.state.inputState) {
-      case inputState.ERROR:
-        return accent1Color;
-      case inputState.SUCCESS:
-        return green500;
-      case inputState.CHECKING:
-        return orange500;
-      default:
-        return grey600;
-    }
-  }
-
   getIcon() {
     switch (this.state.inputState) {
       case inputState.ERROR:
-        return <ErrorIcon nativeColor={this.getColor()} />;
+        return <StyledErrorIcon />;
       case inputState.SUCCESS:
-        return <SuccessIcon nativeColor={this.getColor()} />;
+        return <StyledSuccessIcon />;
       case inputState.CHECKING:
-        return <CheckingIcon nativeColor={this.getColor()} />;
+        return <StyledCheckingIcon />;
       default:
-        return <AddIcon nativeColor={this.getColor()} />;
+        return <AddIcon />;
     }
+  }
+
+  checkCoupon(event) {
+    if (event.target.value.length !== 19) return;
+
+    this.setState({
+      inputState: inputState.CHECKING,
+    });
+
+    this.props.onAdd(event.target.value)
+      .then(() => {
+        this.setState({
+          inputState: inputState.SUCCESS,
+        });
+
+        setTimeout(() => {
+          this.setState({
+            inputState: inputState.NONE,
+          });
+          this.textInput.current.value = '';
+        }, 2000);
+      })
+      .catch(() => this.setState({
+        inputState: inputState.ERROR,
+      }));
   }
 
   render() {
@@ -81,32 +101,14 @@ class AddCoupon extends React.Component {
           primary={
             <TextField
               inputRef={this.textInput}
-              disabled={this.state.inputState === inputState.CHECKING}
+              disabled={this.state.inputState === inputState.CHECKING || this.state.inputState === inputState.SUCCESS}
               error={this.state.inputState === inputState.ERROR}
               onKeyPress={(event) => {
-                if (event.which === 13 && event.target.value.length === 19) {
-                  this.setState({
-                    inputState: inputState.CHECKING,
-                  });
-
-                  this.props.onAdd(event.target.value)
-                    .then(() => {
-                      this.setState({
-                        inputState: inputState.SUCCESS,
-                      });
-
-                      setTimeout(() => {
-                        this.setState({
-                          inputState: inputState.NONE,
-                        });
-                        this.textInput.current.value = '';
-                      }, 2000);
-                    })
-                    .catch(() => this.setState({
-                      inputState: inputState.ERROR,
-                    }));
+                if (event.which === 13) {
+                  this.checkCoupon(event);
                 }
               }}
+              onBlur={(event => this.checkCoupon(event))}
               placeholder="ABCD-EFGH-IJKL-MNOP"
               fullWidth
             />

@@ -6,7 +6,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { withStyles } from '@material-ui/core/styles';
-import ClearIcon from '@material-ui/icons/Clear';
+import ContentRemove from '@material-ui/icons/Remove';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -46,7 +46,7 @@ const Coupons = ({ classes, coupons, onAdd, onRemove }) => [
           classes={{ root: classes.iconButtonRoot }}
           onClick={() => onRemove(coupon._id)}
         >
-          <ClearIcon color="secondary" />
+          <ContentRemove color="secondary" />
         </IconButton>
       </ListItemIcon>
       <ListItemText primary={coupon._id} />

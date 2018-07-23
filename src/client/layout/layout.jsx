@@ -34,6 +34,7 @@ const Body = styled(Paper)`
 
 const Content = styled.div`
   flex: 1;
+  max-width: 100%;
 `;
 
 class Layout extends React.Component {

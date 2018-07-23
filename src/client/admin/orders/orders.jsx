@@ -8,7 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import DoneIcon from '@material-ui/icons/Done';
 import ShippedIcon from '@material-ui/icons/LocalShipping';
-import EditIcon from '@material-ui/icons/ModeEdit';
+import EditIcon from '@material-ui/icons/Edit';
 import AttentionIcon from '@material-ui/icons/Report';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ViewIcon from '@material-ui/icons/Visibility';

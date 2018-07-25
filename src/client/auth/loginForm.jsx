@@ -32,6 +32,13 @@ const FacebookButton = styled(SocialButton)`
   }
 `;
 
+const GoogleButton = styled(SocialButton)`
+  background-color: #FFF !important;
+  &:hover {
+    background-color: #EEE !important;
+  }
+`;
+
 const LoginButton = styled(Button)`
   margin-top: 20px !important;
 `;
@@ -103,7 +110,7 @@ const LoginForm = ({
       </Icon>
       <FormattedMessage id="LOGIN.FACEBOOK" />
     </FacebookButton>
-    <SocialButton
+    <GoogleButton
       variant="contained"
       onClick={() => authService.authorize('google-oauth2')}
     >
@@ -121,7 +128,7 @@ const LoginForm = ({
         </g>
       </Icon>
       <FormattedMessage id="LOGIN.GOOGLE" />
-    </SocialButton>
+    </GoogleButton>
     <Divider />
     {isAuthenticating ? <MainSpinner /> : null}
     <form name="login" style={isAuthenticating ? { display: 'none' } : null}>

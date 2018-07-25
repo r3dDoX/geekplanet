@@ -1,4 +1,4 @@
-FROM r3ddox/node-pdftk:10.4.1
+FROM r3ddox/node-pdftk:10.7.0
 
 ARG BUILD_ENV="staging"
 

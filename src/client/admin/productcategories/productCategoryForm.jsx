@@ -36,6 +36,7 @@ const ProductCategoriesForm = ({
       onChange={(event, value) => selectProductCategory(
         productCategories.find(productCategory => productCategory._id === value)
       )}
+      label="Create new"
     >
       <MenuItem value="">
         Create new

@@ -9,14 +9,14 @@ env:
   - secure: f6RQRRQ9SbGVXtrCLBvZ7xHgGybslFLmdSIo5zsDzJaAVjZP2rUAI+RT6XGhgvOgBOZaRgydSKfmKnKFfHOsi6J6O0mAsSjXOMy5OtLvX1bmivq8i+wOJR+NOCSQnH12Lh/Iwxrcyskq52T+Tmx0EiEPQWAJFQD8ER0LlTZxv4GZ/rXptixsknzKZeMOELG98U8jsL9jCwcJ8Hmr/6sC5v5jV0Qcl4NI8lx9pmas4nACXEYeBwKMBMJQZDqR0ODbS/C8ryL4jmb3ByX3ko4Qpm0GVRUqfNCOWQt2QegVrYmnH6FP+n3uWWBrjUJgjqeuQVhwO7tddQRrjEXpVCL5KXFkB6Cg2crWZRK87+OXADV9k9cFbxouixZny7HsHjEi8Ww3mSetTzQQO/iVBRTsAIIzPpa6cWoXmeUfXCX+2lhLSDKJy0JtyXfeRYr00oKm+HDpFYOWemFrNVNyKlPVLhlQHWeb7shnrae+sZTgcnjsxKp5vJ+eZSXkGvjhYCWkdyR0aoQltbQFJOMULPXsNzlQMtOlOE5kCwsgf1AWmf8i4y4KP1DTnxR+q5wTsD7M9SSYhayLqZd4nb/9oTIlXaSxmixuZYyqDOsgSQskarRuaBQX2neQcAVdP+PGWAhOKni81UITGbnuu5OKUkojtN1MFa1ho2TuiCu/BtNufhA=
   - secure: hpUxk0ZDfJUAxEPiojQyUXms/5Q19jLqffCpv628jgA/wFSw3LBYTU0p55/DTR+jdqAHXsEdSvJhJ7BiBAWGkw7oARScbeLYnMoOMAIGyHlGS+16dcdNkW6DGYTgIO1SBI/Hr09tAhxdysonGFz4xG8TG6dTgCt7j4CqE6fhlPE/JXIFrwP+Uld7u/umCmoshQvAvG8RwvwVjuJLaYeoz4b4ENK17AyzYAnaWvtylmKN9So0L/F49fjqYCm2oR0V0+glOLXjO/6kr5HLvY4+z+dT6RagQ6MHi3KLEuAo1yn4ZFSs+8pd5kcKR5AvmA7+lQVcbbLxkkG+gV2YgE5moikmYVf1q4MkQdsP6H+QerixLCmsNM+u2kvOLqEEGZQK2JZEvKq8KQ6Cbx6l80In/ReUSNow9OMMhNXgCVuQA7KIj3nBJ21O6S4uAUuv9QAObhMyMW5s8UDqXU3Dgjg4f1+/Evo4w9a6U03vttdnuSxRzbXf8CZCoOYUl5ahTyAaGrucXdliISlfRMhSaPRb+E8GD+kYR3qK4EUAUiph7dTiLkDp5WZEsLgujqrQ+sgh7Y/nIQynLgSUxPW4BZipwsy5YgvdzLVCYCHVKBP+YuHvdJca8EsbxwHpPSVruEYg2p+Clc8O9H3TLCJ7hbsJ9myMoWUgO7+DfQTzI68uXm8=
 
-before_install: docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk:10.4.1 npm i
+before_install: docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk:10.7.0 npm i
 
-before_script: docker run -it -v "$(pwd)":/usr/app -w /usr/app --env-file <(env | grep TRAVIS) r3ddox/node-pdftk:10.4.1 sh -c "npm i -g greenkeeper-lockfile && greenkeeper-lockfile-update"
+before_script: docker run -it -v "$(pwd)":/usr/app -w /usr/app --env-file <(env | grep TRAVIS) r3ddox/node-pdftk:10.7.0 sh -c "npm i -g greenkeeper-lockfile && greenkeeper-lockfile-update"
 
-after_script: docker run -it -v "$(pwd)":/usr/app -w /usr/app --env GH_TOKEN=$GH_TOKEN --env-file <(env | grep TRAVIS) r3ddox/node-pdftk:10.4.1 sh -c "npm i -g greenkeeper-lockfile && greenkeeper-lockfile-upload"
+after_script: docker run -it -v "$(pwd)":/usr/app -w /usr/app --env GH_TOKEN=$GH_TOKEN --env-file <(env | grep TRAVIS) r3ddox/node-pdftk:10.7.0 sh -c "npm i -g greenkeeper-lockfile && greenkeeper-lockfile-upload"
 
 script:
-- docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk:10.4.1 npm test
+- docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk:10.7.0 npm test
 
 deploy:
   - provider: script

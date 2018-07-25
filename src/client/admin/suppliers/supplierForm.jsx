@@ -36,6 +36,7 @@ const SupplierForm = ({
       onChange={(event, value) => selectSupplier(
         suppliers.find(supplier => supplier._id === value)
       )}
+      label="Create new"
     >
       <MenuItem value="">
         Create new

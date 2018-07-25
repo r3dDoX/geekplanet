@@ -36,6 +36,7 @@ const ProducerForm = ({
       onChange={(event, value) => selectProducer(
         producers.find(producer => producer._id === value)
       )}
+      label="Create new"
     >
       <MenuItem value="">
         Create new

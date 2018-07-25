@@ -71,7 +71,7 @@ const Pagination = ({
       >
         <ArrowLeft />
       </PaginationButton>
-      {pages > MAX_PAGES_BUTTONS && page > Math.floor(MAX_PAGES_BUTTONS / 2) && (
+      {pages.length > MAX_PAGES_BUTTONS && page > Math.floor(MAX_PAGES_BUTTONS / 2) && (
         <PaginationIndicatorButton
           color="primary"
           size="small"
@@ -98,7 +98,7 @@ const Pagination = ({
           );
         })
       }
-      {pages > MAX_PAGES_BUTTONS && maxPage - page > Math.floor(MAX_PAGES_BUTTONS / 2) && (
+      {pages.length > MAX_PAGES_BUTTONS && maxPage - page > Math.floor(MAX_PAGES_BUTTONS / 2) && (
         <PaginationIndicatorButton
           color="primary"
           size="small"

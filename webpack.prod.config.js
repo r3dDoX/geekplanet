@@ -9,7 +9,7 @@ module.exports = merge(commonConfig, {
   mode: 'production',
   devtool: 'source-map',
 
-  entry: './src/client/index.jsx',
+  entry: './src/client/index.js',
 
   output: {
     path: path.join(__dirname, 'dist/'),

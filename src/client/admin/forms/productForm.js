@@ -367,8 +367,9 @@ Downloads
             <MenuItem
               key={_id}
               value={_id}
-              primaryText={name}
-            />
+            >
+              {name}
+            </MenuItem>
           ))}
         </Field>
 &nbsp;
@@ -388,8 +389,9 @@ Downloads
             <MenuItem
               key={_id}
               value={_id}
-              primaryText={name}
-            />
+            >
+              {name}
+            </MenuItem>
           ))}
         </Field>
         <br />
@@ -458,11 +460,13 @@ export default connect(
       dispatch(createLoadCompleteProducts());
     }
 
+    function clearForm() {
+      dispatch(initialize(productFormName));
+      dispatch(createResetSelectedFiles());
+    }
+
     return {
-      clearForm() {
-        dispatch(initialize(productFormName));
-        dispatch(createResetSelectedFiles());
-      },
+      clearForm,
       changeDescription(content) {
         dispatch(change(productFormName, 'de.description', content));
       },
@@ -470,7 +474,10 @@ export default connect(
         return productToSubmit => ProductService
           .saveProduct(productToSubmit)
           .then(loadProducts)
-          .then(() => history.push('/admin/forms/products'));
+          .then(() => {
+            clearForm();
+            history.push('/admin/forms/products');
+          });
       },
       selectFiles(selectedFiles, initialFiles) {
         dispatch(createSelectFiles(selectedFiles, initialFiles));

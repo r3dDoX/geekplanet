@@ -2,10 +2,14 @@ import Button from '@material-ui/core/Button';
 import grey from '@material-ui/core/colors/grey';
 import Divider from '@material-ui/core/Divider';
 import MenuItem from '@material-ui/core/MenuItem';
+import Paper from '@material-ui/core/Paper';
+import MaterialTextField from '@material-ui/core/TextField';
+import Downshift from 'downshift';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDrafts from 'react-drafts';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import withRouter from 'react-router-dom/withRouter';
 import { change, Field, FieldArray, initialize, reduxForm } from 'redux-form';
 import styled from 'styled-components';
@@ -20,7 +24,8 @@ import {
   ProducerPropType,
   ProductCategoryPropType,
   ProductPropType,
-  SupplierPropType, TagPropType,
+  SupplierPropType,
+  TagPropType,
 } from '../../propTypes';
 import {
   createLoadCompleteProducts,
@@ -75,7 +80,7 @@ const UploadButton = styled(Button)`
   margin-top: 10px !important;
 `;
 
-const DeleteButton = styled(Button)`
+const StyledButton = styled(Button)`
   margin-left: 10px !important;
 `;
 
@@ -89,6 +94,12 @@ const styles = {
 };
 
 class ProductForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.downshiftInstance = React.createRef();
+  }
+
   componentDidMount() {
     const {
       products,
@@ -157,35 +168,66 @@ class ProductForm extends React.Component {
           return true;
         }}
       >
-        <Field
-          component={SelectField}
-          name="_id"
-          onChange={(event, value) => {
-            selectProduct(products.find(product => product._id === value));
-            history.push(`/admin/forms/products/${value}`);
+        <Downshift
+          onSelect={(selectedProduct) => {
+            if (selectedProduct) {
+              selectProduct(selectedProduct);
+              history.push(`/admin/forms/products/${selectedProduct._id}`);
+            }
           }}
-          selectedValue={match.params.id || ''}
-          label="Create new"
+          itemToString={product => (product ? product.de.name : '')}
+          ref={this.downshiftInstance}
         >
-          <MenuItem>
-            Create new
-          </MenuItem>
-          <Divider />
-          {products.map(({ _id, de: { name } }) => (
-            <MenuItem key={_id} value={_id}>
-              {name}
-            </MenuItem>
-          ))}
-        </Field>
-        {match.params.id && (
-          <DeleteButton
+          {({ getInputProps, getItemProps, isOpen, inputValue, highlightedIndex }) => (
+            <div style={{ display: 'inline-block' }}>
+              <MaterialTextField
+                InputProps={{
+                  ...getInputProps({
+                    placeholder: 'Create New',
+                    id: 'select-product',
+                  }),
+                }}
+              />
+              {isOpen ? (
+                <Paper square>
+                  {products
+                    .filter(({ de: { name } }) => name.toLowerCase().includes(inputValue.toLowerCase()))
+                    .slice(0, 20)
+                    .map((product, index) => (
+                      <MenuItem
+                        {...getItemProps({ item: product })}
+                        key={product.de.name}
+                        selected={highlightedIndex === index}
+                        component="div"
+                      >
+                        {product.de.name}
+                      </MenuItem>
+                    ))
+                  }
+                </Paper>
+              ) : null}
+            </div>
+          )}
+        </Downshift>
+        {match.params.id && [
+          <StyledButton
+            key="deleteProduct"
             variant="contained"
             color="secondary"
             onClick={() => removeProduct(match.params.id).then(() => history.push('/admin/forms/products'))}
           >
             Remove
-          </DeleteButton>
-        )}
+          </StyledButton>,
+          <StyledButton
+            key="createNewProduct"
+            variant="contained"
+            component={Link}
+            to="/admin/forms/products"
+            onClick={() => this.downshiftInstance.current.clearSelection()}
+          >
+            Create New
+          </StyledButton>,
+        ]}
         <br />
 
         <Field

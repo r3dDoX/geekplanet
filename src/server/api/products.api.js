@@ -187,7 +187,7 @@ router.get('/:id',
 
 router.delete('/:id', authorization, isAdmin,
   asyncHandler(async (req, res) => {
-    const product = Product.findOne({ _id: req.params.id });
+    const product = await Product.findOne({ _id: req.params.id });
     const pictureRemovePromises = product.files.length
       ? product.files.map(productFile => removeFile(productFile))
       : [];

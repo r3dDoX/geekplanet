@@ -17,6 +17,7 @@ import Products from './products/products.jsx';
 import asyncComponent from './router/asyncComponent.jsx';
 import GenericError from './router/genericError.jsx';
 import PrivateRoute from './router/privateRoute.jsx';
+import ScrollToTop from './router/scrollToTop.jsx';
 import { ids, load } from './storage';
 
 const LazyAdmin = asyncComponent(() => import('./admin/admin.jsx').then(module => module.default));
@@ -31,19 +32,21 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <Layout>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/error" component={GenericError} />
-          <Route exact path="/agb" component={Agb} />
-          <Route exact path="/imprint" component={Imprint} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/login/changepassword" component={ChangePassword} />
-          <Route exact path="/products/" component={Products} />
-          <Route path="/products/:id" component={ProductDetails} />
-          <PrivateRoute path="/order" component={OrderStepper} />
+        <ScrollToTop>
+          <Layout>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/error" component={GenericError} />
+            <Route exact path="/agb" component={Agb} />
+            <Route exact path="/imprint" component={Imprint} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/login/changepassword" component={ChangePassword} />
+            <Route exact path="/products/" component={Products} />
+            <Route path="/products/:id" component={ProductDetails} />
+            <PrivateRoute path="/order" component={OrderStepper} />
 
-          <PrivateRoute path="/admin" allowedRoles={['admin']} component={LazyAdmin} />
-        </Layout>
+            <PrivateRoute path="/admin" allowedRoles={['admin']} component={LazyAdmin} />
+          </Layout>
+        </ScrollToTop>
       </BrowserRouter>
     );
   }

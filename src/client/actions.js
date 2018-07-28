@@ -1,7 +1,7 @@
 import { reset } from 'redux-form';
 import { ErrorTypes } from '../common/errors';
 import TranslationService from '../common/translationService';
-import { formName as productFilterFormName } from './products/productFilter.jsx';
+import { formName as productFilterFormName } from './products/productFilter';
 import Xhr from './xhr';
 
 export const PRODUCT_LOADING = 'PRODUCT_LOADING';

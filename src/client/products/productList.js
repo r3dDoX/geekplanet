@@ -4,7 +4,6 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { ProductPropType } from '../propTypes';
-import { mdMinSize } from '../theme';
 import ProductTile from './productTile';
 import Pagination, { PAGE_SIZE } from './pagination';
 
@@ -14,10 +13,6 @@ const ProductListContainer = styled.div`
   flex-wrap: wrap;
   align-items: stretch;
   padding: 20px 15px;
-  
-  @media screen and (min-width: ${mdMinSize}) {
-    padding-top: 80px;
-  }
 `;
 
 class ProductList extends React.Component {

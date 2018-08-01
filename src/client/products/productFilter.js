@@ -8,7 +8,7 @@ import { Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import SmallTextField from '../formHelpers/smallTextField';
 import { ProductCategoryPropType } from '../propTypes';
-import { laMinSize, mdMaxSize, mdMinSize } from '../theme';
+import theme from '../theme';
 
 export const formName = 'productFilter';
 
@@ -23,19 +23,8 @@ const FilterContainer = styled.div`
   max-height: 68px;
   overflow-x: auto;
   
-  @media screen and (max-width: ${mdMaxSize}) {
+  @media screen and (max-width: ${theme.breakpoints.values.md}) {
     justify-content: space-between;
-  }
-  
-  @media screen and (min-width: ${mdMinSize}) {
-    position: fixed;
-    left: 0;
-    right: 0;
-    z-index: 2;
-  }
-  
-  @media screen and (min-width: ${laMinSize}) {
-    padding-left: 276px;
   }
 `;
 

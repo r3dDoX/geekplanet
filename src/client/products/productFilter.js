@@ -23,7 +23,7 @@ const FilterContainer = styled.div`
   max-height: 68px;
   overflow-x: auto;
   
-  @media screen and (max-width: ${theme.breakpoints.values.md}) {
+  @media screen and (max-width: ${theme.breakpoints.values.md}px) {
     justify-content: space-between;
   }
 `;

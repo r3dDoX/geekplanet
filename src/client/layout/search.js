@@ -37,6 +37,7 @@ const SearchPopUp = styled.div`
   right: 0;
   padding: 12px 20px;
   background-color: #FFF;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 `;
 
 const SearchInput = styled.input`

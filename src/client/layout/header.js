@@ -9,11 +9,21 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'react-router-dom/Link';
 import styled from 'styled-components';
+import HomeSearch from './search';
 import ShoppingCartIcon from '../shoppingcart/shoppingCartIcon';
 import { backgroundColor } from '../theme';
 
+const StyledToolbar = styled(Toolbar)`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const Title = styled(Link)`
-  flex: 1 1 auto;
   text-decoration: none;
   color: inherit;
 `;
@@ -33,23 +43,26 @@ const Header = ({
     position="fixed"
     className={classes.appBar}
   >
-    <Toolbar>
-      <Hidden mdUp>
-        <IconButton
-          color="inherit"
-          aria-label="Menu"
-          onClick={toggleDrawer}
-        >
-          <MenuIcon />
-        </IconButton>
-      </Hidden>
-      <Title to="/">
-        <Typography variant="title" color="inherit">
-          {APP.TITLE}
-        </Typography>
-      </Title>
+    <StyledToolbar>
+      <TitleContainer>
+        <Hidden mdUp>
+          <IconButton
+            color="inherit"
+            aria-label="Menu"
+            onClick={toggleDrawer}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Hidden>
+        <Title to="/">
+          <Typography variant="title" color="inherit">
+            {APP.TITLE}
+          </Typography>
+        </Title>
+      </TitleContainer>
+      <HomeSearch />
       <ShoppingCartIcon />
-    </Toolbar>
+    </StyledToolbar>
   </AppBar>
 );
 

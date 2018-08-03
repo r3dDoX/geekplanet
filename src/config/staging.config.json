@@ -11,5 +11,8 @@
   "PAYMENT": {
     "PUBLIC": "pk_test_vyVGipm7QCAuNaHYwBHBLdpy"
   },
-  "NEWRELIC": null
+  "NEWRELIC": null,
+  "YOUTUBE": {
+    "API_KEY": "AIzaSyCabl67-rNd9aFqqa7NC5k3Bsw4q7rjC30"
+  }
 }

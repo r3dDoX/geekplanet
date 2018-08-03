@@ -9,7 +9,16 @@ import { createLoadYouTubeFeed } from '../actions';
 import { YouTubeFeedPropType } from '../propTypes';
 
 const Container = styled.article`
+  display: flex;
+  flex-direction: column;
   max-width: 400px;
+  padding: 10px;
+`;
+
+const YouTubeLogo = styled.img`
+  margin: 15px;
+  width: 100px;
+  align-self: center;
 `;
 
 class YouTubeFeed extends React.PureComponent {
@@ -27,6 +36,7 @@ class YouTubeFeed extends React.PureComponent {
 
     return (
       <Container>
+        <YouTubeLogo src="/assets/images/youtube_logo.svg" />
         <GridList>
           {youTubeFeed.map((movie, index) => (
             <GridListTile

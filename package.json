@@ -51,7 +51,7 @@
     "sharp": "0.20.5",
     "shortid": "2.2.12",
     "streamifier": "0.1.1",
-    "stripe": "6.5.0"
+    "stripe": "6.6.0"
   },
   "devDependencies": {
     "@material-ui/core": "1.4.2",

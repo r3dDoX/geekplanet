@@ -1,6 +1,8 @@
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import Paper from '@material-ui/core/Paper';
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import PropTypes from 'prop-types';
 import React from 'react';
 import connect from 'react-redux/es/connect/connect';
@@ -8,17 +10,17 @@ import styled from 'styled-components';
 import { createLoadYouTubeFeed } from '../actions';
 import { YouTubeFeedPropType } from '../propTypes';
 
-const Container = styled.article`
+const Container = styled(Paper)`
   display: flex;
   flex-direction: column;
+  align-items: center;
   max-width: 400px;
-  padding: 10px;
+  margin: 10px;
 `;
 
 const YouTubeLogo = styled.img`
   margin: 15px;
-  width: 100px;
-  align-self: center;
+  height: 25px;
 `;
 
 class YouTubeFeed extends React.PureComponent {
@@ -31,13 +33,12 @@ class YouTubeFeed extends React.PureComponent {
   }
 
   render() {
-    const { youTubeFeed } = this.props;
-
+    const { youTubeFeed, width } = this.props;
 
     return (
-      <Container>
-        <YouTubeLogo src="/assets/images/youtube_logo.svg" />
-        <GridList>
+      <Container component="article" square>
+        <YouTubeLogo alt="Youtube Logo" src="/assets/images/youtube_logo.svg" />
+        <GridList spacing={1} cols={isWidthUp('sm', width) ? 2 : 1}>
           {youTubeFeed.map((movie, index) => (
             <GridListTile
               key={movie.id.videoId}
@@ -47,7 +48,7 @@ class YouTubeFeed extends React.PureComponent {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img alt="asdf" src={movie.snippet.thumbnails[index === 0 ? 'high' : 'medium'].url} />
+              <img alt="Movie Thumbnail" src={movie.snippet.thumbnails[index === 0 ? 'high' : 'medium'].url} />
               <GridListTileBar title={movie.snippet.title} />
             </GridListTile>
           ))}
@@ -58,6 +59,7 @@ class YouTubeFeed extends React.PureComponent {
 }
 
 YouTubeFeed.propTypes = {
+  width: PropTypes.string.isRequired,
   youTubeFeed: YouTubeFeedPropType.isRequired,
   loadYouTubeFeed: PropTypes.func.isRequired,
 };
@@ -71,4 +73,4 @@ export default connect(
       dispatch(createLoadYouTubeFeed(dispatch));
     },
   }),
-)(YouTubeFeed);
+)(withWidth()(YouTubeFeed));

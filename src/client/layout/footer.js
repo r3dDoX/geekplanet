@@ -9,7 +9,7 @@ import styled from 'styled-components';
 const blueGrey100 = blueGrey['100'];
 const grey800 = grey['800'];
 
-const Container = styled.div`
+const Container = styled.footer`
   display: flex;
   align-items: flex-start;
   padding: 24px;

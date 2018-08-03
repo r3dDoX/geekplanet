@@ -92,7 +92,7 @@ class LayoutDrawer extends React.Component {
       : [];
 
     return (
-      <List>
+      <List component="nav">
         {roles.includes('admin') ? ([
           <ListSubheader
             key="admin"

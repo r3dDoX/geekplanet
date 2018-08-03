@@ -62,7 +62,7 @@ const ShoppingCartDrawer = ({
       paper: classes.drawerPaper,
     }}
   >
-    <List>
+    <List component="aside">
       <Toolbar>
         <IconButton color="inherit" aria-label="Menu" onClick={toggleDrawer}>
           <ChevronRightIcon />

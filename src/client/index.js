@@ -19,7 +19,7 @@ const renderApp = () => {
     <AppContainer>
       <WrappedApp store={store} />
     </AppContainer>,
-    document.getElementsByTagName('main')[0],
+    document.getElementById('app'),
   );
 };
 

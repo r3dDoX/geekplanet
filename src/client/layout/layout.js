@@ -70,7 +70,7 @@ class Layout extends React.Component {
         <IntlProvider locale={language} messages={translations}>
           <div>
             <Header toggleDrawer={toggleDrawer} />
-            <Body square>
+            <Body component="main" square>
               <LayoutDrawer
                 roles={roles}
                 logout={() => {

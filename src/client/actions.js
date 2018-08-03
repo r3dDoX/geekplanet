@@ -47,6 +47,7 @@ export const SET_TAGS = 'SET_TAGS';
 export const COMPLETE_PRODUCTS_LOADED = 'COMPLETE_PRODUCTS_LOADED';
 export const ORDERS_LOADED = 'ORDERS_LOADED';
 export const HOME_TILES_LOADED = 'HOME_TILES_LOADED';
+export const YOUTUBE_FEED_LOADED = 'YOUTUBE_FEED_LOADED';
 export const COUPONS_LOADED = 'COUPONS_LOADED';
 
 // eslint-disable-next-line
@@ -249,3 +250,10 @@ export const createLoadHomeTiles = () => dispatch =>
     type: HOME_TILES_LOADED,
     tiles,
   }));
+
+export const createLoadYouTubeFeed = () => dispatch =>
+  Xhr.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCi7zjH3DyAvJoIlG8llygyQ&maxResults=9&order=date&type=video&key=${YOUTUBE.API_KEY}`)
+    .then(({ items }) => dispatch({
+      type: YOUTUBE_FEED_LOADED,
+      youTubeFeed: items,
+    }));

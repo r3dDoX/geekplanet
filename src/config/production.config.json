@@ -14,5 +14,8 @@
   "NEWRELIC": {
     "NAME": "geekplanet",
     "KEY": "6502075d68e55a5c63be4a714601592cf2c9f9ee"
+  },
+  "YOUTUBE": {
+    "API_KEY": "AIzaSyCabl67-rNd9aFqqa7NC5k3Bsw4q7rjC30"
   }
 }

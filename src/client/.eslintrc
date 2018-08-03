@@ -12,6 +12,7 @@
     "AUTH": false,
     "PAYMENT": false,
     "ORDER": false,
+    "YOUTUBE": false,
     "StripeCheckout": false
   }
 }

@@ -147,3 +147,24 @@ export const TagPropType = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
 });
+
+export const YouTubeThumbnailPropType = PropTypes.shape({
+  url: PropTypes.string.isRequired,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+});
+
+export const YouTubeFeedPropType = PropTypes.arrayOf(PropTypes.shape({
+  id: PropTypes.shape({
+    videoId: PropTypes.string.isRequired,
+  }).isRequired,
+  snippet: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    thumbnails: PropTypes.shape({
+      default: YouTubeThumbnailPropType.isRequired,
+      medium: YouTubeThumbnailPropType.isRequired,
+      high: YouTubeThumbnailPropType.isRequired,
+    }).isRequired,
+  }).isRequired,
+}));

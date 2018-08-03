@@ -10,19 +10,6 @@ import styled from 'styled-components';
 import { createLoadYouTubeFeed } from '../actions';
 import { YouTubeFeedPropType } from '../propTypes';
 
-const Container = styled(Paper)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 400px;
-  margin: 10px;
-`;
-
-const YouTubeLogo = styled.img`
-  margin: 15px;
-  height: 25px;
-`;
-
 class YouTubeFeed extends React.PureComponent {
   componentWillMount() {
     const { youTubeFeed, loadYouTubeFeed } = this.props;
@@ -63,6 +50,20 @@ YouTubeFeed.propTypes = {
   youTubeFeed: YouTubeFeedPropType.isRequired,
   loadYouTubeFeed: PropTypes.func.isRequired,
 };
+
+const Container = styled(Paper)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+  min-width: 100px;
+  margin: 10px;
+`;
+
+const YouTubeLogo = styled.img`
+  margin: 15px;
+  height: 25px;
+`;
 
 export default connect(
   state => ({

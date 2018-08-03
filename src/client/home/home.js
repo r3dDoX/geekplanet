@@ -7,6 +7,21 @@ import styled from 'styled-components';
 import YouTubeFeed from './youTubeFeed';
 import theme, { accent2Color } from '../theme';
 
+const exampleTiles = [
+  {
+    title: 'Bemaltutorial',
+    url: 'https://google.com',
+  },
+  {
+    title: 'Warhammer 40\'000',
+    url: 'https://google.com',
+  },
+  {
+    title: 'Spielgelände',
+    url: 'https://google.com',
+  },
+];
+
 const Home = ({ intl }) => (
   <div>
     <Helmet>
@@ -23,6 +38,13 @@ const Home = ({ intl }) => (
         <PrimaryTile square>
           <Logo alt="geekplanet Logo" src="/assets/images/logo.svg" />
         </PrimaryTile>
+        {exampleTiles.map(tile => (
+          <Tile square key={tile.title}>
+            <h3>
+              {tile.title}
+            </h3>
+          </Tile>
+        ))}
       </TileContainer>
       <YouTubeFeed />
     </Container>
@@ -48,7 +70,7 @@ const TileContainer = styled.div`
   flex: 1 1 auto;
   flex-wrap: wrap;
   align-items: flex-start;
-  padding: 10px;
+  padding: 5px;
   
   @media screen and (max-width: ${theme.breakpoints.values.sm}px) {
     justify-content: center;
@@ -56,9 +78,14 @@ const TileContainer = styled.div`
 `;
 
 const Tile = styled(Paper)`
+  margin: 5px;
   flex: 1 1 200px;
   max-width: 300px;
   min-width: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
   
   &:after {
     content: "";
@@ -76,11 +103,7 @@ const Tile = styled(Paper)`
 `;
 
 const PrimaryTile = styled(Tile)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: ${accent2Color} !important;
-  padding: 20px;
 `;
 
 const Logo = styled.img`

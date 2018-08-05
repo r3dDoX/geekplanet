@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { backgroundColor, xsMaxSize } from '../theme';
+import theme, { backgroundColor } from '../theme';
 import HomeSearch from './homeSearch';
 import HomeTiles from './homeTiles';
 import Slogan from './slogan';
@@ -10,7 +10,7 @@ const Header = styled.div`
   padding: 80px 30px;
   background-color: ${backgroundColor};
   
-  @media screen and (max-width: ${xsMaxSize}) {
+  @media screen and (max-width: ${theme.breakpoints.values.sm}px) {
     display: none;
   }
 `;

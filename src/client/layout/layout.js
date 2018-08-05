@@ -21,22 +21,6 @@ import LayoutDrawer from './layoutDrawer';
 import MainSpinner from './mainSpinner';
 import theme from '../theme';
 
-const Body = styled(Paper)`
-  position: relative;
-  padding-top: 56px;
-  display: flex;
-  align-items: stretch;
-  
-  @media screen and (min-width: ${theme.breakpoints.values.sm}px) {
-    padding-top: 64px;
-  }
-`;
-
-const Content = styled.div`
-  flex: 1 1 100%;
-  max-width: 100%;
-`;
-
 class Layout extends React.Component {
   componentWillMount() {
     if (!this.props.productCategories.length) {
@@ -104,6 +88,23 @@ class Layout extends React.Component {
     return <MainSpinner />;
   }
 }
+
+const Body = styled(Paper)`
+  position: relative;
+  padding-top: 56px;
+  display: flex;
+  align-items: stretch;
+  max-width: 100vw;
+  
+  @media screen and (min-width: ${theme.breakpoints.values.sm}px) {
+    padding-top: 64px;
+  }
+`;
+
+const Content = styled.div`
+  flex: 1 1 100%;
+  max-width: 100%;
+`;
 
 Layout.propTypes = {
   auth: PropTypes.shape({

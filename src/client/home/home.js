@@ -4,8 +4,8 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { injectIntl } from 'react-intl';
 import styled from 'styled-components';
-import YouTubeFeed from './youTubeFeed';
 import theme, { accent2Color } from '../theme';
+import YouTubeFeed from './youTubeFeed';
 
 const exampleTiles = [
   {
@@ -33,6 +33,7 @@ const Home = ({ intl }) => (
         content={intl.formatMessage({ id: 'HOME.DESCRIPTION' })}
       />
     </Helmet>
+    <YouTubeFeed />
     <Container>
       <TileContainer>
         <PrimaryTile square>
@@ -46,7 +47,6 @@ const Home = ({ intl }) => (
           </Tile>
         ))}
       </TileContainer>
-      <YouTubeFeed />
     </Container>
   </div>
 );
@@ -107,7 +107,7 @@ const PrimaryTile = styled(Tile)`
 `;
 
 const Logo = styled.img`
-  max-width: 100px;
+  max-width: 80px;
 `;
 
 export default injectIntl(Home);

@@ -92,7 +92,7 @@ class OrderStepper extends React.Component {
           </StepButton>
           <StyledStepContent>
             <StepSpinner isProcessing={isProcessing}>
-              <PrivateRoute path={`${match.url}/address`} component={AddressStepContent} />
+              <PrivateRoute key="addressStep" path={`${match.url}/address`} component={AddressStepContent} />
             </StepSpinner>
           </StyledStepContent>
         </Step>
@@ -102,7 +102,7 @@ class OrderStepper extends React.Component {
           </StepButton>
           <StyledStepContent>
             <StepSpinner isProcessing={isProcessing}>
-              <PrivateRoute path={`${match.url}/agb`} component={AgbStepContent} />
+              <PrivateRoute key="agbStep" path={`${match.url}/agb`} component={AgbStepContent} />
             </StepSpinner>
           </StyledStepContent>
         </Step>
@@ -112,7 +112,7 @@ class OrderStepper extends React.Component {
           </StepButton>
           <StyledStepContent>
             <StepSpinner isProcessing={isProcessing}>
-              <PrivateRoute path={`${match.url}/payment`} component={PaymentStepContent} />
+              <PrivateRoute key="paymentStep" path={`${match.url}/payment`} component={PaymentStepContent} />
             </StepSpinner>
           </StyledStepContent>
         </Step>
@@ -122,7 +122,7 @@ class OrderStepper extends React.Component {
           </StepButton>
           <StyledStepContent>
             <StepSpinner isProcessing={isProcessing}>
-              <PrivateRoute path={`${match.url}/summary`} component={Summary} />
+              <PrivateRoute key="summaryStep" path={`${match.url}/summary`} component={Summary} />
             </StepSpinner>
           </StyledStepContent>
         </Step>
@@ -132,7 +132,7 @@ class OrderStepper extends React.Component {
           </StepButton>
           <StyledStepContent>
             <StepSpinner isProcessing={isProcessing}>
-              <PrivateRoute path={`${match.url}/confirmation`} component={ConfirmationText} />
+              <PrivateRoute key="confirmationStep" path={`${match.url}/confirmation`} component={ConfirmationText} />
             </StepSpinner>
           </StyledStepContent>
         </Step>

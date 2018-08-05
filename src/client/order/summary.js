@@ -10,9 +10,9 @@ import PriceCalculation from '../../common/priceCalculation';
 import { formatPriceWithCurrency } from '../../common/priceFormatter';
 import { createFinishOrder } from '../actions';
 import { CouponPropType, ShoppingCartItemsPropType } from '../propTypes';
-import { accent1Color, brandSecondary, xsMaxSize } from '../theme';
+import theme, { accent1Color, brandSecondary } from '../theme';
 
-const grey300 = grey['300'];
+const grey100 = grey['100'];
 const grey600 = grey['600'];
 const priceCalculation = PriceCalculation.create(ORDER.MIN_PRICE_SHIPPING, ORDER.SHIPPING_COST);
 
@@ -23,7 +23,7 @@ const SummaryContainer = styled.div`
 
 const TableBody = styled.tbody`
   tr:nth-child(2n) {
-    background-color: ${grey300};
+    background-color: ${grey100};
   }
   
   tr:last-of-type td {
@@ -34,7 +34,7 @@ const TableBody = styled.tbody`
 const Cell = styled.td`
   padding: 10px;
   
-  @media screen and (min-width: ${xsMaxSize}) {
+  @media screen and (min-width: ${theme.breakpoints.values.md}px) {
     padding: 15px;
   }
 `;
@@ -45,7 +45,7 @@ const StyledAvatar = styled(Avatar)`
   vertical-align: middle;
   margin-right: 10px;
   
-  @media screen and (max-width: ${xsMaxSize}) {
+  @media screen and (max-width: ${theme.breakpoints.values.md}px) {
     display: none !important;
   }
 `;

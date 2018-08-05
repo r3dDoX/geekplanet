@@ -16,7 +16,7 @@ const MainSpinnerContainer = styled.div`
 const StepSpinner = ({ isProcessing, children }) => [
   children,
   isProcessing && (
-    <MainSpinnerContainer>
+    <MainSpinnerContainer key="stepSpinner">
       <MainSpinner />
     </MainSpinnerContainer>
   ),

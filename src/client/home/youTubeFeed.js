@@ -52,7 +52,7 @@ YouTubeFeed.propTypes = {
 };
 
 const Container = styled.article`
-  padding: 20px;
+  padding: 15px;
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;

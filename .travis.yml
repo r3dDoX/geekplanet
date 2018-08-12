@@ -23,7 +23,7 @@ deploy:
     script: scripts/deploy-staging.sh $HEROKU_TOKEN
     skip_cleanup: true
     on:
-      branch: feature/homescreen
+      branch: develop
   - provider: script
     script: scripts/deploy.sh $HEROKU_TOKEN
     skip_cleanup: true

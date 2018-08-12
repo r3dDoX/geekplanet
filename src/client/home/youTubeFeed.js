@@ -28,7 +28,7 @@ class YouTubeFeed extends React.PureComponent {
           </TileText>
           <Logo alt="Youtube Logo" src="/assets/images/youtube_logo.svg" />
         </GeekplanetTile>
-        {youTubeFeed.map((movie, index) => (
+        {youTubeFeed.map(movie => (
           <Tile
             square
             key={movie.id.videoId}
@@ -38,7 +38,7 @@ class YouTubeFeed extends React.PureComponent {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <TileImage alt={movie.snippet.title} src={movie.snippet.thumbnails[index === 0 ? 'high' : 'medium'].url} />
+            <TileImage alt={movie.snippet.title} src={movie.snippet.thumbnails.medium.url} />
           </Tile>
         ))}
       </Container>
@@ -74,6 +74,11 @@ const GeekplanetTile = styled(Paper)`
 
 const Tile = styled(Paper)`
   height: 180px;
+  transition: transform .15s ease-in-out;
+  
+  &:hover {
+    transform: perspective(400px) translateZ(20px);
+  }
 `;
 
 const TileImage = styled.img`

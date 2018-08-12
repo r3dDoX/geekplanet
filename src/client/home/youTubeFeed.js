@@ -32,6 +32,7 @@ class YouTubeFeed extends React.PureComponent {
           <Tile
             square
             key={movie.id.videoId}
+            title={movie.snippet.title}
             component="a"
             href={`https://www.youtube.com/watch?v=${movie.id.videoId}`}
             target="_blank"

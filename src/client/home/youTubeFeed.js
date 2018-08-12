@@ -1,8 +1,4 @@
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import connect from 'react-redux/es/connect/connect';
@@ -21,7 +17,7 @@ class YouTubeFeed extends React.PureComponent {
   }
 
   render() {
-    const { youTubeFeed, classes } = this.props;
+    const { youTubeFeed } = this.props;
 
     return (
       <Container>
@@ -32,45 +28,38 @@ class YouTubeFeed extends React.PureComponent {
           </TileText>
           <Logo alt="Youtube Logo" src="/assets/images/youtube_logo.svg" />
         </GeekplanetTile>
-        <FeedContainer square>
-          <GridList className={classes.gridList} spacing={1} cols={4}>
-            {youTubeFeed.map((movie, index) => (
-              <GridListTile
-                key={movie.id.videoId}
-                component="a"
-                href={`https://www.youtube.com/watch?v=${movie.id.videoId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img alt="Movie Thumbnail" src={movie.snippet.thumbnails[index === 0 ? 'high' : 'medium'].url} />
-                <GridListTileBar title={movie.snippet.title} />
-              </GridListTile>
-            ))}
-          </GridList>
-        </FeedContainer>
+        {youTubeFeed.map((movie, index) => (
+          <Tile
+            square
+            key={movie.id.videoId}
+            component="a"
+            href={`https://www.youtube.com/watch?v=${movie.id.videoId}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <TileImage alt={movie.snippet.title} src={movie.snippet.thumbnails[index === 0 ? 'high' : 'medium'].url} />
+          </Tile>
+        ))}
       </Container>
     );
   }
 }
 
 YouTubeFeed.propTypes = {
-  classes: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   youTubeFeed: YouTubeFeedPropType.isRequired,
   loadYouTubeFeed: PropTypes.func.isRequired,
 };
 
-const styles = () => ({
-  gridList: {
-    flexWrap: 'nowrap',
-    transform: 'translateZ(0)',
-  },
-});
-
 const Container = styled.article`
+  padding: 20px;
   display: flex;
   flex-wrap: nowrap;
-  padding: 20px;
+  overflow-x: auto;
   background-color: ${accent2Color};
+  
+  & > :not(:last-child) {
+    margin-right: 5px;
+  }
 `;
 
 const GeekplanetTile = styled(Paper)`
@@ -80,11 +69,14 @@ const GeekplanetTile = styled(Paper)`
   align-items: center;
   justify-content: center;
   min-width: 150px;
-  margin-right: 10px;
 `;
 
-const FeedContainer = styled(Paper)`
-  flex: 1 0 0;
+const Tile = styled(Paper)`
+  height: 180px;
+`;
+
+const TileImage = styled.img`
+  height: 100%;
 `;
 
 const Logo = styled.img`
@@ -104,4 +96,4 @@ export default connect(
       dispatch(createLoadYouTubeFeed(dispatch));
     },
   }),
-)(withStyles(styles)(YouTubeFeed));
+)(YouTubeFeed);

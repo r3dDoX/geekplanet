@@ -15,11 +15,11 @@ import {
 import authService from '../auth/authService';
 import { ProductCategoryPropType } from '../propTypes';
 import ShoppingCartDrawer from '../shoppingcart/shoppingCartDrawer';
+import theme from '../theme';
 import Footer from './footer';
 import Header from './header';
 import LayoutDrawer from './layoutDrawer';
 import MainSpinner from './mainSpinner';
-import theme from '../theme';
 
 class Layout extends React.Component {
   componentWillMount() {
@@ -103,7 +103,7 @@ const Body = styled(Paper)`
 
 const Content = styled.div`
   flex: 1 1 100%;
-  max-width: 100%;
+  overflow: hidden;
 `;
 
 Layout.propTypes = {

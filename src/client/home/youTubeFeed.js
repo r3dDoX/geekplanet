@@ -5,7 +5,7 @@ import connect from 'react-redux/es/connect/connect';
 import styled from 'styled-components';
 import { createLoadYouTubeFeed } from '../actions';
 import { YouTubeFeedPropType } from '../propTypes';
-import { accent2Color } from '../theme';
+import { accent2Color, brandPrimary } from '../theme';
 
 class YouTubeFeed extends React.PureComponent {
   componentWillMount() {
@@ -21,12 +21,15 @@ class YouTubeFeed extends React.PureComponent {
 
     return (
       <Container>
-        <GeekplanetTile square>
-          <Logo alt="geekplanet Logo" src="/assets/images/logo.svg" />
-          <TileText>
-            on
-          </TileText>
-          <Logo alt="Youtube Logo" src="/assets/images/youtube_logo.svg" />
+        <GeekplanetTile
+          square
+          title="YouTube Channel"
+          component="a"
+          href="https://www.youtube.com/channel/UCi7zjH3DyAvJoIlG8llygyQ"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Logo alt="Youtube Logo" src="/assets/images/youtube_dark.png" />
         </GeekplanetTile>
         {youTubeFeed.map(movie => (
           <Tile
@@ -70,6 +73,7 @@ const GeekplanetTile = styled(Paper)`
   align-items: center;
   justify-content: center;
   min-width: 150px;
+  background-color: ${brandPrimary} !important;
 `;
 
 const Tile = styled(Paper)`
@@ -87,11 +91,7 @@ const TileImage = styled.img`
 `;
 
 const Logo = styled.img`
-  max-width: 80px;
-`;
-
-const TileText = styled.span`
-  margin: 5px 0 10px;
+  max-width: 100px;
 `;
 
 export default connect(

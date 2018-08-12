@@ -76,8 +76,9 @@ const Tile = styled(Paper)`
   height: 180px;
   transition: transform .15s ease-in-out;
   
-  &:hover {
+  &:hover, &:focus {
     transform: perspective(400px) translateZ(20px);
+    outline: none;
   }
 `;
 

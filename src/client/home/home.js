@@ -7,21 +7,6 @@ import styled from 'styled-components';
 import theme, { accent2Color } from '../theme';
 import YouTubeFeed from './youTubeFeed';
 
-const exampleTiles = [
-  {
-    title: 'Bemaltutorial',
-    url: 'https://google.com',
-  },
-  {
-    title: 'Warhammer 40\'000',
-    url: 'https://google.com',
-  },
-  {
-    title: 'Spielgelände',
-    url: 'https://google.com',
-  },
-];
-
 const Home = ({ intl }) => (
   <div>
     <Helmet>

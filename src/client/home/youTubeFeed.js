@@ -77,7 +77,7 @@ const GeekplanetTile = styled(Paper)`
 `;
 
 const Tile = styled(Paper)`
-  height: 180px;
+  height: 178px;
   transition: transform .15s ease-in-out;
   
   &:hover, &:focus {

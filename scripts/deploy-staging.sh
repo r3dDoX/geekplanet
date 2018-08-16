@@ -2,5 +2,5 @@
 
 heroku -v
 
-HEROKU_API_KEY="$1" heroku container:login
+echo $1 | docker login --username=_ --password-stdin registry.heroku.com
 heroku container:push web --app geekplanet-staging --arg BUILD_ENV="staging"

@@ -90,7 +90,7 @@ const Tile = styled(Paper)`
   }
   
   @media screen and (max-width: ${theme.breakpoints.values.md}px) {
-    height: 120px;
+    height: 124px;
   }
 `;
 

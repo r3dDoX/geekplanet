@@ -7,6 +7,7 @@ const mongoURI = process.env.MONGODB_URI || process.env.MONGOHQ_URL;
 const mongoHelper = {
   init() {
     mongoose.connect(mongoURI, {
+      useNewUrlParser: true,
       poolSize: 10,
     }).catch(Logger.error);
     mongoose.connection.on('error', Logger.error);

@@ -5,7 +5,7 @@ import connect from 'react-redux/es/connect/connect';
 import styled from 'styled-components';
 import { createLoadYouTubeFeed } from '../actions';
 import { YouTubeFeedPropType } from '../propTypes';
-import { accent2Color, brandPrimary } from '../theme';
+import theme, { accent2Color, brandPrimary } from '../theme';
 
 class YouTubeFeed extends React.PureComponent {
   componentWillMount() {
@@ -74,6 +74,10 @@ const GeekplanetTile = styled(Paper)`
   justify-content: center;
   min-width: 150px;
   background-color: ${brandPrimary} !important;
+  
+  @media screen and (max-width: ${theme.breakpoints.values.md}px) {
+    min-width: 120px;
+  }
 `;
 
 const Tile = styled(Paper)`
@@ -84,6 +88,10 @@ const Tile = styled(Paper)`
     transform: perspective(400px) translateZ(20px);
     outline: none;
   }
+  
+  @media screen and (max-width: ${theme.breakpoints.values.md}px) {
+    height: 120px;
+  }
 `;
 
 const TileImage = styled.img`
@@ -92,6 +100,10 @@ const TileImage = styled.img`
 
 const Logo = styled.img`
   max-width: 100px;
+  
+  @media screen and (max-width: ${theme.breakpoints.values.md}px) {
+    max-width: 80px;
+  }
 `;
 
 export default connect(

@@ -15,9 +15,9 @@ import { FormattedMessage } from 'react-intl';
 import Link from 'react-router-dom/Link';
 import withRouter from 'react-router-dom/withRouter';
 import { ProductCategoryPropType } from '../propTypes';
+import theme from '../theme';
 import CategoryDivider from './categoryDivider';
 import CategoryListItem from './categoryListItem';
-import theme from '../theme';
 
 const drawerWidth = '256px';
 

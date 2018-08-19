@@ -1,6 +1,6 @@
-import Divider from '@material-ui/core/Divider';
 import green from '@material-ui/core/colors/green';
 import grey from '@material-ui/core/colors/grey';
+import Divider from '@material-ui/core/Divider';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Helmet } from 'react-helmet';
@@ -186,8 +186,8 @@ class ProductDetails extends React.Component {
             <h3>
               <FormattedMessage id="PRODUCT.DESCRIPTION" />
             </h3>
+            <meta itemProp="description" content={product[locale].shortDescription} />
             <ProductDescription
-              itemProp="description"
               // eslint-disable-next-line react/no-danger
               dangerouslySetInnerHTML={{ __html: product[locale].description }}
             />
@@ -276,5 +276,5 @@ export default connect(
     loadProduct(productId) {
       dispatch(createLoadProduct(productId));
     },
-  })
+  }),
 )(ProductDetails);

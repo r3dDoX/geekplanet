@@ -15,11 +15,11 @@ import {
 import authService from '../auth/authService';
 import { ProductCategoryPropType } from '../propTypes';
 import ShoppingCartDrawer from '../shoppingcart/shoppingCartDrawer';
+import theme from '../theme';
 import Footer from './footer';
 import Header from './header';
 import LayoutDrawer from './layoutDrawer';
 import MainSpinner from './mainSpinner';
-import theme from '../theme';
 
 const Body = styled(Paper)`
   position: relative;
@@ -33,7 +33,7 @@ const Body = styled(Paper)`
 `;
 
 const Content = styled.div`
-  flex: 1 1 auto;
+  flex: 1 1 100%;
   max-width: 100%;
 `;
 

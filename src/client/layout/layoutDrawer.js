@@ -14,17 +14,12 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Link from 'react-router-dom/Link';
 import withRouter from 'react-router-dom/withRouter';
-import styled from 'styled-components';
 import { ProductCategoryPropType } from '../propTypes';
+import theme from '../theme';
 import CategoryDivider from './categoryDivider';
 import CategoryListItem from './categoryListItem';
-import theme from '../theme';
 
 const drawerWidth = '256px';
-
-const DesktopDrawer = styled(Hidden)`
-  flex: none;
-`;
 
 const styles = stylesTheme => ({
   toolbar: {
@@ -211,7 +206,7 @@ class LayoutDrawer extends React.Component {
     } = this.props;
 
     return [
-      <DesktopDrawer smDown implementation="css" key="drawerMd">
+      <Hidden smDown implementation="css" key="drawerMd">
         <Drawer
           variant="permanent"
           open
@@ -222,7 +217,7 @@ class LayoutDrawer extends React.Component {
         >
           {this.renderDrawerContent()}
         </Drawer>
-      </DesktopDrawer>,
+      </Hidden>,
       <Hidden mdUp implementation="css" key="drawerSm">
         <Drawer
           variant="temporary"

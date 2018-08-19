@@ -104,6 +104,8 @@ const Body = styled(Paper)`
 const Content = styled.div`
   flex: 1 1 100%;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 `;
 
 Layout.propTypes = {

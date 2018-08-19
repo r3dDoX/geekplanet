@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import YouTubeFeed from './youTubeFeed';
 
 const Home = ({ intl }) => (
-  <div>
+  <Container>
     <Helmet>
       <title>
         geekplanet - Tabletop Miniatures
@@ -16,11 +16,11 @@ const Home = ({ intl }) => (
         content={intl.formatMessage({ id: 'HOME.DESCRIPTION' })}
       />
     </Helmet>
-    <YouTubeFeed />
-    <Container>
+    <TileContainer>
       TILES
-    </Container>
-  </div>
+    </TileContainer>
+    <YouTubeFeed />
+  </Container>
 );
 
 Home.propTypes = {
@@ -28,6 +28,13 @@ Home.propTypes = {
 };
 
 const Container = styled.div`
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const TileContainer = styled.div`
+  flex: 1;
   display: flex;
   flex-wrap: wrap;
   padding: 10px 5px;

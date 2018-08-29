@@ -67,7 +67,7 @@
     "babel-plugin-transform-react-remove-prop-types": "0.4.15",
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
-    "compression-webpack-plugin": "1.1.11",
+    "compression-webpack-plugin": "1.1.12",
     "copy-webpack-plugin": "4.5.2",
     "css-loader": "1.0.0",
     "downshift": "2.1.5",

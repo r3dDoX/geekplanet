@@ -52,11 +52,11 @@ const StyledAvatar = styled(Avatar)`
 
 const HeaderCell = Cell.withComponent('th');
 
-const AmountCell = Cell.extend`
+const AmountCell = styled(Cell)`
   text-align: center;
 `;
 
-const FooterTitleCell = Cell.extend`
+const FooterTitleCell = styled(Cell)`
   font-weight: bold;
 `;
 

@@ -13,6 +13,7 @@ USER geekplanet
 RUN npm i
 RUN npm run build:$BUILD_ENV
 RUN rm -rf node_modules
+RUN rm -rf jest*/
 RUN npm i --production
 
 CMD npm start

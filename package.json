@@ -25,7 +25,7 @@
   "author": "Patrick Walther",
   "license": "ISC",
   "dependencies": {
-    "babel-core": "6.26.3",
+    "@babel/core": "7.0.0",
     "body-parser": "1.18.3",
     "chalk": "2.4.1",
     "compression": "1.7.3",

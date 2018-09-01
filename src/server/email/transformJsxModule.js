@@ -1,5 +1,5 @@
 /* eslint-disable no-eval */
-const babel = require('babel-core');
+const babel = require('@babel/core');
 
 module.exports = function transformJsxModule(absolutePath) {
   const module = {};

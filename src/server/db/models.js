@@ -200,15 +200,18 @@ models.Order = mongoose.model('Order', {
 });
 
 const HomeTileName = mongoose.Schema({
-  name: String,
+  title: String,
+  text: String,
 });
 
 models.HomeTile = mongoose.model('HomeTile', {
   de: HomeTileName,
-  fr: HomeTileName,
-  it: HomeTileName,
-  en: HomeTileName,
-  category: mongoose.Schema.Types.ObjectId,
+  // TODO: translate tiles
+  // fr: HomeTileName,
+  // it: HomeTileName,
+  // en: HomeTileName,
+  rows: Number,
+  cols: Number,
   picture: String,
   order: {
     type: Number,

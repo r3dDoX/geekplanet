@@ -3,15 +3,9 @@ import React from 'react';
 import Dragula from 'react-dragula';
 import 'react-dragula/dist/dragula.css';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { createLoadHomeTiles } from '../../actions';
-import HomeTile from '../../home/homeTile';
-import HomeTileContainer from '../../home/homeTilesContainer';
 import { HomeTilePropType } from '../../propTypes';
-import PrivateRoute from '../../router/privateRoute';
 import Xhr from '../../xhr';
-import AddHomeTile from './addHomeTile';
-import HomeTileDialog from './homeTileDialog';
 
 
 class HomeTiles extends React.Component {
@@ -27,30 +21,15 @@ class HomeTiles extends React.Component {
       Xhr.post('/api/home/tiles/order', {
         element: element.dataset.id,
         sibling: sibling && sibling.dataset.id,
-      }).then(this.props.loadHomeTiles)
+      }).then(this.props.loadHomeTiles),
     );
   }
 
   render() {
     return (
-      <HomeTileContainer innerRef={(element) => { this.dragulaContainer = element; }}>
-        {this.props.tiles.map(tile => (
-          <HomeTile
-            key={tile._id}
-            id={tile._id}
-            tile={tile}
-            link={`/admin/hometiles/${tile._id}`}
-          />
-        ))}
-        <Link to="/admin/hometiles/new">
-          <AddHomeTile />
-        </Link>
-        <PrivateRoute
-          path="/admin/hometiles/:id"
-          allowedRoles={['admin']}
-          component={HomeTileDialog}
-        />
-      </HomeTileContainer>
+      <div>
+        TODO: creation and editing
+      </div>
     );
   }
 }
@@ -68,5 +47,5 @@ export default connect(
     loadHomeTiles() {
       dispatch(createLoadHomeTiles());
     },
-  })
+  }),
 )(HomeTiles);

@@ -17,7 +17,7 @@ class HomeTiles extends React.Component {
   render() {
     return (
       <TileContainer>
-        {this.props.tiles.map(tile => <HomeTile tile={tile} />)}
+        {this.props.tiles.map(tile => <HomeTile key={tile._id} tile={tile} />)}
       </TileContainer>
     );
   }

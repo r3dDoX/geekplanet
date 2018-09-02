@@ -17,7 +17,6 @@ const HomeTile = ({
 
   return (
     <SpecificTile
-      key={tile._id}
       rows={tile.rows || 1}
       cols={tile.cols || 1}
     >

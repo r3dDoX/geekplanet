@@ -7,7 +7,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { injectIntl } from 'react-intl';
 import styled from 'styled-components';
-import { brandPrimary } from '../theme';
+import theme, { brandPrimary } from '../theme';
 import YouTubeFeed from './youTubeFeed';
 
 const Home = ({ intl }) => (
@@ -37,7 +37,7 @@ const Home = ({ intl }) => (
           </Typography>
         </CardContent>
       </Tile>
-      <Tile className="big">
+      <Tile rows="span 2" cols="span 2">
         <StyledCardMedia
           image="/api/products/pictures/S1itrtLBSoZ_m"
           title="My Stupid Fucking Tile"
@@ -56,7 +56,7 @@ const Home = ({ intl }) => (
           </Typography>
         </CardContent>
       </Tile>
-      <Tile className="accent">
+      <AccentTile>
         <CardContent>
           <Typography gutterBottom variant="headline" component="h2">
             Accent Tile
@@ -66,8 +66,8 @@ const Home = ({ intl }) => (
             across all continents except Antarctica
           </Typography>
         </CardContent>
-      </Tile>
-      <Tile className="accent">
+      </AccentTile>
+      <AccentTile>
         <CardContent>
           <Typography gutterBottom variant="headline" component="h2">
             Accent Tile
@@ -77,7 +77,7 @@ const Home = ({ intl }) => (
             across all continents except Antarctica
           </Typography>
         </CardContent>
-      </Tile>
+      </AccentTile>
       <Tile>
         <StyledCardMedia
           image="/api/products/pictures/By4TWrFLBSob_m"
@@ -123,7 +123,7 @@ const Home = ({ intl }) => (
           </Typography>
         </CardContent>
       </Tile>
-      <Tile className="accent">
+      <AccentTile>
         <CardContent>
           <Typography gutterBottom variant="headline" component="h2">
             Accent Tile
@@ -133,7 +133,7 @@ const Home = ({ intl }) => (
             across all continents except Antarctica
           </Typography>
         </CardContent>
-      </Tile>
+      </AccentTile>
       <Tile>
         <StyledCardMedia
           image="/api/products/pictures/BynXLvKgM_m"
@@ -171,31 +171,40 @@ const TileContainer = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-row-gap: 5px;
   grid-column-gap: 5px;
+  
+  @media screen and (max-width: ${theme.breakpoints.values.lg}px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  
+  @media screen and (max-width: ${theme.breakpoints.values.sm}px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const StyledCardMedia = styled(CardMedia)`
-  height: 25vh;
+  &::before {
+    content: "";
+    display: block;
+    padding-bottom: 50%;
+  }
 `;
 
 const Tile = styled(Card)
   .attrs({
     square: true,
   })`
-    &.accent {
-      background-color: ${brandPrimary};
-      * {
-        color: white !important;
-      }
-    }
-    
-    &.big {
-      grid-column: span 2;
-      grid-row: span 2;
-      
-      ${StyledCardMedia} {
-        height: 40vh;
-      }
-    }`;
+  @media screen and (min-width: ${theme.breakpoints.values.sm + 1}px) {
+    ${props => props.rows && `grid-row: ${props.rows};`}
+    ${props => props.cols && `grid-column: ${props.cols};`}
+  }
+`;
 
+const AccentTile = styled(Tile)`
+  background-color: ${brandPrimary} !important;
+  
+  * {
+    color: white !important;
+  }
+`;
 
 export default injectIntl(Home);

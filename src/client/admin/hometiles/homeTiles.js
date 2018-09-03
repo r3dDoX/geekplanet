@@ -4,11 +4,18 @@ import Dragula from 'react-dragula';
 import 'react-dragula/dist/dragula.css';
 import { connect } from 'react-redux';
 import { createLoadHomeTiles } from '../../actions';
+import HomeTile from '../../home/homeTile';
+import HomeTileContainer from '../../home/homeTileContainer';
 import { HomeTilePropType } from '../../propTypes';
 import Xhr from '../../xhr';
 
-
 class HomeTiles extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.dragulaContainer = React.createRef();
+  }
+
   componentWillMount() {
     if (!this.props.tiles.length) {
       this.props.loadHomeTiles();
@@ -27,9 +34,9 @@ class HomeTiles extends React.Component {
 
   render() {
     return (
-      <div>
-        TODO: creation and editing
-      </div>
+      <HomeTileContainer innerRef={this.dragulaContainer}>
+        {this.props.tiles.map(tile => <HomeTile key={tile._id} tile={tile} />)}
+      </HomeTileContainer>
     );
   }
 }

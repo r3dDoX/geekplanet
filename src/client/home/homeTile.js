@@ -19,6 +19,7 @@ const HomeTile = ({
     <SpecificTile
       rows={tile.rows || 1}
       cols={tile.cols || 1}
+      order={tile.order}
     >
       {tile.picture && (
         <StyledCardMedia
@@ -55,6 +56,8 @@ const Tile = styled(Card)
   .attrs({
     square: true,
   })`
+  order: ${props => props.order};
+  
   @media screen and (min-width: ${theme.breakpoints.values.sm + 1}px) {
     ${props => props.rows && `grid-row: ${props.rows} span;`}
     ${props => props.cols && `grid-column: ${props.cols} span;`}

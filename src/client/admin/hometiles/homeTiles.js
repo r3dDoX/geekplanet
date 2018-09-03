@@ -1,8 +1,11 @@
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Dragula from 'react-dragula';
 import 'react-dragula/dist/dragula.css';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import { createLoadHomeTiles } from '../../actions';
 import HomeTile from '../../home/homeTile';
 import HomeTileContainer from '../../home/homeTileContainer';
@@ -33,11 +36,21 @@ class HomeTiles extends React.Component {
   }
 
   render() {
-    return (
-      <HomeTileContainer innerRef={this.dragulaContainer}>
+    return [
+      <HomeTileContainer innerRef={this.dragulaContainer} key="tileContainer">
         {this.props.tiles.map(tile => <HomeTile key={tile._id} tile={tile} />)}
-      </HomeTileContainer>
-    );
+      </HomeTileContainer>,
+      <ButtonBar key="buttonBar">
+        <Button
+          color="primary"
+          variant="contained"
+        >
+          <AddIcon />
+          &nbsp;
+          Create New Tile
+        </Button>
+      </ButtonBar>,
+    ];
   }
 }
 
@@ -45,6 +58,10 @@ HomeTiles.propTypes = {
   tiles: HomeTilePropType.isRequired,
   loadHomeTiles: PropTypes.func.isRequired,
 };
+
+const ButtonBar = styled.div`
+  padding: 15px;
+`;
 
 export default connect(
   state => ({

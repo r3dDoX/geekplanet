@@ -46,7 +46,7 @@
     "nodemailer": "4.6.8",
     "pdffiller": "0.0.10",
     "react": "16.5.0",
-    "react-dom": "16.4.2",
+    "react-dom": "16.5.0",
     "react-intl": "2.4.0",
     "sharp": "0.20.8",
     "shortid": "2.2.13",

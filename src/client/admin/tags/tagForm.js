@@ -6,15 +6,12 @@ import Downshift from 'downshift';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
-import actions from 'redux-form/es/actions';
+import { Field, initialize, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import TextField from '../../formHelpers/textField';
 import { TagPropType } from '../../propTypes';
 import { createLoadTags } from '../adminActions';
 import TagService from './tagService';
-
-const { initialize } = actions;
 
 const FormContainer = styled.form`
   padding: 24px;

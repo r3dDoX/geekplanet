@@ -1,13 +1,15 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import actions from 'redux-form/es/actions';
-import { createLoadAddresses, createSaveAddress, createSelectAddress } from '../actions';
-import { OrderStatePropType } from '../propTypes';
+import { initialize } from 'redux-form';
 import AddressChooser from './addressChooser';
 import UserAddress, { formName } from './userAddress';
-
-const { initialize } = actions;
+import {
+  createLoadAddresses,
+  createSaveAddress,
+  createSelectAddress,
+} from '../actions';
+import { OrderStatePropType } from '../propTypes';
 
 class AddressStep extends React.Component {
   componentWillMount() {

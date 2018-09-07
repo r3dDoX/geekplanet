@@ -1,18 +1,16 @@
-import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
-import actions from 'redux-form/es/actions';
+import { initialize, Field, reduxForm } from 'redux-form';
 import SelectField from '../../formHelpers/selectField';
 import TextField from '../../formHelpers/textField';
 import { SupplierPropType } from '../../propTypes';
-import { createLoadSuppliers } from '../adminActions';
 import SupplierService from './supplierService';
+import { createLoadSuppliers } from '../adminActions';
 
-const { initialize } = actions;
 const formName = 'supplier';
 
 const styles = {

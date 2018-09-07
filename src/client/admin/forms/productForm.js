@@ -11,9 +11,7 @@ import ReactDrafts from 'react-drafts';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import withRouter from 'react-router-dom/withRouter';
-import { Field, FieldArray, reduxForm } from 'redux-form';
-import actions from 'redux-form/es/actions';
-
+import { change, Field, FieldArray, initialize, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 import '../../../../node_modules/react-drafts/dist/react-drafts.css';
 import { createLoadProducts } from '../../actions';
@@ -47,7 +45,6 @@ import LinkArray from './linkArray';
 import TextAreaArray from './textAreaArray';
 import UploadImagePreview from './uploadImagePreview';
 
-const { change, initialize } = actions;
 const grey500 = grey['500'];
 
 const Container = styled.form`
@@ -125,14 +122,11 @@ class ProductForm extends React.Component {
     return (
       <ReactDrafts
         content={input.value}
-        onFileUpload={() => {
-        }}
+        onFileUpload={() => {}}
         exportTo="html"
         placeholder="Description"
         onBlur={() => this.editor.save().then(content => this.props.changeDescription(content))}
-        ref={(editor) => {
-          this.editor = editor;
-        }}
+        ref={(editor) => { this.editor = editor; }}
       />
     );
   }
@@ -242,7 +236,7 @@ class ProductForm extends React.Component {
           label="Number"
           type="number"
         />
-        &nbsp;
+&nbsp;
         <Field
           component={TextField}
           name="de.name"
@@ -250,7 +244,7 @@ class ProductForm extends React.Component {
           type="text"
           validate={required}
         />
-        &nbsp;
+&nbsp;
         <Field
           component={SelectField}
           name="category"
@@ -292,7 +286,7 @@ class ProductForm extends React.Component {
         <DescriptionContainer>
           <DescriptionPart>
             <DescriptionPartTitle>
-              Specifications
+Specifications
             </DescriptionPartTitle>
             <FieldArray
               name="de.specifications"
@@ -301,7 +295,7 @@ class ProductForm extends React.Component {
           </DescriptionPart>
           <DescriptionPart>
             <DescriptionPartTitle>
-              Delivery
+Delivery
             </DescriptionPartTitle>
             <FieldArray
               name="de.delivery"
@@ -310,7 +304,7 @@ class ProductForm extends React.Component {
           </DescriptionPart>
           <DescriptionPart>
             <DescriptionPartTitle>
-              Downloads
+Downloads
             </DescriptionPartTitle>
             <FieldArray
               name="de.downloads"
@@ -325,7 +319,7 @@ class ProductForm extends React.Component {
           type="number"
           step="any"
         />
-        &nbsp;
+&nbsp;
         <Field
           component={TextField}
           name="originalPrice"
@@ -333,7 +327,7 @@ class ProductForm extends React.Component {
           type="number"
           step="any"
         />
-        &nbsp;
+&nbsp;
         <Field
           component={TextField}
           name="purchasePrice"
@@ -341,7 +335,7 @@ class ProductForm extends React.Component {
           type="number"
           step="any"
         />
-        &nbsp;
+&nbsp;
         <Field
           component={TextField}
           name="purchasePackageSize"
@@ -355,7 +349,7 @@ class ProductForm extends React.Component {
           label="Stock"
           type="number"
         />
-        &nbsp;
+&nbsp;
         <Field
           component={TextField}
           name="minStock"
@@ -378,7 +372,7 @@ class ProductForm extends React.Component {
             </MenuItem>
           ))}
         </Field>
-        &nbsp;
+&nbsp;
         <Field
           component={TextField}
           name="supplierProductCode"

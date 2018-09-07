@@ -4,12 +4,15 @@ import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { initialize, Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
+import actions from 'redux-form/es/actions';
 import SelectField from '../../formHelpers/selectField';
 import TextField from '../../formHelpers/textField';
 import { ProducerPropType } from '../../propTypes';
 import { createLoadProducers } from '../adminActions';
 import ProducerService from './producerService';
+
+const { initialize } = actions;
 
 const formName = 'producer';
 

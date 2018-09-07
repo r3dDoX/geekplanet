@@ -5,7 +5,8 @@ import { Helmet } from 'react-helmet';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { change } from 'redux-form';
+import actions from 'redux-form/es/actions';
+
 import {
   createLoadProductCategories,
   createLoadProducts,
@@ -17,6 +18,8 @@ import ProductList from './productList';
 import { ProducerPropType, ProductCategoryPropType, ProductPropType } from '../propTypes';
 import NothingFound from './nothingFound';
 import ProductFilter, { formName } from './productFilter';
+
+const { change } = actions;
 
 class Products extends React.Component {
   componentWillMount() {
@@ -40,7 +43,7 @@ class Products extends React.Component {
     this.updateFilter(
       this.props.location.search,
       this.props.productCategories,
-      this.props.producers
+      this.props.producers,
     );
   }
 
@@ -52,7 +55,7 @@ class Products extends React.Component {
       this.updateFilter(
         nextProps.location.search,
         nextProps.productCategories,
-        nextProps.producers
+        nextProps.producers,
       );
     }
 
@@ -71,7 +74,7 @@ class Products extends React.Component {
       this.props.setFilter(
         productCategories.filter(category => categories.includes(category._id)),
         producers.filter(producer => queryProducers.includes(producer._id)),
-        query.search
+        query.search,
       );
     } else {
       this.props.setFilter();
@@ -103,7 +106,7 @@ class Products extends React.Component {
                 searchTerm: filterString ? `${filterString} | ` : '',
                 categoryCount: parentCategories.length,
                 categories: parentCategories.map(category => category.de.name).join(', '),
-              }
+              },
             )}
           </title>
         </Helmet>

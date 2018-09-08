@@ -4,7 +4,8 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { Field, initialize, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
+import actions from 'redux-form/es/actions';
 import { createLoadProductCategories, createLoadProducts } from '../../actions';
 import AutoCompleteField from '../../formHelpers/autoCompleteField';
 import TextField from '../../formHelpers/textField';
@@ -13,6 +14,7 @@ import { HomeTilePropType, ProductCategoryPropType, ProductPropType } from '../.
 import { createSaveTile } from '../adminActions';
 import PictureField from './pictureField';
 
+const { initialize } = actions;
 export const formName = 'homeTiles';
 
 function mapSubCategoriesRecursive(category) {
@@ -68,7 +70,7 @@ class HomeTileForm extends React.Component {
 
     const categoriesToFilter = (this.state.selectedCategory && productCategories.length)
       ? mapSubCategoriesRecursive(
-        productCategories.find(category => category._id === this.state.selectedCategory.value)
+        productCategories.find(category => category._id === this.state.selectedCategory.value),
       ) : [];
 
     return (
@@ -171,7 +173,7 @@ export default connect(
     saveTile(tile) {
       dispatch(createSaveTile(tile));
     },
-  })
+  }),
 )(reduxForm({
   form: formName,
 })(withRouter(HomeTileForm)));

@@ -1,6 +1,9 @@
-import { change } from 'redux-form';
+import actions from 'redux-form/es/actions';
+
 import {
-  COMPLETE_PRODUCTS_LOADED, createLoadHomeTiles,
+  COMPLETE_PRODUCTS_LOADED,
+  COUPONS_LOADED,
+  createLoadHomeTiles,
   ORDERS_LOADED,
   PRODUCERS_LOADED,
   REMOVE_SELECTED_FILE,
@@ -10,7 +13,6 @@ import {
   SET_TAGS,
   SUPPLIERS_LOADED,
   TAGS_LOADED,
-  COUPONS_LOADED,
 } from '../actions';
 import * as ProductService from '../products/productService';
 import Xhr from '../xhr';
@@ -18,6 +20,7 @@ import ProducerService from './producers/producerService';
 import SupplierService from './suppliers/supplierService';
 import TagService from './tags/tagService';
 
+const { change } = actions;
 export const productFormName = 'productForm';
 
 export function createSelectFiles(selectedFiles, initialFiles) {

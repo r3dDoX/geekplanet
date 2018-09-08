@@ -1,16 +1,18 @@
+import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Field, initialize, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
+import actions from 'redux-form/es/actions';
+import { createLoadProductCategories } from '../../actions';
 import SelectField from '../../formHelpers/selectField';
 import TextField from '../../formHelpers/textField';
 import { ProductCategoryPropType } from '../../propTypes';
-import { createLoadProductCategories } from '../../actions';
 import ProductCategoryService from './productCategoryService';
 
+const { initialize } = actions;
 const formName = 'productcategories';
 
 const styles = {
@@ -34,7 +36,7 @@ const ProductCategoriesForm = ({
       component={SelectField}
       name="_id"
       onChange={(event, value) => selectProductCategory(
-        productCategories.find(productCategory => productCategory._id === value)
+        productCategories.find(productCategory => productCategory._id === value),
       )}
       label="Create new"
     >

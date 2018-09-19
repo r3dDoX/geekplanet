@@ -45,7 +45,7 @@
     "newrelic": "4.8.1",
     "nodemailer": "4.6.8",
     "pdffiller": "0.0.10",
-    "react": "16.5.1",
+    "react": "16.5.2",
     "react-dom": "16.5.1",
     "react-intl": "2.6.0",
     "sharp": "0.20.8",

@@ -45,13 +45,13 @@
     "newrelic": "4.8.1",
     "nodemailer": "4.6.8",
     "pdffiller": "0.0.10",
-    "react": "16.5.1",
-    "react-dom": "16.5.1",
-    "react-intl": "2.5.0",
+    "react": "16.5.2",
+    "react-dom": "16.5.2",
+    "react-intl": "2.6.0",
     "sharp": "0.20.8",
     "shortid": "2.2.13",
     "streamifier": "0.1.1",
-    "stripe": "6.10.0"
+    "stripe": "6.11.0"
   },
   "devDependencies": {
     "@material-ui/core": "3.1.0",
@@ -96,13 +96,13 @@
     "react-redux": "5.0.7",
     "react-router-dom": "4.3.1",
     "react-slick": "0.23.1",
-    "react-test-renderer": "16.5.1",
+    "react-test-renderer": "16.5.2",
     "redux": "4.0.0",
     "redux-form": "7.4.2",
     "redux-thunk": "2.3.0",
     "style-loader": "0.23.0",
     "styled-components": "3.4.9",
-    "webpack": "4.19.0",
+    "webpack": "4.19.1",
     "webpack-cli": "3.1.0",
     "webpack-dev-server": "3.1.8",
     "webpack-merge": "4.1.4"

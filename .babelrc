@@ -3,7 +3,7 @@
     "development": {
       "presets": [
         [
-          "@babel/preset-env",
+          "env",
           {
             "modules": false,
             "targets": {
@@ -13,7 +13,7 @@
             }
           }
         ],
-        "@babel/preset-react"
+        "react"
       ],
       "plugins": [
         "react-hot-loader/babel"
@@ -22,7 +22,7 @@
     "production": {
       "presets": [
         [
-          "@babel/preset-env",
+          "env",
           {
             "targets": {
               "browsers": [
@@ -31,7 +31,7 @@
             }
           }
         ],
-        "@babel/preset-react"
+        "react"
       ],
       "plugins": [
         [
@@ -47,8 +47,8 @@
     },
     "test": {
       "presets": [
-        "@babel/preset-env",
-        "@babel/preset-react"
+        "env",
+        "react"
       ],
       "plugins": [
         "babel-plugin-dynamic-import-node"

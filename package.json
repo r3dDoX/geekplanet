@@ -59,7 +59,7 @@
     "auth0-js": "9.8.0",
     "babel-eslint": "10.0.1",
     "babel-jest": "23.0.1",
-    "babel-loader": "8.0.3",
+    "babel-loader": "8.0.4",
     "babel-plugin-dynamic-import-node": "2.1.0",
     "babel-plugin-dynamic-import-webpack": "1.0.2",
     "babel-plugin-react-intl": "3.0.1",

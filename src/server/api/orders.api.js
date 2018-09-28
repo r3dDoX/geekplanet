@@ -77,7 +77,7 @@ async function mapDbCouponsToClientCoupons(clientCoupons) {
 async function chargeCreditCard(order, userId) {
   await stripe.charges
     .create({
-      amount: order.total * 100,
+      amount: Math.round(order.total * 100),
       description: order._id,
       currency: 'chf',
       source: userId,

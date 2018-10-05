@@ -84,7 +84,7 @@
     "jwt-decode": "2.2.0",
     "keycode": "2.2.0",
     "mockingoose": "2.10.1",
-    "node-mocks-http": "1.7.1",
+    "node-mocks-http": "1.7.2",
     "nodemon": "1.18.4",
     "prop-types": "15.6.2",
     "query-string": "^6.2.0",

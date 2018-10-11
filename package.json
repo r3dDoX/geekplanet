@@ -41,7 +41,7 @@
     "mime-types": "2.1.20",
     "mongoose": "5.3.1",
     "mongoose-sequence": "4.0.1",
-    "multer": "1.4.0",
+    "multer": "1.4.1",
     "newrelic": "4.9.0",
     "nodemailer": "4.6.8",
     "pdffiller": "0.0.10",

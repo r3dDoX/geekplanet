@@ -49,7 +49,7 @@
     "react-dom": "16.5.2",
     "react-intl": "2.7.1",
     "sharp": "0.21.0",
-    "shortid": "2.2.13",
+    "shortid": "2.2.14",
     "streamifier": "0.1.1",
     "stripe": "6.12.1"
   },

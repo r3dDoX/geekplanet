@@ -8,6 +8,9 @@ export const accent2Color = '#ECF0F1';
 
 export default createMuiTheme({
   fontFamily: 'PT Sans, sans-serif',
+  typography: {
+    useNextVariants: true,
+  },
   palette: {
     primary: {
       main: brandPrimary,

@@ -12,12 +12,6 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_bdf53d70e2de_key -iv $encrypted_bdf53d70e2de_iv -in .heroku-netrc.enc -out .heroku-netrc -d
 - docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk:10.13.0 npm ci
 
-before_script:
-- docker run -it -v "$(pwd)":/usr/app -w /usr/app --env-file <(env | grep TRAVIS) r3ddox/node-pdftk:10.13.0 sh -c "npm i -g greenkeeper-lockfile && greenkeeper-lockfile-update"
-
-after_script:
-- docker run -it -v "$(pwd)":/usr/app -w /usr/app --env GH_TOKEN=$GH_TOKEN --env-file <(env | grep TRAVIS) r3ddox/node-pdftk:10.13.0 sh -c "npm i -g greenkeeper-lockfile && greenkeeper-lockfile-upload"
-
 script:
 - docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk:10.13.0 npm test
 

@@ -83,7 +83,7 @@
     "jest": "23.1.0",
     "jwt-decode": "2.2.0",
     "keycode": "2.2.0",
-    "mockingoose": "2.10.1",
+    "mockingoose": "2.11.0",
     "node-mocks-http": "1.7.2",
     "nodemon": "1.18.4",
     "prop-types": "15.6.2",

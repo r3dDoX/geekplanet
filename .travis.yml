@@ -2,7 +2,6 @@ sudo: required
 
 services:
 - docker
-- heroku
 
 env:
   global:
@@ -21,6 +20,9 @@ after_script:
 
 script:
 - docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk:10.13.0 npm test
+
+before_deploy:
+- cat .heroku-netrc >> $HOME/.netrc
 
 deploy:
 - provider: script

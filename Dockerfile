@@ -10,7 +10,7 @@ WORKDIR /usr/app
 RUN chown geekplanet --recursive .
 USER geekplanet
 
-RUN npm i
+RUN npm ci
 RUN npm run build:$BUILD_ENV
 
 CMD npm start

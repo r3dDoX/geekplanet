@@ -1,4 +1,4 @@
-FROM r3ddox/node-pdftk:10.9.0
+FROM r3ddox/node-pdftk:10.13.0
 
 ARG BUILD_ENV="staging"
 
@@ -10,7 +10,7 @@ WORKDIR /usr/app
 RUN chown geekplanet --recursive .
 USER geekplanet
 
-RUN npm i
+RUN npm ci
 RUN npm run build:$BUILD_ENV
 
 CMD npm start

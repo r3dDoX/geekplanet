@@ -52,7 +52,7 @@ const ShoppingCartItem = ({
       secondary={<AmountAdjuster shoppingCartItem={shoppingCartItem} setAmount={setAmount} />}
     />
     <ListItemSecondaryAction>
-      <Price color="secondary" variant="subheading">
+      <Price color="secondary" variant="subtitle1">
         {formatPriceWithoutCurrency(shoppingCartItem.product.price * shoppingCartItem.amount)}
       </Price>
     </ListItemSecondaryAction>

@@ -67,7 +67,7 @@ const ShoppingCartDrawer = ({
         <IconButton color="inherit" aria-label="Menu" onClick={toggleDrawer}>
           <ChevronRightIcon />
         </IconButton>
-        <Typography variant="title">
+        <Typography variant="h6">
           <FormattedMessage id="SHOPPING_CART.TITLE" />
         </Typography>
       </Toolbar>

@@ -125,7 +125,7 @@ export const ProductTileComponent = ({
       <Typography
         component={StyledCardTitle}
         gutterBottom
-        variant="headline"
+        variant="h5"
       >
         <TitleLink to={`/products/${product._id}`}>
           {product[locale].name}

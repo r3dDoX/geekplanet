@@ -10,12 +10,13 @@ env:
   - secure: d87Pk70HiQy1E5igI/08VjbMefJQnFu6Dj6J3iFHq+rJc9RILgLgi0nLXUGfaUbuw1Koa5MivUMMabnVbam40CODbm0Jm1I9mHH4+RvKvZyTcLj+hJALsvFEWF/gZb+TI5/HYZCMc4mUqN/9af1ba8XP2EQkazdKuvC/AEnMrToDVEhdsFCczVTo0cZVspljXuVPcUKYXoFyIcvW7jtUD0Ax2Y+54BH3a8qyQcqefGF6Rj01SEPM1mVQw6yn4s9rzqQ4kciWcZF/CxVitGuN3H3b+izk9tl7wwzU6+FTbmbtFfoodW+528ChebRjlHnoi4eJlsQgcpM+j3W3dJrJc6ouW74sSBJFbVw4nZUp/Lk52xRXQZ7a4eM5k3TpgI/ggF7IkcBCgxHaHpY2WmEfopUlZfUvmS3dY4kJtvBVTRwNiHw4Ozirz7yLPOGHOaQN3OqFDKEPnOR6kfEv3ZOAMcTJbf/Ixo7iHmvMJMr48YXhccP8ive0/jiBZjqvSe07ERSZPnZNqVJ+CSTzwF/frOvSkHhog70gkYCuDwGp/0e4UUZaHniH0HKb2T4mWmI4yMt0LyHbiJa6v5kLf0IkpSNSuWEfoXQyFxieKpvjKVu+SZkZ2rJPP8ytA+1aTBkPkxp9eZRbcLpH8nwrnXtOgkK0i+ct0LL47ybo6u3Rx/A=
 
 before_install:
-- scripts/update_docker.sh
 - docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk:10.13.0 npm ci
 
-before_script: docker run -it -v "$(pwd)":/usr/app -w /usr/app --env-file <(env | grep TRAVIS) r3ddox/node-pdftk:10.13.0 sh -c "npm i -g greenkeeper-lockfile && greenkeeper-lockfile-update"
+before_script:
+- docker run -it -v "$(pwd)":/usr/app -w /usr/app --env-file <(env | grep TRAVIS) r3ddox/node-pdftk:10.13.0 sh -c "npm i -g greenkeeper-lockfile && greenkeeper-lockfile-update"
 
-after_script: docker run -it -v "$(pwd)":/usr/app -w /usr/app --env GH_TOKEN=$GH_TOKEN --env-file <(env | grep TRAVIS) r3ddox/node-pdftk:10.13.0 sh -c "npm i -g greenkeeper-lockfile && greenkeeper-lockfile-upload"
+after_script:
+- docker run -it -v "$(pwd)":/usr/app -w /usr/app --env GH_TOKEN=$GH_TOKEN --env-file <(env | grep TRAVIS) r3ddox/node-pdftk:10.13.0 sh -c "npm i -g greenkeeper-lockfile && greenkeeper-lockfile-upload"
 
 script:
 - docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk:10.13.0 npm test

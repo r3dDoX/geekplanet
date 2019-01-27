@@ -4,19 +4,19 @@
   "description": "A Webshop built with React/Redux, Node JS and Mongo DB",
   "repository": "https://github.com/r3dDoX/geekplanet",
   "engines": {
-    "node": "9.9.0"
+    "node": "11.8.0"
   },
   "scripts": {
     "predist": "npm run build",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
     "test": "npm run lint && jest",
-    "test:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:delegated -w /usr/app r3ddox/node-pdftk:10.13.0 npm test",
+    "test:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:delegated -w /usr/app r3ddox/node-pdftk:11.8.0 npm test",
     "test:watch": "jest --watch",
-    "test:watch:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:delegated -w /usr/app r3ddox/node-pdftk:10.13.0 npm run test:watch",
+    "test:watch:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:delegated -w /usr/app r3ddox/node-pdftk:11.8.0 npm run test:watch",
     "build": "NODE_ENV='production' webpack --config webpack.prod.config.js --progress --optimize-minimize -p",
     "build:production": "NODE_ENV='production' CONFIG='production' npm run build",
     "build:staging": "CONFIG='staging' npm run build",
-    "build:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk:10.13.0 npm run build:production",
+    "build:docker": "docker run --rm -it -v \"$(pwd)\":/usr/app:cached -w /usr/app r3ddox/node-pdftk:11.8.0 npm run build:production",
     "start": "NODE_ENV='production' node src/server/app.js",
     "dev": "NODE_ENV='development' webpack-dev-server --color --config webpack.dev.config.js & nodemon -e js,jsx,json --watch ./src/common --watch ./src/config --watch ./src/server src/server/app.js",
     "debug": "NODE_ENV='development' webpack-dev-server --color --config webpack.dev.config.js & nodemon -e js,jsx,json --watch ./src/common --watch ./src/config --watch ./src/server --inspect-brk=0.0.0.0:9229 -e js,jsx,json src/server/app.js"
@@ -69,7 +69,7 @@
     "babel-preset-react": "6.24.1",
     "compression-webpack-plugin": "2.0.0",
     "copy-webpack-plugin": "4.6.0",
-    "css-loader": "1.0.1",
+    "css-loader": "2.1.0",
     "downshift": "3.1.5",
     "eslint": "5.3.0",
     "eslint-config-airbnb": "17.1.0",
@@ -99,10 +99,10 @@
     "redux-thunk": "2.3.0",
     "style-loader": "0.23.1",
     "styled-components": "4.1.2",
-    "webpack": "4.26.1",
-    "webpack-cli": "3.1.2",
-    "webpack-dev-server": "3.1.10",
-    "webpack-merge": "4.1.4"
+    "webpack": "4.29.0",
+    "webpack-cli": "3.2.1",
+    "webpack-dev-server": "3.1.14",
+    "webpack-merge": "4.2.1"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "./src/test/localStorage.mock.js",

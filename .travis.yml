@@ -10,10 +10,10 @@ env:
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_bdf53d70e2de_key -iv $encrypted_bdf53d70e2de_iv -in .heroku-netrc.enc -out .heroku-netrc -d
-- docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk:10.13.0 npm ci
+- docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk:11.8.0 npm ci
 
 script:
-- docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk:10.13.0 npm test
+  - docker run -it -v "$(pwd)":/usr/app -w /usr/app r3ddox/node-pdftk:11.8.0 npm test
 
 before_deploy:
 - cat .heroku-netrc >> $HOME/.netrc

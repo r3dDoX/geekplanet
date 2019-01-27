@@ -51,12 +51,12 @@
         "react"
       ],
       "plugins": [
-        "babel-plugin-dynamic-import-node"
+        "dynamic-import-node"
       ]
     }
   },
   "plugins": [
-    "syntax-dynamic-import",
+    "dynamic-import-node",
     "transform-object-rest-spread",
     "transform-react-remove-prop-types",
     [

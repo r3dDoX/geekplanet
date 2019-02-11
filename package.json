@@ -85,7 +85,7 @@
     "nodemon": "1.18.7",
     "prop-types": "15.6.2",
     "query-string": "^6.2.0",
-    "react-countup": "4.0.0",
+    "react-countup": "4.1.0",
     "react-drafts": "1.0.3",
     "react-dragula": "1.1.17",
     "react-helmet": "5.2.0",

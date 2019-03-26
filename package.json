@@ -41,7 +41,7 @@
     "mongoose": "5.4.7",
     "mongoose-sequence": "4.0.1",
     "multer": "1.4.1",
-    "newrelic": "4.11.0",
+    "newrelic": "5.6.2",
     "nodemailer": "5.1.1",
     "pdffiller": "0.0.10",
     "react": "16.6.3",

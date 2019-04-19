@@ -14,8 +14,14 @@ import { backgroundColor } from '../theme';
 
 const Title = styled(Link)`
   flex: 1 1 auto;
+  display: flex;
   text-decoration: none;
   color: inherit;
+`;
+
+const SaleIcon = styled.img`
+  height: 32px;
+  margin-left: 10px;
 `;
 
 const styles = theme => ({
@@ -47,6 +53,7 @@ const Header = ({
         <Typography variant="h6" color="inherit">
           {APP.TITLE}
         </Typography>
+        <SaleIcon src="/assets/images/sale.png" />
       </Title>
       <ShoppingCartIcon />
     </Toolbar>

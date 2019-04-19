@@ -7,7 +7,7 @@ import HomeTiles from './homeTiles';
 import Slogan from './slogan';
 
 const Header = styled.div`
-  padding: 80px 30px;
+  padding: 40px 30px;
   background-color: ${backgroundColor};
   
   @media screen and (max-width: ${theme.breakpoints.values.sm}px) {
@@ -16,7 +16,7 @@ const Header = styled.div`
 `;
 
 const SloganContainer = styled.div`
-  max-width: 350px;
+  max-width: 550px;
   margin: 0 auto;
 `;
 
@@ -24,9 +24,12 @@ export default () => (
   <div>
     <Helmet>
       <title>
-geekplanet - Tabletop Miniatures
+        geekplanet - Tabletop Miniatures
       </title>
-      <meta name="Description" content="Tauche ein in das Universum der Tabletop-Spiele. Bestelle Miniaturen, Farben, Bastelmaterialien und Zubehör und erfahre Wissenswertes aus der Welt des Wargaming." />
+      <meta
+        name="Description"
+        content="Tauche ein in das Universum der Tabletop-Spiele. Bestelle Miniaturen, Farben, Bastelmaterialien und Zubehör und erfahre Wissenswertes aus der Welt des Wargaming."
+      />
     </Helmet>
     <Header>
       <SloganContainer>
